@@ -4,6 +4,13 @@ in Sodium Chloride solution :
     - `rho` and `rho2` returns the density of the solution 
 """
 
+# TODO -- gérer les conversions d'unités avec conversions.py   
+     
+# TODO -- raise une erreur si l'entrée n'est pas x, w, ou m   
+ 
+# TODO -- stocker les infos générales sur les ions (z, I, etc)
+# dans un fichier séparé sous forme de dictionnaire.
+
 import numpy as np
 
 # ============================== Water activity ============================== 
@@ -26,7 +33,6 @@ def a_w(**kwargs):
             x_NaCl = value / (M_NaCl * (value / M_NaCl + (1 - value) / M_w)) # mole fraction in function of mass fraction
         elif key == 'm': 
             x_NaCl = (value * M_w) / (value * M_w + 1) # mole fraction in function of molality
-        
         
     x_Cl = x_NaCl / (1 + x_NaCl) # mole fraction of Cl
     x_Na = x_NaCl / (1 + x_NaCl) # mole fraction of Na
@@ -53,55 +59,3 @@ def a_w(**kwargs):
     a1 = f1 * x1
     
     return a1
-
-
-# ============================= Solution density =============================
-
-def rho(w, T, relative_density=False):
-    """Return the density of sodium chloride solution (up to saturation)
-    
-    Uses equation (3) of Simion et al. 2015 (valid from 0 to 26% and from 0 to 100 °C)
-    
-    INPUTS
-    - mass fraction
-    - temperature (in °Celsius)
-    - relative_density : False (default) to return density in kg/m³
-    True for relative density
-    
-    OUTPUT
-    - Volumic mass or density
-    """
-    w = w * 100
-    T = T +273.15
-    a1 = 750.2834; a2 = 26.7822; a3 = -0.26389
-    a4 = 1.90165; a5 = -0.11734; a6 = 0.00175
-    a7 = -0.003604; a8 = 0.0001701; a9 = -0.00000261
-    rho = (a1 + a2 * w + a3 * w**2) + (a4 + a5 * w + a6 * w**2) * T + (a7 + a8 * w + a9 * w**2) * T**2
-    if relative_density == False:
-        return rho
-    if relative_density == True:
-        return rho/1000
-    
-
-def rho2(w, relative_density=False):
-    """Return the density of sodium chloride solution at 25°C.
-    
-    Uses equation (5) of Tang 1996 (valid from from w = 0 to w ~= 80)
-    
-    INPUTS
-    - Mass fraction (between 0 and 1)
-    - relative_density : False (default) to return density in kg/m³,
-      True for relative density
-    
-    OUTPUT
-    - Relative density or density
-    """
-    w = w * 100
-    rho = 0.9971
-    A = [7.41e-3, -3.741e-5,2.252e-6, -2.06e-8]
-    for i in range(4):
-        rho += A[i] * w**(i+1)
-    if relative_density == False:
-        return rho*1000
-    if relative_density == True:
-        return rho

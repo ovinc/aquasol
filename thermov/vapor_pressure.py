@@ -4,6 +4,14 @@ using NIST or IAPWS recommended equations"""
 import numpy as np
 
 
+# TODO -- ne faire qu'une seule fonction avec une option source='yyy' où yyy
+# est par exemple le nom du premier auteur.
+
+# TODO -- ajouter unité de température comme dans surface_tension
+
+# TODO -- mettre un warning si T en dehors du paramètre de validité
+
+
 def psat0(T):
     """Return the vapor pressure (in Pascal) with given temperature (in ° Celsius)
     

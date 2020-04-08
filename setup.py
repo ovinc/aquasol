@@ -6,7 +6,7 @@ with open("README.md", "r") as f:
 
 setup(
         name='thermov',
-        version=plov.__version__,
+        version=thermov.__version__,
         author='Olivier Vincent',
         author_email='olivier.vincent@univ-lyon1.fr',
         url='https://cameleon.univ-lyon1.fr/ovincent/thermo-ov',
