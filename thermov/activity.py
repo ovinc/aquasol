@@ -3,8 +3,8 @@ Sodium Chloride solution.
 """
 
 import numpy as np
-from conversions import convert, I_x
-from ions import ion_magnitude
+from thermov.conversions import convert, I_x
+from thermov.ions import ion_magnitude
 
 # ============================== Water activity ============================== 
 
@@ -43,8 +43,10 @@ def a_w(**kwargs):
         else:
             raise ValueError('Concentration parameter can be m, w or x')
             
-    if not 0 < x_NaCl < 0.233:
-        print('Warning : concentration outside of validity range.')
+    if type(x_NaCl) == np.ndarray and not 0 <= x_NaCl.all() <= 0.233:
+        print('Warning : some concentrations outside of validity range for activity')
+    if type(x_NaCl) == float and not 0 <= x_NaCl <= 0.233:
+        print('Warning :  concentration outside of validity range for activity')
         
     x_Cl = x_NaCl / (1 + x_NaCl) # mole fraction of Cl
     x_Na = x_NaCl / (1 + x_NaCl) # mole fraction of Na

@@ -5,7 +5,8 @@ density with temperature.
 
 import numpy as np
 import matplotlib.pyplot as plt
-from thermov.activity_density import a_w, rho, rho2 
+from thermov.activity import a_w
+from thermov.density import density
 
 activity_plot = True
 activity_temperature = True #activity plot need to be True
@@ -101,10 +102,10 @@ if density_plot == True:
     
     mass_fraction1 = np.linspace(0, 0.26, 200)
     mass_fraction2 = np.linspace(0, 0.80, 200)
-    ax.plot(mass_fraction2, rho2(mass_fraction2, True),c='0', label='Tang formula')
+    ax.plot(mass_fraction2, density(source='Tang', w=mass_fraction2),c='0', label='Tang formula')
        
     for T in density_temperatures: 
-        data = rho(mass_fraction1, T, True)
+        data = density(T, w=mass_fraction1)
         label = f'Simion et al. at {T}°C'
         ax.plot(mass_fraction1, data, label=label)
     

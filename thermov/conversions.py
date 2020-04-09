@@ -1,6 +1,6 @@
 """Parameter conversions for water and solutions."""
 
-from ions import molar_mass, ion_magnitude
+from thermov.ions import molar_mass, ion_magnitude
 
 def convert(value, unit1, unit2):
     """Convert between concentrations, molalities etc. for solutions.

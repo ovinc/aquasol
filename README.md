@@ -5,16 +5,23 @@
 
 This package computes useful thermodynamic quantities for water and aqueous solutions.
 
-### `activity_density`
+### `activity`
 
-- `a_w` that compute water activity in Sodium Chloride solutions in function of salt concentration
-- `rho` and `rho2` that return the solution density in function of salt concentration (rho is temperature-dependent and rho2 is for supersaturated solutions)
+- `a_w` compute water activity in Sodium Chloride solutions in function of salt concentration
 
-### `Psat`
+### `density`
 
-Contains several formulas to compute water vapor pressure in function of temperature
+- `density` return the solution density as a function of salt concentration and temperature
+
+### `vapor_pressure`
+
+- `psat` can use several formulas to compute water vapor pressure in function of temperature
 
 See `documentation` to plot these functions
+
+### `surface_tension`
+
+- `surface_tension` returns water surface tension as a function of temperature
 
 ### `SaltsSolutionData`
 
