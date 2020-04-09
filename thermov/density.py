@@ -1,65 +1,98 @@
-""" This module contains functions that compute some thermodynamic quantities
-in Sodium Chloride solution :
-    - `a_w` returns the water activity
-    - `rho` and `rho2` returns the density of the solution 
+""" This module contains a function `density` that compute Sodium Chloride
+solution density
 """
 
-# TODO - Give warning when parameterr (e.g. mass fraction) outside of validity range
 # TODO - Check how validity range depends on temperature (e.g. for Simion)
 # TODO - Add tests
-# TODO -- continue rewriting code in the format I have started for the arguments
-# (and have single function with different sources)
 
-import numpy as np
-
-# ============================== Water activity ============================== 
+from conversions import convert 
 
 
-def density(T=20, unit='C', relative=False, solute=None, **kwargs):
-    """Return the density of sodium chloride solution (up to saturation)
+def density(T=25, unit='C', relative=False, solute=None, source='Simion', **kwargs):
+    """Return the density of sodium chloride solution.
     
-    Uses equation (3) of Simion et al. 2015 (valid from 0 to 26% and from 0 to 100 °C)
+    Parameters
+    ---------------------
+    - T (float): temperature
+    - unit (str, default 'C'): 'C' for Celsius, 'K' for Kelvin
+    - relative (bool, default False): True for relative density
+    - solute: None at the moment.
+    - source (str, default 'Simion') : Source for the used equation, can be
+    'Simion' or 'Tang' (see 'Sources')
     
-    INPUTS
-    - mass fraction
-    - temperature (in °Celsius)
-    - relative_density : False (default) to return density in kg/m³
-    True for relative density
+
+    KWARGS
+    - m= : molality (mol/kg)
+    - w= : mass fraction
+    - x= : mole fraction
     
-    OUTPUT
-    - Volumic mass or density
+    Output
+    - density or relative density
+    
+    Examples
+    --------
+    - density(w=0.1) returns the density calculated with Simion equation
+    for a mass fraction of 0.1
+    - density(300, 'K', m=6) returns the value at 300K for a molality of 6
+    - density(source='Tang', x=0.1) returns the value calculated with Tang
+    equation for a mole fraction of 0.1
+
+
+    Sources
+    -------
+    - Simion et al. (default) : "Mathematical modelling of density and
+    viscosity of NaCl aqueous solutions" (2015). Valid from w = 0 to w = 0.26
+    and for temperatures between 0 and 100°C
+
+    - Tang : "Chemical and size effects of hygroscopic aerosols on light
+    scattering coefficients" (1996). Valid at 25°C and from w = 0 to w ~= 0.8
     """
-    w = w * 100
-    T = T +273.15
-    a1 = 750.2834; a2 = 26.7822; a3 = -0.26389
-    a4 = 1.90165; a5 = -0.11734; a6 = 0.00175
-    a7 = -0.003604; a8 = 0.0001701; a9 = -0.00000261
-    rho = (a1 + a2 * w + a3 * w**2) + (a4 + a5 * w + a6 * w**2) * T + (a7 + a8 * w + a9 * w**2) * T**2
-    if relative_density == False:
-        return rho
-    if relative_density == True:
-        return rho/1000
+    if unit == 'C':
+        T += 273.15
+    elif unit == 'K':
+        pass
+    else:
+        raise ValueError(f'{unit} is not a valid unit')
     
+    for key, value in kwargs.items():
+        if key == 'w':
+            w_NaCl = value # mass fraction of NaCl
+        elif key == 'x':
+            w_NaCl = convert(value, 'x', 'w') # mass fraction in function of mole fraction
+        elif key == 'm': 
+            w_NaCl = convert(value, 'm', 'w') # mass fraction in function of molality
+        else:
+            raise ValueError('Concentration parameter can be w for mass fraction, x for mole fraction or m for molality')
+            
+    w = w_NaCl * 100
+    
+    if source == 'Simion':
+        if not 0 <= w <= 26:
+            print('Warning : concentration outside of validity range (see "Source" in function doc)')
+        if not 273.15 < T < 373.15:
+            print('Warning : temperature outside of validity range (see "Source" in function doc)')
+        a1 = 750.2834; a2 = 26.7822; a3 = -0.26389
+        a4 = 1.90165; a5 = -0.11734; a6 = 0.00175
+        a7 = -0.003604; a8 = 0.0001701; a9 = -0.00000261
+        rho = (a1 + a2 * w + a3 * w**2) + (a4 + a5 * w + a6 * w**2) * T + (a7 + a8 * w + a9 * w**2) * T**2
+        if relative == False:
+            return rho
+        if relative == True:
+            return rho/1000
+        
+    elif source == 'Tang':
+        if not 0 <= w <= 80:
+            print('Warning : concentration outside of validity range (see "Source" in function doc)')
+        if not T == 298.15:
+            print('Warning : Tang is just for density at 25°C (see "Source" in function doc)')
+        rho = 0.9971
+        A = [7.41e-3, -3.741e-5,2.252e-6, -2.06e-8]
+        for i in range(4):
+            rho += A[i] * w**(i+1)
+        if relative == False:
+            return rho*1000
+        if relative == True:
+            return rho
 
-def rho2(w, relative_density=False):
-    """Return the density of sodium chloride solution at 25°C.
-    
-    Uses equation (5) of Tang 1996 (valid from from w = 0 to w ~= 80)
-    
-    INPUTS
-    - Mass fraction (between 0 and 1)
-    - relative_density : False (default) to return density in kg/m³,
-      True for relative density
-    
-    OUTPUT
-    - Relative density or density
-    """
-    w = w * 100
-    rho = 0.9971
-    A = [7.41e-3, -3.741e-5,2.252e-6, -2.06e-8]
-    for i in range(4):
-        rho += A[i] * w**(i+1)
-    if relative_density == False:
-        return rho*1000
-    if relative_density == True:
-        return rho
+    else:
+        raise ValueError('Source can either be "Simion" or "Tang"')
