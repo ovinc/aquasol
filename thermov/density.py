@@ -6,7 +6,7 @@ solution density
 # TODO - Add tests
 
 import numpy as np
-from thermov.conversions import convert 
+from thermov.conversions import convert
 
 
 def density(T=25, unit='C', relative=False, solute=None, source='Simion', **kwargs):
@@ -18,9 +18,8 @@ def density(T=25, unit='C', relative=False, solute=None, source='Simion', **kwar
     - unit (str, default 'C'): 'C' for Celsius, 'K' for Kelvin
     - relative (bool, default False): True for relative density
     - solute: None at the moment.
-    - source (str, default 'Simion') : Source for the used equation, can be
-    'Simion' or 'Tang' (see 'Sources')
-    
+    - source (str, default 'Simion') : Source for the used equation,
+    can be 'Simion' or 'Tang' (see 'Sources')
 
     KWARGS
     - m= : molality (mol/kg)
@@ -29,6 +28,7 @@ def density(T=25, unit='C', relative=False, solute=None, source='Simion', **kwar
     
     Output
     - density or relative density
+    
     
     Examples
     --------
@@ -68,12 +68,12 @@ def density(T=25, unit='C', relative=False, solute=None, source='Simion', **kwar
     w = w_NaCl * 100
     
     if source == 'Simion':
-        if type(w) == float and not 0 <= w <= 26:
-            print('Warning : concentration outside of validity range (see "Source" in function doc)')
-        elif type(w) == np.ndarray and not 0 <= w.all() <= 26:
-            print('Warning : concentration outside of validity range (see "Source" in function doc)')
-        if not 273.15 < T < 373.15:
-            print('Warning : temperature outside of validity range (see "Source" in function doc)')
+        if (type(w) == float or type(w) == int) and not 0 <= w <= 26:
+            print('Warning : concentration outside of validity range for density (0 <= w <= 0.26 for Simion)')
+        elif type(w) == np.ndarray and not all(0 <= W <= 26 for W in w):
+            print('Warning : concentration(s) outside of validity range for density (0 <= w <= 0.26 for Simion)')
+        if not 273.15 <= T <= 373.15:
+            print('Warning : temperature outside of validity range for density (0 - 100°C for Simion)')
         
         a1 = 750.2834; a2 = 26.7822; a3 = -0.26389
         a4 = 1.90165; a5 = -0.11734; a6 = 0.00175
@@ -85,12 +85,12 @@ def density(T=25, unit='C', relative=False, solute=None, source='Simion', **kwar
             return rho/1000
         
     elif source == 'Tang':
-        if type(w) == float and not 0 <= w <= 80:
-            print('Warning : concentration outside of validity range for density')
-        elif type(w) == np.ndarray and not 0 <= w.all() <= 80:
-            print('Warning : some concentration outside of validity range for density')
+        if (type(w) == float or type(w) == int) and not 0 <= w <= 80:
+            print('Warning : concentration outside of validity range for density (0 <= w <~ 0.8 for Tang)')
+        elif type(w) == np.ndarray and not all(0 <= W <= 80 for W in w):
+            print('Warning : some concentration outside of validity range for density (0 <= w <~ 0.8 for Tang)')
         if not T == 298.15:
-            print('Warning : Tang is just for density at 25°C (see "Source" in function doc)')
+            print('Warning : Tang is just for density at 25°C')
         
         rho = 0.9971
         A = [7.41e-3, -3.741e-5,2.252e-6, -2.06e-8]

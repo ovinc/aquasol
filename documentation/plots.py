@@ -3,16 +3,23 @@ solutions,compare with experimental values and look at the dependence of
 density with temperature.
 """
 
+
 import numpy as np
 import matplotlib.pyplot as plt
+
 from thermov.activity import a_w
 from thermov.density import density
+from thermov.vapor_pressure import psat
 
 activity_plot = True
 activity_temperature = True #activity plot need to be True
 
 density_plot = True
-density_temperatures = [5, 25, 50] # used for the temperature-dependent plots
+density_temperatures = [5, 20, 50] # used for the temperature-dependent plots
+
+vapor_pressure_plot = True
+temperature_range = [0, 50, 'C'] # temperature range for psat plot
+                                 # last term is the unit, 'C' for Celsius, 'K' for Kelvin
 
 # ============================== Activity plot ===============================
 
@@ -102,7 +109,7 @@ if density_plot == True:
     
     mass_fraction1 = np.linspace(0, 0.26, 200)
     mass_fraction2 = np.linspace(0, 0.80, 200)
-    ax.plot(mass_fraction2, density(source='Tang', w=mass_fraction2),c='0', label='Tang formula')
+    ax.plot(mass_fraction2, density(source='Tang', w=mass_fraction2),c='0', label='Tang formula (25°C)')
        
     for T in density_temperatures: 
         data = density(T, w=mass_fraction1)
@@ -111,5 +118,20 @@ if density_plot == True:
     
     ax.set_xlabel("Mass fraction")
     ax.set_ylabel("Solution density")
+    ax.legend()
+    plt.show()
+# ========================= Water vapor pressure plot =========================
+    
+if vapor_pressure_plot == True:
+    fig, ax = plt.subplots()
+    T1 = np.linspace(temperature_range[0], temperature_range[1], 100)
+
+    ax.plot(T1, psat(T1, temperature_range[2], source='Wexler17'), label='Wexler17')
+    ax.plot(T1, psat(T1, temperature_range[2], source='Wexler18'), label='Wexler18')
+    ax.plot(T1, psat(T1, temperature_range[2], source='Bridgeman'), label='Bridgeman')
+    ax.plot(T1, psat(T1, temperature_range[2], source='Wagner'), label='Wagner')
+            
+    ax.set_xlabel(f"T ({temperature_range[2]})")
+    ax.set_ylabel("Water vapor pressure")
     ax.legend()
     plt.show()

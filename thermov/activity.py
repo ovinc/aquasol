@@ -1,9 +1,9 @@
 """ This module contains a function `a_w` that compute the water activity in a
-Sodium Chloride solution.
+Sodium Chloride solution as a function of concentration.
 """
 
 import numpy as np
-from thermov.conversions import convert, I_x
+from thermov.conversions import convert
 from thermov.ions import ion_magnitude
 
 # ============================== Water activity ============================== 
@@ -22,12 +22,11 @@ def a_w(**kwargs):
     Examples
     --------
     - a_w(x=0.1) returns water activity for a 0.1 mole fraction solution
-    - a_w(m=6) returns water activity for a 0.1 molality solution
+    - a_w(m=6) returns water activity for a 6 molality solution
     - a_w(w=0.2) returns water activity for a 0.2 mass fraction solution
 
-    Sources
+    Source
     -------
-    
     - Clegg et al. : "Thermodynamic Properties of Aqueous Aerosols to High
     Supersaturation: II" (1997). Valid at 25°C and for solutions of molality
     up to ~17
@@ -42,11 +41,11 @@ def a_w(**kwargs):
             x_NaCl = convert(value, 'm', 'x') # mole fraction in function of molality
         else:
             raise ValueError('Concentration parameter can be m, w or x')
-            
-    if type(x_NaCl) == np.ndarray and not 0 <= x_NaCl.all() <= 0.233:
-        print('Warning : some concentrations outside of validity range for activity')
-    if type(x_NaCl) == float and not 0 <= x_NaCl <= 0.233:
-        print('Warning :  concentration outside of validity range for activity')
+
+    if (type(x_NaCl) == float or type(x_NaCl) == int) and not 0 <= x_NaCl <= 0.233:
+        print('Warning :  concentration outside of validity range for activity (0 <= m <~ 17)')            
+    if type(x_NaCl) == np.ndarray and not all(0 <= x <= 0.233 for x in x_NaCl):
+        print('Warning : some concentrations outside of validity range for activity (0 <= m <~ 17)')
         
     x_Cl = x_NaCl / (1 + x_NaCl) # mole fraction of Cl
     x_Na = x_NaCl / (1 + x_NaCl) # mole fraction of Na
@@ -54,7 +53,8 @@ def a_w(**kwargs):
     
     z_Cl = ion_magnitude['Cl']
     
-    I = I_x('Na','Cl', x=x_NaCl) #ionic strength
+    I = convert(x_NaCl, 'x', 'I') #ionic strength
+    
     rho = 13.0
     
     A_x = 2.915  # could be A_x(T)

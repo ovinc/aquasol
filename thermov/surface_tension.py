@@ -1,5 +1,8 @@
 """Surface tension of water and solutions."""
 
+from thermov.conversions import convert
+
+
 def main():
     pass
 
@@ -30,7 +33,9 @@ def surface_tension(T=25, unit='C', solute=None, **kwargs):
     - surface_tension(20) returns the surface tension of pure water at 20°C
     - surface_tension(300, 'K') returns the value at 300K
     - surface_tension(20, solute='LiCl', w=0.1) returns the surface tension of
-    a LiCl aqueous solution at 20°C and weight fraction 0.1.
+    a LiCl aqueous solution at 20°C and weight fraction 0.1
+    - surface_tension(20, solute='CaCl2', m=6) returns the surface tension of
+    a CaCl2 aqueous solution at 20°C and molality 6
 
     Sources
     -------
@@ -63,11 +68,16 @@ def surface_tension(T=25, unit='C', solute=None, **kwargs):
 
     if solute is None:
         return sigma_w
-    else:
-        if 'w' not in kwargs:
-            raise ValueError('Units other than weight fraction not supported yet')
+    
+    for key, value in kwargs.items():
+        if key == 'w':
+            w = value
+        elif key == 'x':
+            w = convert(value, 'x', 'w')
+        elif key == 'm': 
+            w = convert(value, 'm', 'w')
         else:
-            w = kwargs['w']
+            raise ValueError('Concentration parameter can be m, w or x')
                 
 
     if solute in ['LiCl', 'CaCl2']:
