@@ -1,6 +1,5 @@
 """Thermodynamic relations for water and solutions"""
 
-from thermov.activity import a_w
-from thermov.density import density
+from . import solutions, water
 
-__version__ = 0.1
+__version__ = 0.2

@@ -1,5 +1,5 @@
-"""Function that return the vapor pressure as a function of temperature
-using NIST or IAPWS recommended equations"""
+"""Function that return the vapor pressure of water as a function of 
+temperature using NIST or IAPWS recommended equations"""
 
 import numpy as np
 
