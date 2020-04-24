@@ -22,7 +22,7 @@ J. Phys. Chem. A 114, 12216–12230 (2010).
 """
 
 
-from .surface_tension_misc import sigma_conde, sigma_dutcher, sigma_iapws
+from .misc import sigma_conde, sigma_dutcher, sigma_iapws
 
 
 # ============================ GENERAL INFO ==================================

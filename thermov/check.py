@@ -1,8 +1,9 @@
-"""Misc. checks. Separated from tools.py to avoid circular imports"""
+"""Miscellaneous checks for the thermo-ov package."""
 
 
 from warnings import warn
 import numpy as np
+
 
 def check_solute(solute, allowed_solutes):
     """Check if solute in allowed solutes to use, raise exception if not"""

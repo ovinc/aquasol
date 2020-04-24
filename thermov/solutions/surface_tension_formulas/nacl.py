@@ -21,7 +21,7 @@ J. Phys. Chem. A 114, 12216–12230 (2010).
 # TODO: add data from Ali 2006
 
 
-from .surface_tension_misc import sigma_dutcher, sigma_iapws
+from .misc import sigma_dutcher, sigma_iapws
 
 
 # ============================ GENERAL INFO ==================================

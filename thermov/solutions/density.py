@@ -8,7 +8,8 @@
 # TODO - make more comprehensive examples
 
 
-from ..tools import solution_calculation
+from .general import solution_calculation
+from .conversions import convert as converter
 
 
 def density(solute='NaCl', T=25, unit='C', relative=False, source=None, **concentration):
@@ -54,11 +55,12 @@ def density(solute='NaCl', T=25, unit='C', relative=False, source=None, **concen
     """
 
     # Dictionary of modules to load for every solute -------------------------
-    modules = {'NaCl': 'density_nacl'}
+    base = 'density_formulas.'
+    modules = {'NaCl': base + 'nacl'}
 
     # Calculate density using general solution calculation scheme -----------
     parameters = T, unit, concentration
-    rho0, rho = solution_calculation(solute, source, modules, parameters)
+    rho0, rho = solution_calculation(solute, source, modules, parameters, converter)
 
     if relative:
         return rho / rho0

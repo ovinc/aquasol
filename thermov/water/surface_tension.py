@@ -2,8 +2,8 @@
 
 
 from ..constants import Tc
-from ..checks import check_validity_range
-from ..tools import format_temperature
+from ..check import check_validity_range
+from ..format import format_temperature
 
 
 def surface_tension(T=25, unit='C', source='IAPWS'):
@@ -37,10 +37,11 @@ def surface_tension(T=25, unit='C', source='IAPWS'):
     temperature_units = {'IAPWS': 'K'}
     temperature_ranges = {'IAPWS': (248.15, Tc)}   # Here I have included the extrapolated range
 
-    T = format_temperature(T, unit, temperature_units[src])
+    tunit = temperature_units[src]
+    trange = temperature_ranges[src]
 
-    check_validity_range(T, src, temperature_units,
-                         temperature_ranges, 'temperature')
+    T = format_temperature(T, unit, tunit)
+    check_validity_range(T, trange, 'temperature', tunit, src)
 
     tau = (1 - T / Tc)
 

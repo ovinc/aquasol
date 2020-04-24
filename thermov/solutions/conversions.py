@@ -1,17 +1,33 @@
-"""Global module for unit conversions for solutions.
+"""Upgrade basic conversions with more advanced parameters such as
+molarity, mass ratio, ionic strength and individual ion quantities (xi, wi, mi etc.)
 
-Gathers conversions_basic and conversions_fancy in a user-friendly module."""
+SOURCES
+-------
+Personal calculations, and:
+ionic strength expressed as molar fraction is used in Clegg et al. AST, 1997
+ionic strength expressed as molality is more common, e.g. Pitzer 1973
+"""
+
+# TODO -- add conversions from C to others (needs work on inverting w*rho(w))
+# TODO -- write unittests or pytests
+# TODO -- write more comprehensive examples
+# TODO -- verify that everything is in SI units
+# TODO -- write general doctring for conversions module
+
+import warnings
+from pynverse import inversefunc
 
 from ..constants import solute_list
-from ..checks import check_solute, check_units
+from ..constants import molar_mass, dissociation_numbers, charge_numbers
 
-from .conversions_basic import convert as basic_convert
+from .density_basic import density_basic as density
+
+from ..check import check_solute, check_units
+
+from .conversions_basic import basic_convert
 from .conversions_basic import allowed_units as basic_units
-from .conversions_fancy import w_to_mass_ratio, mass_ratio_to_w
-from .conversions_fancy import w_to_molarity, molarity_to_w
 
-
-add_units = ['c', 'mass_ratio']
+add_units = ['c']
 allowed_units = basic_units + add_units
 
 def convert(value, unit1, unit2, solute='NaCl', T=25, unit='C'):
@@ -56,16 +72,7 @@ def convert(value, unit1, unit2, solute='NaCl', T=25, unit='C'):
     if unit1 == unit2:
         return value
 
-    if set(units) == set(['w', 'mass_ratio']):
-        # This is a special case where one does not need to know anything
-        # about the solute to do the conversion
-        if unit1 == 'w':
-            return w_to_mass_ratio(value)
-        else:
-            return mass_ratio_to_w(value)
-    else:
-        check_solute(solute, solute_list)
-
+    check_solute(solute, solute_list)
 
     if unit1 in basic_units and unit2 in basic_units:
         return basic_convert(value, unit1, unit2, solute)
@@ -75,14 +82,9 @@ def convert(value, unit1, unit2, solute='NaCl', T=25, unit='C'):
         w = molarity_to_w(value, solute, T, unit)
         value_in = w
         unit_in = 'w'
-    elif unit1 == 'mass_ratio':
-        w = mass_ratio_to_w(value)
-        value_in = w
-        unit_in = 'w'
     else:
         value_in = value
         unit_in = unit1
-
 
     if unit2 in basic_units:   # If unit2 is basic, the job is now easy
         return basic_convert(value_in, unit_in, unit2, solute)
@@ -92,12 +94,107 @@ def convert(value, unit1, unit2, solute='NaCl', T=25, unit='C'):
         w = basic_convert(value_in, unit_in, 'w', solute)
         if unit2 == 'c':
             return w_to_molarity(w, solute, T, unit)
-        elif unit2 == 'mass_ratio':
-            return w_to_mass_ratio(w)
 
         else:  # TODO: add the test of returning None in unit tests
             return None  # This case should never happen
 
 
+
+# ============================= MOLARITY FUNCTIONS ===========================
+
+def w_to_molarity(w, solute, T=25, unit='C'):
+    """Calculate molarity of solute from weight fraction at temperature T in °C"""
+    check_solute(solute, solute_list)
+    M = molar_mass(solute)
+    rho = density(solute=solute, T=T, unit=unit, w=w)
+    return rho * w / M
+
+def molarity_to_w(c, solute, T=25, unit='C'):
+    """Calculate weight fraction of solute from molarity at temperature T in °C.
+
+    Note: can be slow because of inverting the function each time.
+    """
+
+    check_solute(solute, solute_list)
+
+    wmax = 0.99  # max weight fraction allowed (for easy inverting of function)
+
+    def molarity(w):
+        with warnings.catch_warnings():      # this is to avoid always warnings
+            warnings.simplefilter('ignore')  # which pop up due to wmax being high
+            return w_to_molarity(w, solute, T, unit)
+
+    weight_fraction = inversefunc(molarity, domain=[0, wmax])
+    w = weight_fraction(c)
+
+    # HACK: this is to give a warning if some parameters out of range when
+    # applying the value found for w
+    _ = density(solute=solute, T=T, unit=unit, w=w)
+
+    if len(w.shape) == 0:  # this is to return a scalar if a scalar is used as input
+        return w.item()
+    else:
+        return w
+
+
+# ========================== INDIVIDUAL ION QUANTITIES =======================
+
+def ion_quantities(solute, **concentration):
+    """Return quantities x, m, c but defined for each ion instead of considering
+    the solute as a single species. Used in ionic strength calculations.
+
+    ion_quantities('NaCl', x=0.1) returns (x1, x2) where x1 is the mole fraction
+    of Na+, x2 is that of Cl-.
+
+    In this situation, one considers that there are three components in solution
+    i.e. the cation (x1), the anion (x2) and the solvent (xw), with
+    xi = ni / (ni + nj + nw).
+
+    For molalities or concentrations, things are easier because these quantities
+    are just multiplied by the dissociation number when considering individual
+    ions compared to the solute as a whole. They are calculated using e.g.
+    ion_quantities('NaCl', m=5.3) or ion_quantities('NaCl', c=4.8)
+    """
+    if len(concentration) == 1:
+        [param] = concentration.keys()  # param is the chosen parameter ('x', 'm' or 'c')
+        [value] = concentration.values()  # corresponding value in the unit above
+    else:
+        raise ValueError('kwargs must have exactly one keyword argument for solute concentration.')
+
+    check_solute(solute, solute_list)
+    n1, n2 = dissociation_numbers[solute]
+
+    if param == 'x':
+        x = value
+        ntot = n1 + n2
+        x_interm = x / (1 + x * (ntot - 1))  # just for calculation
+        x1 = n1 * x_interm
+        x2 = n2 * x_interm
+        return x1, x2
+
+    elif param in ['m', 'c']:  # in this case, things are simply additive
+        return n1 * value, n2 * value
+
+    else:
+        raise ValueError(f"quantity {param} not allowed, should be 'x', 'm' or 'c'.")
+
+
+# =============================== IONIC STRENGTH =============================
+
+def ionic_strength(solute, **concentration):
+    """Ionic strength in terms of mole fraction (x), molality (m) or molarity (c)
+
+    ionic_strength('NaCl', x=0.1) returns the mole fraction ionic strength (Ix)
+    ionic_strength('NaCl', m=1.2) returns the molal ionic strength
+    ionic_strength('NaCl', c=5.3) returns the molar ionic strength
+
+    Note: output units is different for each case (same as input parameter, e.g.
+    mol / m^3 for 'c').
+    """
+    check_solute(solute, solute_list)
+    z1, z2 = charge_numbers[solute]
+    y1, y2 = ion_quantities(solute, **concentration)
+    I_strength = 0.5 * (y1 * z1 ** 2 + y2 * z2 ** 2)
+    return I_strength
 
 

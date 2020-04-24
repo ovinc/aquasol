@@ -16,21 +16,20 @@ http://hbcponline.com/faces/documents/01_19/01_19_0001.xhtml
 
 # TODO -- write unittests or pytests
 # TODO -- write more comprehensive examples
-# TODO -- verify that everything is in SI units
 # TODO -- add checks that inputs are within normal range (e.g. 0-1 for x or w)
 
 from ..constants import molar_mass, Mw, solute_list
-from ..checks import check_solute, check_units
+from ..check import check_solute, check_units
 
 # Define what solutes and units are acceptable for conversion
 
 
-allowed_units = ['x', 'w', 'm']
+allowed_units = ['x', 'w', 'm', 'mass_ratio']
 
 
-# ========================= MAIN CONVERSION FUNCTION ===========================
+# ========================= MAIN CONVERSION FUNCTION =========================
 
-def convert(value, unit1, unit2, solute='NaCl'):
+def basic_convert(value, unit1, unit2, solute='NaCl'):
     """Convert between concentrations, molalities etc. for solutions.
 
     Parameters
@@ -55,17 +54,17 @@ def convert(value, unit1, unit2, solute='NaCl'):
     - convert(10, 'm', 'w', 'LiCl'): same but for LiCl.
     """
 
-    # No need to calculate anything if the in and out units are the same -------
+    # No need to calculate anything if the in and out units are the same -----
     if unit1 == unit2:
         return value
 
     check_solute(solute, solute_list)
     check_units([unit1, unit2], allowed_units)
 
-    # Get useful quantities related to solute ----------------------------------
+    # Get useful quantities related to solute --------------------------------
     M = molar_mass(solute)         # molar mass of solute, kg/mol
 
-    if unit1 == 'w':  # weight fraction to other quantities --------------------
+    if unit1 == 'w':  # weight fraction to other quantities ------------------
 
         w = value
 
@@ -75,7 +74,10 @@ def convert(value, unit1, unit2, solute='NaCl'):
         elif unit2 == 'm':
             return w / ((1 - w) * M)
 
-    if unit1 == 'x':  # mole fraction to other quantities ----------------------
+        elif unit2 == 'mass_ratio':
+            return w / (1 - w)
+
+    if unit1 == 'x':  # mole fraction to other quantities --------------------
 
         x = value
 
@@ -83,9 +85,12 @@ def convert(value, unit1, unit2, solute='NaCl'):
             return x * M / (x * M + (1 - x) * Mw)
 
         elif unit2 == 'm':
-            return x / (Mw * (1 - x))
+            return 1 / Mw * x / (1 - x)
 
-    if unit1 == 'm':   # molality to other quantities --------------------------
+        elif unit2 == 'mass_ratio':
+            return M / Mw * x / (1 - x)
+
+    if unit1 == 'm':   # molality to other quantities ------------------------
 
         m = value
 
@@ -96,4 +101,18 @@ def convert(value, unit1, unit2, solute='NaCl'):
         elif unit2 == 'x':
             return m * Mw / (1 + Mw * m)
 
+        elif unit2 == 'mass_ratio':
+            return M * m
 
+    if unit1 == 'mass_ratio':  # mass ratio to other quantities --------------
+
+        z = value
+
+        if unit2 == 'w':
+            return z / (1 + z)
+
+        elif unit2 == 'x':
+            return z / M / (z / M + 1 / Mw)
+
+        elif unit2 == 'm':
+            return z / M

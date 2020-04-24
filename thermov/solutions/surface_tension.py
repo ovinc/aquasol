@@ -3,7 +3,8 @@
 # TODO: Add solutes of interest among the various ones present in Dutcher (in particular KCl)
 
 
-from ..tools import solution_calculation
+from .general import solution_calculation
+from .conversions import convert as converter
 
 
 def surface_tension(solute='NaCl', T=25, unit='C', relative=False, source=None, **concentration):
@@ -51,13 +52,14 @@ def surface_tension(solute='NaCl', T=25, unit='C', relative=False, source=None, 
     """
 
     # Dictionary of modules to load for every solute -------------------------
-    modules = {'NaCl': 'surface_tension_nacl',
-               'LiCl': 'surface_tension_licl',
-               'CaCl2': 'surface_tension_cacl2'}
+    base = 'surface_tension_formulas.'
+    modules = {'NaCl': base + 'nacl',
+               'LiCl': base + 'licl',
+               'CaCl2': base + 'cacl2'}
 
     # Calculate surface tension using general solution calculation scheme ----
     parameters = T, unit, concentration
-    sigma0, sigma = solution_calculation(solute, source, modules, parameters)
+    sigma0, sigma = solution_calculation(solute, source, modules, parameters, converter)
 
     if relative:
         return sigma / sigma0

@@ -18,7 +18,7 @@ International Journal of Thermal Sciences 43, 367–382 (2004).
 """
 
 
-from .surface_tension_misc import sigma_conde, sigma_dutcher, sigma_iapws
+from .misc import sigma_conde, sigma_iapws
 
 
 # ============================ GENERAL INFO ==================================

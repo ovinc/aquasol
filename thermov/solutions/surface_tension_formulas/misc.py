@@ -3,7 +3,7 @@
 
 from numpy import exp, log
 
-from ..constants import Tc
+from ...constants import Tc
 
 
 def sigma_iapws(T):

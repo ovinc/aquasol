@@ -1,4 +1,7 @@
-"""Activity of aqueous solutions."""
+"""Activity of aqueous solutions.
+
+This module is FANCY.
+"""
 
 # TODO: other temperatures than 25°C
 # TODO: add other salts (LiCl as priority, then KCl, CaCl2, Na2S04)
@@ -6,7 +9,8 @@
 # TODO: Add tests (unittests)
 
 
-from ..tools import solution_calculation
+from .general import solution_calculation
+from .conversions import convert as converter
 
 
 def water_activity(solute='NaCl', T=25, unit='C', source=None, **concentration):
@@ -50,10 +54,11 @@ def water_activity(solute='NaCl', T=25, unit='C', source=None, **concentration):
     """
 
     # Dictionary of modules to load for every solute -------------------------
-    modules = {'NaCl': 'activity_nacl'}
+    base = 'activity_formulas.'
+    modules = {'NaCl': base + 'nacl'}
 
     # Calculate activity using general solution calculation scheme -----------
     parameters = T, unit, concentration
-    a_w = solution_calculation(solute, source, modules, parameters)
+    a_w = solution_calculation(solute, source, modules, parameters, converter)
 
     return a_w
