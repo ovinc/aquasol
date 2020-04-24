@@ -1,11 +1,11 @@
-"""Global management of modules and formulas for solutions.
-"""
+"""Global management of modules and formulas for solutions."""
+
 
 from ..format import format_temperature, format_concentration, format_source
 from ..check import check_validity_range
 
 
-def import_solute_module(modules, solute, sourcename):
+def import_solute_module(modules, solute, source):
     """Import module corresponding to solute data."""
 
     try:
@@ -21,9 +21,9 @@ def import_solute_module(modules, solute, sourcename):
     for line in line1, line2, line3:
         exec(line, globals())  # without globals, variables are not defined
 
-    source = format_source(sourcename, sources, default_source)
+    src = format_source(source, sources, default_source)
 
-    data = (source, formulas,
+    data = (src, formulas,
             concentration_types, concentration_ranges,
             temperature_units, temperature_ranges)
 

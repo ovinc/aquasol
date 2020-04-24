@@ -20,12 +20,12 @@ from pynverse import inversefunc
 from ..constants import solute_list
 from ..constants import molar_mass, dissociation_numbers, charge_numbers
 
-from .density_basic import density_basic as density
-
 from ..check import check_solute, check_units
 
-from .conversions_basic import basic_convert
-from .conversions_basic import allowed_units as basic_units
+from .formulas.basic_conversions import basic_convert
+from .formulas.basic_conversions import allowed_units as basic_units
+
+from .general import solution_calculation
 
 add_units = ['c']
 allowed_units = basic_units + add_units
@@ -99,6 +99,43 @@ def convert(value, unit1, unit2, solute='NaCl', T=25, unit='C'):
             return None  # This case should never happen
 
 
+# ============================== DENSITY FUNCTION ============================
+
+def basic_density(solute, T=25, unit='C', **concentration):
+    """Return the density of an aqueous solution at a given concentration.
+
+    Simplified version of main density function, with only basic units
+    to avoid circular imports of the density module when trying to use
+    molarity as a unit.
+
+    Uses the default formula for density as defined in the density submodules.
+
+    Parameters
+    ----------
+    - solute (str): solute name, default 'NaCl'
+    - T (float): temperature in K
+    - **concentration: kwargs with any basic unit ('x', 'w', 'm', 'mass_ratio')
+
+    Output
+    ------
+    - density (kg/m^3)
+
+    Sources
+    -------
+    Default source defined in each solute submodule.
+    """
+
+    # Dictionary of modules to load for every solute -------------------------
+    modules = {'NaCl': 'formulas.density.nacl'}
+
+    # set source to None to get default formula for density
+    source = None
+
+    # Calculate density using general solution calculation scheme -----------
+    parameters = T, unit, concentration
+    rho0, rho = solution_calculation(solute, source, modules, parameters, basic_convert)
+
+    return rho
 
 # ============================= MOLARITY FUNCTIONS ===========================
 
@@ -106,7 +143,7 @@ def w_to_molarity(w, solute, T=25, unit='C'):
     """Calculate molarity of solute from weight fraction at temperature T in °C"""
     check_solute(solute, solute_list)
     M = molar_mass(solute)
-    rho = density(solute=solute, T=T, unit=unit, w=w)
+    rho = basic_density(solute=solute, T=T, unit=unit, w=w)
     return rho * w / M
 
 def molarity_to_w(c, solute, T=25, unit='C'):
@@ -129,7 +166,7 @@ def molarity_to_w(c, solute, T=25, unit='C'):
 
     # HACK: this is to give a warning if some parameters out of range when
     # applying the value found for w
-    _ = density(solute=solute, T=T, unit=unit, w=w)
+    _ = basic_density(solute=solute, T=T, unit=unit, w=w)
 
     if len(w.shape) == 0:  # this is to return a scalar if a scalar is used as input
         return w.item()

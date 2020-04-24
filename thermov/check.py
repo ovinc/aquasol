@@ -48,4 +48,3 @@ def check_validity_range(value, okrange, dataname='', unitname='', sourcename=''
     if test:
         warn(f'{dataname} outside of validity range ({unitname} in {okrange}) '
              f'for {sourcename}.', stacklevel=2)
-

@@ -1,4 +1,6 @@
 """Properties of pure water."""
 
-from .vapor_pressure import psat
-from .surface_tension import surface_tension
+# TODO: add viscosity
+
+from .properties import psat
+from .properties import surface_tension

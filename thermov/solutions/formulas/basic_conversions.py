@@ -18,8 +18,8 @@ http://hbcponline.com/faces/documents/01_19/01_19_0001.xhtml
 # TODO -- write more comprehensive examples
 # TODO -- add checks that inputs are within normal range (e.g. 0-1 for x or w)
 
-from ..constants import molar_mass, Mw, solute_list
-from ..check import check_solute, check_units
+from ...constants import molar_mass, Mw, solute_list
+from ...check import check_solute, check_units
 
 # Define what solutes and units are acceptable for conversion
 

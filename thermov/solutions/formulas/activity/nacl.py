@@ -19,8 +19,8 @@ up to ~17 mol/kg (x ~ 0.23)
 
 import numpy as np
 
-from ...constants import charge_numbers
-from ..conversions import ion_quantities, ionic_strength
+from ....constants import charge_numbers
+from ...convert import ion_quantities, ionic_strength
 
 # General Info about the formulas
 sources = ['Clegg']

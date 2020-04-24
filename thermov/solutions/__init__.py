@@ -1,6 +1,9 @@
 """Properties of solutions."""
 
-from .density import density
-from .activity import water_activity
-from .surface_tension import surface_tension
-from .conversions import convert, ionic_strength
+# TODO: add viscosity
+# TODO: add saturation concentration of different solute
+# TODO: add solute activity
+# TODO: add partial molar volumes
+
+from .properties import density, water_activity, surface_tension
+from .convert import convert, ionic_strength
