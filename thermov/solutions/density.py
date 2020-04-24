@@ -1,4 +1,4 @@
-""" Density of pure water and aqueous solutions."""
+""" Density of aqueous solutions."""
 
 # TODO - add expression of Clegg & Wexler 2011 (eq. 24)
 # TODO - add other salts (LiCl as priority, then KCl and CaCl2)
@@ -8,33 +8,33 @@
 # TODO - make more comprehensive examples
 
 
-from ..tools import format_temperature, format_concentration, import_solute_module
-from ..checks import check_validity_range
+from ..tools import solution_calculation
 
 
-
-def density(solute='NaCl', T=25, unit='C', relative=False, source=None, **kwargs):
+def density(solute='NaCl', T=25, unit='C', relative=False, source=None, **concentration):
     """Return the density of an aqueous solution at a given concentration.
 
     Parameters
     ----------
     - solute (str): solute name, default 'NaCl'
-    - T (float): temperature
+    - T (float): temperature (default 25)
     - unit (str, default 'C'): 'C' for Celsius, 'K' for Kelvin
     - relative (bool, default False): True for relative density
+
     - source (str, default None) : Source for the used equation, if None then
     gets the default source for the particular solute (defined in submodules).
     See summary of available sources below.
 
-    KWARGS
-    Any unit that is allowed by convert(), e.g.
-    - m= : molality (mol/kg)
-    - w= : mass fraction
-    - x= : mole fraction
+    - **concentration: kwargs with any unit that is allowed by convert(), e.g.
+        - m= : molality (mol/kg)
+        - w= : mass fraction
+        - x= : mole fraction
+        - c= : molarity (mol/m^3)
+        - mass_ratio= : mass ratio (unitless)
 
     Output
     ------
-    - density in kg/m^3 or relative density (dimensionless) if relative is True
+    - density (kg/m^3) or relative density (dimensionless) if relative is True
 
     Sources
     -------
@@ -43,35 +43,22 @@ def density(solute='NaCl', T=25, unit='C', relative=False, source=None, **kwargs
 
     Examples
     --------
-    - density(30) returns the density of pure water at 30°C.
-    - density(w=0.1) returns the density calculated with Simion equation
-    for a mass fraction of 0.1 at a temperature of 25°C.
-    - density(300, 'K', m=6) returns the value at 300K for a molality of 6 mol/kg
-    - density(source='Tang', x=0.1) returns the value calculated with Tang
-    equation for a mole fraction of 0.1
+    - density(w=0.1) returns the density of a NaCl solution, calculated with
+    Simion equation for a mass fraction of 0.1 at a temperature of 25°C.
+    - density('LiCl', 300, 'K', m=6) density of a LiCl solution at 300K
+    for a molality of 6 mol/kg.
+    - density(source='Tang', x=0.1), density of NaCl solution at a mole
+    fraction of 0.1, calculated with the equation from Tang.
+    - density(c=5000, relative=True), relative density of NaCl solution at
+    a concentration of 5 mol/L.
     """
 
-    # =============== IMPORT ADEQUATE SUBMODULE FOR CALCULATIONS =============
-
+    # Dictionary of modules to load for every solute -------------------------
     modules = {'NaCl': 'density_nacl'}
 
-    (src, formulas, concentration_types, concentration_ranges, temperature_units,
-     temperature_ranges) = import_solute_module(modules, solute, source)
-
-    # Check and format temperature ---------------------------------------------
-    T = format_temperature(T, unit, temperature_units[src])
-    check_validity_range(T, src, temperature_units,
-                         temperature_ranges, 'temperature')
-
-    # Check and format concentration -------------------------------------------
-    value = format_concentration(kwargs, concentration_types[src], solute)
-    check_validity_range(value, src, concentration_types,
-                         concentration_ranges, 'concentration')
-
-    # ============================ MAIN CALCULATIONS ===========================
-
-    formula = formulas[src]
-    rho, rho0 = formula(value, T)
+    # Calculate density using general solution calculation scheme -----------
+    parameters = T, unit, concentration
+    rho0, rho = solution_calculation(solute, source, modules, parameters)
 
     if relative:
         return rho / rho0

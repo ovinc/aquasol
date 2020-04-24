@@ -38,22 +38,22 @@ IAPWS, London, September 1994.
 # TODO: automatic detection of ion and cation from solute name (regex?),
 # especially for the function molar_mass
 
-# ============================= GENERAL CONSTANTS ==============================
+# ============================= GENERAL CONSTANTS ============================
 
 Na = 6.02214085774e23  # Avogadro's constant
 R = 8.314459848  # molar gas constant in J/(mol.K)
 
-# ============================== WATER PROPERTIES ==============================
+# ============================== WATER PROPERTIES ============================
 
 Mw = 18.015268e-3  # molar mass in kg / mol
 Tc = 647.096  # critical temperature in K (IAPWS 2014)
 Pc = 22.064e6  # critical pressure in Pa (CRC Handbook)
 
-# =========================== SOLUTE/IONS PROPERTIES ===========================
+# =========================== SOLUTE/IONS PROPERTIES =========================
 
 solute_list = ['CaCl2', 'KCl', 'LiCl', 'NaCl']
 
-# Individual ion molecular weights in Daltons ----------------------------------
+# Individual ion molecular weights in Daltons --------------------------------
 weight_cations = {'Ca': 40.078,
                   'K': 39.098,
                   'Li': 6.94,
@@ -65,28 +65,28 @@ weight_anions = {'Br': 79.904,
                  'SO4': 96.063,
                  }
 
-# Number of ions per solute molecule after dissociation, for cation and anion --
+# Number of ions per solute molecule after dissociation, for cation and anion
 dissociation_numbers = {'CaCl2': (1, 2),
                         'KCl': (1, 1),
                         'LiCl': (1, 1),
                         'NaCl': (1, 1),
                         }
 
-# Unit charges of cation and anion in the solute -------------------------------
+# Unit charges of cation and anion in the solute -----------------------------
 charge_numbers = {'CaCl2': (2, 1),
                   'KCl': (1, 1),
                   'LiCl': (1, 1),
                   'NaCl': (1, 1),
                   }
 
-# Individual ions composing the molecule ---------------------------------------
+# Individual ions composing the molecule -------------------------------------
 individual_ions = {'CaCl2': ('Ca', 'Cl'),
                    'KCl': ('K', 'Cl'),
                    'LiCl': ('Li', 'Cl'),
                    'NaCl': ('Na', 'Cl'),
                    }
 
-# calculation of molar mass from the molecular weights -------------------------
+# calculation of molar mass from the molecular weights -----------------------
 def molar_mass(solute):
     """Return molar mass of solute compound in kg / mol."""
     try:

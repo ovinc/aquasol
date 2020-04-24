@@ -6,29 +6,28 @@
 # TODO: Add tests (unittests)
 
 
-from ..tools import format_temperature, format_concentration, import_solute_module
-from ..checks import check_validity_range
+from ..tools import solution_calculation
 
 
-def activity(solute='NaCl', T=25, unit='C', source=None, **kwargs):
+def water_activity(solute='NaCl', T=25, unit='C', source=None, **concentration):
     """Return water activity of an aqueous solution at a given concentration.
 
     Parameters
     ----------
     - solute (str): solute name, default 'NaCl'
-    - T (float): temperature
+    - T (float): temperature (default 25)
     - unit (str, default 'C'): 'C' for Celsius, 'K' for Kelvin
-    - relative (bool, default False): True for relative density
+
     - source (str, default None) : Source for the used equation, if None then
     gets the default source for the particular solute (defined in submodules).
     See summary of available sources below.
 
-    KWARGS
-    Any unit that is allowed by convert(), e.g.
-    - m= : molality (mol/kg)
-    - w= : mass fraction
-    - x= : mole fraction
-    - C= : molarity (mol/m^3)
+    - **concentration: kwargs with any unit that is allowed by convert(), e.g.
+        - m= : molality (mol/kg)
+        - w= : mass fraction
+        - x= : mole fraction
+        - c= : molarity (mol/m^3)
+        - mass_ratio= : mass ratio (unitless)
 
     Output
     ------
@@ -41,31 +40,20 @@ def activity(solute='NaCl', T=25, unit='C', source=None, **kwargs):
 
     Examples
     --------
-    - a_w(x=0.1) returns water activity for a 0.1 mole fraction solution
-    - a_w(m=6) returns water activity for a 6 molality solution
-    - a_w(w=0.2) returns water activity for a 0.2 mass fraction solution
+    - water_activity(x=0.1) returns a_w for a mole fraction of 0.1 of NaCl
+    - water_activity(w=0.2) returns a_w for a mass fraction of 0.2 of NaCl
+    - water_activity(c=5000) returns a_w for a molality of 5 mol/L of NaCl
+    - water_activity(m=6) returns a_w for a molality of 6 mol/kg of NaCl
+    - water_activity('LiCl', m=6): same for LiCl
+    - water_activity('LiCl', m=6, T=30): same for LiCl at 30°C
+    - water_activity('LiCl', 293, 'K', m=6): same for LiCl at 293K.
     """
 
-    # =============== IMPORT ADEQUATE SUBMODULE FOR CALCULATIONS =============
-
+    # Dictionary of modules to load for every solute -------------------------
     modules = {'NaCl': 'activity_nacl'}
 
-    (src, formulas, concentration_types, concentration_ranges, temperature_units,
-     temperature_ranges) = import_solute_module(modules, solute, source)
-
-    # Check and format temperature ---------------------------------------------
-    T = format_temperature(T, unit, temperature_units[src])
-    check_validity_range(T, src, temperature_units,
-                         temperature_ranges, 'temperature')
-
-    # Check and format concentration -------------------------------------------
-    value = format_concentration(kwargs, concentration_types[src], solute)
-    check_validity_range(value, src, concentration_types,
-                         concentration_ranges, 'concentration')
-
-    # ============================ MAIN CALCULATIONS ===========================
-
-    formula = formulas[src]
-    a_w = formula(value, T)
+    # Calculate activity using general solution calculation scheme -----------
+    parameters = T, unit, concentration
+    a_w = solution_calculation(solute, source, modules, parameters)
 
     return a_w

@@ -19,24 +19,24 @@ def check_units(units, allowed_units):
     if len(wrong_units) > 0:
         raise ValueError(f'{wrong_units} not in allowed units {allowed_units}')
 
-def check_validity_range(value, source, source_units, source_ranges, dataname):
+def check_validity_range(value, okrange, dataname='', unitname='', sourcename=''):
     """Manage sources and associated validity range.
 
     Check that value is in validity range, and issues warning (no error) if not.
 
     Parameters
     ----------
-    - value: must be in the same unit as the okrange.
-    - source is the name of the data source.
-    - source_unit: unit of the source data (e.g. '°C' or 'x', used only for the
-    warning to be explicit.
-    - source_ranges: must be in the form of a dictionary of tuples (min, max) with
-    the source name as a key.
-    - dataname is the name of the parameter (e.g. 'temperature'), this is used
-    only for the warning to be explicit.
+
+    Obligatory:
+    - value (scalar, list, array, tuple etc.), in the same unit as okrange.
+    - okrange: (tuple (min, max)), same unit as value.
+
+    Optional (used only for the warning to be explicit):
+    - dataname (str): name of the parameter (e.g. 'temperature'),
+    - unitname (str): unit of the source data (e.g. '°C' or 'x')
+    - sourcename (str): name of the source of the data
+
     """
-    unit = source_units[source]
-    okrange = source_ranges[source]
 
     try:  # This works only if value is a single value, not an array or a list
         test = value < okrange[0] or value > okrange[1]
@@ -45,6 +45,6 @@ def check_validity_range(value, source, source_units, source_ranges, dataname):
         test = any(values < okrange[0]) or any(values > okrange[1])
 
     if test:
-        warn(f'{dataname} outside of validity range ({unit} in {okrange}) '
-             f'for {source}.', stacklevel=2)
+        warn(f'{dataname} outside of validity range ({unitname} in {okrange}) '
+             f'for {sourcename}.', stacklevel=2)
 

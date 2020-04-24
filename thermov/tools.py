@@ -2,6 +2,7 @@
 
 
 from .solutions.conversions_basic import convert
+from .checks import check_validity_range
 
 
 # ============================ MISC. FORMATTING ==============================
@@ -39,12 +40,12 @@ def format_temperature(T, unit_in, unit_out):
         return T_kelvin
 
 
-def format_concentration(kwargs, unit_out, solute):
+def format_concentration(concentration, unit_out, solute):
     """Check if concentration unit is ok and convert it to the unit_out unit.
 
     Parameters
     ----------
-    kwargs: dictionary got from main function **kwargs (should be e.g. {'w': 0.1})
+    concentration: dict from main function **kwargs (e.g. {'w': 0.1})
     out_unit: the unit to format the value into (e.g. 'w')
     solute: name of the solute (e.g. 'NaCl')
     kwargs: must be in the form 'w=value'
@@ -53,18 +54,18 @@ def format_concentration(kwargs, unit_out, solute):
     ------
     value in the unit_out unit
     """
-    if len(kwargs) > 1:
-        raise ValueError('kwargs must have a single keyword argument for solute concentration')
-    if len(kwargs) == 0:
+    if len(concentration) > 1:
+        raise ValueError('concentration must have a single keyword argument')
+    if len(concentration) == 0:
         raise ValueError(f'Concentration of {solute} not provided.')
     else:
-        [unit_in] = kwargs.keys()
-        [value] = kwargs.values()  # corresponding value in the unit above
-        val = convert(value, unit_in, unit_out, solute)
-        return val
+        [unit_in] = concentration.keys()
+        [value] = concentration.values()
+        conc = convert(value, unit_in, unit_out, solute)
+        return conc
 
 
-# =========================== IMPORTING MODULES ==============================
+# ==================== IMPORTING MODULES AND FORMULAS ========================
 
 def import_solute_module(modules, solute, sourcename):
     """Import module corresponding to solute data."""
@@ -89,4 +90,50 @@ def import_solute_module(modules, solute, sourcename):
             temperature_units, temperature_ranges)
 
     return data
+
+
+
+def solution_calculation(solute, source, modules, parameters):
+    """Choose a formula for a solute, given a source and a list of modules.
+
+    Inputs
+    ------
+    solute (str): solute name (e.g. 'NaCl')
+    source (str): source name (if None, uses default source in module)
+    modules (dict): dict with solutes as keys and corresponding modules
+    as values
+    parameters: tuple (T, unit, concentration)
+
+    Output
+    ------
+    solute property of interest calculated following the parameters
+    """
+
+    T, unit, concentration = parameters
+
+    # Import adequate submodule for calculations -----------------------------
+
+    params = import_solute_module(modules, solute, source)
+    (src, formulas, cunits, cranges, tunits, tranges) = params
+
+    # Check and format temperature -------------------------------------------
+
+    tunit = tunits[src]
+    trange = tranges[src]
+
+    T = format_temperature(T, unit, tunit)
+    check_validity_range(T, trange, 'temperature', tunit, src)
+
+    # Check and format concentration -----------------------------------------
+
+    cunit = cunits[src]
+    crange = cranges[src]
+
+    conc = format_concentration(concentration, cunit, solute)
+    check_validity_range(conc, crange, 'concentration', cunit, src)
+
+    # Calculate value according to adequate formula --------------------------
+
+    formula = formulas[src]
+    return formula(conc, T)
 
