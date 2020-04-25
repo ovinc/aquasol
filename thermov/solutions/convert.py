@@ -25,7 +25,7 @@ from ..check import check_solute, check_units
 from .formulas.basic_conversions import basic_convert
 from .formulas.basic_conversions import allowed_units as basic_units
 
-from .general import solution_calculation
+from .general import calculation
 
 add_units = ['c']
 allowed_units = basic_units + add_units
@@ -124,19 +124,12 @@ def basic_density(solute, T=25, unit='C', **concentration):
     -------
     Default source defined in each solute submodule.
     """
-
-    # Dictionary of modules to load for every solute -------------------------
-    base = 'formulas.density.'
-    modules = {'NaCl': base + 'nacl'}
-
-    # set source to None to get default formula for density
-    source = None
-
-    # Calculate density using general solution calculation scheme -----------
+    source = None  # set source to None to get default formula for density
     parameters = T, unit, concentration
-    rho0, rho = solution_calculation(solute, source, modules, parameters, basic_convert)
+    rho0, rho = calculation('density', solute, source, parameters, basic_convert)
 
     return rho
+
 
 # ============================= MOLARITY FUNCTIONS ===========================
 

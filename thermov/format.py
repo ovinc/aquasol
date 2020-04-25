@@ -42,7 +42,7 @@ def format_concentration(concentration, unit_out, solute, converter):
     concentration: dict from main function **kwargs (e.g. {'w': 0.1})
     unit_out: the unit to format the value into (e.g. 'w')
     solute: name of the solute (e.g. 'NaCl')
-    converter: function used for conversion (convert or convert_basic)
+    converter: concentration conversion function (convert or basic_convert)
 
     Output
     ------

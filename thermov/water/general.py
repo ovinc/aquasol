@@ -5,51 +5,76 @@ from ..format import format_temperature, format_source
 from ..check import check_validity_range
 
 
-def import_water_module(module, source):
-    """Import module corresponding to water data."""
+# Info on the name of the modules corresponding to the properties ------------
 
-    line1 = f'from .{module} import temperature_ranges, temperature_units'
-    line2 = f'from .{module} import sources, formulas, default_source'
+base = '.formulas.'
+property_modules = {'vapor pressure': base + 'vapor_pressure',
+                    'surface tension': base + 'surface_tension'}
+
+
+
+def get_infos(propty):
+    """Get various informations on sources for a particular property.
+
+    Input
+    -----
+    propty (str): property name (e.g. 'vapor pressure', 'surface tension')
+
+    Output
+    ------
+    Dictionary of informations, with the following keys:
+    'sources', 'default source', 'formulas', 'temp ranges', 'temp units'
+
+    """
+
+    module = property_modules[propty]
+
+    line1 = f'from {module} import temperature_ranges, temperature_units'
+    line2 = f'from {module} import sources, formulas, default_source'
 
     for line in line1, line2:
         exec(line, globals())  # without globals, variables are not defined
 
-    src = format_source(source, sources, default_source)
+    infos = {'sources': sources,
+             'default source': default_source,
+             'formulas': formulas,
+             'temp ranges': temperature_ranges,
+             'temp units': temperature_units}
 
-    data = (src, formulas, temperature_units, temperature_ranges)
-
-    return data
+    return infos
 
 
-def water_calculation(source, module, T, unit):
+def calculation(propty, source, parameters):
     """Choose water property formula, given a source and a list of modules.
 
     Inputs
     ------
+    propty (str): property name (e.g. 'vapor pressure', 'surface tension')
     source (str): source name (if None, uses default source in module)
-    module (str): name of module containing the formulas
     T: temperature
     unit (str): unit of temperature ('C' or 'K')
 
     Output
     ------
-    water property of interest calculated following the parameters
+    water property of interest calculated following the input parameters
     """
 
-    # Import adequate submodule for calculations -----------------------------
+    T, unit = parameters
 
-    params = import_water_module(module, source)
-    (src, formulas, tunits, tranges) = params
+    # Find infos on souces for the property of interest
+    infos = get_infos(propty)
+
+    # Set adequate source (default, or asked by user)
+    src = format_source(source, infos['sources'], infos['default source'])
 
     # Check and format temperature -------------------------------------------
-
-    tunit = tunits[src]
-    trange = tranges[src]
+    tunit = infos['temp units'][src]
+    trange = infos['temp ranges'][src]
 
     T = format_temperature(T, unit, tunit)
     check_validity_range(T, trange, 'temperature', tunit, src)
 
     # Calculate value according to adequate formula --------------------------
 
-    formula = formulas[src]
+    formula = infos['formulas'][src]
     return formula(T)

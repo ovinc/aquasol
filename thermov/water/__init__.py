@@ -2,5 +2,5 @@
 
 # TODO: add viscosity
 
-from .properties import psat
+from .properties import vapor_pressure
 from .properties import surface_tension

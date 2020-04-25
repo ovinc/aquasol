@@ -17,7 +17,7 @@ NOTE: when modifying density, make sure to also change basic_density in convert.
 # TODO - make more comprehensive examples
 
 
-from .general import solution_calculation
+from .general import calculation
 from .convert import convert as converter
 
 
@@ -63,13 +63,8 @@ def water_activity(solute='NaCl', T=25, unit='C', source=None, **concentration):
     - water_activity('LiCl', 293, 'K', m=6): same for LiCl at 293K.
     """
 
-    # Dictionary of modules to load for every solute -------------------------
-    base = 'formulas.activity.'
-    modules = {'NaCl': base + 'nacl'}
-
-    # Calculate activity using general solution calculation scheme -----------
     parameters = T, unit, concentration
-    a_w = solution_calculation(solute, source, modules, parameters, converter)
+    a_w = calculation('water activity', solute, source, parameters, converter)
 
     return a_w
 
@@ -118,13 +113,8 @@ def density(solute='NaCl', T=25, unit='C', relative=False, source=None, **concen
     a concentration of 5 mol/L.
     """
 
-    # Dictionary of modules to load for every solute -------------------------
-    base = 'formulas.density.'
-    modules = {'NaCl': base + 'nacl'}
-
-    # Calculate density using general solution calculation scheme ------------
     parameters = T, unit, concentration
-    rho0, rho = solution_calculation(solute, source, modules, parameters, converter)
+    rho0, rho = calculation('density', solute, source, parameters, converter)
 
     if relative:
         return rho / rho0
@@ -178,17 +168,10 @@ def surface_tension(solute='NaCl', T=25, unit='C', relative=False, source=None, 
     a CaCl2 solution at 300K and molarity of 5 mol/L
     """
 
-    # Dictionary of modules to load for every solute -------------------------
-    base = 'formulas.surface_tension.'
-    modules = {'NaCl': base + 'nacl',
-               'LiCl': base + 'licl',
-               'CaCl2': base + 'cacl2'}
-
-    # Calculate surface tension using general solution calculation scheme ----
     parameters = T, unit, concentration
-    sigma0, sigma = solution_calculation(solute, source, modules, parameters, converter)
+    s0, s = calculation('surface tension', solute, source, parameters, converter)
 
     if relative:
-        return sigma / sigma0
+        return s / s0
     else:
-        return sigma
+        return s

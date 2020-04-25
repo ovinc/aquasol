@@ -5,10 +5,10 @@ temperature using NIST or IAPWS recommended equations"""
 # TODO: Write examples for surface tension
 
 
-from .general import water_calculation
+from .general import calculation
 
 
-def psat(T, unit='C', source='Wagner'):
+def vapor_pressure(T, unit='C', source='Wagner'):
     """Return the vapor pressure (in Pascal) as a function of temperature.
 
     Parameters
@@ -36,13 +36,7 @@ def psat(T, unit='C', source='Wagner'):
     - psat(300, 'K', 'Wagner') returns the value at 300K using Wagner equation
     """
 
-    # Name of module containing the formulas for calculating vapor pressure.
-    module = 'formulas.psat'
-
-    # Calculate density using general solution calculation scheme ------------
-    psat = water_calculation(source, module, T, unit)
-
-    return psat
+    return calculation('vapor pressure', source, (T, unit))
 
 
 def surface_tension(T=25, unit='C', source='IAPWS'):
@@ -66,13 +60,7 @@ def surface_tension(T=25, unit='C', source='IAPWS'):
     (see submodules for details).
     """
 
-    # Name of module containing the formulas for calculating vapor pressure.
-    module = 'formulas.surface_tension'
-
-    # Calculate surface tension using general solution calculation scheme ------------
-    sigma = water_calculation(source, module, T, unit)
-
-    return sigma
+    return calculation('surface tension', source, (T, unit))
 
 
 

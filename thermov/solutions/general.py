@@ -5,41 +5,59 @@ from ..format import format_temperature, format_concentration, format_source
 from ..check import check_validity_range
 
 
-def import_solute_module(modules, solute, source):
-    """Import module corresponding to solute data."""
+# Info on the name of the modules corresponding to the properties ------------
 
-    try:
-        module = modules[solute]
-    except KeyError:
-        allowed_solutes = list(modules.keys())
-        raise ValueError(f'Solute can only be one of {allowed_solutes}')
+base = '.formulas.'
+property_modules = {'water activity': base + 'activity',
+                    'density': base + 'density',
+                    'surface tension': base + 'surface_tension'}
 
-    line1 = f'from .{module} import concentration_types, concentration_ranges'
-    line2 = f'from .{module} import temperature_ranges, temperature_units'
-    line3 = f'from .{module} import sources, formulas, default_source'
+
+def get_infos(propty, solute):
+    """Get various informations on sources for a particular property and solute.
+
+    Input
+    -----
+    propty (str): property name (e.g. 'water activity', 'density')
+    solute (str): solute name (e.g. 'NaCl')
+
+    Output
+    ------
+    Dictionary of informations, with the keys: 'sources', 'default source',
+    'formulas', 'temp ranges', 'temp units', 'conc ranges', 'conc units'
+
+    """
+
+    module = property_modules[propty] + '.' + solute
+
+    line1 = f'from {module} import concentration_types, concentration_ranges'
+    line2 = f'from {module} import temperature_ranges, temperature_units'
+    line3 = f'from {module} import sources, formulas, default_source'
 
     for line in line1, line2, line3:
         exec(line, globals())  # without globals, variables are not defined
 
-    src = format_source(source, sources, default_source)
+    infos = {'sources': sources,
+             'default source': default_source,
+             'formulas': formulas,
+             'temp ranges': temperature_ranges,
+             'temp units': temperature_units,
+             'conc ranges': concentration_ranges,
+             'conc units': concentration_types}
 
-    data = (src, formulas,
-            concentration_types, concentration_ranges,
-            temperature_units, temperature_ranges)
-
-    return data
+    return infos
 
 
-def solution_calculation(solute, source, modules, parameters, converter):
+def calculation(propty, solute, source, parameters, converter):
     """Choose a formula for a solute, given a source and a list of modules.
 
     Inputs
     ------
+    propty (str): property name (e.g. 'water activity', 'density')
     solute (str): solute name (e.g. 'NaCl')
     source (str): source name (if None, uses default source in module)
-    modules (dict): dict with solutes as keys and corresponding modules
-    as values
     parameters: tuple (T, unit, concentration)
+    converter: concentration conversion function (convert or basic_convert)
 
     Output
     ------
@@ -48,28 +66,28 @@ def solution_calculation(solute, source, modules, parameters, converter):
 
     T, unit, concentration = parameters
 
-    # Import adequate submodule for calculations -----------------------------
+    # Find infos on souces for the property of interest
+    infos = get_infos(propty, solute)
 
-    params = import_solute_module(modules, solute, source)
-    (src, formulas, cunits, cranges, tunits, tranges) = params
+    # Set adequate source (default, or asked by user)
+    src = format_source(source, infos['sources'], infos['default source'])
 
     # Check and format temperature -------------------------------------------
-
-    tunit = tunits[src]
-    trange = tranges[src]
+    tunit = infos['temp units'][src]
+    trange = infos['temp ranges'][src]
 
     T = format_temperature(T, unit, tunit)
     check_validity_range(T, trange, 'temperature', tunit, src)
 
     # Check and format concentration -----------------------------------------
 
-    cunit = cunits[src]
-    crange = cranges[src]
+    cunit = infos['conc units'][src]
+    crange = infos['conc ranges'][src]
 
     conc = format_concentration(concentration, cunit, solute, converter)
     check_validity_range(conc, crange, 'concentration', cunit, src)
 
     # Calculate value according to adequate formula --------------------------
 
-    formula = formulas[src]
+    formula = infos['formulas'][src]
     return formula(conc, T)
