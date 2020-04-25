@@ -6,4 +6,4 @@
 # TODO: add partial molar volumes
 
 from .properties import density, water_activity, surface_tension
-from .convert import convert, ionic_strength
+from .convert import convert, ionic_strength, ion_quantities

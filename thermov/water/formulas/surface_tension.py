@@ -10,7 +10,6 @@ from ...constants import Tc
 
 
 # General Info about the formulas
-sources = ['IAPWS']
 
 default_source = 'IAPWS'
 
@@ -55,4 +54,6 @@ def sigma_iapws(T):
 # ========================== WRAP-UP OF FORMULAS =============================
 
 formulas = {'IAPWS': sigma_iapws}
+
+sources = [source for source in formulas]
 

@@ -23,7 +23,7 @@ from ....constants import charge_numbers
 from ...convert import ion_quantities, ionic_strength
 
 # General Info about the formulas
-sources = ['Clegg']
+
 default_source = 'Clegg'
 
 concentration_types = {'Clegg': 'x'}
@@ -70,3 +70,5 @@ def water_activity_clegg(x, T):
 # ========================== WRAP-UP OF FORMULAS =============================
 
 formulas = {'Clegg': water_activity_clegg}
+
+sources = [source for source in formulas]

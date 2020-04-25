@@ -26,7 +26,6 @@ from .misc import sigma_dutcher, sigma_iapws
 
 # ============================ GENERAL INFO ==================================
 
-sources = ['Dutcher']
 default_source = 'Dutcher'
 
 concentration_types = {'Dutcher': 'x'}
@@ -66,4 +65,6 @@ def surface_tension_dutcher(x, T):
 
 formulas = {'Dutcher': surface_tension_dutcher,
             }
+
+sources = [source for source in formulas]
 

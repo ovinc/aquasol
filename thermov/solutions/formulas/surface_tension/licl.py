@@ -23,7 +23,6 @@ from .misc import sigma_conde, sigma_iapws
 
 # ============================ GENERAL INFO ==================================
 
-sources = ['Conde']
 default_source = 'Conde'
 
 concentration_types = {'Conde': 'w'}
@@ -56,4 +55,6 @@ def surface_tension_conde(w, T):
 
 formulas = {'Conde': surface_tension_conde,
             }
+
+sources = [source for source in formulas]
 

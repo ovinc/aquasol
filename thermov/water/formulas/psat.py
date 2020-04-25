@@ -33,7 +33,6 @@ from ...constants import Tc
 
 
 # General Info about the formulas
-sources = ['Wexler', 'Bridgeman', 'Wagner']
 
 default_source = 'Wagner'
 
@@ -100,4 +99,6 @@ def psat_wagner(T):
 formulas = {'Wexler': psat_wexler,
             'Bridgeman': psat_bridgeman,
             'Wagner': psat_wagner}
+
+sources = [source for source in formulas]
 

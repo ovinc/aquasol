@@ -27,7 +27,6 @@ from .misc import sigma_conde, sigma_dutcher, sigma_iapws
 
 # ============================ GENERAL INFO ==================================
 
-sources = ['Conde', 'Dutcher']
 default_source = 'Dutcher'
 
 concentration_types = {'Conde': 'w',
@@ -87,4 +86,6 @@ def surface_tension_dutcher(x, T):
 formulas = {'Conde': surface_tension_conde,
             'Dutcher': surface_tension_dutcher,
             }
+
+sources = [source for source in formulas]
 

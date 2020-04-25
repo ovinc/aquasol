@@ -126,7 +126,8 @@ def basic_density(solute, T=25, unit='C', **concentration):
     """
 
     # Dictionary of modules to load for every solute -------------------------
-    modules = {'NaCl': 'formulas.density.nacl'}
+    base = 'formulas.density.'
+    modules = {'NaCl': base + 'nacl'}
 
     # set source to None to get default formula for density
     source = None

@@ -24,7 +24,7 @@ scattering coefficients" (1996). Valid at 25°C and from w = 0 to w ~= 0.5
 import numpy as np
 
 # General Info about the formulas
-sources = ['Simion', 'Tang']
+
 default_source = 'Simion'
 
 concentration_types = {'Simion': 'w',
@@ -78,3 +78,5 @@ def density_tang(w, T):
 formulas = {'Simion': density_simion,
             'Tang': density_tang,
             }
+
+sources = [source for source in formulas]

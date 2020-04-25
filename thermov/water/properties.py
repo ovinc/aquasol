@@ -7,10 +7,6 @@ temperature using NIST or IAPWS recommended equations"""
 
 from .general import water_calculation
 
-from ..constants import Tc
-from ..check import check_validity_range
-from ..format import format_temperature
-
 
 def psat(T, unit='C', source='Wagner'):
     """Return the vapor pressure (in Pascal) as a function of temperature.
