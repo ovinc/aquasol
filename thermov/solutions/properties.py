@@ -4,10 +4,11 @@ NOTE: when modifying density, make sure to also change basic_density in convert.
 """
 
 # TODO: add other salts (LiCl as priority, then KCl, CaCl2, Na2S04)
-# TODO - add expression of Clegg & Wexler 2011 (eq. 24)
-# TODO - add expression of Pitzer 1982 (source of CRC Handbook)
-# TODO - Add tests (unittests)
-# TODO - write more comprehensive examples
+# TODO: add densities from Al Ghafri
+# TODO: add expression of Clegg & Wexler 2011 (eq. 24)
+# TODO: add expression of Pitzer 1982 (source of CRC Handbook)
+# TODO: Add tests (unittests)
+# TODO: write more comprehensive examples
 # TODO: other temperatures than 25°C
 
 
@@ -45,6 +46,8 @@ def water_activity(solute='NaCl', T=25, unit='C', source=None, **concentration):
     Sources
     -------
     NaCl: 'Clegg' (default)
+    LiCl: 'Conde'
+    CaCl2: 'Conde'
     See details about the sources in the submodules.
 
     Examples
@@ -94,6 +97,7 @@ def density(solute='NaCl', T=25, unit='C', relative=False, source=None, **concen
     Sources
     -------
     NaCl: 'Simion' (default), 'Tang'
+
     See details about the sources in the submodules.
 
     Examples

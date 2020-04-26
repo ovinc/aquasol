@@ -32,7 +32,7 @@ In particular, the `default_source` must be defined, as well at the dictionaries
 
 - Create a file with the chemical name of the solute in the folder of the property in the directory **solutions.formulas** (e.g. *LiCl.py* or *Na2SO4.py* in  *solutions.formulas.density* ). Follow the same file structure as for other solutes in the same folder (see dictionaries to define in *Create a new property* above).
 
-- Add a function calculating the property in the file. It must have the same inputs and outputs as functions of other solutes of the same property.
+- Add a function calculating the property in the file. It must have the same inputs and outputs as functions of other solutes of the same property. Do not hesitate to write functions common to several solutes in a *misc.py* file, and call it from the solute file.
 
 - **If the property is density**, also modify the function `basic_density` accordingly in **convert.py** (see *Structure of code* below for an explanation of why there are two density functions).
 
