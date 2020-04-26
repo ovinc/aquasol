@@ -1,6 +1,21 @@
 """Miscellaneous formatting tools for the thermo-ov package."""
 
 
+import numpy as np
+
+from .check import check_units
+
+
+def format_type(value):
+    """If type of input doesn't support math operations, convert to np array."""
+    try:
+        value + 1
+    except TypeError:
+        return np.array(value)
+    else:
+        return value
+
+
 def format_source(source, sources, default_source):
     """Return source if it's in sources, default_source if None."""
     if source is None:
@@ -16,10 +31,9 @@ def format_temperature(T, unit_in, unit_out):
     """Format temperature from/to Celsius (C) and Kelvin (K)."""
 
     allowed_units = 'C', 'K'
+    check_units([unit_in, unit_out], allowed_units)
 
-    for unit in [unit_in, unit_out]:
-        if unit not in allowed_units:
-            raise ValueError(f'{unit} is not a valid temperature unit (C or K)')
+    T = format_type(T)  # allows for lists and tuples as inputs
 
     if unit_in == 'C':
         T_celsius = T
@@ -47,11 +61,19 @@ def format_concentration(concentration, unit_out, solute, converter):
     Output
     ------
     value in the unit_out unit
+
+    Note
+    ----
+    Checking if concentration is in the right unit etc. and transforming into
+    array if input is tuple, list etc. is done by the converter
     """
+
     if len(concentration) > 1:
         raise ValueError('concentration must have a single keyword argument')
+
     if len(concentration) == 0:
         raise ValueError(f'Concentration of {solute} not provided.')
+
     else:
         [unit_in] = concentration.keys()
         [value] = concentration.values()

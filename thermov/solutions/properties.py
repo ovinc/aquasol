@@ -3,18 +3,13 @@
 NOTE: when modifying density, make sure to also change basic_density in convert.
 """
 
-# TODO: other temperatures than 25°C
 # TODO: add other salts (LiCl as priority, then KCl, CaCl2, Na2S04)
-# TODO: make more comprehensive examples
-# TODO: Add tests (unittests)
-
-
 # TODO - add expression of Clegg & Wexler 2011 (eq. 24)
-# TODO - add other salts (LiCl as priority, then KCl and CaCl2)
 # TODO - add expression of Pitzer 1982 (source of CRC Handbook)
 # TODO - Add tests (unittests)
-# TODO - Check that Tang is indeed valid up to 80% weight fraction
-# TODO - make more comprehensive examples
+# TODO - write more comprehensive examples
+# TODO: other temperatures than 25°C
+
 
 
 from .general import calculation

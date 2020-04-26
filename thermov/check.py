@@ -5,11 +5,7 @@ from warnings import warn
 import numpy as np
 
 
-def check_solute(solute, allowed_solutes):
-    """Check if solute in allowed solutes to use, raise exception if not"""
-    if solute not in allowed_solutes:
-        raise ValueError(f"{solute} not in allowed solutes: {allowed_solutes}")
-
+# ============================= GENERIC FUNCTIONS ============================
 
 def check_units(units, allowed_units):
     """Check if units are among the allowed units to use, raise exception if not."""
@@ -48,3 +44,11 @@ def check_validity_range(value, okrange, dataname='', unitname='', sourcename=''
     if test:
         warn(f'{dataname} outside of validity range ({unitname} in {okrange}) '
              f'for {sourcename}.', stacklevel=2)
+
+
+# ========================== FUNCTIONS for SOLUTIONS =========================
+
+def check_solute(solute, allowed_solutes):
+    """Check if solute in allowed solutes to use, raise exception if not"""
+    if solute not in allowed_solutes:
+        raise ValueError(f"{solute} not in allowed solutes: {allowed_solutes}")

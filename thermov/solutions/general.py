@@ -1,6 +1,9 @@
 """Global management of modules and formulas for solutions."""
 
 
+# TODO: write available_solutes function that returns a list of solutes available for a given property
+
+
 from ..format import format_temperature, format_concentration, format_source
 from ..check import check_validity_range
 
@@ -16,7 +19,7 @@ property_modules = {'water activity': base + 'activity',
 def get_infos(propty, solute):
     """Get various informations on sources for a particular property and solute.
 
-    Input
+    Inputquit()
     -----
     propty (str): property name (e.g. 'water activity', 'density')
     solute (str): solute name (e.g. 'NaCl')
@@ -35,7 +38,10 @@ def get_infos(propty, solute):
     line3 = f'from {module} import sources, formulas, default_source'
 
     for line in line1, line2, line3:
-        exec(line, globals())  # without globals, variables are not defined
+        try:
+            exec(line, globals())  # without globals, variables are not defined
+        except ModuleNotFoundError:
+            raise ModuleNotFoundError(f'solute {solute} not available')
 
     infos = {'sources': sources,
              'default source': default_source,

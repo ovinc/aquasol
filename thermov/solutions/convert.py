@@ -21,11 +21,15 @@ from ..constants import solute_list
 from ..constants import molar_mass, dissociation_numbers, charge_numbers
 
 from ..check import check_solute, check_units
+from ..format import format_type
 
 from .formulas.basic_conversions import basic_convert
 from .formulas.basic_conversions import allowed_units as basic_units
 
 from .general import calculation
+
+
+# =========================== MAIN CONVERT FUNCTION ==========================
 
 add_units = ['c']
 allowed_units = basic_units + add_units
@@ -67,6 +71,8 @@ def convert(value, unit1, unit2, solute='NaCl', T=25, unit='C'):
 
     units = [unit1, unit2]
     check_units(units, allowed_units)
+
+    value = format_type(value)  # allows for lists and tuples as inputs
 
     # No need to calculate anything if the in and out units are the same -----
     if unit1 == unit2:
@@ -191,6 +197,8 @@ def ion_quantities(solute, **concentration):
         [value] = concentration.values()  # corresponding value in the unit above
     else:
         raise ValueError('kwargs must have exactly one keyword argument for solute concentration.')
+
+    value = format_type(value)  # allows for lists and tuples as inputs
 
     check_solute(solute, solute_list)
     n1, n2 = dissociation_numbers[solute]

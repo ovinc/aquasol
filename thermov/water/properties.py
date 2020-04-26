@@ -1,23 +1,19 @@
 """Function that return the vapor pressure of water as a function of
 temperature using NIST or IAPWS recommended equations"""
 
-# TODO: Re-write examples for psat, not up to date !
-# TODO: Write examples for surface tension
-
 
 from .general import calculation
 
 
-def vapor_pressure(T, unit='C', source='Wagner'):
+def vapor_pressure(T=25, unit='C', source=None):
     """Return the vapor pressure (in Pascal) as a function of temperature.
 
     Parameters
     ----------
-    - T (float): temperature
+    - T (int, float, array, list, or tuple): temperature
     - unit (str, default 'C'): 'C' for Celsius, 'K' for Kelvin
     - source (str, default None) : Source for the used equation, if None then
-    gets the default source for the particular solute (defined in submodules).
-    See summary of available sources below.
+    the default source for the particular property is used.
 
     Output
     ------
@@ -30,25 +26,27 @@ def vapor_pressure(T, unit='C', source='Wagner'):
 
     Examples
     --------
-    - psat(20) returns the vapor pressure of water at 20°C, using eq (17) of Wexler
-    - psat(300, 'K') returns the value at 300K
-    - psat(20, source='Wagner') returns the value at 20°C using Wagner equation
-    - psat(300, 'K', 'Wagner') returns the value at 300K using Wagner equation
+    from thermov.water import vapor_pressure as psat
+    >>> psat()  # returns the saturation vapor pressure of water at 25°C
+    >>> psat(20)                   # at 20°C
+    >>> psat([0, 10, 20, 30])      # at various temperatures in Celsius
+    >>> psat(300, 'K')             # at 300K
+    >>> psat(15, source='Wexler')  # at 15°C using Wexler equation
+
     """
 
     return calculation('vapor pressure', source, (T, unit))
 
 
-def surface_tension(T=25, unit='C', source='IAPWS'):
+def surface_tension(T=25, unit='C', source=None):
     """Surface tension (N/m) of pure water as a function of temperature.
 
     Parameters
     ----------
-    - T (float): temperature
+    - T (int, float, array, list, tuple): temperature
     - unit (str, default 'C'): 'C' for Celsius, 'K' for Kelvin
     - source (str, default None) : Source for the used equation, if None then
-    gets the default source for the particular solute (defined in submodules).
-    See summary of available sources below.
+    the default source for the particular property is used.
 
     Output
     ------
@@ -58,6 +56,14 @@ def surface_tension(T=25, unit='C', source='IAPWS'):
     -------
     'IAPWS' (default)
     (see submodules for details).
+
+    Examples
+    --------
+    >>> from thermov.water import surface_tension as sigma
+    >>> sigma()  # returns the surface tension of water (sigma) at 25°C
+    >>> sigma(20)                  # sigma  at 20°C
+    >>> sigma([0, 10, 20, 30])     # sigma at various temperatures in Celsius
+    >>> sigma(300, 'K')            # sigma at 300K
     """
 
     return calculation('surface tension', source, (T, unit))
