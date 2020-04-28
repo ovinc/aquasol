@@ -35,9 +35,6 @@ IAPWS, London, September 1994.
 
 """
 
-# TODO: automatic detection of ion and cation from solute name (regex?),
-# especially for the function molar_mass
-
 # ============================= GENERAL CONSTANTS ============================
 
 Na = 6.02214085774e23  # Avogadro's constant

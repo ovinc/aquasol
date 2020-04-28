@@ -1,7 +1,6 @@
 """Plot properties of water and solutions."""
 
 # TODO: plot solution properties as a function of temperature
-# TODO: bring back literature data from Leo's plot.py file?
 
 
 import matplotlib.pyplot as plt

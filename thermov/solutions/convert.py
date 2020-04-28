@@ -1,5 +1,4 @@
-"""Upgrade basic conversions with more advanced parameters such as
-molarity, mass ratio, ionic strength and individual ion quantities (xi, wi, mi etc.)
+"""Convert to/from various parameters (molarity, molality, x, w, etc.)
 
 SOURCES
 -------
@@ -8,11 +7,6 @@ ionic strength expressed as molar fraction is used in Clegg et al. AST, 1997
 ionic strength expressed as molality is more common, e.g. Pitzer 1973
 """
 
-# TODO -- add conversions from C to others (needs work on inverting w*rho(w))
-# TODO -- write unittests or pytests
-# TODO -- write more comprehensive examples
-# TODO -- verify that everything is in SI units
-# TODO -- write general doctring for conversions module
 
 import warnings
 from pynverse import inversefunc

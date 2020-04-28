@@ -1,5 +1,4 @@
-"""Function that return the vapor pressure of water as a function of
-temperature using NIST or IAPWS recommended equations"""
+"""Properties of water (vapor pressure, surface tension) as a function of T."""
 
 
 from .general import calculation
