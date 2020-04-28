@@ -7,7 +7,6 @@ NOTE: when modifying density, make sure to also change basic_density in convert.
 # TODO: add densities expressions from Al Ghafri
 # TODO: add densities expression of Clegg & Wexler 2011 (eq. 24)
 # TODO: add expression of Pitzer 1982 (source of CRC Handbook)
-# TODO: Add tests (unittests)
 # TODO: write more comprehensive examples
 # TODO: other temperatures than 25°C
 

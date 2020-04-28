@@ -23,10 +23,6 @@ which might be why some values for the critical point are slightly different.
 Here we consider all absolute temperatures as being in Kelvin.
 """
 
-# TODO: Clarify which equations are recommended by IAPWS and which one should be default.
-# TODO: Switch automatically to another equation if outside of range.
-
-
 from numpy import log, exp, arccosh, sqrt
 
 from ...constants import Tc
