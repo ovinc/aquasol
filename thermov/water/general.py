@@ -9,7 +9,9 @@ from ..check import check_validity_range
 
 base = '.formulas.'
 property_modules = {'vapor pressure': base + 'vapor_pressure',
-                    'surface tension': base + 'surface_tension'}
+                    'surface tension': base + 'surface_tension',
+                    'density saturated': base + 'density_sat',
+                    'density ambient': base + 'density_atm'}
 
 
 

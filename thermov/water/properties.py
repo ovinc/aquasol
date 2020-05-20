@@ -1,4 +1,4 @@
-"""Properties of water (vapor pressure, surface tension) as a function of T."""
+"""Properties of water (vapor pressure, surface tension, density) as a function of T."""
 
 
 from .general import calculation
@@ -68,5 +68,65 @@ def surface_tension(T=25, unit='C', source=None):
     return calculation('surface tension', source, (T, unit))
 
 
+def density_sat(T=25, unit='C', source=None):
+    """Density (kg/m^3) of saturated liquid water as a function of temperature.
+
+    Parameters
+    ----------
+    - T (int, float, array, list, tuple): temperature
+    - unit (str, default 'C'): 'C' for Celsius, 'K' for Kelvin
+    - source (str, default None) : Source for the used equation, if None then
+    the default source for the particular property is used.
+
+    Output
+    ------
+    Density in kg/m^3
+
+    Sources
+    -------
+    'IAPWS' (default)
+    (see submodules for details).
+
+    Examples
+    --------
+    >>> from thermov.water import density_sat as rho
+    >>> rho()  # returns the denisty of water (rho) at 25°C
+    >>> rho(20)                  # rho  at 20°C
+    >>> rho([0, 10, 20, 30])     # rho at various temperatures in Celsius
+    >>> rho(300, 'K')            # rho at 300K
+    """
+
+    return calculation('density saturated', source, (T, unit))
+
+
+def density_atm(T=25, unit='C', source=None):
+    """Density (kg/m^3) of ambient pure water as a function of temperature.
+
+    Parameters
+    ----------
+    - T (int, float, array, list, tuple): temperature
+    - unit (str, default 'C'): 'C' for Celsius, 'K' for Kelvin
+    - source (str, default None) : Source for the used equation, if None then
+    the default source for the particular property is used.
+
+    Output
+    ------
+    Density in kg/m^3
+
+    Sources
+    -------
+    'Kell' (default)
+    (see submodules for details).
+
+    Examples
+    --------
+    >>> from thermov.water import density_sat as rho
+    >>> rho()  # returns the denisty of water (rho) at 25°C
+    >>> rho(20)                  # rho  at 20°C
+    >>> rho([0, 10, 20, 30])     # rho at various temperatures in Celsius
+    >>> rho(300, 'K')            # rho at 300K
+    """
+
+    return calculation('density ambient', source, (T, unit))
 
 
