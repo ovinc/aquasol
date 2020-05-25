@@ -45,6 +45,7 @@ R = 8.314459848  # molar gas constant in J/(mol.K)
 Mw = 18.015268e-3  # molar mass in kg / mol
 Tc = 647.096  # critical temperature in K (IAPWS 2014)
 Pc = 22.064e6  # critical pressure in Pa (CRC Handbook & IAPWS)
+rhoc = 322    # critical density in kg/m^3 (CRC Handbook & IAPWS)
 
 # =========================== SOLUTE/IONS PROPERTIES =========================
 

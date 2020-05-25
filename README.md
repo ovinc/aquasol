@@ -15,6 +15,8 @@ Properties
 The *water* module has the following functions, which return the respective properties of interest as a function of temperature:
 - `vapor_pressure` for saturation vapor pressure of pure water (Pa),
 - `surface_tension` for surface tension of pure water (N/m).
+- `density_sat` for density on the liquid-vapor coexistence line (kg/m^3)
+- `density_atm` for density at ambient pressure 0.1 MPa (kg/m^3)
 
 The structure of the call for any property (replace *property* below by one of the function names above) is
 ```python
@@ -108,6 +110,7 @@ Sorted by alphabetical order.
 | NaCl   |    X     |    X    |        X        |      X      |
 
 (+) Solutes with no density data cannot use conversion to/from molarity ('c') but all other conversions work. They are noted with *x* instead of X.
+
 
 Constants
 =========

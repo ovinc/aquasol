@@ -51,7 +51,7 @@ In particular, the `default_source` must be defined, as well at the dictionaries
 
 - Go into the file/folder for the property in the directory **water.formulas** or **solutions.formulas** and open the *.py* file corresponding to that property and/or solute.
 
-- Add the formula as a function within that file, and update the `default_source` (if necessary), as well at the dictionaries mentioned in *Create a new property* above. Note that changing the source for solution densities will change the way molarities are calculated / converted.
+- Add the formula as a function within that file, and update the `default_source` (if necessary), as well at the dictionaries mentioned in *Create a new property* above. Note that changing the default source for solution densities will change the way molarities are calculated / converted.
 
 - Add the info on the source in **1)** the docstring of the formula *.py* file (detailed info), **2)** the docstring of the property's function in the **properties.py** file of the module (brief info), **3)** in adequate places in **README.md**.
 

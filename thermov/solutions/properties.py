@@ -95,7 +95,7 @@ def density(solute='NaCl', T=25, unit='C', relative=False, source=None, **concen
 
     Sources
     -------
-    NaCl: 'Simion' (default), 'Tang'
+    NaCl: 'Simion' (default), 'Tang', 'Al Ghafri'
 
     See details about the sources in the submodules.
 

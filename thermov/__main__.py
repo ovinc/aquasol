@@ -9,6 +9,7 @@ import numpy as np
 from .format import format_temperature, format_concentration
 
 from .water import vapor_pressure, surface_tension as sigma_w
+from .water import density_atm, density_sat
 from .water.general import get_infos as infos_water
 
 from .solutions import water_activity, surface_tension as sigma_s, density
