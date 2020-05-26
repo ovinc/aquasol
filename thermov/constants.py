@@ -7,10 +7,12 @@ CONTENTS
 General properties:
     - Na (float): Avogadro's constant
     - R (float): molar gas constant
+    - Patm (float): atmospheric pressure in Pa
 Water properties:
     - Mw (float): molar mass of water in kg / mol
     - Tc (float): critical temperature in K
-    - Pc (float): critical pressure in MPa
+    - Pc (float): critical pressure in Pa
+    - rhoc (float): critical density in kg / m^3
 Ion properties in dictionaries (keys : ion name, e.g. 'Cl')
     - weight_cations: molecular weight of cations in Daltons
     - weight_anions: molecular weight of anions in Daltons
@@ -39,6 +41,7 @@ IAPWS, London, September 1994.
 
 Na = 6.02214085774e23  # Avogadro's constant
 R = 8.314459848  # molar gas constant in J/(mol.K)
+Patm = 101325 # atmospheric pressure in Pa
 
 # ============================== WATER PROPERTIES ============================
 
@@ -49,7 +52,7 @@ rhoc = 322    # critical density in kg/m^3 (CRC Handbook & IAPWS)
 
 # =========================== SOLUTE/IONS PROPERTIES =========================
 
-solute_list = ['CaCl2', 'KCl', 'LiCl', 'NaCl']
+solute_list = ['CaCl2', 'KCl', 'LiCl', 'NaCl', 'Na2SO4']
 
 # Individual ion molecular weights in Daltons --------------------------------
 weight_cations = {'Ca': 40.078,
@@ -57,6 +60,7 @@ weight_cations = {'Ca': 40.078,
                   'Li': 6.94,
                   'Na': 22.99,
                   }
+    
 weight_anions = {'Br': 79.904,
                  'Cl': 35.453,
                  'SO3': 80.063,
@@ -68,6 +72,7 @@ dissociation_numbers = {'CaCl2': (1, 2),
                         'KCl': (1, 1),
                         'LiCl': (1, 1),
                         'NaCl': (1, 1),
+                        'Na2SO4': (2, 1)
                         }
 
 # Unit charges of cation and anion in the solute -----------------------------
@@ -75,6 +80,7 @@ charge_numbers = {'CaCl2': (2, 1),
                   'KCl': (1, 1),
                   'LiCl': (1, 1),
                   'NaCl': (1, 1),
+                  'Na2SO4': (1, 2)
                   }
 
 # Individual ions composing the molecule -------------------------------------
@@ -82,6 +88,7 @@ individual_ions = {'CaCl2': ('Ca', 'Cl'),
                    'KCl': ('K', 'Cl'),
                    'LiCl': ('Li', 'Cl'),
                    'NaCl': ('Na', 'Cl'),
+                   'Na2SO4': ('Na', 'SO4')
                    }
 
 # calculation of molar mass from the molecular weights -----------------------
