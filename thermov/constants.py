@@ -52,41 +52,53 @@ rhoc = 322    # critical density in kg/m^3 (CRC Handbook & IAPWS)
 
 # =========================== SOLUTE/IONS PROPERTIES =========================
 
-solute_list = ['CaCl2', 'KCl', 'LiCl', 'NaCl', 'Na2SO4']
+solute_list = ['AlCl3', 'CaCl2', 'KCl', 'KI', 'LiCl', 'MgCl2', 'NaCl', 'Na2SO4']
 
 # Individual ion molecular weights in Daltons --------------------------------
-weight_cations = {'Ca': 40.078,
+weight_cations = {'Al': 26.982,
+                  'Ca': 40.078,
                   'K': 39.098,
                   'Li': 6.94,
-                  'Na': 22.99,
+                  'Mg': 24.305,
+                  'Na': 22.99
                   }
     
 weight_anions = {'Br': 79.904,
                  'Cl': 35.453,
+                 'I': 126.904,
                  'SO3': 80.063,
                  'SO4': 96.063,
                  }
 
 # Number of ions per solute molecule after dissociation, for cation and anion
-dissociation_numbers = {'CaCl2': (1, 2),
+dissociation_numbers = {'AlCl3': (1, 3),
+                        'CaCl2': (1, 2),
                         'KCl': (1, 1),
+                        'KI': (1, 1),
                         'LiCl': (1, 1),
+                        'MgCl2': (1, 2),
                         'NaCl': (1, 1),
                         'Na2SO4': (2, 1)
                         }
 
 # Unit charges of cation and anion in the solute -----------------------------
-charge_numbers = {'CaCl2': (2, 1),
+charge_numbers = {'AlCl3': (3, 1),
+                  'CaCl2': (2, 1),
                   'KCl': (1, 1),
+                  'KI': (1, 1),
                   'LiCl': (1, 1),
+                  'MgCl2': (2, 1),
                   'NaCl': (1, 1),
                   'Na2SO4': (1, 2)
                   }
 
 # Individual ions composing the molecule -------------------------------------
-individual_ions = {'CaCl2': ('Ca', 'Cl'),
+individual_ions = {'AlCl3': ('Al', 'Cl'),
+                   'CaCl2': ('Ca', 'Cl'),
                    'KCl': ('K', 'Cl'),
+                   'KI': ('K', 'I'),
                    'LiCl': ('Li', 'Cl'),
+                   'MgCl2': ('Mg', 'Cl'),
                    'NaCl': ('Na', 'Cl'),
                    'Na2SO4': ('Na', 'SO4')
                    }
