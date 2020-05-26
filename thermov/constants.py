@@ -52,7 +52,7 @@ rhoc = 322    # critical density in kg/m^3 (CRC Handbook & IAPWS)
 
 # =========================== SOLUTE/IONS PROPERTIES =========================
 
-solute_list = ['AlCl3', 'CaCl2', 'KCl', 'KI', 'LiCl', 'MgCl2', 'NaCl', 'Na2SO4']
+solute_list = ['AlCl3', 'CaCl2', 'KCl', 'KI', 'LiCl', 'MgCl2', 'Na2SO4', 'NaCl']
 
 # Individual ion molecular weights in Daltons --------------------------------
 weight_cations = {'Al': 26.982,
@@ -77,8 +77,8 @@ dissociation_numbers = {'AlCl3': (1, 3),
                         'KI': (1, 1),
                         'LiCl': (1, 1),
                         'MgCl2': (1, 2),
-                        'NaCl': (1, 1),
-                        'Na2SO4': (2, 1)
+                        'Na2SO4': (2, 1),
+                        'NaCl': (1, 1)
                         }
 
 # Unit charges of cation and anion in the solute -----------------------------
@@ -88,8 +88,9 @@ charge_numbers = {'AlCl3': (3, 1),
                   'KI': (1, 1),
                   'LiCl': (1, 1),
                   'MgCl2': (2, 1),
+                  'Na2SO4': (1, 2),
                   'NaCl': (1, 1),
-                  'Na2SO4': (1, 2)
+                  
                   }
 
 # Individual ions composing the molecule -------------------------------------
@@ -99,8 +100,8 @@ individual_ions = {'AlCl3': ('Al', 'Cl'),
                    'KI': ('K', 'I'),
                    'LiCl': ('Li', 'Cl'),
                    'MgCl2': ('Mg', 'Cl'),
-                   'NaCl': ('Na', 'Cl'),
-                   'Na2SO4': ('Na', 'SO4')
+                   'Na2SO4': ('Na', 'SO4'),
+                   'NaCl': ('Na', 'Cl')
                    }
 
 # calculation of molar mass from the molecular weights -----------------------
