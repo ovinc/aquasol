@@ -104,9 +104,13 @@ Sorted by alphabetical order.
 
 | Solute | Activity | Density | Surface Tension | Convert (+) | 
 |:------:|:--------:|:-------:|:---------------:|:-----------:|
-| CaCl2  |    X     |         |        X        |     *x*     |
-| KCl    |          |         |                 |     *x*     |
+| AlCl3  |          |    X    |                 |      X      |
+| CaCl2  |    X     |    X    |        X        |      X      |
+| KCl    |          |    X    |                 |      X      |
+| KI     |          |    X    |                 |      X      |
 | LiCl   |    X     |         |        X        |     *x*     |
+| MgCl2  |          |    X    |                 |      X      |
+| Na2SO4 |    X     |         |                 |     *x*     |
 | NaCl   |    X     |    X    |        X        |      X      |
 
 (+) Solutes with no density data cannot use conversion to/from molarity ('c') but all other conversions work. They are noted with *x* instead of X.
