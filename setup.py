@@ -1,12 +1,14 @@
 from setuptools import setup, find_packages
-import thermov
+import aquasol
 
-with open("README.md", "r") as f:
-    long_description = f.read()
+# with open("README.md", "r") as f:  # Removed for now because of encoding issues
+    # long_description = f.read()
+
+long_description = 'see README.md'
 
 setup(
-        name='thermov',
-        version=thermov.__version__,
+        name='aquasol',
+        version=aquasol.__version__,
         author='Olivier Vincent',
         author_email='olivier.vincent@univ-lyon1.fr',
         url='https://cameleon.univ-lyon1.fr/ovincent/thermo-ov',

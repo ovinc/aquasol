@@ -19,7 +19,7 @@ International Journal of Thermal Sciences 43, 367–382 (2004).
 """
 
 from .misc import relative_rho_conde
-from thermov.water import density_atm
+from ....water import density_atm
 
 # General Info about the formulas
 

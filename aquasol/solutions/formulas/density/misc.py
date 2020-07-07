@@ -3,9 +3,9 @@
 import numpy as np
 import itertools
 
-from thermov.constants import Tc, Pc, rhoc
-from thermov.water import vapor_pressure
-from thermov.water import density_sat
+from ....constants import Tc, Pc, rhoc
+from ....water import vapor_pressure
+from ....water import density_sat
 
 
 def main():

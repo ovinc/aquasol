@@ -137,7 +137,8 @@ def plot_all_sources_conc(propty, solute, T, unit, ctype='m', relative=False, ax
         cmin, cmax = infos['conc ranges'][source]
         cunit = infos['conc units'][source]
 
-        cc_raw = np.linspace(cmin, cmax, npts)
+        # The 0.999... is to avoid rounding making data out of range
+        cc_raw = np.linspace(cmin, cmax*0.99999, npts)
 
         concentration = {cunit: cc_raw}
         cc = format_concentration(concentration, ctype, solute, convert)

@@ -4,8 +4,9 @@ General information
 This package computes useful thermodynamic quantities for water and aqueous solutions. Is is divided in two modules: **water** (properties of pure water) and **solutions** (properties of aqueous solutions), which provide various functions to calculate properties of interest. There is also a list of useful constants in the *constants.py* module.
 
 It is also possible to just see plots of the properties by running the package directly from a shell console with
-`python -m thermov`.
-
+```bash
+python -m aquasol
+```
 
 =====
 WATER
@@ -171,13 +172,6 @@ International Journal of Thermal Sciences 43, 367–382 (2004).
 (5) Simion, A. I., Grigoras, C., Rosu, A.-M. & Gavrilă, L. *Mathematical modelling of density and viscosity of NaCl aqueous solutions.* Journal of Agroalimentary Processing and Technologies 21, 41–52 (2015).
 
 (6) Dutcher, C. S., Wexler, A. S. & Clegg, S. L. *Surface Tensions of Inorganic Multicomponent Aqueous Electrolyte Solutions and Melts.* J. Phys. Chem. A 114, 12216–12230 (2010).
-
-
-
-
-
-
-
 
 
 Constants

@@ -7,9 +7,9 @@ density with temperature.
 import numpy as np
 import matplotlib.pyplot as plt
 
-from thermov.activity import a_w
-from thermov.density import density
-from thermov.vapor_pressure import psat
+from aquasol.activity import a_w
+from aquasol.density import density
+from aquasol.vapor_pressure import psat
 
 activity_plot = True
 activity_temperature = True #activity plot need to be True

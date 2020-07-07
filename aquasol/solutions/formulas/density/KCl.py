@@ -23,7 +23,7 @@ Journal of Chemical & Engineering Data 57, 1288-1304 (2012).
 import numpy as np
 
 from .misc import rho_alghafri
-from thermov.water import density_atm
+from ....water import density_atm
 
 # General Info about the formulas
 
