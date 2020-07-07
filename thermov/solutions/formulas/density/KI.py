@@ -27,7 +27,7 @@ from thermov.water import density_atm
 
 # General Info about the formulas
 
-default_source = 'Simion'
+default_source = 'Al Ghafri'
 
 concentration_types = {'Al Ghafri': 'm'
                        }
@@ -41,7 +41,9 @@ temperature_units = {'Al Ghafri': 'K'
 temperature_ranges = {'Al Ghafri': (298.15, 473.15)
                       }
 
+
 # ============================== FORMULAS ====================================
+
 
 def density_alghafri(m, T):
 
@@ -51,8 +53,8 @@ def density_alghafri(m, T):
     a[3, :] = [7340.083, -66939.345, 81446.737, 23983.386, -49031.473]
 
     b = np.zeros((2, 4))
-    b[0,:] = [-1622.4, 9383.8, -14893.8, 7309.10]
-    b[1,:] = [241.84, -1030.61, 1548.15, -754.36]
+    b[0, :] = [-1622.4, 9383.8, -14893.8, 7309.10]
+    b[1, :] = [241.84, -1030.61, 1548.15, -754.36]
 
     c = np.zeros(3)
     c[:] = [0.11725, -0.01026, 0.00842]
@@ -62,7 +64,9 @@ def density_alghafri(m, T):
 
     return rho0, rho
 
+
 # ========================== WRAP-UP OF FORMULAS =============================
+
 
 formulas = {'Al Ghafri': density_alghafri
             }

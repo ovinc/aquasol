@@ -1,4 +1,4 @@
-"""Gathers the formulas for the surface tension of LiCl solutions.
+"""Gathers the formulas for the surface tension of NaCl solutions.
 
 Note
 ----

@@ -26,12 +26,14 @@ concentration_unit = 'w'
 # ================================ WATER =====================================
 
 
-fig_w, (ax_w_psat, ax_w_sigma) = plt.subplots(1, 2)
+fig_w, (ax_w_psat, ax_w_sigma, ax_w_rho) = plt.subplots(1, 3)
 
 fig_w.suptitle('Water')
 
-functions = {'vapor pressure': vapor_pressure,
-             'surface tension': sigma_w}
+functions = {'vapor pressure': vapor_pressure,  # names have to match general.py
+             'surface tension': sigma_w,
+             'density saturated': density_sat,
+             'density ambient': density_atm}
 
 
 # General plotting functions -------------------------------------------------
@@ -78,6 +80,20 @@ plot_all_sources('surface tension', ax_w_sigma, 1e3)
 
 ax_w_sigma.set_xlabel(f'T ({temperature_unit})')
 ax_w_sigma.set_ylabel(f'Surf. Tension (mN / m)')
+
+# Density (saturated) --------------------------------------------------------
+
+plot_all_sources('density saturated', ax_w_rho)
+
+ax_w_rho.set_xlabel(f'T ({temperature_unit})')
+ax_w_rho.set_ylabel(f'Density (kg / m^3)')
+
+# Density (ambient) ----------------------------------------------------------
+
+plot_all_sources('density ambient', ax_w_rho)
+
+ax_w_rho.set_xlabel(f'T ({temperature_unit})')
+ax_w_rho.set_ylabel(f'Density (kg / m^3)')
 
 
 # ============================== SOLUTIONS ===================================
@@ -140,7 +156,7 @@ def plot_all_sources_conc(propty, solute, T, unit, ctype='m', relative=False, ax
 
 # Activity -------------------------------------------------------------------
 
-solutes = ['NaCl', 'LiCl', 'CaCl2']
+solutes = ['NaCl', 'LiCl', 'CaCl2', 'Na2SO4']
 
 for solute in solutes:
     plot_all_sources_conc('water activity', solute, 25, 'C',
@@ -152,7 +168,7 @@ ax_s_act.set_ylabel(f'a_w')
 
 # Surface tension ------------------------------------------------------------
 
-solutes = ['NaCl', 'LiCl', 'CaCl2']
+solutes = ['NaCl', 'LiCl', 'CaCl2', 'KCl', 'Na2SO4', 'MgCl2']
 
 for solute in solutes:
     plot_all_sources_conc('surface tension', solute, 25, 'C', norm=1e3,
@@ -164,7 +180,7 @@ ax_s_surf.set_ylabel(f'surface tension (mN/m)')
 
 # Density --------------------------------------------------------------------
 
-solutes = ['NaCl']
+solutes = ['NaCl', 'AlCl3', 'CaCl2', 'KCl', 'KI', 'LiCl', 'MgCl2']
 
 for solute in solutes:
     plot_all_sources_conc('density', solute, 25, 'C', norm=1e-3,
@@ -180,5 +196,3 @@ ax_s_dens.set_ylabel(f'density (kg/m^3)')
 fig_w.tight_layout()
 
 plt.show()
-
-

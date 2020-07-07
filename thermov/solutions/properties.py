@@ -11,7 +11,6 @@ NOTE: when modifying density, make sure to also change basic_density in convert.
 # TODO: other temperatures than 25°C
 
 
-
 from .general import calculation
 from .convert import convert as converter
 
@@ -42,11 +41,13 @@ def water_activity(solute='NaCl', T=25, unit='C', source=None, **concentration):
     ------
     - Water activity (range 0-1)
 
-    Sources
-    -------
-    NaCl: 'Clegg' (default)
-    LiCl: 'Conde'
-    CaCl2: 'Conde'
+    Solutes and Sources
+    -------------------
+    CaCl2: 'Conde' (default)
+    LiCl: 'Conde' (default)
+    Na2SO4: 'Clegg' (default)
+    NaCl (default solute): 'Clegg' (default)
+
     See details about the sources in the submodules.
 
     Examples
@@ -93,9 +94,15 @@ def density(solute='NaCl', T=25, unit='C', relative=False, source=None, **concen
     ------
     - density (kg/m^3) or relative density (dimensionless) if relative is True
 
-    Sources
-    -------
-    NaCl: 'Simion' (default), 'Tang', 'Al Ghafri'
+    Solutes and Sources
+    -------------------
+    AlCl3: 'Al Ghafri' (default)
+    CaCl2: 'Conde' (default), 'Al Ghafri'
+    KCl: 'Al Ghafri' (default)
+    KI: 'Al Ghafri' (default)
+    LiCl: 'Conde' (default)
+    MgCl2: 'Al Ghafri' (default)
+    NaCl (default solute): 'Simion' (default), 'Tang', 'Al Ghafri'
 
     See details about the sources in the submodules.
 
@@ -147,11 +154,15 @@ def surface_tension(solute='NaCl', T=25, unit='C', relative=False, source=None, 
     ------
     - sigma (float): surface tension (absolute in N/m or relative).
 
-    Sources
-    -------
-    NaCl: 'Dutcher' (default)
+    Solutes and Sources
+    -------------------
     CaCl2: 'Dutcher' (default), 'Conde'
+    KCl: 'Dutcher' (default)
     LiCl: 'Conde' (default)
+    MgCl2: 'Dutcher' (default)
+    Na2SO4: 'Dutcher' (default)
+    NaCl (default solute): 'Dutcher' (default)
+
     See details about the sources in the submodules.
 
     Examples

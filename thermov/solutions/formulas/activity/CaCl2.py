@@ -12,10 +12,13 @@ file.
 
 Sources
 -------
-Conde, M. R., Properties of aqueous solutions of lithium and calcium
+- Conde, M. R., Properties of aqueous solutions of lithium and calcium
 chlorides: formulations for use in air conditioning equipment design.
 International Journal of Thermal Sciences 43, 367–382 (2004).
 """
+
+# TODO: add Dutcher (it has supersaturated values!)
+
 
 from .misc import aw_conde
 

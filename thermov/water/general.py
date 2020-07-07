@@ -14,7 +14,6 @@ property_modules = {'vapor pressure': base + 'vapor_pressure',
                     'density ambient': base + 'density_atm'}
 
 
-
 def get_infos(propty):
     """Get various informations on sources for a particular property.
 

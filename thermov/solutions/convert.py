@@ -28,6 +28,7 @@ from .general import calculation
 add_units = ['c']
 allowed_units = basic_units + add_units
 
+
 def convert(value, unit1, unit2, solute='NaCl', T=25, unit='C'):
     """Convert between different concentration units for solutions.
 
@@ -133,12 +134,14 @@ def basic_density(solute, T=25, unit='C', **concentration):
 
 # ============================= MOLARITY FUNCTIONS ===========================
 
+
 def w_to_molarity(w, solute, T=25, unit='C'):
     """Calculate molarity of solute from weight fraction at temperature T in °C"""
     check_solute(solute, solute_list)
     M = molar_mass(solute)
     rho = basic_density(solute=solute, T=T, unit=unit, w=w)
     return rho * w / M
+
 
 def molarity_to_w(c, solute, T=25, unit='C'):
     """Calculate weight fraction of solute from molarity at temperature T in °C.
@@ -229,5 +232,3 @@ def ionic_strength(solute, **concentration):
     y1, y2 = ion_quantities(solute, **concentration)
     I_strength = 0.5 * (y1 * z1 ** 2 + y2 * z2 ** 2)
     return I_strength
-
-

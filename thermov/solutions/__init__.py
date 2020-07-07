@@ -4,6 +4,7 @@
 # TODO: add saturation concentration of different solutes
 # TODO: add solute activity
 # TODO: add partial molar volumes
+# TODO: inverse transformation from activity to concentration
 
 
 from .properties import density, water_activity, surface_tension

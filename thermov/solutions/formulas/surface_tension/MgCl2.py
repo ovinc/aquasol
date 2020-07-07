@@ -1,4 +1,4 @@
-"""Gathers the formulas for the surface tension of CaCl2 solutions.
+"""Gathers the formulas for the surface tension of MgCl2 solutions.
 
 Note
 ----
@@ -12,63 +12,39 @@ file.
 
 Sources
 -------
-- Conde, M. R., Properties of aqueous solutions of lithium and calcium
-chlorides: formulations for use in air conditioning equipment design.
-International Journal of Thermal Sciences 43, 367–382 (2004).
-
 - Dutcher: Dutcher, C. S., Wexler, A. S. & Clegg, S. L. Surface Tensions of
 Inorganic Multicomponent Aqueous Electrolyte Solutions and Melts.
 J. Phys. Chem. A 114, 12216–12230 (2010).
 """
 
-
-from .misc import sigma_conde, sigma_dutcher, sigma_iapws
+from .misc import sigma_dutcher, sigma_iapws
 
 
 # ============================ GENERAL INFO ==================================
 
 default_source = 'Dutcher'
 
-concentration_types = {'Conde': 'w',
-                       'Dutcher': 'x'}
+concentration_types = {'Dutcher': 'x'}
 
-concentration_ranges = {'Conde': (0, 0.45),
-                        'Dutcher': (0, 0.117)}
+concentration_ranges = {'Dutcher': (0, 0.0944)}
 
-temperature_units = {'Conde': 'C',
-                     'Dutcher': 'K'}
+temperature_units = {'Dutcher': 'K'}
 
-temperature_ranges = {'Conde': (0, 100),
-                      'Dutcher': (243.15, 373.15)}
+temperature_ranges = {'Dutcher': (283.15, 343.15)}
 
 
 # ============================== FORMULAS ====================================
-
-def surface_tension_conde(w, T):
-    """Surface tension from Conde2004. Input: weight fraction, T in K."""
-
-    T = T + 273.15
-
-    # Surface tension of pure water
-    sigma_w = sigma_iapws(T)
-
-    # Surface tension of the solution
-    coeffs = [2.33067, -10.78779, 13.56611, 1.95017, -1.77990]
-    sigma = sigma_conde(w, T, coeffs)
-
-    return sigma_w, sigma
-
 
 def surface_tension_dutcher(x, T):
     """Surface tension calculated from Dutcher 2010.
     Input: mole fraction x, temperature T in K."""
 
     # Coefficients (Table 3)
-    c1 = 195.67     # note - other values possible: (189, -0.03952)
-    c2 = -0.04541
+    c1 = 65.343
+    c2 = -0.003073
     # Coefficients (Table 5)
-    aws = -19.766
-    bws = 0.575
+    aws = 1069.9
+    bws = -2.86
     asw = 0
     bsw = 0
 
@@ -83,9 +59,7 @@ def surface_tension_dutcher(x, T):
 
 # ========================== WRAP-UP OF FORMULAS =============================
 
-formulas = {'Conde': surface_tension_conde,
-            'Dutcher': surface_tension_dutcher,
+formulas = {'Dutcher': surface_tension_dutcher,
             }
 
 sources = [source for source in formulas]
-

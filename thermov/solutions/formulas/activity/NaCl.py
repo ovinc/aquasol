@@ -17,6 +17,8 @@ Supersaturation: II" (1997). Valid at 25°C and for solutions of molality
 up to ~17 mol/kg (x ~ 0.23)
 """
 
+# TODO: add Dutcher (it has supersaturated values!)
+
 import numpy as np
 
 from ....constants import charge_numbers

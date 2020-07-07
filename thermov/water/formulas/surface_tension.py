@@ -17,6 +17,7 @@ temperature_units = {'IAPWS': 'K'}
 
 temperature_ranges = {'IAPWS': (248.15, Tc)}   # Here I have included the extrapolated range
 
+
 def sigma_iapws(T):
     """Formula of surface tension according to IAPWS.
 
@@ -30,8 +31,8 @@ def sigma_iapws(T):
 
     Reference
     ---------
-    IAPWS, Release on Surface Tension of Ordinary Water Substance,
-    IAPWS, London, September 1994.
+    IAPWS, Revised Release on Surface Tension of Ordinary Water Substance,
+    IAPWS, Moscow, Russia, June 2014.
 
     Notes
     -----
@@ -56,4 +57,3 @@ def sigma_iapws(T):
 formulas = {'IAPWS': sigma_iapws}
 
 sources = [source for source in formulas]
-

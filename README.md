@@ -34,6 +34,27 @@ data = property(T=25, unit='C', source=None)
 
 *See docstrings for more details.*
 
+
+Sources
+-------
+
+Below are the sources for water vapor pressure (1, 2, 3), density (1, 4, 5), surface tension (6).
+
+(1) Wagner, W. & Pruß, A. *The IAPWS Formulation 1995 for the Thermodynamic Properties of Ordinary Water Substance for General and Scientific Use.* Journal of Physical and Chemical Reference Data 31, 387–535 (2002).
+
+(2) Wexler, A. & Greenspan, L. *Vapor Pressure Equation for Water in the Range 0 to 100°C.* Journal of Research of the National Bureau of Standards - A. Physics and Chemistry 75A, 213–245 (1971).
+
+(3) Bridgeman, O. C. & Aldrich, E. W. *Vapor Pressure Tables for Water.* Journal of Heat Transfer 86, 279–286 (1964).
+
+(4) Pátek, J., Hrubý, J., Klomfar, J., Součková, M. & Harvey, A. H. *Reference Correlations for Thermophysical Properties of Liquid Water at 0.1MPa.* Journal of Physical and Chemical Reference Data 38, 21–29 (2009).*
+
+(5) Kell, G. S. Density, thermal expansivity, and compressibility of liquid water from 0.deg. to 150.deg.. *Correlations and tables for atmospheric pressure and saturation reviewed and expressed on 1968 temperature scale.* J. Chem. Eng. Data 20, 97–105 (1975).
+
+(6) IAPWS *Revised Release on Surface Tension of Ordinary Water Substance.* Moscow, Russia, June 2014.
+
+* recommended by IAPWS.
+
+
 Solutions
 =========
 
@@ -100,20 +121,43 @@ which calculate quantities of individual ions within the solution instead of con
 Available Solutes
 -----------------
 
-Sorted by alphabetical order.
+Sorted by alphabetical order. When available, the sources are written in parentheses. For convert, an X means available.
 
-| Solute | Activity | Density | Surface Tension | Convert (+) | 
+| Solute | Activity | Density | Surface Tension | Convert (*) | 
 |:------:|:--------:|:-------:|:---------------:|:-----------:|
-| AlCl3  |          |    X    |                 |      X      |
-| CaCl2  |    X     |    X    |        X        |      X      |
-| KCl    |          |    X    |                 |      X      |
-| KI     |          |    X    |                 |      X      |
-| LiCl   |    X     |         |        X        |     *x*     |
-| MgCl2  |          |    X    |                 |      X      |
-| Na2SO4 |    X     |         |                 |     *x*     |
-| NaCl   |    X     |    X    |        X        |      X      |
+| AlCl3  |          |   (3)   |                 |      X      |
+| CaCl2  |   (1)    |  (1,3)  |      (1,6)      |      X      |
+| KCl    |          |   (3)   |       (6)       |      X      |
+| KI     |          |   (3)   |                 |      X      |
+| LiCl   |   (1)    |   (1)   |       (1)       |      X      |
+| MgCl2  |          |   (3)   |       (6)       |      X      |
+| Na2SO4 |   (2)    |         |       (6)       |      -      |
+| NaCl   |   (2)    | (1,4,5) |       (6)       |      X      |
 
-(+) Solutes with no density data cannot use conversion to/from molarity ('c') but all other conversions work. They are noted with *x* instead of X.
+(*) Solutes with no density data cannot use conversion to/from molarity ('c') but all other conversions work. They are noted with - instead of X.
+
+Sources
+-------
+
+(1) Conde, M. R., *Properties of aqueous solutions of lithium and calcium chlorides: formulations for use in air conditioning equipment design.*
+International Journal of Thermal Sciences 43, 367–382 (2004).
+
+(2) Clegg, S. L., Brimblecombe, P., Liang, Z. & Chan, C. K., *Thermodynamic Properties of Aqueous Aerosols to High Supersaturation: II — A Model of the System Na+ Cl− NO3- SO42- H2O at 298.15 K.* Aerosol Science and Technology 27, 345–366 (1997).
+
+(3) Al Ghafri, S., Maitland, G. C. & Trusler, J. P. M., *Densities of Aqueous MgCl 2 (aq), CaCl 2 (aq), KI(aq), NaCl(aq), KCl(aq), AlCl 3 (aq), and (0.964 NaCl + 0.136 KCl)(aq) at Temperatures Between (283 and 472) K, Pressures up to 68.5 MPa, and Molalities up to 6 mol·kg –1.* Journal of Chemical & Engineering Data 57, 1288–1304 (2012).
+
+(4) Tang, I. N., *Chemical and size effects of hygroscopic aerosols on light scattering coefficients.* Journal of Geophysical Research: Atmospheres 101, 19245–19250 (1996).
+
+(5) Simion, A. I., Grigoras, C., Rosu, A.-M. & Gavrilă, L. *Mathematical modelling of density and viscosity of NaCl aqueous solutions.* Journal of Agroalimentary Processing and Technologies 21, 41–52 (2015).
+
+(6) Dutcher, C. S., Wexler, A. S. & Clegg, S. L. *Surface Tensions of Inorganic Multicomponent Aqueous Electrolyte Solutions and Melts.* J. Phys. Chem. A 114, 12216–12230 (2010).
+
+
+
+
+
+
+
 
 
 Constants

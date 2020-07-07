@@ -84,7 +84,8 @@ def density_sat(T=25, unit='C', source=None):
 
     Sources
     -------
-    'IAPWS' (default)
+    'Wagner' (default)
+
     (see submodules for details).
 
     Examples
@@ -115,7 +116,8 @@ def density_atm(T=25, unit='C', source=None):
 
     Sources
     -------
-    'Kell' (default)
+    'Patek' (default), Kell
+
     (see submodules for details).
 
     Examples
@@ -128,5 +130,3 @@ def density_atm(T=25, unit='C', source=None):
     """
 
     return calculation('density ambient', source, (T, unit))
-
-

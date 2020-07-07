@@ -34,8 +34,6 @@ In particular, the `default_source` must be defined, as well at the dictionaries
 
 - Add a function calculating the property in the file. It must have the same inputs and outputs as functions of other solutes of the same property. Do not hesitate to write functions common to several solutes in a *misc.py* file, and call it from the solute file.
 
-- **If the property is density**, also modify the function `basic_density` accordingly in **convert.py** (see *Structure of code* below for an explanation of why there are two density functions).
-
 - If the solute is not listed in the **constants.py** file, add it in the *solute_list* and add its data in relevant dictionaries in the file.
 
 - In **README.md**, add a cross in the adequate spot in the *Available Solutes* table.

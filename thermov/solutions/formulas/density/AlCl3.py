@@ -41,7 +41,9 @@ temperature_units = {'Al Ghafri': 'K'
 temperature_ranges = {'Al Ghafri': (298.15, 473.15)
                       }
 
+
 # ============================== FORMULAS ====================================
+
 
 def density_alghafri(m, T):
 
@@ -51,8 +53,8 @@ def density_alghafri(m, T):
     a[3, :] = [727.779, -218520.857, 312961.409, 0, 0]
 
     b = np.zeros((2, 4))
-    b[0,:] = [-1622.4, 9383.8, -14893.8, 7309.10]
-    b[1,:] = [0, 0, 0, 0]
+    b[0, :] = [-1622.4, 9383.8, -14893.8, 7309.10]
+    b[1, :] = [0, 0, 0, 0]
 
     c = np.zeros(3)
     c[:] = [0.11725, -0.04236, 0.01319]
@@ -62,7 +64,9 @@ def density_alghafri(m, T):
 
     return rho0, rho
 
+
 # ========================== WRAP-UP OF FORMULAS =============================
+
 
 formulas = {'Al Ghafri': density_alghafri
             }

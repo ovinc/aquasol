@@ -41,7 +41,7 @@ IAPWS, London, September 1994.
 
 Na = 6.02214085774e23  # Avogadro's constant
 R = 8.314459848  # molar gas constant in J/(mol.K)
-Patm = 101325 # atmospheric pressure in Pa
+Patm = 101325  # atmospheric pressure in Pa
 
 # ============================== WATER PROPERTIES ============================
 
@@ -62,7 +62,7 @@ weight_cations = {'Al': 26.982,
                   'Mg': 24.305,
                   'Na': 22.99
                   }
-    
+
 weight_anions = {'Br': 79.904,
                  'Cl': 35.453,
                  'I': 126.904,
@@ -90,7 +90,7 @@ charge_numbers = {'AlCl3': (3, 1),
                   'MgCl2': (2, 1),
                   'Na2SO4': (1, 2),
                   'NaCl': (1, 1),
-                  
+
                   }
 
 # Individual ions composing the molecule -------------------------------------
@@ -105,6 +105,8 @@ individual_ions = {'AlCl3': ('Al', 'Cl'),
                    }
 
 # calculation of molar mass from the molecular weights -----------------------
+
+
 def molar_mass(solute):
     """Return molar mass of solute compound in kg / mol."""
     try:
@@ -117,10 +119,3 @@ def molar_mass(solute):
     mtot = nu1 * m1 + nu2 * m2
 
     return mtot * 1e-3
-
-
-
-
-
-
-

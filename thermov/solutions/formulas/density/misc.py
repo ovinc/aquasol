@@ -102,5 +102,20 @@ def rho_alghafri(m, T, P, a, b, c):
     return rho
 
 
+def relative_rho_conde(z, coeffs):
+    """Relative Density of LiCl and CaCl2 according to Conde 2004.
+
+    - z is mass fraction (w / (1 - w))
+    - T is temperature in K
+    - coeffs are the rho_i coefficients of table 4
+    """
+
+    d = 0
+    for i, c in enumerate(coeffs):
+        d += c * z**i
+
+    return d
+
+
 if __name__ == '__main__':
     main()

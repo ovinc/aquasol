@@ -36,7 +36,7 @@ temperature_ranges = {'Clegg': (25, 25)}
 # ============================== FORMULAS ====================================
 
 def water_activity_clegg(x, T):
- 
+
     coeffs = 2.915, 48.56028, 8.0, 5.555706, 21.88352, -22.81674
 
     a1 = aw_clegg(x, T, 'Na2SO4', coeffs)
