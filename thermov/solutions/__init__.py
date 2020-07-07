@@ -8,4 +8,4 @@
 
 
 from .properties import density, water_activity, surface_tension
-from .convert import convert, ionic_strength, ion_quantities
+from .convert import convert, ionic_strength, ion_quantities, aw_to_conc

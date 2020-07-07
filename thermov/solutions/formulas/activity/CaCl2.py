@@ -28,7 +28,8 @@ default_source = 'Conde'
 
 concentration_types = {'Conde': 'w'}
 
-concentration_ranges = {'Conde': (0, 0.6)}   # Approximative, actually depends on temperature
+# Approximative, actually depends on temperature. Conde not defined in w=0 ...
+concentration_ranges = {'Conde': (0.0001, 0.6)}
 
 temperature_units = {'Conde': 'C'}
 

@@ -14,16 +14,16 @@ def aw_conde(w, T, coeffs):
     ------
     w: weight fraction of salt
     T: temperature in K
-    coeffs: coefficients sigma_i from Table 6
-    coeffs_table5: tuple or list of coefficients aws, bws, asw, bsw (table 5)
+    coeffs: coeffs pi_i from Table 3
 
     Outputs
     -------
-    Surface tension of solution, N/m
+    Water activity of solution (dimensionless)
 
     Notes
     -----
-    Ranges of validity for temperature and concentration are given in Table 2.
+    The expression does not tend to 1 at 0 concentration and is not defined
+    for w=0 !!
 
     Reference
     ---------
@@ -44,6 +44,7 @@ def aw_conde(w, T, coeffs):
 
     return f * pi25
 
+
 def aw_clegg(x, T, solute, coeffs):
 
     x_ion1, x_ion2 = ion_quantities(solute, x=x)
@@ -54,7 +55,7 @@ def aw_clegg(x, T, solute, coeffs):
     Ix = ionic_strength(solute, x=x)  # ionic strength
 
     rho = 13.0
-    
+
     A_x, B, alpha, W1, U1, V1 = coeffs
 
     val = 2 * A_x * Ix**(3 / 2) / (1 + rho * Ix**(1 / 2))  # 1st line

@@ -6,7 +6,9 @@ This package computes useful thermodynamic quantities for water and aqueous solu
 It is also possible to just see plots of the properties by running the package directly from a shell console with
 `python -m thermov`.
 
-Water
+
+=====
+WATER
 =====
 
 Properties
@@ -55,7 +57,8 @@ Below are the sources for water vapor pressure (1, 2, 3), density (1, 4, 5), sur
 * recommended by IAPWS.
 
 
-Solutions
+=========
+SOLUTIONS
 =========
 
 Properties
@@ -87,6 +90,23 @@ gets the default source for the particular solute (defined in submodules).
 - Property in SI units, returned as numpy array if input is not a scalar.
 
 Note: similarly to temperature, the values in `**concentration` can be an array, list or tuple, however if it's the case, temperature needs to be a scalar.
+
+Inverse property functions
+--------------------------
+
+The `aw_to_conc` calculates what concentration of solute is necessary to reach a specific water activity:
+```python
+aw_to_conc(a, out='w', solute='NaCl', T=25, unit='C', source=None):
+```
+For example:
+```python
+aw_to_conc(0.39)
+>>> 0.4902761745068064  # in terms of weight fraction
+aw_to_conc([0.39, 0.75], out='m')
+>>> array([16.45785963,  6.21127029])  # in terms of molality
+aw_to_conc(0.11, 'mass_ratio', 'LiCl', T=50)
+>>> 0.9167650291014361  # in terms of mass ratio, for LiCl, at 50°C
+```
 
 Other functions
 ---------------

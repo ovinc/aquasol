@@ -17,6 +17,9 @@ chlorides: formulations for use in air conditioning equipment design.
 International Journal of Thermal Sciences 43, 367–382 (2004).
 """
 
+# TODO: add Gibbard 1973 and/or Patil 1990? (maybe do not have as many
+# problems as Conde near w = 0)
+
 from .misc import aw_conde
 
 # General Info about the formulas
@@ -25,7 +28,8 @@ default_source = 'Conde'
 
 concentration_types = {'Conde': 'w'}
 
-concentration_ranges = {'Conde': (0, 0.55)}   # Approximative, actually depends on temperature
+# Approximative, actually depends on temperature. Conde not defined in w=0 ...
+concentration_ranges = {'Conde': (0.00001, 0.55)}
 
 temperature_units = {'Conde': 'C'}
 
