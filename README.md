@@ -8,7 +8,7 @@ It is also possible to just see plots of the properties by running the package d
 python -m aquasol
 ```
 
-=====
+
 WATER
 =====
 
@@ -58,7 +58,6 @@ Below are the sources for water vapor pressure (1, 2, 3), density (1, 4, 5), sur
 * recommended by IAPWS.
 
 
-=========
 SOLUTIONS
 =========
 
@@ -146,7 +145,6 @@ Sorted by alphabetical order. When available, the sources are written in parenth
 
 | Solute | Activity | Density | Surface Tension | Convert (*) | 
 |:------:|:--------:|:-------:|:---------------:|:-----------:|
-| AlCl3  |          |   (3)   |                 |      X      |
 | CaCl2  |   (1)    |  (1,3)  |      (1,6)      |      X      |
 | KCl    |          |   (3)   |       (6)       |      X      |
 | KI     |          |   (3)   |                 |      X      |

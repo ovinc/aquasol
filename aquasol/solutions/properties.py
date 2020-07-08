@@ -96,7 +96,6 @@ def density(solute='NaCl', T=25, unit='C', relative=False, source=None, **concen
 
     Solutes and Sources
     -------------------
-    AlCl3: 'Al Ghafri' (default)
     CaCl2: 'Conde' (default), 'Al Ghafri'
     KCl: 'Al Ghafri' (default)
     KI: 'Al Ghafri' (default)
