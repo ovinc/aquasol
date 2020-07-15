@@ -3,8 +3,6 @@
 NOTE: when modifying density, make sure to also change basic_density in convert.
 """
 
-# TODO: add other salts (LiCl as priority, then KCl, CaCl2, Na2S04)
-# TODO: add densities expressions from Al Ghafri
 # TODO: add densities expression of Clegg & Wexler 2011 (eq. 24)
 # TODO: add expression of Pitzer 1982 (source of CRC Handbook)
 # TODO: write more comprehensive examples

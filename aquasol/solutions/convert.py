@@ -17,14 +17,14 @@ from pynverse import inversefunc
 from ..constants import solute_list
 from ..constants import molar_mass, dissociation_numbers, charge_numbers
 
-from ..check import check_solute, check_units, check_validity_range
-from ..format import format_type, format_source, format_temperature
+from ..check import check_solute, check_units
+from ..format import format_type
 from ..format import format_inverse_result
 
 from .formulas.basic_conversions import basic_convert
 from .formulas.basic_conversions import allowed_units as basic_units
 
-from .general import calculation, get_infos
+from .general import calculation
 
 
 # =========================== MAIN CONVERT FUNCTION ==========================
@@ -234,55 +234,3 @@ def ionic_strength(solute, **concentration):
     I_strength = 0.5 * (y1 * z1 ** 2 + y2 * z2 ** 2)
     return I_strength
 
-
-# ======================== ACTIVITY TO CONCENTRATION =========================
-
-def aw_to_conc(a, out='w', solute='NaCl', T=25, unit='C', source=None):
-    """Calculate concentration needed to achieve a certain water activity.
-
-    - a is the water activity,
-    - out: any concentration unit manageable by convert()
-    - solute (default NaCl) is the solute of interest
-    - T: temperature
-    - unit: temperature unit ('C' or 'K')
-    - source: if None, use default source.
-
-    Note: part of the structure of this function resembles that of
-    general.calculation(), so see if there is a way to avoid redundancy
-    """
-
-    # Find infos on souces for the property of interest
-    infos = get_infos('water activity', solute)
-
-    # Set adequate source (default, or asked by user)
-    src = format_source(source, infos['sources'], infos['default source'])
-
-    # Check and format temperature -------------------------------------------
-    tunit = infos['temp units'][src]
-    trange = infos['temp ranges'][src]
-
-    T = format_temperature(T, unit, tunit)
-    check_validity_range(T, trange, 'temperature', tunit, src)
-
-    # Check and format concentration -----------------------------------------
-
-    cunit = infos['conc units'][src]
-    cmin, cmax = infos['conc ranges'][src]
-
-    # define function to invert ----------------------------------------------
-
-    formula = infos['formulas'][src]
-
-    def activity(conc):
-        return formula(conc, T)
-
-    concentration = inversefunc(activity, domain=[cmin, cmax])
-
-    try:
-        conc = concentration(a)
-    except ValueError:
-        print(f"{a} outside of range of validity of {src}'s' formula")
-        return None
-    else:
-        c = convert(conc, cunit, out, solute, T, tunit)
-        return format_inverse_result(c)

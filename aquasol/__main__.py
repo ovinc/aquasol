@@ -3,9 +3,11 @@
 # TODO: plot solution properties as a function of temperature
 
 
+# General imports (non-standard)
 import matplotlib.pyplot as plt
 import numpy as np
 
+# Local imports
 from .format import format_temperature, format_concentration
 
 from .water import vapor_pressure, surface_tension as sigma_w

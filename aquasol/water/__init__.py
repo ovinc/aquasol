@@ -7,4 +7,4 @@ from .properties import surface_tension
 from .properties import density_sat
 from .properties import density_atm
 
-from .convert import dewpoint
+from .invert import dewpoint
