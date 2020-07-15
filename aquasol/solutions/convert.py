@@ -7,15 +7,19 @@ ionic strength expressed as molar fraction is used in Clegg et al. AST, 1997
 ionic strength expressed as molality is more common, e.g. Pitzer 1973
 """
 
-
+# Standard Library
 import warnings
+
+# Non-standard imports
 from pynverse import inversefunc
 
+# Local imports
 from ..constants import solute_list
 from ..constants import molar_mass, dissociation_numbers, charge_numbers
 
 from ..check import check_solute, check_units, check_validity_range
 from ..format import format_type, format_source, format_temperature
+from ..format import format_inverse_result
 
 from .formulas.basic_conversions import basic_convert
 from .formulas.basic_conversions import allowed_units as basic_units
@@ -165,10 +169,7 @@ def molarity_to_w(c, solute, T=25, unit='C'):
     # applying the value found for w
     _ = basic_density(solute=solute, T=T, unit=unit, w=w)
 
-    if len(w.shape) == 0:  # this is to return a scalar if a scalar is used as input
-        return w.item()
-    else:
-        return w
+    return format_inverse_result(w)
 
 
 # ========================== INDIVIDUAL ION QUANTITIES =======================
@@ -282,10 +283,6 @@ def aw_to_conc(a, out='w', solute='NaCl', T=25, unit='C', source=None):
     except ValueError:
         print(f"{a} outside of range of validity of {src}'s' formula")
         return None
-
-    c = convert(conc, cunit, out, solute, T, tunit)
-
-    if len(c.shape) == 0:  # this is to return a scalar if a scalar is used as input
-        return c.item()
     else:
-        return c
+        c = convert(conc, cunit, out, solute, T, tunit)
+        return format_inverse_result(c)

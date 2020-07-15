@@ -23,6 +23,7 @@ The *water* module has the following functions, which return the respective prop
 
 The structure of the call for any property (replace *property* below by one of the function names above) is
 ```python
+from aquasol.water import property
 data = property(T=25, unit='C', source=None)
 ```
 *Inputs*
@@ -36,6 +37,26 @@ data = property(T=25, unit='C', source=None)
 - Property in SI units, returned as numpy array if input is not a scalar.
 
 *See docstrings for more details.*
+
+
+Inverse property functions
+--------------------------
+
+Based on the functions above, some inverse properties are also provided.
+
+```python
+from aquasol.water import dewpoint
+dewpoint(p=1000)  # Dew point of a vapor at 1kPa at 25°C
+>>> 6.970479537504328
+dewpoint(rh=50)  # Dew point at 50%RH and 25°C
+>>> 13.864985413550704
+dewpoint(aw=0.5)  # same thing
+>>> 13.864985413550704
+dewpoint(20, aw=0.5)  # same thing, but at 20°C
+>>> 9.273546905501904
+dewpoint(300, 'K', aw=0.5)  # same thing, but at 300K (dewpoint also in K)
+>>> 288.71154892380787
+```
 
 
 Sources
