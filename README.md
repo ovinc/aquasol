@@ -216,8 +216,7 @@ For example, the two following imports are equivalent:
 ```python
 from aquasol import aw
 from aquasol.solutions import water_activity as aw
-``
-
+```
 
 Misc. info
 ==========
