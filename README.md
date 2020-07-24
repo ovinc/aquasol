@@ -76,7 +76,7 @@ Below are the sources for water vapor pressure (1, 2, 3), density (1, 4, 5), sur
 
 (6) IAPWS *Revised Release on Surface Tension of Ordinary Water Substance.* Moscow, Russia, June 2014.
 
-* recommended by IAPWS.
+(*) recommended by IAPWS.
 
 
 SOLUTIONS
@@ -125,7 +125,7 @@ aw_to_conc(0.39)
 >>> 0.4902761745068064  # in terms of weight fraction
 aw_to_conc([0.39, 0.75], out='m')
 >>> array([16.45785963,  6.21127029])  # in terms of molality
-aw_to_conc(0.11, 'mass_ratio', 'LiCl', T=50)
+aw_to_conc(0.11, 'r', 'LiCl', T=50)
 >>> 0.9167650291014361  # in terms of mass ratio, for LiCl, at 50°C
 ```
 
@@ -141,9 +141,9 @@ where unit_in and unit_out can be in the following list:
 - *'c'* (molarity, mol/m^3)
 - *'x'* (mole fraction)
 - *'w'* (weight fraction)
-- *'mass_ratio'* (ratio solute mass to solvent mass).
+- *'r'* (ratio solute mass to solvent mass).
 
-By default, solute is `NaCl`.
+By default, solute is `'NaCl'`.
 
 One can access more elaborate quantities with the following functions:
 
@@ -214,8 +214,8 @@ For rapid calculations without much typing, the following shortcuts are provided
 
 For example, the two following imports are equivalent:
 ```python
-from aquasol import aw
 from aquasol.solutions import water_activity as aw
+from aquasol import aw
 ```
 
 Misc. info

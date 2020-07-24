@@ -33,7 +33,7 @@ def water_activity(solute='NaCl', T=25, unit='C', source=None, **concentration):
         - w= : mass fraction
         - x= : mole fraction
         - c= : molarity (mol/m^3)
-        - mass_ratio= : mass ratio (unitless)
+        - r= : mass ratio (unitless)
 
     Output
     ------
@@ -86,7 +86,7 @@ def density(solute='NaCl', T=25, unit='C', relative=False, source=None, **concen
         - w= : mass fraction
         - x= : mole fraction
         - c= : molarity (mol/m^3)
-        - mass_ratio= : mass ratio (unitless)
+        - r= : mass ratio (unitless)
 
     Output
     ------
@@ -145,7 +145,7 @@ def surface_tension(solute='NaCl', T=25, unit='C', relative=False, source=None, 
         - w= : mass fraction
         - x= : mole fraction
         - c= : molarity (mol/m^3)
-        - mass_ratio= : mass ratio (unitless)
+        - r= : mass ratio (unitless)
 
     Output
     ------

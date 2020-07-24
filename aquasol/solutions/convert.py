@@ -49,7 +49,7 @@ def convert(value, unit1, unit2, solute='NaCl', T=25, unit='C'):
     solutes with density data if unit1 or unit2 is molarity ('c').
 
     unit1 and unit2 have to be in the allowed units list :
-    'x' (mole fraction), 'w' (weight fraction), 'm' (molality), 'mass_ratio'
+    'x' (mole fraction), 'w' (weight fraction), 'm' (molality), 'r'
     (ratio of mass of solute to mass of solvent), 'c' (molarity in mol/m^3)
 
     Output
@@ -119,7 +119,7 @@ def basic_density(solute, T=25, unit='C', **concentration):
     ----------
     - solute (str): solute name, default 'NaCl'
     - T (float): temperature in K
-    - **concentration: kwargs with any basic unit ('x', 'w', 'm', 'mass_ratio')
+    - **concentration: kwargs with any basic unit ('x', 'w', 'm', 'r')
 
     Output
     ------

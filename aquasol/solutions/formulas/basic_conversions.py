@@ -23,7 +23,7 @@ from ...check import check_solute, check_units
 # Define what solutes and units are acceptable for conversion
 
 
-allowed_units = ['x', 'w', 'm', 'mass_ratio']
+allowed_units = ['x', 'w', 'm', 'r']
 
 
 # ========================= MAIN CONVERSION FUNCTION =========================
@@ -40,7 +40,7 @@ def basic_convert(value, unit1, unit2, solute='NaCl'):
 
     solute has to be in the solute list in the constants module
     unit1 and unit2 have to be in the allowed units list :
-    'x' (mole fraction), 'w' (weight fraction), 'm' (molality).
+    'x' (mole fraction.), 'w' (weight frac.), 'm' (molality), 'r' (mass ratio)
 
     Output
     ------
@@ -73,7 +73,7 @@ def basic_convert(value, unit1, unit2, solute='NaCl'):
         elif unit2 == 'm':
             return w / ((1 - w) * M)
 
-        elif unit2 == 'mass_ratio':
+        elif unit2 == 'r':
             return w / (1 - w)
 
     if unit1 == 'x':  # mole fraction to other quantities --------------------
@@ -86,7 +86,7 @@ def basic_convert(value, unit1, unit2, solute='NaCl'):
         elif unit2 == 'm':
             return 1 / Mw * x / (1 - x)
 
-        elif unit2 == 'mass_ratio':
+        elif unit2 == 'r':
             return M / Mw * x / (1 - x)
 
     if unit1 == 'm':   # molality to other quantities ------------------------
@@ -100,10 +100,10 @@ def basic_convert(value, unit1, unit2, solute='NaCl'):
         elif unit2 == 'x':
             return m * Mw / (1 + Mw * m)
 
-        elif unit2 == 'mass_ratio':
+        elif unit2 == 'r':
             return M * m
 
-    if unit1 == 'mass_ratio':  # mass ratio to other quantities --------------
+    if unit1 == 'r':  # mass ratio to other quantities --------------
 
         z = value
 

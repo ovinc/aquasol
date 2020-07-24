@@ -8,7 +8,7 @@ import numpy as np
 # ============================= GENERIC FUNCTIONS ============================
 
 def check_units(units, allowed_units):
-    """Check if units are among the allowed units to use, raise exception if not."""
+    """Check if units are among allowed units, raise exception if not."""
     wrong_units = []
     for unit in units:
         if unit not in allowed_units:
@@ -16,10 +16,11 @@ def check_units(units, allowed_units):
     if len(wrong_units) > 0:
         raise ValueError(f'{wrong_units} not in allowed units {allowed_units}')
 
+
 def check_validity_range(value, okrange, dataname='', unitname='', sourcename=''):
     """Manage sources and associated validity range.
 
-    Check that value is in validity range, and issues warning (no error) if not.
+    Check value is in validity range, and issues warning (no error) if not.
 
     Parameters
     ----------
