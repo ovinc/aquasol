@@ -199,6 +199,26 @@ Constants
 The *constants.py* file includes useful values including critical point data, molecular weights of species, dissociation numbers etc. Use the function `molar_mass` to get the molar mass (in kg/mol) of a specific solute from the *solute_list*.
 
 
+Shortcut functions
+==================
+
+For rapid calculations without much typing, the following shortcuts are provided:
+
+|       original function       | shortcut |
+|:-----------------------------:|:--------:|
+| `water.vapor_pressure()`      |  `ps()`  |
+| `water.dewpoint()`            |  `dp()`  |
+| `solutions.water_activity()`  |  `aw()`  |
+| `solutions.aw_to_conc())`     |  `ac()`  |
+| `solutions.convert()`         |  `cv()`  |
+
+For example, the two following imports are equivalent:
+```python
+from aquasol import aw
+from aquasol.solutions import water_activity as aw
+``
+
+
 Misc. info
 ==========
 
