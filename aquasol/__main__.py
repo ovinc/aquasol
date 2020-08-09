@@ -183,7 +183,7 @@ ax_s_surf.set_ylabel(f'surface tension (mN/m)')
 
 # Density --------------------------------------------------------------------
 
-solutes = ['NaCl', 'AlCl3', 'CaCl2', 'KCl', 'KI', 'LiCl', 'MgCl2']
+solutes = ['NaCl', 'CaCl2', 'KCl', 'KI', 'LiCl', 'MgCl2']
 
 for solute in solutes:
     plot_all_sources_conc('density', solute, 25, 'C', norm=1e-3,

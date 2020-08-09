@@ -25,7 +25,7 @@ from ....water import density_atm
 
 default_source = 'Conde'
 
-concentration_types = {'Conde': 'mass_ratio'
+concentration_types = {'Conde': 'r'
                        }
 
 concentration_ranges = {'Conde': (0, 1.273)

@@ -34,7 +34,7 @@ from ....water import density_atm
 default_source = 'Conde'
 
 concentration_types = {'Al Ghafri': 'm',
-                       'Conde': 'mass_ratio'
+                       'Conde': 'r'
                        }
 
 concentration_ranges = {'Al Ghafri': (0, 6),
