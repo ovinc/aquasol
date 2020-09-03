@@ -225,6 +225,7 @@ Module requirements
 -------------------
 - numpy
 - matplotlib (only if running the package directly as a main file to plot the properties)
+- pynverse
 
 Python requirements
 -------------------
