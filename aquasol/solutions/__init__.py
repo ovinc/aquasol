@@ -6,6 +6,6 @@
 # TODO: add partial molar volumes
 
 
-from .properties import density, water_activity, surface_tension
+from .properties import density, water_activity, surface_tension, refractive_index
 from .convert import convert, ionic_strength, ion_quantities
 from .invert import aw_to_conc

@@ -181,3 +181,51 @@ def surface_tension(solute='NaCl', T=25, unit='C', relative=False, source=None, 
         return s / s0
     else:
         return s
+
+
+def refractive_index(solute='NaCl', T=25, unit='C', source=None, **concentration):
+    """Refractive index of a solution as a function of concentration and temperature
+
+    Parameters
+    ----------
+    - solute (str): solute name, default 'NaCl'
+    - T (float): temperature (default 25)
+    - unit (str, default 'C'): 'C' for Celsius, 'K' for Kelvin
+    - source (str, default None) : Source for the used equation, if None then
+    gets the default source for the particular solute (defined in submodules).
+    See summary of available sources below.
+
+    - **concentration: kwargs with any unit that is allowed by convert(), e.g.
+        - m= : molality (mol/kg)
+        - w= : mass fraction
+        - x= : mole fraction
+        - c= : molarity (mol/m^3)
+        - r= : mass ratio (unitless)
+
+    Output
+    ------
+    - n (float): refractive index (dimensionless)
+
+    Solutes and Sources
+    -------------------
+    CaCl2: 'Tan' (default),
+    KCl: 'Tan' (default)
+    NaCl (default solute): 'Tan' (default)
+
+    See details about the sources in the submodules.
+
+    Examples
+    --------
+    - refractive_index(x=0.1) returns n for a mole fraction of 0.1 of NaCl
+    - refractive_index(w=0.2) returns n for a mass fraction of 0.2 of NaCl
+    - refractive_index(c=5000) returns n for a molality of 5 mol/L of NaCl
+    - refractive_index(m=6) returns n for a molality of 6 mol/kg of NaCl
+    - refractive_index('KCl', m=6): same for KCl
+    - refractive_index('KCl', m=6, T=30): same for KCl at 30°C
+    - refractive_index('KCl', 293, 'K', m=6): same for KCl at 293K.
+    """
+
+    parameters = T, unit, concentration
+    n = calculation('refractive index', solute, source, parameters, converter)
+
+    return n

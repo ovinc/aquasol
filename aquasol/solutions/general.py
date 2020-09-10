@@ -13,7 +13,8 @@ from ..check import check_validity_range
 base = '.formulas.'
 property_modules = {'water activity': base + 'activity',
                     'density': base + 'density',
-                    'surface tension': base + 'surface_tension'}
+                    'surface tension': base + 'surface_tension',
+                    'refractive index': base + 'refractive_index'}
 
 
 def get_infos(propty, solute):

@@ -164,15 +164,15 @@ Available Solutes
 
 Sorted by alphabetical order. When available, the sources are written in parentheses. For convert, an X means available.
 
-| Solute | Activity | Density | Surface Tension | Convert (*) | 
-|:------:|:--------:|:-------:|:---------------:|:-----------:|
-| CaCl2  |   (1)    |  (1,3)  |      (1,6)      |      X      |
-| KCl    |          |   (3)   |       (6)       |      X      |
-| KI     |          |   (3)   |                 |      X      |
-| LiCl   |   (1)    |   (1)   |       (1)       |      X      |
-| MgCl2  |          |   (3)   |       (6)       |      X      |
-| Na2SO4 |   (2)    |         |       (6)       |      -      |
-| NaCl   |   (2)    | (1,4,5) |       (6)       |      X      |
+| Solute | Activity | Density | Surface Tension | Refractive Index | Convert (*) | 
+|:------:|:--------:|:-------:|:---------------:|:----------------:|:-----------:|
+| CaCl2  |   (1)    |  (1,3)  |      (1,6)      |       (7)        |      X      |
+| KCl    |          |   (3)   |       (6)       |       (7)        |      X      |
+| KI     |          |   (3)   |                 |                  |      X      |
+| LiCl   |   (1)    |   (1)   |       (1)       |                  |      X      |
+| MgCl2  |          |   (3)   |       (6)       |                  |      X      |
+| Na2SO4 |   (2)    |         |       (6)       |                  |      -      |
+| NaCl   |   (2)    | (1,4,5) |       (6)       |       (7)        |      X      |
 
 (*) Solutes with no density data cannot use conversion to/from molarity ('c') but all other conversions work. They are noted with - instead of X.
 
@@ -191,6 +191,9 @@ International Journal of Thermal Sciences 43, 367–382 (2004).
 (5) Simion, A. I., Grigoras, C., Rosu, A.-M. & Gavrilă, L. *Mathematical modelling of density and viscosity of NaCl aqueous solutions.* Journal of Agroalimentary Processing and Technologies 21, 41–52 (2015).
 
 (6) Dutcher, C. S., Wexler, A. S. & Clegg, S. L. *Surface Tensions of Inorganic Multicomponent Aqueous Electrolyte Solutions and Melts.* J. Phys. Chem. A 114, 12216–12230 (2010).
+
+(7) Tan, C.-Y. & Huang, Y.-X. *Dependence of Refractive Index on Concentration and Temperature in Electrolyte Solution, Polar Solution, Nonpolar Solution, and Protein Solution.* J. Chem. Eng. Data 60, 2827–2833 (2015).
+
 
 
 Constants

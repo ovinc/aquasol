@@ -15,6 +15,7 @@ from .water import density_atm, density_sat
 from .water.general import get_infos as infos_water
 
 from .solutions import water_activity, surface_tension as sigma_s, density
+from .solutions import refractive_index
 from .solutions.general import get_infos as infos_solutions
 from .solutions import convert
 
@@ -110,9 +111,13 @@ fig_s_surf.suptitle('Solutions, surface tension')
 fig_s_dens, ax_s_dens = plt.subplots()
 fig_s_dens.suptitle('Solutions, density')
 
+fig_s_index, ax_s_index = plt.subplots()
+fig_s_index.suptitle('Solutions, refractive index')
+
 functions = {'water activity': water_activity,
              'surface tension': sigma_s,
-             'density': density}
+             'density': density,
+             'refractive index': refractive_index}
 
 
 # General plotting functions -------------------------------------------------
@@ -191,6 +196,18 @@ for solute in solutes:
 
 ax_s_dens.set_xlabel(f'concentration ({concentration_unit})')
 ax_s_dens.set_ylabel(f'density (kg/m^3)')
+
+
+# Refractive Index  ----------------------------------------------------------
+
+solutes = ['NaCl', 'CaCl2', 'KCl']
+
+for solute in solutes:
+    plot_all_sources_conc('refractive index', solute, 25, 'C', norm=1,
+                          ctype=concentration_unit, ax=ax_s_index)
+
+ax_s_index.set_xlabel(f'concentration ({concentration_unit})')
+ax_s_index.set_ylabel(f'density (kg/m^3)')
 
 
 # ================================ FINAL =====================================
