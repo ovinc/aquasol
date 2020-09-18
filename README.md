@@ -42,20 +42,26 @@ data = property(T=25, unit='C', source=None)
 Inverse property functions
 --------------------------
 
-Based on the functions above, some inverse properties are also provided.
+Based on the functions above, some inverse properties are also provided (for now, only dewpoint)
 
 ```python
-from aquasol.water import dewpoint
-dewpoint(p=1000)  # Dew point of a vapor at 1kPa at 25°C
->>> 6.970479537504328
-dewpoint(rh=50)  # Dew point at 50%RH and 25°C
->>> 13.864985413550704
-dewpoint(aw=0.5)  # same thing
->>> 13.864985413550704
-dewpoint(20, aw=0.5)  # same thing, but at 20°C
->>> 9.273546905501904
-dewpoint(300, 'K', aw=0.5)  # same thing, but at 300K (dewpoint also in K)
->>> 288.71154892380787
+>>> from aquasol.water import dewpoint
+>>> dewpoint(p=1000)  # Dew point of a vapor at 1kPa
+6.970481357025221
+>>> dewpoint(p=1000, unit='K')  # Same, but temperature is returned in K
+280.1204813570252
+>>> dewpoint('K', p=1000)  # same thing
+280.1204813570252
+>>> dewpoint(rh=50)  # Dew point at 50%RH and 25°C (default)
+13.864985413550704
+>>> dewpoint(aw=0.5)  # same thing
+13.864985413550704
+>>> dewpoint(aw=0.5, T=20)  # same thing, but at 20°C
+9.273546905501904
+>>> dewpoint('K', 300, aw=0.5)  # same thing, but at 300K (dewpoint also in K)
+288.71154892380787
+>>> dewpoint(aw=[0.5, 0.7])  # It is possible to input lists, tuples, arrays
+array([ 9.27354606, 14.36765209])
 ```
 
 
@@ -164,7 +170,7 @@ Available Solutes
 
 Sorted by alphabetical order. When available, the sources are written in parentheses. For convert, an X means available.
 
-| Solute | Activity | Density | Surface Tension | Refractive Index | Convert (*) | 
+| Solute | Activity | Density | Surface Tension | Refractive Index | Convert (*) |
 |:------:|:--------:|:-------:|:---------------:|:----------------:|:-----------:|
 | CaCl2  |   (1)    |  (1,3)  |      (1,6)      |       (7)        |      X      |
 | KCl    |          |   (3)   |       (6)       |       (7)        |      X      |

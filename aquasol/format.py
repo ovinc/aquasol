@@ -82,7 +82,7 @@ def format_concentration(concentration, unit_out, solute, converter):
 
 
 def format_inverse_result(value):
-    """Formats the output of inverse functions the same way as th inputs.
+    """Formats the output of inverse functions the same way as the inputs.
 
     This is because pynverse outputs an array, but sometimes we want it to
     output a scalar if a scalar was put in.
