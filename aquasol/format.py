@@ -6,7 +6,7 @@ import numpy as np
 from .check import check_units
 
 
-def format_type(value):
+def format_input_type(value):
     """If type of input doesn't support math operations, convert to np array."""
     try:
         value + 1
@@ -14,6 +14,23 @@ def format_type(value):
         return np.array(value)
     else:
         return value
+
+
+def format_output_type(value):
+    """Formats the output of inverse functions the same way as the inputs.
+
+    This is because e.g. pynverse outputs an array, but sometimes we want it
+    to output a scalar if a scalar was put in.
+    """
+    try:
+        sh = value.shape
+    except AttributeError:
+        return value   # if not an array, it's a float, so return it rightaway
+    else:
+        if len(value.shape) == 0:  # this is to return a scalar if a scalar is used as input
+            return value.item()
+        else:
+            return value
 
 
 def format_source(source, sources, default_source):
@@ -33,7 +50,7 @@ def format_temperature(T, unit_in, unit_out):
     allowed_units = 'C', 'K'
     check_units([unit_in, unit_out], allowed_units)
 
-    T = format_type(T)  # allows for lists and tuples as inputs
+    T = format_input_type(T)  # allows for lists and tuples as inputs
 
     if unit_in == 'C':
         T_celsius = T
@@ -79,18 +96,3 @@ def format_concentration(concentration, unit_out, solute, converter):
         [value] = concentration.values()
         conc = converter(value, unit_in, unit_out, solute)
         return conc
-
-
-def format_inverse_result(value):
-    """Formats the output of inverse functions the same way as the inputs.
-
-    This is because pynverse outputs an array, but sometimes we want it to
-    output a scalar if a scalar was put in.
-    """
-    if len(value.shape) == 0:  # this is to return a scalar if a scalar is used as input
-        return value.item()
-    else:
-        return value
-
-
-

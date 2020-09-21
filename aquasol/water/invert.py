@@ -1,4 +1,4 @@
-"""Convert/invert some properties for water"""
+"""Convert/invert some properties for water."""
 
 # Non-standard imports
 import numpy as np
@@ -9,7 +9,7 @@ from .properties import vapor_pressure
 from .general import get_infos
 
 from ..format import format_temperature, format_source
-from ..format import format_inverse_result, format_type
+from ..format import format_output_type, format_input_type
 
 
 hratio = {'rh': 1/100, 'aw': 1}  # factor to go from humidity to activity
@@ -62,9 +62,8 @@ def dewpoint(unit='C', T=None, source=None, **humidity):
 
     try:
         dpt = dewpoint_calc(p)
-        Ts_out = format_inverse_result(dpt)
-        T_out = format_temperature(Ts_out, unit_source, unit)
-        return T_out
+        T_out = format_temperature(dpt, unit_source, unit)
+        return format_output_type(T_out)
 
     except ValueError:
         msg = f"Error, probably because T outside of Psat formula validity range"

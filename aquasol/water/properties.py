@@ -2,7 +2,7 @@
 
 
 from .general import calculation
-
+from ..format import format_output_type
 
 def vapor_pressure(T=25, unit='C', source=None):
     """Return the vapor pressure (in Pascal) as a function of temperature.
@@ -33,8 +33,8 @@ def vapor_pressure(T=25, unit='C', source=None):
     >>> psat(15, source='Wexler')  # at 15°C using Wexler equation
 
     """
-
-    return calculation('vapor pressure', source, (T, unit))
+    psat = calculation('vapor pressure', source, (T, unit))
+    return format_output_type(psat)
 
 
 def surface_tension(T=25, unit='C', source=None):
@@ -64,8 +64,8 @@ def surface_tension(T=25, unit='C', source=None):
     >>> sigma([0, 10, 20, 30])     # sigma at various temperatures in Celsius
     >>> sigma(300, 'K')            # sigma at 300K
     """
-
-    return calculation('surface tension', source, (T, unit))
+    sigma = calculation('surface tension', source, (T, unit))
+    return format_output_type(sigma)
 
 
 def density_sat(T=25, unit='C', source=None):
@@ -96,8 +96,8 @@ def density_sat(T=25, unit='C', source=None):
     >>> rho([0, 10, 20, 30])     # rho at various temperatures in Celsius
     >>> rho(300, 'K')            # rho at 300K
     """
-
-    return calculation('density saturated', source, (T, unit))
+    rho = calculation('density saturated', source, (T, unit))
+    return format_output_type(rho)
 
 
 def density_atm(T=25, unit='C', source=None):
@@ -128,5 +128,5 @@ def density_atm(T=25, unit='C', source=None):
     >>> rho([0, 10, 20, 30])     # rho at various temperatures in Celsius
     >>> rho(300, 'K')            # rho at 300K
     """
-
-    return calculation('density ambient', source, (T, unit))
+    rho = calculation('density ambient', source, (T, unit))
+    return format_output_type(rho)

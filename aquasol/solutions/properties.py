@@ -11,6 +11,7 @@ NOTE: when modifying density, make sure to also change basic_density in convert.
 
 from .general import calculation
 from .convert import convert as converter
+from ..format import format_output_type
 
 
 # ================================== ACTIVITY ================================
@@ -62,7 +63,7 @@ def water_activity(solute='NaCl', T=25, unit='C', source=None, **concentration):
     parameters = T, unit, concentration
     a_w = calculation('water activity', solute, source, parameters, converter)
 
-    return a_w
+    return format_output_type(a_w)
 
 
 # =================================== DENSITY ================================
@@ -119,9 +120,9 @@ def density(solute='NaCl', T=25, unit='C', relative=False, source=None, **concen
     rho0, rho = calculation('density', solute, source, parameters, converter)
 
     if relative:
-        return rho / rho0
+        return format_output_type(rho / rho0)
     else:
-        return rho
+        return format_output_type(rho)
 
 
 # ============================== SURFACE TENSION =============================
@@ -178,9 +179,9 @@ def surface_tension(solute='NaCl', T=25, unit='C', relative=False, source=None, 
     s0, s = calculation('surface tension', solute, source, parameters, converter)
 
     if relative:
-        return s / s0
+        return format_output_type(s / s0)
     else:
-        return s
+        return format_output_type(s)
 
 
 def refractive_index(solute='NaCl', T=25, unit='C', source=None, **concentration):
@@ -228,4 +229,4 @@ def refractive_index(solute='NaCl', T=25, unit='C', source=None, **concentration
     parameters = T, unit, concentration
     n = calculation('refractive index', solute, source, parameters, converter)
 
-    return n
+    return format_output_type(n)

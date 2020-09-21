@@ -6,13 +6,13 @@
 
 - Choose a common name *[cmn_name]* and a module name *[mod_name]* for the new property. Then:
 
-    + For *water*, create a **[mod_name].py** file in the **water.formulas** directory. 
+    + For *water*, create a **[mod_name].py** file in the **water.formulas** directory.
     + For *solutions*, create a folder named **[mod_name]** in the **solutions.formulas** directory.
 
 - In the **general.py** file of the water or solutions module, add the new property *[cmn_name]* and its corresponding *[mod_name]* in the `property_modules` dictionary.
 
 - Add the formulas for calculating the new property, mimicking the structure of other properties already defined:
-    + For *water*, in **[mod_name].py**, 
+    + For *water*, in **[mod_name].py**,
     + For *solutions*, create one file **[solute_name].py** per solute in the **[mod_name]** directory (see below *Add solute* for details).
 
 In particular, the `default_source` must be defined, as well at the dictionaries `temperature_units`, `temperature_ranges`, `concentration_types` (only for solutions), `concentration_ranges` (only for solutions) at the beginning of the file, and dictionary `formulas` and list `sources` at the end of the file. The function coding the formula can have any output, but must have the same inputs as other existing properties (see *Note* above).
@@ -25,7 +25,7 @@ In particular, the `default_source` must be defined, as well at the dictionaries
 
 - Add a plot of the new property data in the **\__main\__.py** file.
 
-- *Soon: add tests*
+- Add tests (*pytest*) in **tests** folder and run tests to make sure nothing is broken.
 
 
 ## Add solute to an existing property (*solutions*)
@@ -42,7 +42,7 @@ In particular, the `default_source` must be defined, as well at the dictionaries
 
 - Add a plot of the new solute data in the **\__main\__.py** file.
 
-- *Soon: add tests*
+- Add tests (*pytest*) in **tests** folder and run tests to make sure nothing is broken.
 
 
 ## Add a formula / source to an existing property (*water*, *solutions*)
@@ -55,14 +55,14 @@ In particular, the `default_source` must be defined, as well at the dictionaries
 
 - Add a plot of the new source data in the **\__main\__.py** file.
 
-- *Soon: add tests*
+- Add tests (*pytest*) in **tests** folder and run tests to make sure nothing is broken.
 
 
 # Structure of code
 
 ### Main user files
 
-All public user functions calculating the properties of water or solutions (e.g. surface tension, density) are in the **properties.py** file of each module (*water* or *solution*). For solutions, additional functions are in the **convert.py** file. 
+All public user functions calculating the properties of water or solutions (e.g. surface tension, density) are in the **properties.py** file of each module (*water* or *solution*). For solutions, additional functions are in the **convert.py** file.
 
 ### Support files
 
@@ -82,15 +82,15 @@ Since all thermodynamic data are interdependent, it is easy to run into circular
 
 - `basic_density`, when called, does not use `convert` to manage possible unit conversions (which would cause a circular import), but a reduced version named `basic_convert`, located in **formulas.basic_conversions**
 
-- The reduced converter `basic_convert` does not use density/molarity data (as would the main `convert` function) to avoid another circular import. 
+- The reduced converter `basic_convert` does not use density/molarity data (as would the main `convert` function) to avoid another circular import.
 
 Note that both `basic_convert` and `convert` rely on the same `calculation` function to calculate density, but only use a different converter. The pattern of calls and imports in **solutions** is summarized below.
 
 ---
 
-`density` (or any user property in **properties.py**) 
+`density` (or any user property in **properties.py**)
 
-&darr;  
+&darr;
 
 `calculation` (**solutions.general**) called with *convert* as converter
 
@@ -102,7 +102,7 @@ Note that both `basic_convert` and `convert` rely on the same `calculation` func
 
 `basic_density` (**solutions.convert**)
 
-&darr;  
+&darr;
 
 `calculation` (**solutions.general**) called with *basic_convert* as converter
 

@@ -1,6 +1,6 @@
 """Thermodynamic relations for water and solutions"""
 
-# TODO: write unittests
+# TODO: write Tests for solutions
 # TODO: Switch automatically to another equation if outside of range.
 
 from . import solutions, water

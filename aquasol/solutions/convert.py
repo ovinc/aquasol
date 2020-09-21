@@ -18,8 +18,7 @@ from ..constants import solute_list
 from ..constants import molar_mass, dissociation_numbers, charge_numbers
 
 from ..check import check_solute, check_units
-from ..format import format_type
-from ..format import format_inverse_result
+from ..format import format_input_type, format_output_type
 
 from .formulas.basic_conversions import basic_convert
 from .formulas.basic_conversions import allowed_units as basic_units
@@ -71,7 +70,7 @@ def convert(value, unit1, unit2, solute='NaCl', T=25, unit='C'):
     units = [unit1, unit2]
     check_units(units, allowed_units)
 
-    value = format_type(value)  # allows for lists and tuples as inputs
+    value = format_input_type(value)  # allows for lists and tuples as inputs
 
     # No need to calculate anything if the in and out units are the same -----
     if unit1 == unit2:
@@ -169,7 +168,7 @@ def molarity_to_w(c, solute, T=25, unit='C'):
     # applying the value found for w
     _ = basic_density(solute=solute, T=T, unit=unit, w=w)
 
-    return format_inverse_result(w)
+    return format_output_type(w)
 
 
 # ========================== INDIVIDUAL ION QUANTITIES =======================
@@ -196,7 +195,7 @@ def ion_quantities(solute, **concentration):
     else:
         raise ValueError('kwargs must have exactly one keyword argument for solute concentration.')
 
-    value = format_type(value)  # allows for lists and tuples as inputs
+    value = format_input_type(value)  # allows for lists and tuples as inputs
 
     check_solute(solute, solute_list)
     n1, n2 = dissociation_numbers[solute]

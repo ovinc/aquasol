@@ -8,7 +8,7 @@ from .general import get_infos
 from .properties import water_activity
 from .convert import convert
 
-from ..format import format_source, format_inverse_result
+from ..format import format_source, format_output_type
 
 
 # ======================== ACTIVITY TO CONCENTRATION =========================
@@ -49,4 +49,4 @@ def aw_to_conc(a, out='w', solute='NaCl', T=25, unit='C', source=None):
         return None
     else:
         c = convert(conc, cunit, out, solute, T, unit)
-        return format_inverse_result(c)
+        return format_output_type(c)
