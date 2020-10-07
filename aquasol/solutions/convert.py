@@ -26,10 +26,12 @@ from .formulas.basic_conversions import allowed_units as basic_units
 from .general import calculation
 
 
-# =========================== MAIN CONVERT FUNCTION ==========================
+# ================================== Config ==================================
 
 add_units = ['c']
 allowed_units = basic_units + add_units
+
+# =========================== MAIN CONVERT FUNCTION ==========================
 
 
 def convert(value, unit1, unit2, solute='NaCl', T=25, unit='C'):

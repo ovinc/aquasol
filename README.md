@@ -16,10 +16,10 @@ Properties
 ----------
 
 The *water* module has the following functions, which return the respective properties of interest as a function of temperature:
-- `vapor_pressure` for saturation vapor pressure of pure water (Pa),
-- `surface_tension` for surface tension of pure water (N/m).
-- `density_sat` for density on the liquid-vapor coexistence line (kg/m^3)
-- `density_atm` for density at ambient pressure 0.1 MPa (kg/m^3)
+- `vapor_pressure()` for saturation vapor pressure of pure water (Pa),
+- `surface_tension()` for surface tension of pure water (N/m).
+- `density_sat()` for density on the liquid-vapor coexistence line (kg/m^3)
+- `density_atm()` for density at ambient pressure 0.1 MPa (kg/m^3)
 
 The structure of the call for any property (replace *property* below by one of the function names above) is
 ```python
@@ -39,10 +39,16 @@ data = property(T=25, unit='C', source=None)
 *See docstrings for more details.*
 
 
-Inverse property functions
---------------------------
+Inverse and other property functions
+------------------------------------
 
-Based on the functions above, some inverse properties are also provided (for now, only dewpoint)
+Based on the functions above, some inverse properties are also provided:
+
+- `dewpoint()`
+- `kelvin_radius()`
+- `kelvin_humidity()`
+
+### Examples
 
 ```python
 >>> from aquasol.water import dewpoint
@@ -62,6 +68,33 @@ Based on the functions above, some inverse properties are also provided (for now
 288.71154892380787
 >>> dewpoint(aw=[0.5, 0.7])  # It is possible to input lists, tuples, arrays
 array([ 9.27354606, 14.36765209])
+
+>>> from aquasol.water import kelvin_radius
+>>> kelvin_radius(aw=0.8)  # Kelvin radius at 80%RH and T=25°C
+4.702052295185309e-09
+>>> kelvin_radius(rh=80)           # same
+4.702052295185309e-09
+>>> kelvin_radius(rh=80, ncurv=1)  # assume cylindrical meniscus instead of spherical
+2.3510261475926545e-09
+>>> kelvin_radius(p=1000, T=20)    # at 1000Pa, 20°C
+1.2675869773199224e-09
+>>> kelvin_radius(p=1000, T=293.15, unit='K')    # same
+1.2675869773199224e-09
+>>> kelvin_radius(aw=[0.5, 0.7, 0.9])  # possible to use iterables
+
+>>> from aquasol.water import kelvin_humidity
+>>> kelvin_humidity(4.7e-9)  # activity corresponding to Kelvin radius of 4.7 nm at 25°C
+0.7999220537658477
+>>> kelvin_humidity(4.7e-9, out='rh')  # same, but expressed in %RH instead of activity
+79.99220537658476
+>>> kelvin_humidity(4.7e-9, out='p')  # same, but in terms of pressure (Pa)
+2535.612513169546
+>>> kelvin_humidity(4.7e-9, out='p', T=293.15, unit='K')  # at a different temperature
+1860.0699544036922
+>>> kelvin_humidity(4.7e-9, ncurv=1)  # cylindrical interface
+0.8943836166689592
+>>> kelvin_humidity([3e-9, 5e-9])  # with iterables
+array([0.70486836, 0.81070866])
 ```
 
 
@@ -92,9 +125,10 @@ Properties
 ----------
 
 The *solutions* module has the following functions, which return the respective properties of interest as a function of solute concentration and temperature (when available) of an aqueous solution.
-- `density` for absolute (kg / m^3) or relative density,
-- `water_activity` for solvent activity (dimensionless, range 0-1),
-- `surface_tension` for absolute surface tension (N/m) or relative (normalized by that of pure water at the same temperature).
+- `density()` for absolute (kg / m^3) or relative density,
+- `water_activity()` for solvent activity (dimensionless, range 0-1),
+- `surface_tension()` for absolute surface tension (N/m) or relative (normalized by that of pure water at the same temperature).
+- `refractive index()` (dimensionless)
 
 The structure of the call for any property (replace *property* below by one of the function names above) is
 ```python
@@ -217,6 +251,8 @@ For rapid calculations without much typing, the following shortcuts are provided
 |:-----------------------------:|:--------:|
 | `water.vapor_pressure()`      |  `ps()`  |
 | `water.dewpoint()`            |  `dp()`  |
+| `water.kelvin_radius()`       |  `kr()`  |
+| `water.kelvin_humidity()`     |  `kh()`  |
 | `solutions.water_activity()`  |  `aw()`  |
 | `solutions.aw_to_conc())`     |  `ac()`  |
 | `solutions.convert()`         |  `cv()`  |
