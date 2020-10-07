@@ -58,6 +58,7 @@ def water_activity(solute='NaCl', T=25, unit='C', source=None, **concentration):
     - water_activity('LiCl', m=6): same for LiCl
     - water_activity('LiCl', m=6, T=30): same for LiCl at 30°C
     - water_activity('LiCl', 293, 'K', m=6): same for LiCl at 293K.
+    - water_activity(solute='CaCl2', T=50, m=[2, 4, 6])  # concentration as iterable
     """
 
     parameters = T, unit, concentration
@@ -165,7 +166,7 @@ def surface_tension(solute='NaCl', T=25, unit='C', relative=False, source=None, 
 
     Examples
     --------
-    - surface_tension(x=0.05) the returns surface tension of an aqueous NaCl
+    - surface_tension(x=0.05) returns surface tension of an aqueous NaCl
     solution at 25°C and a mole fraction of 5%
     - surface_tension('LiCl', w=0.1) returns the surface tension of a LiCl
     solution at 25°C and weight fraction of 10%
@@ -173,6 +174,7 @@ def surface_tension(solute='NaCl', T=25, unit='C', relative=False, source=None, 
     a CaCl2 solution at 20°C and molality 6 mol/kg
     - surface_tension('CaCl2', 300, 'K', c=5e3) returns the surface tension of
     a CaCl2 solution at 300K and molarity of 5 mol/L
+    - surface_tension(x=[0.02, 0.04, 0.08])  # iterable concentration is ok
     """
 
     parameters = T, unit, concentration
@@ -220,10 +222,10 @@ def refractive_index(solute='NaCl', T=25, unit='C', source=None, **concentration
     - refractive_index(x=0.1) returns n for a mole fraction of 0.1 of NaCl
     - refractive_index(w=0.2) returns n for a mass fraction of 0.2 of NaCl
     - refractive_index(c=5000) returns n for a molality of 5 mol/L of NaCl
-    - refractive_index(m=6) returns n for a molality of 6 mol/kg of NaCl
-    - refractive_index('KCl', m=6): same for KCl
-    - refractive_index('KCl', m=6, T=30): same for KCl at 30°C
-    - refractive_index('KCl', 293, 'K', m=6): same for KCl at 293K.
+    - refractive_index(m=3) returns n for a molality of 6 mol/kg of NaCl
+    - refractive_index('KCl', m=3): same for KCl
+    - refractive_index('KCl', m=3, T=30): same for KCl at 30°C
+    - refractive_index('KCl', 293, 'K', m=3): same for KCl at 293K.
     """
 
     parameters = T, unit, concentration

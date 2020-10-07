@@ -16,4 +16,4 @@ from .solutions import water_activity as aw
 from .solutions import aw_to_conc as ac
 from .solutions import convert as cv
 
-__version__ = '1.0.0'
+__version__ = '1.0.1'
