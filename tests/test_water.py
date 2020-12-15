@@ -99,32 +99,32 @@ def test_rhoatm_7():
 # ========================== Test Saturated Density ==========================
 
 def test_rhosat_1():
-    rho = density_atm(4)
+    rho = density_sat(4)
     assert round(rho) == 1000
 
 def test_rhosat_2():
-    s1 = density_atm(T=1)
-    s2 = density_atm(274.15, 'K')
+    s1 = density_sat(T=1)
+    s2 = density_sat(274.15, 'K')
     assert s1 == s2
 
 def test_rhosat_3():
-    rho = density_atm()
+    rho = density_sat()
     assert round(rho) == 997
 
 def test_rhosat_4():
-    rho = density_atm(T=293, unit='K')
+    rho = density_sat(T=293, unit='K')
     assert type(rho) is float
 
 def test_rhosat_5():
-    rho = density_atm(T=[0, 60, 100])
+    rho = density_sat(T=[0, 60, 100])
     assert type(rho) is np.ndarray
 
 def test_rhosat_6():
-    rho = density_atm(T=[0, 60, 100])
+    rho = density_sat(T=[0, 60, 100])
     assert rho.shape == (3,)
 
 def test_rhosat_7():
-    rho = density_atm(T=[0, 60, 100])
+    rho = density_sat(T=[0, 60, 100])
     assert round(rho[1]) == 983
 
 # ============================== Test Dewpoint ===============================

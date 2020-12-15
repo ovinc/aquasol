@@ -92,6 +92,25 @@ def dewpoint(unit='C', T=None, source=None, **humidity):
     Output
     ------
     Dewpoint Temperature
+
+    Examples
+    --------
+    >>> dewpoint(p=1000)  # Dew point of a vapor at 1kPa
+    6.970481357025221
+    >>> dewpoint(p=1000, unit='K')  # Same, but temperature is returned in K
+    280.1204813570252
+    >>> dewpoint('K', p=1000)  # same thing
+    280.1204813570252
+    >>> dewpoint(rh=50)  # Dew point at 50%RH and 25°C (default)
+    13.864985413550704
+    >>> dewpoint(aw=0.5)  # same thing
+    13.864985413550704
+    >>> dewpoint(aw=0.5, T=20)  # same thing, but at 20°C
+    9.273546905501904
+    >>> dewpoint('K', 300, aw=0.5)  # same thing, but at 300K (dewpoint also in K)
+    288.71154892380787
+    >>> dewpoint(aw=[0.5, 0.7])  # It is possible to input lists, tuples, arrays
+    array([ 9.27354606, 14.36765209])
     """
     p = format_humidity(unit, T, source, out='p', **humidity)
 
@@ -134,6 +153,20 @@ def kelvin_radius(T=25, unit='C', ncurv=2, **humidity):
     Output
     ------
     Kelvin radius in meters.
+
+    Examples
+    --------
+    >>> kelvin_radius(aw=0.8)  # Kelvin radius at 80%RH and T=25°C
+    4.702052295185309e-09
+    >>> kelvin_radius(rh=80)           # same
+    4.702052295185309e-09
+    >>> kelvin_radius(rh=80, ncurv=1)  # assume cylindrical meniscus instead of spherical
+    2.3510261475926545e-09
+    >>> kelvin_radius(p=1000, T=20)    # at 1000Pa, 20°C
+    1.2675869773199224e-09
+    >>> kelvin_radius(p=1000, T=293.15, unit='K')    # same
+    1.2675869773199224e-09
+    >>> kelvin_radius(aw=[0.5, 0.7, 0.9])  # possible to use iterables
     """
     aw = format_humidity(unit, T, out='aw', **humidity)
     vm = Mw / density_sat(T, unit)
@@ -158,6 +191,21 @@ def kelvin_humidity(r, T=25, unit='C', ncurv=2, out='aw'):
     Output
     ------
     Kelvin radius in meters.
+
+    Examples
+    --------
+    >>> kelvin_humidity(4.7e-9)  # activity corresponding to Kelvin radius of 4.7 nm at 25°C
+    0.7999220537658477
+    >>> kelvin_humidity(4.7e-9, out='rh')  # same, but expressed in %RH instead of activity
+    79.99220537658476
+    >>> kelvin_humidity(4.7e-9, out='p')  # same, but in terms of pressure (Pa)
+    2535.612513169546
+    >>> kelvin_humidity(4.7e-9, out='p', T=293.15, unit='K')  # at a different temperature
+    1860.0699544036922
+    >>> kelvin_humidity(4.7e-9, ncurv=1)  # cylindrical interface
+    0.8943836166689592
+    >>> kelvin_humidity([3e-9, 5e-9])  # with iterables
+    array([0.70486836, 0.81070866])
     """
     r = format_input_type(r)
     vm = Mw / density_sat(T, unit)

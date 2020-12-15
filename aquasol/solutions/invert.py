@@ -17,12 +17,27 @@ from ..format import format_source, format_output_type
 def aw_to_conc(a, out='w', solute='NaCl', T=25, unit='C', source=None):
     """Calculate concentration needed to achieve a certain water activity.
 
+    Parameters
+    ----------
     - a is the water activity,
     - out: any concentration unit manageable by convert()
     - solute (default NaCl) is the solute of interest
     - T: temperature
     - unit: temperature unit ('C' or 'K')
     - source: if None, use default source.
+
+    Output
+    ------
+    Concentration using the units asked for with the "out" parameter.
+
+    Examples
+    --------
+    aw_to_conc(0.39)
+    >>> 0.4902761745068064  # in terms of weight fraction
+    aw_to_conc([0.39, 0.75], out='m')
+    >>> array([16.45785963,  6.21127029])  # in terms of molality
+    aw_to_conc(0.11, 'r', 'LiCl', T=50)
+    >>> 0.9167650291014361  # in terms of mass ratio, for LiCl, at 50°C
 
     Note: part of the structure of this function resembles that of
     general.calculation(), so see if there is a way to avoid redundancy

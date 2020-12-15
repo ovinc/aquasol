@@ -36,8 +36,24 @@ data = property(T=25, unit='C', source=None)
 
 - Property in SI units, returned as numpy array if input is not a scalar.
 
-*See docstrings for more details.*
 
+### Examples
+
+(See docstrings for more details)
+
+```python
+from aquasol.water import vapor_pressure, surface_tension, density_atm, density_sat
+
+vapor_pressure()             # Saturation vapor pressure (Pa) at 25°C (3170 Pa)
+vapor_pressure(298.15, 'K')        # same thing
+vapor_pressure(source='Wexler')    # same thing, but according to Wexler
+vapor_pressure(T=[5, 15, 25])          # psat at different temperatures in °C
+
+surface_tension(T=[5, 15, 25])         # same, but for surface tension (N/m)
+
+density_atm(4)               # density of water at atmospheric pressure at 4°C
+density_sat(277.15, 'K')     # same thing, but on the coexistence line
+```
 
 Inverse and other property functions
 ------------------------------------
@@ -50,51 +66,22 @@ Based on the functions above, some inverse properties are also provided:
 
 ### Examples
 
+(See docstrings for more details)
+
 ```python
->>> from aquasol.water import dewpoint
->>> dewpoint(p=1000)  # Dew point of a vapor at 1kPa
-6.970481357025221
->>> dewpoint(p=1000, unit='K')  # Same, but temperature is returned in K
-280.1204813570252
->>> dewpoint('K', p=1000)  # same thing
-280.1204813570252
->>> dewpoint(rh=50)  # Dew point at 50%RH and 25°C (default)
-13.864985413550704
->>> dewpoint(aw=0.5)  # same thing
-13.864985413550704
->>> dewpoint(aw=0.5, T=20)  # same thing, but at 20°C
-9.273546905501904
->>> dewpoint('K', 300, aw=0.5)  # same thing, but at 300K (dewpoint also in K)
-288.71154892380787
->>> dewpoint(aw=[0.5, 0.7])  # It is possible to input lists, tuples, arrays
-array([ 9.27354606, 14.36765209])
+from aquasol.water import dewpoint, kelvin_radius, kelvin_humidity
 
->>> from aquasol.water import kelvin_radius
->>> kelvin_radius(aw=0.8)  # Kelvin radius at 80%RH and T=25°C
-4.702052295185309e-09
->>> kelvin_radius(rh=80)           # same
-4.702052295185309e-09
->>> kelvin_radius(rh=80, ncurv=1)  # assume cylindrical meniscus instead of spherical
-2.3510261475926545e-09
->>> kelvin_radius(p=1000, T=20)    # at 1000Pa, 20°C
-1.2675869773199224e-09
->>> kelvin_radius(p=1000, T=293.15, unit='K')    # same
-1.2675869773199224e-09
->>> kelvin_radius(aw=[0.5, 0.7, 0.9])  # possible to use iterables
+dewpoint(p=1000)  # Dew point of a vapor at 1kPa
+dewpoint(rh=50)  # Dew point at 50%RH and 25°C (default)
+dewpoint('K', 300, rh=50)  # specify temperature
+dewpoint(aw=[0.5, 0.7])     # It is possible to input lists, tuples, arrays
 
->>> from aquasol.water import kelvin_humidity
->>> kelvin_humidity(4.7e-9)  # activity corresponding to Kelvin radius of 4.7 nm at 25°C
-0.7999220537658477
->>> kelvin_humidity(4.7e-9, out='rh')  # same, but expressed in %RH instead of activity
-79.99220537658476
->>> kelvin_humidity(4.7e-9, out='p')  # same, but in terms of pressure (Pa)
-2535.612513169546
->>> kelvin_humidity(4.7e-9, out='p', T=293.15, unit='K')  # at a different temperature
-1860.0699544036922
->>> kelvin_humidity(4.7e-9, ncurv=1)  # cylindrical interface
-0.8943836166689592
->>> kelvin_humidity([3e-9, 5e-9])  # with iterables
-array([0.70486836, 0.81070866])
+kelvin_radius(aw=0.8)  # Kelvin radius at 80%RH and T=25°C
+kelvin_radius(rh=80, ncurv=1)  # assume cylindrical meniscus instead of spherical
+
+kelvin_humidity(4.7e-9)  # activity corresponding to Kelvin radius of 4.7 nm at 25°C
+kelvin_humidity(4.7e-9, out='rh')  # same, but expressed in %RH instead of activity
+kelvin_humidity(4.7e-9, ncurv=1, out='p')  # cylindrical interface, output as pressure
 ```
 
 
@@ -128,7 +115,7 @@ The *solutions* module has the following functions, which return the respective 
 - `density()` for absolute (kg / m^3) or relative density,
 - `water_activity()` for solvent activity (dimensionless, range 0-1),
 - `surface_tension()` for absolute surface tension (N/m) or relative (normalized by that of pure water at the same temperature).
-- `refractive index()` (dimensionless)
+- `refractive_index()` (dimensionless)
 
 The structure of the call for any property (replace *property* below by one of the function names above) is
 ```python
@@ -152,6 +139,35 @@ gets the default source for the particular solute (defined in submodules).
 
 Note: similarly to temperature, the values in `**concentration` can be an array, list or tuple, however if it's the case, temperature needs to be a scalar.
 
+
+### Examples
+
+```python
+from aquasol.solutions import water_activity, density, surface_tension, refractive_index
+
+# Water activity (dimensionless) ---------------------------------------------
+water_activity(x=0.1)            # NaCl solution, mole fraction 10%, 25°C
+water_activity(r=0.3)           # solution when mixing 55g NaCl with 100g H2O
+water_activity('LiCl', w=0.3, T=70)  # LiCl solution, 30% weight fraction, 70°C
+water_activity(solute='CaCl2', m=[2, 4, 6])  # for several molalities (mol/kg)
+
+# Density (absolute, kg / m^3, or relative) ----------------------------------
+density(source='Tang', x=0.23)  # supersaturatad NaCl, 25°C, using Tang equation
+density(c=5000, relative=True)  # relative density of NaCl, 5 mol/L.
+density('LiCl', w=[0.11, 0.22, 0.51])  # for several weight fractions of LiCl
+
+# Surface tension (N / m) ----------------------------------------------------
+surface_tension(r=0.55)           # solution when mixing 55g NaCl with 100g H2O
+surface_tension(c=5000, relative=True)  # sigma / sigma(H2O) at 5 mol/L of NaCl
+surface_tension('CaCl2', 353, 'K', c=5e3)    # CaCl2, 300K, 5 mol/L
+surface_tension(x=[0.02, 0.04, 0.08], T=21)  # iterable mole fraction
+
+# Refractive index -----------------------------------------------------------
+refractive_index(c=4321)  # molality of 4.321 mol/L of NaCl, 25°C
+refractive_index('KCl', T=22, r=[0.1, 0.175])  # various mass ratios of KCl
+```
+
+
 Inverse property functions
 --------------------------
 
@@ -161,12 +177,9 @@ aw_to_conc(a, out='w', solute='NaCl', T=25, unit='C', source=None):
 ```
 For example:
 ```python
-aw_to_conc(0.39)
->>> 0.4902761745068064  # in terms of weight fraction
-aw_to_conc([0.39, 0.75], out='m')
->>> array([16.45785963,  6.21127029])  # in terms of molality
-aw_to_conc(0.11, 'r', 'LiCl', T=50)
->>> 0.9167650291014361  # in terms of mass ratio, for LiCl, at 50°C
+aw_to_conc(0.8)  # weight fraction of NaCl to have a humidity of 80%RH
+aw_to_conc([0.6, 0.85], out='m')  # molality of NaCl to get 60%RH and 85%RH
+aw_to_conc(0.33, 'r', 'LiCl', T=50)  # in terms of mass ratio, for LiCl at 50°C
 ```
 
 Other functions
