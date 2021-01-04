@@ -1,6 +1,6 @@
 from aquasol.water import vapor_pressure, surface_tension
 from aquasol.water import density_sat, density_atm
-from aquasol.water import dewpoint, kelvin_humidity, kelvin_radius
+from aquasol.water import dewpoint, kelvin_humidity, kelvin_radius, kelvin_pressure
 import numpy as np
 
 # =========================== Test Vapor Pressure ============================
@@ -196,6 +196,24 @@ def test_dewpoint_rhaw_8():
 
 # ========================== Test Kelvin relations ===========================
 
+# Pressure -------------------------------------------------------------------
+
+def test_kelvin_pressure_1():
+    P = - kelvin_pressure(aw=0.8) / 1e6  # Kelvin pressure in MPa at 80%RH and T=25°C
+    assert round(P) == 31
+
+def test_kelvin_pressure_2():
+    P = - kelvin_pressure(rh=80) / 1e6           # same
+    assert round(P) == 31
+
+def test_kelvin_pressure_3():
+    P = - kelvin_pressure(p=1000, T=293.15, unit='K') / 1e6     # at 1000Pa, 20°C
+    assert round(P) == 115
+
+def test_kelvin_pressure_4():
+    P = - kelvin_pressure(aw=[0.5, 0.7, 0.9]) / 1e6    # possible to use iterables
+    assert round(P[1]) == 49
+
 # Radius ---------------------------------------------------------------------
 def test_kelvin_radius_1():
     r = kelvin_radius(aw=0.8) * 1e9  # Kelvin radius at 80%RH and T=25°C
@@ -224,25 +242,37 @@ def test_kelvin_radius_6():
 # Humidity ---------------------------------------------------------------------
 
 def test_kelvin_humidity_1():
-    a = kelvin_humidity(4.7e-9)  # activity corresponding to Kelvin radius of 4.7 nm at 25°C
+    a = kelvin_humidity(r=4.7e-9)  # activity corresponding to Kelvin radius of 4.7 nm at 25°C
     assert round(a, 2) == 0.80
 
 def test_kelvin_humidity_2():
-    rh = kelvin_humidity(4.7e-9, out='rh')  # same, but expressed in %RH instead of activity
+    rh = kelvin_humidity(r=4.7e-9, out='rh')  # same, but expressed in %RH instead of activity
     assert round(rh) == 80
 
 def test_kelvin_humidity_3():
-    p = kelvin_humidity(4.7e-9, out='p')  # same, but in terms of pressure (Pa)
+    p = kelvin_humidity(r=4.7e-9, out='p')  # same, but in terms of pressure (Pa)
     assert round(p) == 2536
 
 def test_kelvin_humidity_4():
-    p = kelvin_humidity(4.7e-9, out='p', T=293.15, unit='K')  # at a different temperature
+    p = kelvin_humidity(r=4.7e-9, out='p', T=293.15, unit='K')  # at a different temperature
     assert round(p) == 1860
 
 def test_kelvin_humidity_5():
-    a = kelvin_humidity(4.7e-9, ncurv=1)  # cylindrical interface
+    a = kelvin_humidity(r=4.7e-9, ncurv=1)  # cylindrical interface
     assert round(a, 2) == 0.89
 
 def test_kelvin_humidity_6():
-    aa = kelvin_humidity([3e-9, 5e-9])  # with iterables
+    aa = kelvin_humidity(r=[3e-9, 5e-9])  # with iterables
     assert round(aa[1], 2) == 0.81
+
+def test_kelvin_humidity_7():     # with liquid pressure as input instead of r
+    a = kelvin_humidity(P=-30e6)
+    assert round(a, 2) == 0.80
+
+def test_kelvin_humidity_8():   # liquid pressure as input, vapor pressure out
+    p = kelvin_humidity(P=-30e6, out='p', T=293.15, unit='K')
+    assert round(p) == 1873
+
+def test_kelvin_humidity_9():   # iterable liquid pressure as input
+    aa = kelvin_humidity(P=[-30e6, -50e6])
+    assert round(aa[1], 2) == 0.69

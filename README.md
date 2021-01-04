@@ -58,9 +58,10 @@ density_sat(277.15, 'K')     # same thing, but on the coexistence line
 Inverse and other property functions
 ------------------------------------
 
-Based on the functions above, some inverse properties are also provided:
+Based on the functions above, some inverse and other properties are also provided:
 
 - `dewpoint()`
+- `kelvin_pressure()`
 - `kelvin_radius()`
 - `kelvin_humidity()`
 
@@ -76,12 +77,16 @@ dewpoint(rh=50)  # Dew point at 50%RH and 25°C (default)
 dewpoint('K', 300, rh=50)  # specify temperature
 dewpoint(aw=[0.5, 0.7])     # It is possible to input lists, tuples, arrays
 
+kelvin_pressure(rh=80)  # (liquid) Kelvin pressure corresponding to 80%RH
+kelvin_pressure(aw=[0.5, 0.7, 0.9], T=20)  # at 20°C for 50%RH, 70%RH, 90%RH
+
 kelvin_radius(aw=0.8)  # Kelvin radius at 80%RH and T=25°C
 kelvin_radius(rh=80, ncurv=1)  # assume cylindrical meniscus instead of spherical
 
-kelvin_humidity(4.7e-9)  # activity corresponding to Kelvin radius of 4.7 nm at 25°C
-kelvin_humidity(4.7e-9, out='rh')  # same, but expressed in %RH instead of activity
-kelvin_humidity(4.7e-9, ncurv=1, out='p')  # cylindrical interface, output as pressure
+kelvin_humidity(r=4.7e-9)  # activity corresponding to Kelvin radius of 4.7 nm at 25°C
+kelvin_humidity(r=4.7e-9, out='rh')  # same, but expressed in %RH instead of activity
+kelvin_humidity(r=4.7e-9, ncurv=1, out='p')  # cylindrical interface, output as pressure
+kelvin_humidity(P=[-30e6, -50e6])  # input can also be liquid pressure
 ```
 
 
@@ -264,10 +269,11 @@ For rapid calculations without much typing, the following shortcuts are provided
 |:-----------------------------:|:--------:|
 | `water.vapor_pressure()`      |  `ps()`  |
 | `water.dewpoint()`            |  `dp()`  |
+| `water.kelvin_pressure()`     |  `kp()`  |
 | `water.kelvin_radius()`       |  `kr()`  |
 | `water.kelvin_humidity()`     |  `kh()`  |
 | `solutions.water_activity()`  |  `aw()`  |
-| `solutions.aw_to_conc())`     |  `ac()`  |
+| `solutions.aw_to_conc()`      |  `ac()`  |
 | `solutions.convert()`         |  `cv()`  |
 
 For example, the two following imports are equivalent:
@@ -297,3 +303,9 @@ Olivier Vincent
 Contributors
 ------------
 Marine Poizat (2019), Léo Martin (2020)
+
+License
+-------
+BSD 3-Clause (see *LICENSE* file).
+
+Please credit *aquasol* in research papers acknowledgements.

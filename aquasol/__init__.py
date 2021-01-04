@@ -9,11 +9,10 @@ from . import solutions, water
 
 from .water import vapor_pressure as ps
 from .water import dewpoint as dp
+from .water import kelvin_pressure as kp
 from .water import kelvin_humidity as kh
 from .water import kelvin_radius as kr
 
 from .solutions import water_activity as aw
 from .solutions import aw_to_conc as ac
 from .solutions import convert as cv
-
-__version__ = '1.0.2'
