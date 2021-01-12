@@ -16,3 +16,7 @@ from .water import kelvin_radius as kr
 from .solutions import water_activity as aw
 from .solutions import aw_to_conc as ac
 from .solutions import convert as cv
+
+from importlib.metadata import version
+
+__version__ = version('aquasol')
