@@ -17,6 +17,8 @@ from .solutions import water_activity as aw
 from .solutions import aw_to_conc as ac
 from .solutions import convert as cv
 
-from importlib.metadata import version
+from importlib_metadata import version
 
+__author__ = 'Olivier Vincent'
 __version__ = version('aquasol')
+__license__ = 'BSD 3-Clause'

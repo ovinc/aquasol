@@ -282,23 +282,25 @@ from aquasol.solutions import water_activity as aw
 from aquasol import aw
 ```
 
-Misc. info
-==========
+Information
+===========
 
-Module requirements
--------------------
+Package requirements
+--------------------
 - numpy
 - matplotlib (only if running the package directly as a main file to plot the properties)
 - pynverse
 
 Python requirements
 -------------------
-Python : >= 3.6 (because of f-strings)
+Python : >= 3.6
 
 Author
 ------
+
 Olivier Vincent
-(olivier.a-vincent@wanadoo.fr)
+
+(ovinc.py@gmail.com)
 
 Contributors
 ------------
