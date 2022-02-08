@@ -8,10 +8,15 @@ from ..check import check_validity_range
 # Info on the name of the modules corresponding to the properties ------------
 
 base = '.formulas.'
-property_modules = {'vapor pressure': base + 'vapor_pressure',
-                    'surface tension': base + 'surface_tension',
-                    'density saturated': base + 'density_sat',
-                    'density ambient': base + 'density_atm'}
+
+modules = {'vapor pressure': 'vapor_pressure',
+           'surface tension': 'surface_tension',
+           'density saturated': 'density_sat',
+           'density ambient': 'density_atm',
+           'diffusivity in air': 'diffusivity_in_air'
+           }
+
+property_modules = {name: f'{base}{module}' for name, module in modules.items()}
 
 
 def get_infos(propty):

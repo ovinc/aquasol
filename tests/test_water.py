@@ -1,5 +1,6 @@
 from aquasol.water import vapor_pressure, surface_tension
 from aquasol.water import density_sat, density_atm
+from aquasol.water import diffusivity_in_air
 from aquasol.water import dewpoint, kelvin_humidity, kelvin_radius, kelvin_pressure
 import numpy as np
 
@@ -126,6 +127,16 @@ def test_rhosat_6():
 def test_rhosat_7():
     rho = density_sat(T=[0, 60, 100])
     assert round(rho[1]) == 983
+
+# ========================= Test Diffusivity in air ==========================
+
+def test_diffusivity_1():
+    d = diffusivity_in_air()
+    assert round(d * 1e5, 2) == 2.55
+
+def test_diffusivity_2():
+    d = diffusivity_in_air(source='MM72', T=50)
+    assert round(d * 1e5, 2) == 2.96
 
 # ============================== Test Dewpoint ===============================
 

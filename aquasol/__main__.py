@@ -12,6 +12,8 @@ from .format import format_temperature, format_concentration
 
 from .water import vapor_pressure, surface_tension as sigma_w
 from .water import density_atm, density_sat
+from .water import diffusivity_in_air
+
 from .water.general import get_infos as infos_water
 
 from .solutions import water_activity, surface_tension as sigma_s, density
@@ -29,14 +31,15 @@ concentration_unit = 'w'
 # ================================ WATER =====================================
 
 
-fig_w, (ax_w_psat, ax_w_sigma, ax_w_rho) = plt.subplots(1, 3)
+fig_w, ((ax_w_psat, ax_w_sigma), (ax_w_rho, ax_w_diff)) = plt.subplots(2, 2)
 
 fig_w.suptitle('Water')
 
 functions = {'vapor pressure': vapor_pressure,  # names have to match general.py
              'surface tension': sigma_w,
              'density saturated': density_sat,
-             'density ambient': density_atm}
+             'density ambient': density_atm,
+             'diffusivity in air': diffusivity_in_air}
 
 
 # General plotting functions -------------------------------------------------
@@ -98,6 +101,13 @@ plot_all_sources('density ambient', ax_w_rho)
 ax_w_rho.set_xlabel(f'T ({temperature_unit})')
 ax_w_rho.set_ylabel(f'Density (kg / m^3)')
 
+# Diffusivity in air ---------------------------------------------------------
+
+plot_all_sources('diffusivity in air', ax_w_diff)
+
+ax_w_diff.set_xlabel(f'T ({temperature_unit})')
+ax_w_diff.set_ylabel(f'Diffusivity (m^2 / s)')
+
 
 # ============================== SOLUTIONS ===================================
 
@@ -145,7 +155,7 @@ def plot_all_sources_conc(propty, solute, T, unit, ctype='m', relative=False, ax
         cunit = infos['conc units'][source]
 
         # The 0.999... is to avoid rounding making data out of range
-        cc_raw = np.linspace(cmin, cmax*0.99999, npts)
+        cc_raw = np.linspace(cmin, cmax * 0.99999, npts)
 
         concentration = {cunit: cc_raw}
         cc = format_concentration(concentration, ctype, solute, convert)
@@ -207,7 +217,7 @@ for solute in solutes:
                           ctype=concentration_unit, ax=ax_s_index)
 
 ax_s_index.set_xlabel(f'concentration ({concentration_unit})')
-ax_s_index.set_ylabel(f'density (kg/m^3)')
+ax_s_index.set_ylabel(f'refractive index')
 
 
 # ================================ FINAL =====================================

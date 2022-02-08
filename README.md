@@ -20,6 +20,7 @@ The *water* module has the following functions, which return the respective prop
 - `surface_tension()` for surface tension of pure water (N/m).
 - `density_sat()` for density on the liquid-vapor coexistence line (kg/m^3)
 - `density_atm()` for density at ambient pressure 0.1 MPa (kg/m^3)
+- `diffusivity_in_air()` for diffusivity of water vapor in air (m^2/s)
 
 The structure of the call for any property (replace *property* below by one of the function names above) is
 ```python
@@ -42,7 +43,9 @@ data = property(T=25, unit='C', source=None)
 (See docstrings for more details)
 
 ```python
-from aquasol.water import vapor_pressure, surface_tension, density_atm, density_sat
+from aquasol.water import vapor_pressure, surface_tension
+from aquasol.water import density_atm, density_sat
+from aquasol.water import diffusivity_in_air
 
 vapor_pressure()             # Saturation vapor pressure (Pa) at 25°C (3170 Pa)
 vapor_pressure(298.15, 'K')        # same thing
@@ -53,6 +56,8 @@ surface_tension(T=[5, 15, 25])         # same, but for surface tension (N/m)
 
 density_atm(4)               # density of water at atmospheric pressure at 4°C
 density_sat(277.15, 'K')     # same thing, but on the coexistence line
+
+diffusivity_in_air(27)  # Diffusivity of water vapor in air at 25°C
 ```
 
 Inverse and other property functions
@@ -93,7 +98,7 @@ kelvin_humidity(P=[-30e6, -50e6])  # input can also be liquid pressure
 Sources
 -------
 
-Below are the sources for water vapor pressure (1, 2, 3), density (1, 4, 5), surface tension (6).
+Below are the sources for water vapor pressure (1, 2, 3), density (1, 4, 5), surface tension (6), diffusivity in air (7).
 
 (1) Wagner, W. & Pruß, A. *The IAPWS Formulation 1995 for the Thermodynamic Properties of Ordinary Water Substance for General and Scientific Use.* Journal of Physical and Chemical Reference Data 31, 387–535 (2002).
 
@@ -106,6 +111,8 @@ Below are the sources for water vapor pressure (1, 2, 3), density (1, 4, 5), sur
 (5) Kell, G. S. Density, thermal expansivity, and compressibility of liquid water from 0.deg. to 150.deg.. *Correlations and tables for atmospheric pressure and saturation reviewed and expressed on 1968 temperature scale.* J. Chem. Eng. Data 20, 97–105 (1975).
 
 (6) IAPWS *Revised Release on Surface Tension of Ordinary Water Substance.* Moscow, Russia, June 2014.
+
+(7) Massman, W. J. *A review of the molecular diffusivities of H2O, CO2, CH4, CO, O3, SO2, NH3, N2O, NO, and NO2 in air, O2 and N2 near STP.* Atmospheric Environment 32, 1111-1127 (1998).
 
 (*) recommended by IAPWS.
 
