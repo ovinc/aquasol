@@ -133,7 +133,7 @@ def density_atm(T=25, unit='C', source=None):
 
 
 def diffusivity_in_air(T=25, unit='C', source=None):
-    """Density (kg/m^3) of ambient pure water as a function of temperature.
+    """Diffusivity (m^2/s) of water vapor as a function of temperature.
 
     Parameters
     ----------
@@ -162,3 +162,36 @@ def diffusivity_in_air(T=25, unit='C', source=None):
     """
     diffusivity = calculation('diffusivity in air', source, (T, unit))
     return diffusivity
+
+
+def viscosity_atm(T=25, unit='C', source=None):
+    """Viscosity (Pa.s) of ambient pure water as a function of temperature.
+
+    Parameters
+    ----------
+    - T (int, float, array, list, tuple): temperature
+    - unit (str, default 'C'): 'C' for Celsius, 'K' for Kelvin
+    - source (str, default None) : Source for the used equation, if None then
+    the default source for the particular property is used.
+
+    Output
+    ------
+    Viscosity in Pa.s
+
+    Sources
+    -------
+    'Huber' (default, recommended by IAPWS)
+
+    (see submodules for details).
+
+    Examples
+    --------
+    >>> from aquasol.water import viscosity_atm as mu
+    >>> mu()  # returns the diffusivity of water in air at 25°C
+    >>> mu(20)                  # at 20°C
+    >>> mu([0, 10, 20, 30])     # at various temperatures in Celsius
+    >>> mu(300, 'K')            # at 300K
+    """
+    viscosity = calculation('viscosity ambient', source, (T, unit))
+    return viscosity
+

@@ -13,7 +13,8 @@ modules = {'vapor pressure': 'vapor_pressure',
            'surface tension': 'surface_tension',
            'density saturated': 'density_sat',
            'density ambient': 'density_atm',
-           'diffusivity in air': 'diffusivity_in_air'
+           'diffusivity in air': 'diffusivity_in_air',
+           'viscosity ambient': 'viscosity_atm'
            }
 
 property_modules = {name: f'{base}{module}' for name, module in modules.items()}

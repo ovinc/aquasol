@@ -12,7 +12,7 @@ from .format import format_temperature, format_concentration
 
 from .water import vapor_pressure, surface_tension as sigma_w
 from .water import density_atm, density_sat
-from .water import diffusivity_in_air
+from .water import diffusivity_in_air, viscosity_atm
 
 from .water.general import get_infos as infos_water
 
@@ -31,7 +31,7 @@ concentration_unit = 'w'
 # ================================ WATER =====================================
 
 
-fig_w, ((ax_w_psat, ax_w_sigma), (ax_w_rho, ax_w_diff)) = plt.subplots(2, 2)
+fig_w, ((ax_w_psat, ax_w_sigma, ax_w_rho), (ax_w_diff, ax_w_visc, _)) = plt.subplots(2, 3)
 
 fig_w.suptitle('Water')
 
@@ -39,7 +39,9 @@ functions = {'vapor pressure': vapor_pressure,  # names have to match general.py
              'surface tension': sigma_w,
              'density saturated': density_sat,
              'density ambient': density_atm,
-             'diffusivity in air': diffusivity_in_air}
+             'diffusivity in air': diffusivity_in_air,
+             'viscosity ambient': viscosity_atm,
+             }
 
 
 # General plotting functions -------------------------------------------------
@@ -107,6 +109,13 @@ plot_all_sources('diffusivity in air', ax_w_diff)
 
 ax_w_diff.set_xlabel(f'T ({temperature_unit})')
 ax_w_diff.set_ylabel(f'Diffusivity (m^2 / s)')
+
+# Viscosity ------------------------------------------------------------------
+
+plot_all_sources('viscosity ambient', ax_w_visc)
+
+ax_w_visc.set_xlabel(f'T ({temperature_unit})')
+ax_w_visc.set_ylabel(f'Viscosity (Pa.s)')
 
 
 # ============================== SOLUTIONS ===================================
