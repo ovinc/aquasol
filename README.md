@@ -244,7 +244,7 @@ Sorted by alphabetical order. When available, the sources are written in parenth
 | LiCl   |   (1)    |   (1)   |       (1)       |                  |      X      |
 | MgCl2  |          |   (3)   |       (6)       |                  |      X      |
 | Na2SO4 |   (2)    |         |       (6)       |                  |      -      |
-| NaCl   |   (2)    | (1,4,5) |       (6)       |       (7)        |      X      |
+| NaCl   |  (2,8)   | (1,4,5) |       (6)       |       (7)        |      X      |
 
 (*) Solutes with no density data cannot use conversion to/from molarity ('c') but all other conversions work. They are noted with - instead of X.
 

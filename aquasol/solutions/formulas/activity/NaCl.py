@@ -15,12 +15,19 @@ Sources
 - Clegg et al. : "Thermodynamic Properties of Aqueous Aerosols to High
 Supersaturation: II" (1997). Valid at 25°C and for solutions of molality
 up to ~17 mol/kg (x ~ 0.23)
+
+- Tang, I. N., Munkelwitz, H. R. & Wang, N.
+  Water activity measurements with single suspended droplets:
+  The NaCl-H2O and KCl-H2O systems.
+  Journal of Colloid and Interface Science 114, 409–415 (1986).
+  Valid at 25°C and for solutions of molality up to ~13 mol/kg
 """
 
 # TODO: add Dutcher (it has supersaturated values!)
 
 import numpy as np
 
+from .misc import aw_extended_debye_huckel
 from ....constants import charge_numbers
 from ...convert import ion_quantities, ionic_strength
 
@@ -28,13 +35,17 @@ from ...convert import ion_quantities, ionic_strength
 
 default_source = 'Clegg'
 
-concentration_types = {'Clegg': 'x'}
+concentration_types = {'Clegg': 'x',
+                       'Tang': 'm'}
 
-concentration_ranges = {'Clegg': (0, 0.23)}
+concentration_ranges = {'Clegg': (0, 0.23),
+                        'Tang': (0, 13)}
 
-temperature_units = {'Clegg': 'C'}
+temperature_units = {'Clegg': 'C',
+                     'Tang': 'C'}
 
-temperature_ranges = {'Clegg': (25, 25)}
+temperature_ranges = {'Clegg': (25, 25),
+                      'Tang': (25, 25)}
 
 
 # ============================== FORMULAS ====================================
@@ -69,8 +80,23 @@ def water_activity_clegg(x, T):
     return a1
 
 
+def water_activity_Tang(m, T):
+
+    A = 0.5108
+    B = 1.37
+    C = 4.803e-3
+    D = -2.736e-4
+    E = 0
+    beta = 2.796e-2
+
+    coeffs_tang_NaCl = A, B, C, D, E, beta
+
+    return aw_extended_debye_huckel(m, T, solute='NaCl', coeffs=coeffs_tang_NaCl)
+
+
 # ========================== WRAP-UP OF FORMULAS =============================
 
-formulas = {'Clegg': water_activity_clegg}
+formulas = {'Clegg': water_activity_clegg,
+            'Tang': water_activity_Tang}
 
 sources = [source for source in formulas]

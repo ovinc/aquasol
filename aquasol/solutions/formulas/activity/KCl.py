@@ -36,16 +36,17 @@ temperature_ranges = {'Tang': (25, 25)}
 
 # ============================== FORMULAS ====================================
 
-A = 0.5108
-B = 1.35
-C = 7.625e-3
-D = -7.892e-4
-E = 2.492e-5
-beta = -9.842e-3
-
-coeffs_tang_KCl = A, B, C, D, E, beta
-
 def water_activity_Tang(m, T):
+
+    A = 0.5108
+    B = 1.35
+    C = 7.625e-3
+    D = -7.892e-4
+    E = 2.492e-5
+    beta = -9.842e-3
+
+    coeffs_tang_KCl = A, B, C, D, E, beta
+
     return aw_extended_debye_huckel(m, T, solute='KCl', coeffs=coeffs_tang_KCl)
 
 
