@@ -40,6 +40,10 @@ def test_aw_8():
     aw = water_activity(solute='CaCl2', T=50, m=[2, 4, 6])  # iterable conc.
     assert round(aw[2], 2) == 0.45
 
+def test_aw_9():
+    aw = water_activity(solute='KCl', m=3)  # KCl
+    assert round(aw, 2) == 0.90
+
 
 # =============================== Test density ===============================
 

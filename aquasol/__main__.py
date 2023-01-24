@@ -183,7 +183,7 @@ def plot_all_sources_conc(propty, solute, T, unit, ctype='m', relative=False, ax
 
 # Activity -------------------------------------------------------------------
 
-solutes = ['NaCl', 'LiCl', 'CaCl2', 'Na2SO4']
+solutes = ['NaCl', 'LiCl', 'CaCl2', 'Na2SO4', 'KCl']
 
 for solute in solutes:
     plot_all_sources_conc('water activity', solute, 25, 'C',

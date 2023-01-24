@@ -43,6 +43,7 @@ def water_activity(solute='NaCl', T=25, unit='C', source=None, **concentration):
     Solutes and Sources
     -------------------
     CaCl2: 'Conde' (default)
+    KCl: 'Tang' (default)
     LiCl: 'Conde' (default)
     Na2SO4: 'Clegg' (default)
     NaCl (default solute): 'Clegg' (default)

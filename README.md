@@ -239,7 +239,7 @@ Sorted by alphabetical order. When available, the sources are written in parenth
 | Solute | Activity | Density | Surface Tension | Refractive Index | Convert (*) |
 |:------:|:--------:|:-------:|:---------------:|:----------------:|:-----------:|
 | CaCl2  |   (1)    |  (1,3)  |      (1,6)      |       (7)        |      X      |
-| KCl    |          |   (3)   |       (6)       |       (7)        |      X      |
+| KCl    |   (8)    |   (3)   |       (6)       |       (7)        |      X      |
 | KI     |          |   (3)   |                 |                  |      X      |
 | LiCl   |   (1)    |   (1)   |       (1)       |                  |      X      |
 | MgCl2  |          |   (3)   |       (6)       |                  |      X      |
@@ -265,6 +265,8 @@ International Journal of Thermal Sciences 43, 367–382 (2004).
 (6) Dutcher, C. S., Wexler, A. S. & Clegg, S. L. *Surface Tensions of Inorganic Multicomponent Aqueous Electrolyte Solutions and Melts.* J. Phys. Chem. A 114, 12216–12230 (2010).
 
 (7) Tan, C.-Y. & Huang, Y.-X. *Dependence of Refractive Index on Concentration and Temperature in Electrolyte Solution, Polar Solution, Nonpolar Solution, and Protein Solution.* J. Chem. Eng. Data 60, 2827–2833 (2015).
+
+(8) Tang, I. N., Munkelwitz, H. R. & Wang, N. *Water activity measurements with single suspended droplets: The NaCl-H2O and KCl-H2O systems.* Journal of Colloid and Interface Science 114, 409–415 (1986).
 
 
 
