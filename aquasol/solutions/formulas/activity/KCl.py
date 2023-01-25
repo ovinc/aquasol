@@ -27,7 +27,7 @@ default_source = 'Tang'
 
 concentration_types = {'Tang': 'm'}
 
-concentration_ranges = {'Tang': (0, 13)}
+concentration_ranges = {'Tang': (1e-9, 13)}
 
 temperature_units = {'Tang': 'C'}
 

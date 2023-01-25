@@ -39,7 +39,7 @@ concentration_types = {'Clegg': 'x',
                        'Tang': 'm'}
 
 concentration_ranges = {'Clegg': (0, 0.23),
-                        'Tang': (0, 13)}
+                        'Tang': (1e-9, 13)}
 
 temperature_units = {'Clegg': 'C',
                      'Tang': 'C'}
