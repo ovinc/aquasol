@@ -17,7 +17,7 @@ from .water import diffusivity_in_air, viscosity_atm
 from .water.general import get_infos as infos_water
 
 from .solutions import water_activity, surface_tension as sigma_s, density
-from .solutions import refractive_index
+from .solutions import refractive_index, electrical_conductivity
 from .solutions.general import get_infos as infos_solutions
 from .solutions import convert
 
@@ -133,10 +133,15 @@ fig_s_dens.suptitle('Solutions, density')
 fig_s_index, ax_s_index = plt.subplots()
 fig_s_index.suptitle('Solutions, refractive index')
 
+fig_s_conductivity, ax_s_conductivity = plt.subplots()
+fig_s_conductivity.suptitle('Solutions, electrical conductivity')
+
 functions = {'water activity': water_activity,
              'surface tension': sigma_s,
              'density': density,
-             'refractive index': refractive_index}
+             'refractive index': refractive_index,
+             'electrical conductivity': electrical_conductivity,
+             }
 
 
 # General plotting functions -------------------------------------------------
@@ -175,7 +180,7 @@ def plot_all_sources_conc(propty, solute, T, unit, ctype='m', relative=False, ax
         else:
             pty = func(solute, T, unit, source, **concentration)
 
-        name = solute + ', ' + source
+        name = f"{solute} , {source} (T={T})"
         ax.plot(cc, pty * norm, label=name)
 
     ax.legend()
@@ -190,7 +195,7 @@ for solute in solutes:
                           ctype=concentration_unit, ax=ax_s_act)
 
 ax_s_act.set_xlabel(f'concentration ({concentration_unit})')
-ax_s_act.set_ylabel(f'a_w')
+ax_s_act.set_ylabel('a_w')
 
 
 # Surface tension ------------------------------------------------------------
@@ -202,7 +207,7 @@ for solute in solutes:
                           ctype=concentration_unit, ax=ax_s_surf, relative=False)
 
 ax_s_surf.set_xlabel(f'concentration ({concentration_unit})')
-ax_s_surf.set_ylabel(f'surface tension (mN/m)')
+ax_s_surf.set_ylabel('surface tension (mN/m)')
 
 
 # Density --------------------------------------------------------------------
@@ -214,7 +219,7 @@ for solute in solutes:
                           ctype=concentration_unit, ax=ax_s_dens, relative=False)
 
 ax_s_dens.set_xlabel(f'concentration ({concentration_unit})')
-ax_s_dens.set_ylabel(f'density (kg/m^3)')
+ax_s_dens.set_ylabel('density (kg/m^3)')
 
 
 # Refractive Index  ----------------------------------------------------------
@@ -226,7 +231,26 @@ for solute in solutes:
                           ctype=concentration_unit, ax=ax_s_index)
 
 ax_s_index.set_xlabel(f'concentration ({concentration_unit})')
-ax_s_index.set_ylabel(f'refractive index')
+ax_s_index.set_ylabel('refractive index')
+
+
+# Electrical Conductivity  ---------------------------------------------------
+
+solutes = ['KCl']
+
+for solute in solutes:
+
+    plot_all_sources_conc('electrical conductivity', solute, 0, 'C', norm=1,
+                          ctype=concentration_unit, ax=ax_s_conductivity)
+
+    plot_all_sources_conc('electrical conductivity', solute, 25, 'C', norm=1,
+                          ctype=concentration_unit, ax=ax_s_conductivity)
+
+    plot_all_sources_conc('electrical conductivity', solute, 50, 'C', norm=1,
+                          ctype=concentration_unit, ax=ax_s_conductivity)
+
+ax_s_conductivity.set_xlabel(f'concentration ({concentration_unit})')
+ax_s_conductivity.set_ylabel('electrical conductivity (S/m)')
 
 
 # ================================ FINAL =====================================

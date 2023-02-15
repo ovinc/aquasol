@@ -14,13 +14,15 @@ base = '.formulas.'
 property_modules = {'water activity': base + 'activity',
                     'density': base + 'density',
                     'surface tension': base + 'surface_tension',
-                    'refractive index': base + 'refractive_index'}
+                    'refractive index': base + 'refractive_index',
+                    'electrical conductivity': base + 'electrical_conductivity',
+                    }
 
 
 def get_infos(propty, solute):
     """Get various informations on sources for a particular property and solute.
 
-    Inputquit()
+    Input
     -----
     propty (str): property name (e.g. 'water activity', 'density')
     solute (str): solute name (e.g. 'NaCl')

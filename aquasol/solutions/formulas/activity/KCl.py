@@ -15,7 +15,7 @@ Sources
 - Tang, I. N., Munkelwitz, H. R. & Wang, N.
   Water activity measurements with single suspended droplets:
   The NaCl-H2O and KCl-H2O systems.
-  Journal of Colloid and Interface Science 114, 409–415 (1986).
+  Journal of Colloid and Interface Science 114, 409-415 (1986).
   Valid at 25°C and for solutions of molality up to ~13 mol/kg
 """
 

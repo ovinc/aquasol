@@ -135,6 +135,7 @@ The *solutions* module has the following functions, which return the respective 
 - `water_activity()` for solvent activity (dimensionless, range 0-1),
 - `surface_tension()` for absolute surface tension (N/m) or relative (normalized by that of pure water at the same temperature).
 - `refractive_index()` (dimensionless)
+- `electrical_conductivity()` (S/m)
 
 The structure of the call for any property (replace *property* below by one of the function names above) is
 ```python
@@ -182,8 +183,13 @@ surface_tension('CaCl2', 353, 'K', c=5e3)    # CaCl2, 300K, 5 mol/L
 surface_tension(x=[0.02, 0.04, 0.08], T=21)  # iterable mole fraction
 
 # Refractive index -----------------------------------------------------------
-refractive_index(c=4321)  # molality of 4.321 mol/L of NaCl, 25°C
+refractive_index(c=4321)  # concentration of 4.321 mol/L of NaCl, 25°C
 refractive_index('KCl', T=22, r=[0.1, 0.175])  # various mass ratios of KCl
+
+# Electrical conductivity ----------------------------------------------------
+electrical_conductivity('KCl', m=0.1)  # molality of 0.1 mol/L of KCl, 25°C
+electrical_conductivity('KCl', T=50, x=[0.01, 0.02])  # various mole fractions
+electrical_conductivity('KCl', T=[0, 25, 50], m=1)  # various mole fractions
 ```
 
 
@@ -236,15 +242,15 @@ Available Solutes
 
 Sorted by alphabetical order. When available, the sources are written in parentheses. For convert, an X means available.
 
-| Solute | Activity | Density | Surface Tension | Refractive Index | Convert (*) |
-|:------:|:--------:|:-------:|:---------------:|:----------------:|:-----------:|
-| CaCl2  |   (1)    |  (1,3)  |      (1,6)      |       (7)        |      X      |
-| KCl    |   (8)    |   (3)   |       (6)       |       (7)        |      X      |
-| KI     |          |   (3)   |                 |                  |      X      |
-| LiCl   |   (1)    |   (1)   |       (1)       |                  |      X      |
-| MgCl2  |          |   (3)   |       (6)       |                  |      X      |
-| Na2SO4 |   (2)    |         |       (6)       |                  |      -      |
-| NaCl   |  (2,8)   | (1,4,5) |       (6)       |       (7)        |      X      |
+| Solute | Activity | Density | Surface Tension | Refractive Index | Electrical conductivity | Convert (*) |
+|:------:|:--------:|:-------:|:---------------:|:----------------:|:-----------------------:|:-----------:|
+| CaCl2  |   (1)    |  (1,3)  |      (1,6)      |       (7)        |                         |      X      |
+| KCl    |   (8)    |   (3)   |       (6)       |       (7)        |           (9)           |      X      |
+| KI     |          |   (3)   |                 |                  |                         |      X      |
+| LiCl   |   (1)    |   (1)   |       (1)       |                  |                         |      X      |
+| MgCl2  |          |   (3)   |       (6)       |                  |                         |      X      |
+| Na2SO4 |   (2)    |         |       (6)       |                  |                         |      -      |
+| NaCl   |  (2,8)   | (1,4,5) |       (6)       |       (7)        |                         |      X      |
 
 (*) Solutes with no density data cannot use conversion to/from molarity ('c') but all other conversions work. They are noted with - instead of X.
 
@@ -268,6 +274,7 @@ International Journal of Thermal Sciences 43, 367–382 (2004).
 
 (8) Tang, I. N., Munkelwitz, H. R. & Wang, N. *Water activity measurements with single suspended droplets: The NaCl-H2O and KCl-H2O systems.* Journal of Colloid and Interface Science 114, 409–415 (1986).
 
+(9) McKee, C. B., *An Accurate Equation for the Electrolytic Conductivity of Potassium Chloride Solutions*. J Solution Chem 38, 1155-1172 (2009).
 
 
 Constants
@@ -324,6 +331,4 @@ Marine Poizat (2019), Léo Martin (2020)
 
 License
 -------
-BSD 3-Clause (see *LICENSE* file).
-
-Please credit *aquasol* in research papers acknowledgements.
+--- TO BE DETERMINED ---

@@ -48,7 +48,7 @@ def water_activity(solute='NaCl', T=25, unit='C', source=None, **concentration):
     Na2SO4: 'Clegg' (default)
     NaCl (default solute): 'Clegg' (default), 'Tang'
 
-    See details about the sources in the submodules.
+    See details about the sources in the submodules and Readme file.
 
     Examples
     --------
@@ -104,7 +104,7 @@ def density(solute='NaCl', T=25, unit='C', relative=False, source=None, **concen
     MgCl2: 'Al Ghafri' (default)
     NaCl (default solute): 'Simion' (default), 'Tang', 'Al Ghafri'
 
-    See details about the sources in the submodules.
+    See details about the sources in the submodules and Readme file.
 
     Examples
     --------
@@ -163,7 +163,7 @@ def surface_tension(solute='NaCl', T=25, unit='C', relative=False, source=None, 
     Na2SO4: 'Dutcher' (default)
     NaCl (default solute): 'Dutcher' (default)
 
-    See details about the sources in the submodules.
+    See details about the sources in the submodules and Readme file.
 
     Examples
     --------
@@ -216,7 +216,7 @@ def refractive_index(solute='NaCl', T=25, unit='C', source=None, **concentration
     KCl: 'Tan' (default)
     NaCl (default solute): 'Tan' (default)
 
-    See details about the sources in the submodules.
+    See details about the sources in the submodules and Readme file.
 
     Examples
     --------
@@ -233,3 +233,47 @@ def refractive_index(solute='NaCl', T=25, unit='C', source=None, **concentration
     n = calculation('refractive index', solute, source, parameters, converter)
 
     return format_output_type(n)
+
+
+def electrical_conductivity(solute='NaCl', T=25, unit='C', source=None, **concentration):
+    """Return electrical conductivity of an aqueous solution at a given concentration.
+
+    Parameters
+    ----------
+    - solute (str): solute name, default 'NaCl'
+    - T (float): temperature (default 25)
+    - unit (str, default 'C'): 'C' for Celsius, 'K' for Kelvin
+
+    - source (str, default None) : Source for the used equation, if None then
+    gets the default source for the particular solute (defined in submodules).
+    See summary of available sources below.
+
+    - **concentration: kwargs with any unit that is allowed by convert(), e.g.
+        - m= : molality (mol/kg)
+        - w= : mass fraction
+        - x= : mole fraction
+        - c= : molarity (mol/m^3)
+        - r= : mass ratio (unitless)
+
+    Output
+    ------
+    - Electrical conductivity (S/m)
+
+    Solutes and Sources
+    -------------------
+    KCl: 'McKee' (default)
+
+    See details about the sources in the submodules and Readme file.
+
+    Examples
+    --------
+    - electrical_conductivity(solute='KCl', m=0.1)
+    - electrical_conductivity(solute='KCl, m=2.2, T=50)  # at 50°C
+
+    (Note: arrays are accepted for concentration and temperature)
+    """
+
+    parameters = T, unit, concentration
+    a_w = calculation('electrical conductivity', solute, source, parameters, converter)
+
+    return format_output_type(a_w)

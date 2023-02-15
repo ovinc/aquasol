@@ -2,7 +2,8 @@
 
 
 from aquasol.solutions import water_activity, density, surface_tension
-from aquasol.solutions import refractive_index, aw_to_conc, convert
+from aquasol.solutions import refractive_index, electrical_conductivity
+from aquasol.solutions import aw_to_conc, convert
 
 
 # =========================== Test water activity ============================
@@ -127,6 +128,24 @@ def test_n_7():
 def test_n_8():
     n = refractive_index('KCl', T=22, w=[0.05, 0.1, 0.15])  # iterable conc.
     assert round(n[2], 2) == 1.36
+
+
+# ====================== Test electrical conductivity ========================
+
+
+def test_conduc_concs():
+    s1, s2, s3 = electrical_conductivity('KCl', m=[0.01, 0.1, 1])  # At 25°C
+    assert round(s1, 4) == 0.1408
+    assert round(s2, 3) == 1.282
+    assert round(s3, 2) == 10.86
+
+
+def test_conduc_temps():
+    s_0, s_25, s_50 = electrical_conductivity('KCl', m=1, T=[0, 25, 50])
+    assert round(s_0, 2) == 6.35
+    assert round(s_25, 2) == 10.86
+    assert round(s_50, 2) == 15.75
+
 
 
 # =============================== Test convert ===============================
