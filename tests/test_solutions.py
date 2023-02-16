@@ -69,6 +69,10 @@ def test_rho_5():
     rho = density(w=[0.05, 0.12, 0.25])  # iterable concentration
     assert round(rho[2]) == 1186
 
+def test_rho_Na2SO4():
+    rho = density('Na2SO4', w=0.5)
+    assert round(rho) == 1549
+
 
 # =========================== Test surface tension ===========================
 

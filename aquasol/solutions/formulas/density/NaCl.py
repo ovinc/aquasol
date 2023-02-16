@@ -29,7 +29,7 @@ Journal of Chemical & Engineering Data 57, 1288-1304 (2012).
 
 import numpy as np
 
-from .misc import rho_alghafri
+from .misc import rho_alghafri, rho_tang
 from ....water import density_atm
 
 # General Info about the formulas
@@ -76,16 +76,8 @@ def density_simion(w, T):
 
 
 def density_tang(w, T):
-
-    w = w * 100
-
-    rho0 = 997.1  # density of pure water (at 25°C)
-    rho = rho0
-    A = np.array([7.41e-3, -3.741e-5,2.252e-6, -2.06e-8])*1000
-    for i, a in enumerate(A):
-        rho += a * w**(i+1)
-
-    return rho0, rho
+    coeffs = np.array([7.41e-3, -3.741e-5, 2.252e-6, -2.06e-8]) * 1000
+    return rho_tang(w, coeffs)
 
 
 def density_alghafri(m, T):

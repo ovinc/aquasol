@@ -1,36 +1,10 @@
 """Functions for the calculation of the density of solutions."""
 
 import numpy as np
-import itertools
 
-from ....constants import Tc, Pc, rhoc
+from ....constants import Tc
 from ....water import vapor_pressure
 from ....water import density_sat
-
-
-def main():
-    """Calculates Al Ghafri for NaCl, as an example."""
-
-    a = np.zeros((4, 5))
-
-    a[1][0] = 2863.158; a[1][1] = -46844.356; a[1][2] = 120760.118
-    a[1][3] = -116867.722; a[1][4] = 40285.426
-
-    a[2][0] = -2000.028; a[2][1] = 34013.518; a[2][2] = -88557.123;
-    a[2][3] = 86351.784; a[2][4] = -29910.216
-
-    a[3][0] = 413.046; a[3][1] = -7125.857; a[3][2] = 18640.780;
-    a[3][3] = -18244.074; a[3][4] = 6335.275
-
-    b = np.zeros((2, 4))
-    b[0][0] = -1622.4; b[0][1] = 9383.8; b[0][2] = -14893.8; b[0][3] = 7309.10
-    b[1][0] = 241.57; b[1][1] = -980.97; b[1][2] = 1482.31; b[1][3] = -750.98
-
-    c = np.zeros(3)
-    c[0] = 0.11725; c[1] = -0.00134; c[2] = 0.00056
-
-    rho = rho_al_ghafri(6, 298.15, 1e5, a, b, c)
-    print(rho)
 
 
 def rho_alghafri(m, T, P, a, b, c):
@@ -55,7 +29,7 @@ def rho_alghafri(m, T, P, a, b, c):
     Al Ghafri et al., Densities of Aqueous MgCl 2 (aq), CaCl 2 (aq), KI(aq),
     NaCl(aq), KCl(aq), AlCl 3 (aq), and (0.964 NaCl + 0.136 KCl)(aq) at
     Temperatures Between (283 and 472) K, Pressures up to 68.5 MPa, and
-    Molalities up to 6 mol·kg −1.
+    Molalities up to 6 mol·kg-1.
     Journal of Chemical & Engineering Data 57, 1288-1304 (2012).
 
     Notes
@@ -65,7 +39,7 @@ def rho_alghafri(m, T, P, a, b, c):
     pressures up to 68.5 MPa for all brines studied except in the case of
     AlCl3 (aq) where the temperature is restricted to the range (298.15 to
     373.15) K. The correlations are valid for all molalities up to
-    (5.0,      6.0,       1.06,   6.0,      4.5,     2.0,      and 4.95) mol·kg−1 for
+    (5.0,      6.0,       1.06,   6.0,      4.5,     2.0,      and 4.95) mol·kg-1 for
     MgCl2(aq), CaCl2(aq), KI(aq), NaCl(aq), KCl(aq), AlCl3(aq),
     and (0.864 NaCl + 0.136 KCl)(aq), respectively.
     """
@@ -117,5 +91,11 @@ def relative_rho_conde(z, coeffs):
     return d
 
 
-if __name__ == '__main__':
-    main()
+def rho_tang(w, coeffs):
+    """From Tang 1996, only at 25°C"""
+    w = w * 100
+    rho0 = 997.1  # density of pure water (at 25°C)
+    rho = rho0
+    for i, coeff in enumerate(coeffs):
+        rho += coeff * w ** (i + 1)
+    return rho0, rho

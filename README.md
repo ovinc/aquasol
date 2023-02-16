@@ -249,7 +249,7 @@ Sorted by alphabetical order. When available, the sources are written in parenth
 | KI     |          |   (3)   |                 |                  |                         |      X      |
 | LiCl   |   (1)    |   (1)   |       (1)       |                  |                         |      X      |
 | MgCl2  |          |   (3)   |       (6)       |                  |                         |      X      |
-| Na2SO4 |   (2)    |         |       (6)       |                  |                         |      -      |
+| Na2SO4 |   (2)    |   (10)  |       (6)       |                  |                         |      X      |
 | NaCl   |  (2,8)   | (1,4,5) |       (6)       |       (7)        |                         |      X      |
 
 (*) Solutes with no density data cannot use conversion to/from molarity ('c') but all other conversions work. They are noted with - instead of X.
@@ -275,6 +275,8 @@ International Journal of Thermal Sciences 43, 367–382 (2004).
 (8) Tang, I. N., Munkelwitz, H. R. & Wang, N. *Water activity measurements with single suspended droplets: The NaCl-H2O and KCl-H2O systems.* Journal of Colloid and Interface Science 114, 409–415 (1986).
 
 (9) McKee, C. B., *An Accurate Equation for the Electrolytic Conductivity of Potassium Chloride Solutions*. J Solution Chem 38, 1155-1172 (2009).
+
+(10) Tang, I. N. & Munkelwitz, H. R. Simultaneous Determination of Refractive Index and Density of an Evaporating Aqueous Solution Droplet. Aerosol Science and Technology 15, 201–207 (1991).
 
 
 Constants
