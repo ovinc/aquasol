@@ -262,11 +262,13 @@ def electrical_conductivity(solute='NaCl', T=25, unit='C', source=None, **concen
     Solutes and Sources
     -------------------
     KCl: 'McKee' (default)
+    NaCl (default solute): 'Sinmyo' (default)
 
     See details about the sources in the submodules and Readme file.
 
     Examples
     --------
+    - electrical_conductivity(c=1000)  # 1 molar NaCl conductivity
     - electrical_conductivity(solute='KCl', m=0.1)
     - electrical_conductivity(solute='KCl, m=2.2, T=50)  # at 50°C
 
