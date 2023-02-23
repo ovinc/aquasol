@@ -16,12 +16,12 @@ Sources
 - Al Ghafri et al., Densities of Aqueous MgCl2(aq), CaCl2 (aq), KI(aq),
 NaCl(aq), KCl(aq), AlCl3(aq), and (0.964 NaCl + 0.136 KCl)(aq) at
 Temperatures Between (283 and 472) K, Pressures up to 68.5 MPa, and
-Molalities up to 6 mol·kg −1.
+Molalities up to 6 mol·kg -1.
 Journal of Chemical & Engineering Data 57, 1288-1304 (2012).
 
 - Conde, M. R., Properties of aqueous solutions of lithium and calcium
 chlorides: formulations for use in air conditioning equipment design.
-International Journal of Thermal Sciences 43, 367–382 (2004).
+International Journal of Thermal Sciences 43, 367-382 (2004).
 """
 
 import numpy as np
@@ -68,7 +68,7 @@ def density_alghafri(m, T):
     c[:] = [0.11725, -0.00493, 0.00231]
 
     rho = rho_alghafri(m, T, 1e5, a, b, c)
-    rho0 = density_atm(T, 'K')
+    rho0 = rho_alghafri(0, T, 1e5, a, b, c)
 
     return rho0, rho
 

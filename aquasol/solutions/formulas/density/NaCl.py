@@ -23,14 +23,13 @@ scattering coefficients" (1996). Valid at 25°C and from w = 0 to w ~= 0.5
 - Al Ghafri et al., Densities of Aqueous MgCl 2 (aq), CaCl 2 (aq), KI(aq),
 NaCl(aq), KCl(aq), AlCl 3 (aq), and (0.964 NaCl + 0.136 KCl)(aq) at
 Temperatures Between (283 and 472) K, Pressures up to 68.5 MPa, and
-Molalities up to 6 mol·kg −1.
+Molalities up to 6 mol·kg -1.
 Journal of Chemical & Engineering Data 57, 1288-1304 (2012).
 """
 
 import numpy as np
 
 from .misc import rho_alghafri, rho_tang
-from ....water import density_atm
 
 # General Info about the formulas
 
@@ -95,7 +94,7 @@ def density_alghafri(m, T):
     c[:] = [0.11725, -0.00134, 0.00056]
 
     rho = rho_alghafri(m, T, 1e5, a, b, c)
-    rho0 = density_atm(T, 'K')
+    rho0 = rho_alghafri(0, T, 1e5, a, b, c)
 
     return rho0, rho
 
