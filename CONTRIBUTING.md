@@ -53,9 +53,9 @@ In particular, the `default_source` must be defined, as well at the dictionaries
 
 - Add the info on the source in **1)** the docstring of the formula *.py* file (detailed info), **2)** the docstring of the property's function in the **properties.py** file of the module (brief info), **3)** in adequate places in **README.md**.
 
-- Add a plot of the new source data in the **\__main\__.py** file.
-
 - Add tests (*pytest*) in **tests** folder and run tests to make sure nothing is broken.
+
+**Note**: adding a plot of the new source data in the **\__main\__.py** file is now made automatically.
 
 
 # Structure of code

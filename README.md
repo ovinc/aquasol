@@ -276,13 +276,28 @@ International Journal of Thermal Sciences 43, 367–382 (2004).
 
 (9) McKee, C. B., *An Accurate Equation for the Electrolytic Conductivity of Potassium Chloride Solutions*. J Solution Chem 38, 1155-1172 (2009).
 
-(10) Tang, I. N. & Munkelwitz, H. R. Simultaneous Determination of Refractive Index and Density of an Evaporating Aqueous Solution Droplet. Aerosol Science and Technology 15, 201–207 (1991).
+(10) Tang, I. N. & Munkelwitz, H. R., *Simultaneous Determination of Refractive Index and Density of an Evaporating Aqueous Solution Droplet*. Aerosol Science and Technology 15, 201–207 (1991).
+
+(11) Talreja-Muthreja, T., Linnow, K., Enke, D. & Steiger. *M. Deliquescence of NaCl Confined in Nanoporous Silica*. Langmuir 38, 10963-10974 (2022).
 
 
 Constants
 =========
 
-The *constants.py* file includes useful values including critical point data, molecular weights of species, dissociation numbers etc. Use the function `molar_mass` to get the molar mass (in kg/mol) of a specific solute from the *solute_list*.
+The *constants.py* file includes useful values including critical point data, molecular weights of species, dissociation numbers etc. Use the function `molar_mass` to get the molar mass (in kg/mol) of a specific solute from the *solute_list*, e.g.:
+
+```python
+from aquasol.constants import Mw           # molar mass of water (kg/mol)
+from aquasol.constants import molar_mass   # molar mass of specific solute
+from aquasol.constants import charge_numbers        # charges z+ / z-
+from aquasol.constants import dissociation_numbers  # nu+ / nu-
+
+solute = 'Na2SO4'
+
+molar_mass(solute)  # 0.142 kg/mol
+z_m, z_x = charge_numbers[solute]          # (1, 2) for Na(1+), SO4(2-)
+nu_m, nu_x = dissociation_numbers[solute]  # (2, 1) for Na(2) SO4(1)
+```
 
 
 Shortcut functions

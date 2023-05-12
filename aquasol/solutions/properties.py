@@ -162,7 +162,7 @@ def surface_tension(solute='NaCl', T=25, unit='C', relative=False, source=None, 
     LiCl: 'Conde' (default)
     MgCl2: 'Dutcher' (default)
     Na2SO4: 'Dutcher' (default)
-    NaCl (default solute): 'Dutcher' (default)
+    NaCl (default solute): 'Dutcher' (default), 'Steiger'
 
     See details about the sources in the submodules and Readme file.
 

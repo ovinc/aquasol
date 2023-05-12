@@ -12,9 +12,13 @@ file.
 
 Sources
 -------
-- Dutcher: Dutcher, C. S., Wexler, A. S. & Clegg, S. L. Surface Tensions of
-Inorganic Multicomponent Aqueous Electrolyte Solutions and Melts.
-J. Phys. Chem. A 114, 12216–12230 (2010).
+- Dutcher: Dutcher, C. S., Wexler, A. S. & Clegg, S. L.
+  Surface Tensions of Inorganic Multicomponent Aqueous Electrolyte Solutions and Melts.
+  J. Phys. Chem. A 114, 12216-12230 (2010).
+
+- Talreja-Muthreja, T., Linnow, K., Enke, D. & Steiger
+  M. Deliquescence of NaCl Confined in Nanoporous Silica.
+  Langmuir 38, 10963-10974 (2022).
 """
 
 
@@ -28,13 +32,21 @@ from .misc import sigma_dutcher, sigma_iapws
 
 default_source = 'Dutcher'
 
-concentration_types = {'Dutcher': 'x'}
+concentration_types = {'Dutcher': 'x',
+                       'Steiger': 'm',
+                       }
 
-concentration_ranges = {'Dutcher': (0, 0.145)}
+concentration_ranges = {'Dutcher': (0, 0.145),
+                        'Steiger': (0, 7),     # approx (up to saturation)
+                        }
 
-temperature_units = {'Dutcher': 'K'}
+temperature_units = {'Dutcher': 'K',
+                     'Steiger': 'C',
+                     }
 
-temperature_ranges = {'Dutcher': (263.13, 473.15)}
+temperature_ranges = {'Dutcher': (263.13, 473.15),
+                      'Steiger': (-10, 50)
+                      }
 
 
 # ============================== FORMULAS ====================================
@@ -61,10 +73,18 @@ def surface_tension_dutcher(x, T):
     return sigma_w, sigma
 
 
+def surface_tension_steiger(m, T):
+    """Surface tension calculated from Talreja-Muthreja et al. 2022
+    Input: molality m, temperature T in Celsius."""
+    sigma_w = sigma_iapws(T + 273.15)
+    sigma = sigma_w + 0.00166 * m
+    return sigma_w, sigma
+
+
 # ========================== WRAP-UP OF FORMULAS =============================
 
 formulas = {'Dutcher': surface_tension_dutcher,
+            'Steiger': surface_tension_steiger
             }
 
 sources = [source for source in formulas]
-

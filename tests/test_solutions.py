@@ -5,6 +5,20 @@ from aquasol.solutions import water_activity, density, surface_tension
 from aquasol.solutions import refractive_index, electrical_conductivity
 from aquasol.solutions import aw_to_conc, convert
 
+from aquasol.constants import molar_mass
+from aquasol.constants import charge_numbers
+from aquasol.constants import dissociation_numbers
+
+
+# ============================== Test constants ==============================
+
+
+def test_constants():
+    solute = 'Na2SO4'
+    assert round(molar_mass(solute), 3) == 0.142  # kg / mol
+    assert charge_numbers[solute] == (1, 2)
+    assert dissociation_numbers[solute] == (2, 1)
+
 
 # =========================== Test water activity ============================
 
