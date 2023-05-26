@@ -200,6 +200,10 @@ def test_convert_8():
     x = convert([3300, 4400], 'c', 'x', solute='NaCl', T=40)  # iterable ok
     assert round(x[1], 3) == 0.081
 
+def test_convert_9():
+    m = convert(5305, 'c', 'm', density_source='Tang')  # different source
+    assert round(m, 2) == 6
+
 
 # ========================= Test Inverse Functions ===========================
 

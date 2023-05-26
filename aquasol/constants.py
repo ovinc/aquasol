@@ -25,6 +25,8 @@ Solute properties as functions:
 SOURCES
 -------
 CRC Handbook of Physics and Chemistry:
+    - Physical Constants of Inorganic Compounds
+    https://hbcp.chemnetbase.com/faces/documents/04_02/04_02_0001.xhtml
     - Thermodynamic Properties of Aqueous Ions
     http://hbcponline.com/faces/documents/05_04/05_04_0001.xhtml
     - Recommended values of the fundamental physical constants
@@ -52,7 +54,14 @@ rhoc = 322    # critical density in kg/m^3 (CRC Handbook & IAPWS)
 
 # =========================== SOLUTE/IONS PROPERTIES =========================
 
-solute_list = ['AlCl3', 'CaCl2', 'KCl', 'KI', 'LiCl', 'MgCl2', 'Na2SO4', 'NaCl']
+solute_list = ['AlCl3',
+               'CaCl2',
+               'KCl',
+               'KI',
+               'LiCl',
+               'MgCl2',
+               'Na2SO4',
+               'NaCl']
 
 # Individual ion molecular weights in Daltons --------------------------------
 weight_cations = {'Al': 26.982,

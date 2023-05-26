@@ -34,7 +34,7 @@ allowed_units = basic_units + add_units
 # =========================== MAIN CONVERT FUNCTION ==========================
 
 
-def convert(value, unit1, unit2, solute='NaCl', T=25, unit='C'):
+def convert(value, unit1, unit2, solute='NaCl', T=25, unit='C', density_source=None):
     """Convert between different concentration units for solutions.
 
     Parameters
@@ -45,6 +45,8 @@ def convert(value, unit1, unit2, solute='NaCl', T=25, unit='C'):
     - solute (str): name of solute (default 'NaCl').
     - T: temperature
     - unit: unit of temperature (should be 'C' or 'K'), only used for molarity
+    - density_source: which formula to use to calculate density when converting
+                      to molarity (None = default).
 
     solute has to be in the solute list in the constants module and in the
     solutes with density data if unit1 or unit2 is molarity ('c').
@@ -85,7 +87,7 @@ def convert(value, unit1, unit2, solute='NaCl', T=25, unit='C'):
 
     # Check if it's unit1 which is a "fancy" unit and convert to w if so.
     if unit1 == 'c':
-        w = molarity_to_w(value, solute, T, unit)
+        w = molarity_to_w(c=value, solute=solute, T=T, unit=unit, source=density_source)
         value_in = w
         unit_in = 'w'
     else:
@@ -99,15 +101,17 @@ def convert(value, unit1, unit2, solute='NaCl', T=25, unit='C'):
 
         w = basic_convert(value_in, unit_in, 'w', solute)
         if unit2 == 'c':
-            return w_to_molarity(w, solute, T, unit)
+            return w_to_molarity(w=w, solute=solute, T=T, unit=unit, source=density_source)
 
-        else:  # TODO: add the test of returning None in unit tests
-            return None  # This case should never happen
+        else:
+            # This case should in principle never happen, except if bug in
+            # logics of code above
+            raise ValueError('Unknown error --  please check code of convert() function.')
 
 
 # ============================== DENSITY FUNCTION ============================
 
-def basic_density(solute, T=25, unit='C', **concentration):
+def basic_density(solute, T=25, unit='C', source=None, **concentration):
     """Return the density of an aqueous solution at a given concentration.
 
     Simplified version of main density function, with only basic units
@@ -120,35 +124,34 @@ def basic_density(solute, T=25, unit='C', **concentration):
     ----------
     - solute (str): solute name, default 'NaCl'
     - T (float): temperature in K
+    - source: literature source to calculate density (None = default)
     - **concentration: kwargs with any basic unit ('x', 'w', 'm', 'r')
 
     Output
     ------
     - density (kg/m^3)
-
-    Sources
-    -------
-    Default source defined in each solute submodule.
     """
-    source = None  # set source to None to get default formula for density
     parameters = T, unit, concentration
-    rho0, rho = calculation('density', solute, source, parameters, basic_convert)
-
+    _, rho = calculation(propty='density',
+                         solute=solute,
+                         source=source,
+                         parameters=parameters,
+                         converter=basic_convert)
     return rho
 
 
 # ============================= MOLARITY FUNCTIONS ===========================
 
 
-def w_to_molarity(w, solute, T=25, unit='C'):
+def w_to_molarity(w, solute, T=25, unit='C', source=None):
     """Calculate molarity of solute from weight fraction at temperature T in °C"""
     check_solute(solute, solute_list)
     M = molar_mass(solute)
-    rho = basic_density(solute=solute, T=T, unit=unit, w=w)
+    rho = basic_density(solute=solute, T=T, unit=unit, source=source, w=w)
     return rho * w / M
 
 
-def molarity_to_w(c, solute, T=25, unit='C'):
+def molarity_to_w(c, solute, T=25, unit='C', source=None):
     """Calculate weight fraction of solute from molarity at temperature T in °C.
 
     Note: can be slow because of inverting the function each time.
@@ -168,7 +171,7 @@ def molarity_to_w(c, solute, T=25, unit='C'):
 
     # HACK: this is to give a warning if some parameters out of range when
     # applying the value found for w
-    _ = basic_density(solute=solute, T=T, unit=unit, w=w)
+    _ = basic_density(solute=solute, T=T, unit=unit, source=source, w=w)
 
     return format_output_type(w)
 

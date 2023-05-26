@@ -212,7 +212,7 @@ Other functions
 
 The *solutions* module also has a function to convert between concentration units:
 ```python
-value_out = convert(value, unit_in, unit_out, solute)
+value_out = convert(value, unit_in, unit_out, solute='NaCl', density_source=None)
 ```
 where unit_in and unit_out can be in the following list:
 - *'m'* (molality, mol/kg)
@@ -221,7 +221,7 @@ where unit_in and unit_out can be in the following list:
 - *'w'* (weight fraction)
 - *'r'* (ratio solute mass to solvent mass).
 
-By default, solute is `'NaCl'`.
+By default, solute is `'NaCl'`. When converting to/from molarity, one must also use a formula to calculate the density of the solution. It's possible to specify a formula different than the default one by providing an argument to the `density_source` argument.
 
 One can access more elaborate quantities with the following functions:
 
@@ -250,7 +250,7 @@ Sorted by alphabetical order. When available, the sources are written in parenth
 | LiCl   |   (1)    |   (1)   |       (1)       |                  |                         |      X      |
 | MgCl2  |          |   (3)   |       (6)       |                  |                         |      X      |
 | Na2SO4 |   (2)    |   (10)  |       (6)       |                  |                         |      X      |
-| NaCl   |  (2,8)   | (1,4,5) |       (6)       |       (7)        |                         |      X      |
+| NaCl   |  (2,8)   | (3,4,5) |      (6,11)     |       (7)        |                         |      X      |
 
 (*) Solutes with no density data cannot use conversion to/from molarity ('c') but all other conversions work. They are noted with - instead of X.
 
@@ -344,7 +344,7 @@ Olivier Vincent
 
 Contributors
 ------------
-Marine Poizat (2019), Léo Martin (2020)
+Marine Poizat (2019), Léo Martin (2020), Hugo Bellezza (2023)
 
 License
 -------
