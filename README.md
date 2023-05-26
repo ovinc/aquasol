@@ -223,6 +223,8 @@ where unit_in and unit_out can be in the following list:
 
 By default, solute is `'NaCl'`. When converting to/from molarity, one must also use a formula to calculate the density of the solution. It's possible to specify a formula different than the default one by providing an argument to the `density_source` argument.
 
+**NOTE**: In case of issues such as `ValueError: Requested values higher than the higher limit of the image`, try playing with the `density_wmin` and `density_wmax` parameters in `convert()`.
+
 One can access more elaborate quantities with the following functions:
 
 ```python

@@ -34,7 +34,9 @@ allowed_units = basic_units + add_units
 # =========================== MAIN CONVERT FUNCTION ==========================
 
 
-def convert(value, unit1, unit2, solute='NaCl', T=25, unit='C', density_source=None):
+def convert(value, unit1, unit2,
+            solute='NaCl', T=25, unit='C',
+            density_source=None, density_wmin=0, density_wmax=0.99):
     """Convert between different concentration units for solutions.
 
     Parameters
@@ -45,8 +47,15 @@ def convert(value, unit1, unit2, solute='NaCl', T=25, unit='C', density_source=N
     - solute (str): name of solute (default 'NaCl').
     - T: temperature
     - unit: unit of temperature (should be 'C' or 'K'), only used for molarity
+
+    Additional parameters are available when converting to/from molarity,
+    because knowledge of solution density is required:
     - density_source: which formula to use to calculate density when converting
-                      to molarity (None = default).
+                      to/from molarity (None = default).
+    - density_wmin: min mass fraction to consider when inverting molarity(w)
+                    for iterative search (only when converting FROM molarity)
+    - density_wmin: max mass fraction to consider when inverting molarity(w)
+                    for iterative search (only when converting FROM molarity)
 
     solute has to be in the solute list in the constants module and in the
     solutes with density data if unit1 or unit2 is molarity ('c').
@@ -87,7 +96,13 @@ def convert(value, unit1, unit2, solute='NaCl', T=25, unit='C', density_source=N
 
     # Check if it's unit1 which is a "fancy" unit and convert to w if so.
     if unit1 == 'c':
-        w = molarity_to_w(c=value, solute=solute, T=T, unit=unit, source=density_source)
+        w = molarity_to_w(c=value,
+                          solute=solute,
+                          T=T,
+                          unit=unit,
+                          source=density_source,
+                          wmin=density_wmin,
+                          wmax=density_wmax)
         value_in = w
         unit_in = 'w'
     else:
@@ -101,7 +116,10 @@ def convert(value, unit1, unit2, solute='NaCl', T=25, unit='C', density_source=N
 
         w = basic_convert(value_in, unit_in, 'w', solute)
         if unit2 == 'c':
-            return w_to_molarity(w=w, solute=solute, T=T, unit=unit, source=density_source)
+            return w_to_molarity(w=w,
+                                 solute=solute,
+                                 T=T, unit=unit,
+                                 source=density_source)
 
         else:
             # This case should in principle never happen, except if bug in
@@ -151,22 +169,19 @@ def w_to_molarity(w, solute, T=25, unit='C', source=None):
     return rho * w / M
 
 
-def molarity_to_w(c, solute, T=25, unit='C', source=None):
+def molarity_to_w(c, solute, T=25, unit='C', source=None, wmin=0, wmax=0.99):
     """Calculate weight fraction of solute from molarity at temperature T in °C.
 
     Note: can be slow because of inverting the function each time.
     """
-
     check_solute(solute, solute_list)
-
-    wmax = 0.99  # max weight fraction allowed (for easy inverting of function)
 
     def molarity(w):
         with warnings.catch_warnings():      # this is to avoid always warnings
             warnings.simplefilter('ignore')  # which pop up due to wmax being high
-            return w_to_molarity(w, solute, T, unit)
+            return w_to_molarity(w=w, solute=solute, T=T, unit=unit, source=source)
 
-    weight_fraction = inversefunc(molarity, domain=[0, wmax])
+    weight_fraction = inversefunc(molarity, domain=[wmin, wmax])
     w = weight_fraction(c)
 
     # HACK: this is to give a warning if some parameters out of range when
@@ -237,4 +252,3 @@ def ionic_strength(solute, **concentration):
     y1, y2 = ion_quantities(solute, **concentration)
     I_strength = 0.5 * (y1 * z1 ** 2 + y2 * z2 ** 2)
     return I_strength
-
