@@ -3,12 +3,10 @@
 Mostly based on Michael Steiger's group papers.
 """
 
-from copy import copy
-
 import numpy as np
 
-from .convert import ionic_strength
-from ..constants import R, Mw, charge_numbers, dissociation_numbers
+from ..convert import ionic_strength
+from ...constants import R, Mw, charge_numbers, dissociation_numbers
 
 
 b = 1.2  # kg^1/2.mol^-1/2

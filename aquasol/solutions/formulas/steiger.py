@@ -6,8 +6,7 @@ from pathlib import Path
 
 import numpy as np
 
-from ....constants import Mw, Tc, charge_numbers, dissociation_numbers
-from ...convert import ion_quantities, ionic_strength
+from ...constants import dissociation_numbers
 
 
 # corrective factors between 2005 / 2008 for 1:1 and 2:1 electrolytes
@@ -84,3 +83,7 @@ class CoeffsSteiger2008:
         for name in 'alpha1', 'alpha2':
             coeffs[name] = self.all_coeffs[solute][name]
         return coeffs
+
+
+coeffs_steiger_2005 = CoeffsSteiger2005()
+coeffs_steiger_2008 = CoeffsSteiger2008()

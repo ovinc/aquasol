@@ -244,15 +244,15 @@ Available Solutes
 
 Sorted by alphabetical order. When available, the sources are written in parentheses. For convert, an X means available.
 
-| Solute | Activity | Density | Surface Tension | Refractive Index | Electrical conductivity | Convert (*) |
-|:------:|:--------:|:-------:|:---------------:|:----------------:|:-----------------------:|:-----------:|
-| CaCl2  |   (1)    |  (1,3)  |      (1,6)      |       (7)        |                         |      X      |
-| KCl    |   (8)    |   (3)   |       (6)       |       (7)        |           (9)           |      X      |
-| KI     |          |   (3)   |                 |                  |                         |      X      |
-| LiCl   |   (1)    |   (1)   |       (1)       |                  |                         |      X      |
-| MgCl2  |          |   (3)   |       (6)       |                  |                         |      X      |
-| Na2SO4 |   (2)    |   (10)  |       (6)       |                  |                         |      X      |
-| NaCl   |  (2,8)   | (3,4,5) |      (6,11)     |       (7)        |                         |      X      |
+| Solute | Water Activity | Density | Surface Tension | Refractive Index | Electrical conductivity | Convert (*) |
+|:------:|:--------------:|:-------:|:---------------:|:----------------:|:-----------------------:|:-----------:|
+| CaCl2  |      (1)       |  (1,3)  |      (1,6)      |       (7)        |                         |      X      |
+| KCl    |      (8)       |   (3)   |       (6)       |       (7)        |           (9)           |      X      |
+| KI     |                |   (3)   |                 |                  |                         |      X      |
+| LiCl   |      (1)       |   (1)   |       (1)       |                  |                         |      X      |
+| MgCl2  |                |   (3)   |       (6)       |                  |                         |      X      |
+| Na2SO4 |      (2)       |   (10)  |       (6)       |                  |                         |      X      |
+| NaCl   |  (2,8,12,13)   | (3,4,5) |      (6,11)     |       (7)        |                         |      X      |
 
 (*) Solutes with no density data cannot use conversion to/from molarity ('c') but all other conversions work. They are noted with - instead of X.
 
@@ -281,6 +281,10 @@ International Journal of Thermal Sciences 43, 367–382 (2004).
 (10) Tang, I. N. & Munkelwitz, H. R., *Simultaneous Determination of Refractive Index and Density of an Evaporating Aqueous Solution Droplet*. Aerosol Science and Technology 15, 201–207 (1991).
 
 (11) Talreja-Muthreja, T., Linnow, K., Enke, D. & Steiger. *M. Deliquescence of NaCl Confined in Nanoporous Silica*. Langmuir 38, 10963-10974 (2022).
+
+(12) Steiger, M., *Crystal growth in porous materials—I: The crystallization pressure of large crystals.* Journal of Crystal Growth 282, 455-469 (2005).
+
+(13) Steiger, M., Kiekbusch, J. & Nicolai, *An improved model incorporating Pitzer's equations for calculation of thermodynamic properties of pore solutions implemented into an efficient program code.* Construction and Building Materials 22, 1841-1850 (2008).
 
 
 Constants
