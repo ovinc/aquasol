@@ -7,7 +7,7 @@ density with temperature.
 import numpy as np
 import matplotlib.pyplot as plt
 
-from aquasol.activity import a_w
+from aquasol.water_activity import a_w
 from aquasol.density import density
 from aquasol.vapor_pressure import psat
 
