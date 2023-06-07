@@ -9,7 +9,7 @@
     + For *water*, create a **[mod_name].py** file in the **water.formulas** directory.
     + For *solutions*, create a folder named **[mod_name]** in the **solutions.formulas** directory.
 
-- In the **general.py** file of the water or solutions module, add the new property *[cmn_name]* and its corresponding *[mod_name]* in the `modules` dictionary.
+- In the **general.py** file of the water or solutions module, add the new property *[cmn_name]* and its corresponding *[mod_name]* in the `property_modules` dictionary.
 
 - Add the formulas for calculating the new property, mimicking the structure of other properties already defined:
     + For *water*, in **[mod_name].py**,

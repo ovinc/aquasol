@@ -1,7 +1,8 @@
 """Tests for the aquasol.solutions module."""
 
 
-from aquasol.solutions import water_activity, density, surface_tension
+from aquasol.solutions import activity_coefficient, water_activity
+from aquasol.solutions import density, surface_tension
 from aquasol.solutions import refractive_index, electrical_conductivity
 from aquasol.solutions import aw_to_conc, convert
 
@@ -18,6 +19,22 @@ def test_constants():
     assert round(molar_mass(solute), 3) == 0.142  # kg / mol
     assert charge_numbers[solute] == (1, 2)
     assert dissociation_numbers[solute] == (2, 1)
+
+
+# =========================== Test activity coeff ============================
+
+
+def test_gamma_1():
+    gamma = activity_coefficient(m=6.1)  # around saturation for NaCl
+    assert round(gamma, 2) == 1.0
+
+def test_gamma_2():
+    gamma = activity_coefficient(m=0)  # at infinite dilution
+    assert round(gamma, 2) == 1.0
+
+def test_gamma_3():
+    gamma = activity_coefficient(m=0, solute='KCl')  # at infinite dilution
+    assert round(gamma, 2) == 1.0
 
 
 # =========================== Test water activity ============================

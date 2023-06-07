@@ -16,7 +16,8 @@ from .water import diffusivity_in_air, viscosity_atm
 
 from .water.general import get_infos as infos_water
 
-from .solutions import water_activity, surface_tension as sigma_s, density
+from .solutions import activity_coefficient, water_activity
+from .solutions import surface_tension as sigma_s, density
 from .solutions import refractive_index, electrical_conductivity
 from .solutions.general import get_infos as infos_solutions
 from .solutions import convert
@@ -122,7 +123,10 @@ ax_w_visc.set_ylabel(f'Viscosity (Pa.s)')
 
 
 fig_s_act, ax_s_act = plt.subplots()
-fig_s_act.suptitle('Solutions, activity')
+fig_s_act.suptitle('Solutions, water activity')
+
+fig_s_gamma, ax_s_gamma = plt.subplots()
+fig_s_gamma.suptitle('Solutions, activity coefficient')
 
 fig_s_surf, ax_s_surf = plt.subplots()
 fig_s_surf.suptitle('Solutions, surface tension')
@@ -136,12 +140,14 @@ fig_s_index.suptitle('Solutions, refractive index')
 fig_s_conductivity, ax_s_conductivity = plt.subplots()
 fig_s_conductivity.suptitle('Solutions, electrical conductivity')
 
-functions = {'water activity': water_activity,
-             'surface tension': sigma_s,
-             'density': density,
-             'refractive index': refractive_index,
-             'electrical conductivity': electrical_conductivity,
-             }
+functions = {
+    'activity coefficient': activity_coefficient,
+    'water activity': water_activity,
+    'surface tension': sigma_s,
+    'density': density,
+    'refractive index': refractive_index,
+    'electrical conductivity': electrical_conductivity,
+}
 
 
 # General plotting functions -------------------------------------------------
@@ -159,7 +165,6 @@ def plot_all_sources_conc(propty, solute, T, unit, ctype='m', relative=False, ax
     ax: Matplotlib axes in which to plot the data
     norm (float): normalization factor for plotting the property (default 1)
     """
-
     infos = infos_solutions(propty, solute)
     func = functions[propty]
 
@@ -186,6 +191,18 @@ def plot_all_sources_conc(propty, solute, T, unit, ctype='m', relative=False, ax
     ax.legend()
 
 
+# Activity coefficient -------------------------------------------------------
+
+solutes = ['NaCl', 'KCl']
+
+for solute in solutes:
+    plot_all_sources_conc('activity coefficient', solute, 25, 'C',
+                          ctype=concentration_unit, ax=ax_s_gamma)
+
+ax_s_gamma.set_xlabel(f'concentration ({concentration_unit})')
+ax_s_gamma.set_ylabel(r'$\gamma$')
+
+
 # Activity -------------------------------------------------------------------
 
 solutes = ['NaCl', 'LiCl', 'CaCl2', 'Na2SO4', 'KCl']
@@ -195,7 +212,8 @@ for solute in solutes:
                           ctype=concentration_unit, ax=ax_s_act)
 
 ax_s_act.set_xlabel(f'concentration ({concentration_unit})')
-ax_s_act.set_ylabel('a_w')
+ax_s_act.set_ylabel(r'$a_w$')
+
 
 
 # Surface tension ------------------------------------------------------------

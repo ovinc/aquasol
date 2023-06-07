@@ -11,12 +11,14 @@ from ..check import check_validity_range
 # Info on the name of the modules corresponding to the properties ------------
 
 base = '.formulas.'
-property_modules = {'water activity': base + 'water_activity',
-                    'density': base + 'density',
-                    'surface tension': base + 'surface_tension',
-                    'refractive index': base + 'refractive_index',
-                    'electrical conductivity': base + 'electrical_conductivity',
-                    }
+property_modules = {
+    'activity coefficient': base + 'activity_coefficient',
+    'water activity': base + 'water_activity',
+    'density': base + 'density',
+    'surface tension': base + 'surface_tension',
+    'refractive index': base + 'refractive_index',
+    'electrical conductivity': base + 'electrical_conductivity',
+}
 
 
 def get_infos(propty, solute):
