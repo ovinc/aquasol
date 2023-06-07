@@ -23,7 +23,7 @@ from .solutions.general import get_infos as infos_solutions
 from .solutions import convert
 
 
-npts = 100
+npts = 200
 
 temperature_unit = 'C'
 concentration_unit = 'w'
@@ -193,7 +193,7 @@ def plot_all_sources_conc(propty, solute, T, unit, ctype='m', relative=False, ax
 
 # Activity coefficient -------------------------------------------------------
 
-solutes = ['NaCl', 'KCl']
+solutes = ['NaCl', 'KCl', 'Na2SO4']
 
 for solute in solutes:
     plot_all_sources_conc('activity coefficient', solute, 25, 'C',

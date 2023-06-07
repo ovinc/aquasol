@@ -132,6 +132,7 @@ Properties
 
 The *solutions* module has the following functions, which return the respective properties of interest as a function of solute concentration and temperature (when available) of an aqueous solution.
 - `density()` for absolute (kg / m^3) or relative density,
+- `activity_coefficient()` for molal activity coefficient of solute (dimensionless)
 - `water_activity()` for solvent activity (dimensionless, range 0-1),
 - `surface_tension()` for absolute surface tension (N/m) or relative (normalized by that of pure water at the same temperature).
 - `refractive_index()` (dimensionless)
@@ -163,13 +164,18 @@ Note: similarly to temperature, the values in `**concentration` can be an array,
 ### Examples
 
 ```python
-from aquasol.solutions import water_activity, density, surface_tension, refractive_index
+from aquasol.solutions import water_activity, activity_coefficient
+from aquasol.solutions import density, surface_tension, refractive_index
 
-# Water activity (dimensionless) ---------------------------------------------
+# Water activity (dimensionless, 'aw') ---------------------------------------
 water_activity(x=0.1)            # NaCl solution, mole fraction 10%, 25°C
 water_activity(r=0.3)           # solution when mixing 55g NaCl with 100g H2O
 water_activity('LiCl', w=0.3, T=70)  # LiCl solution, 30% weight fraction, 70°C
 water_activity(solute='CaCl2', m=[2, 4, 6])  # for several molalities (mol/kg)
+
+# Molal activity coefficient (dimensionless, 'gamma') ------------------------
+activity_coefficient(m=6.1)            # ~ Saturated NaCl solution, 25°C
+activity_coefficient(solute='Na2SO3', m=2.2)  # Na2SO3 at 2.2 mol/kg
 
 # Density (absolute, kg / m^3, or relative) ----------------------------------
 density(source='Tang', x=0.23)  # supersaturatad NaCl, 25°C, using Tang equation
