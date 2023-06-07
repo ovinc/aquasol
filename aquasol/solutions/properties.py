@@ -43,8 +43,10 @@ def activity_coefficient(solute='NaCl', T=25, unit='C', source=None, **concentra
 
     Solutes and Sources
     -------------------
-    KCl: 'Steiger 2008' (default)
-    NaCl (default solute): 'Steiger 2005', 'Steiger 2008' (default)
+    (* = default)
+    KCl: 'Steiger 2008'(*)
+    Na2SO4: 'Steiger 2005', 'Steiger 2008'(*)
+    NaCl (default solute): 'Steiger 2005', 'Steiger 2008'(*)
 
     See details about the sources in the submodules and Readme file.
 
@@ -84,12 +86,12 @@ def water_activity(solute='NaCl', T=25, unit='C', source=None, **concentration):
 
     Solutes and Sources
     -------------------
-    CaCl2: 'Conde' (default)
-    KCl: 'Tang' (default)
-    LiCl: 'Conde' (default)
-    Na2SO4: 'Clegg' (default)
-    NaCl (default solute): 'Clegg' (default), 'Tang',
-                           'Steiger 2005', 'Steiger 2008'
+    (* = default)
+    CaCl2: 'Conde'(*)
+    KCl: 'Steiger 2008'(*), 'Tang'
+    LiCl: 'Conde'(*)
+    Na2SO4: 'Clegg', 'Steiger 2005', 'Steiger 2008'(*)
+    NaCl (default solute): 'Clegg' (*), 'Tang', 'Steiger 2005', 'Steiger 2008'
 
     See details about the sources in the submodules and Readme file.
 
@@ -139,13 +141,14 @@ def density(solute='NaCl', T=25, unit='C', relative=False, source=None, **concen
 
     Solutes and Sources
     -------------------
-    CaCl2: 'Conde' (default), 'Al Ghafri'
-    KCl: 'Al Ghafri' (default)
-    KI: 'Al Ghafri' (default)
-    LiCl: 'Conde' (default)
-    MgCl2: 'Al Ghafri' (default)
-    Na2SO4: 'Tang' (default)
-    NaCl (default solute): 'Simion' (default), 'Tang', 'Al Ghafri'
+    (* = default)
+    CaCl2: 'Conde'(*), 'Al Ghafri'
+    KCl: 'Al Ghafri'(*)
+    KI: 'Al Ghafri'(*)
+    LiCl: 'Conde'(*)
+    MgCl2: 'Al Ghafri'(*)
+    Na2SO4: 'Tang'(*)
+    NaCl (default solute): 'Simion'(*), 'Tang', 'Al Ghafri'
 
     See details about the sources in the submodules and Readme file.
 
@@ -199,12 +202,13 @@ def surface_tension(solute='NaCl', T=25, unit='C', relative=False, source=None, 
 
     Solutes and Sources
     -------------------
-    CaCl2: 'Dutcher' (default), 'Conde'
-    KCl: 'Dutcher' (default)
-    LiCl: 'Conde' (default)
-    MgCl2: 'Dutcher' (default)
-    Na2SO4: 'Dutcher' (default)
-    NaCl (default solute): 'Dutcher' (default), 'Steiger'
+    (* = default)
+    CaCl2: 'Dutcher'(*), 'Conde'
+    KCl: 'Dutcher'(*)
+    LiCl: 'Conde'(*)
+    MgCl2: 'Dutcher'(*)
+    Na2SO4: 'Dutcher'(*)
+    NaCl (default solute): 'Dutcher'(*), 'Steiger'
 
     See details about the sources in the submodules and Readme file.
 
@@ -257,9 +261,10 @@ def refractive_index(solute='NaCl', T=25, unit='C', source=None, **concentration
 
     Solutes and Sources
     -------------------
-    CaCl2: 'Tan' (default),
-    KCl: 'Tan' (default)
-    NaCl (default solute): 'Tan' (default)
+    (* = default)
+    CaCl2: 'Tan'(*),
+    KCl: 'Tan'(*)
+    NaCl (default solute): 'Tan'(*)
 
     See details about the sources in the submodules and Readme file.
 
@@ -308,8 +313,9 @@ def electrical_conductivity(solute='NaCl', T=25, unit='C', source=None, **concen
 
     Solutes and Sources
     -------------------
-    KCl: 'McKee' (default)
-    NaCl (default solute): 'Sinmyo' (default)
+    (* = default)
+    KCl: 'McKee'(*)
+    NaCl (default solute): 'Sinmyo'(*)
 
     See details about the sources in the submodules and Readme file.
 

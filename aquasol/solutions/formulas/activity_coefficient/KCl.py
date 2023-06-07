@@ -20,7 +20,7 @@ Sources
   Construction and Building Materials 22, 1841-1850 (2008).
 
 NOTE: I could not find explicit info about validity domain for the KCl
-      formulas, so I kept same values as for NaCl
+      formulas in Steiger, so I kept ~ same values as for NaCl
 """
 
 from ..steiger import coeffs_steiger_2005, coeffs_steiger_2008

@@ -1,4 +1,4 @@
-"""Gathers the formulas for the activity of NaCl solutions.
+"""Gathers the formulas for the water activity of NaCl solutions.
 
 Note
 ----
@@ -54,29 +54,33 @@ from ...convert import ion_quantities, ionic_strength
 
 default_source = 'Clegg'
 
-concentration_types = {'Clegg': 'x',
-                       'Tang': 'm',
-                       'Steiger 2005': 'm',
-                       'Steiger 2008': 'm',
-                       }
+concentration_types = {
+    'Clegg': 'x',
+    'Tang': 'm',
+    'Steiger 2005': 'm',
+    'Steiger 2008': 'm',
+}
 
-concentration_ranges = {'Clegg': (0, 0.23),
-                        'Tang': (1e-9, 13),
-                        'Steiger 2005': (0, 13.5),
-                        'Steiger 2008': (0, 15),
-                        }
+concentration_ranges = {
+    'Clegg': (0, 0.23),
+    'Tang': (1e-9, 13),
+    'Steiger 2005': (0, 13.5),
+    'Steiger 2008': (0, 15),
+}
 
-temperature_units = {'Clegg': 'C',
-                     'Tang': 'C',
-                     'Steiger 2005': 'K',
-                     'Steiger 2008': 'K',
-                     }
+temperature_units = {
+    'Clegg': 'C',
+    'Tang': 'C',
+    'Steiger 2005': 'K',
+    'Steiger 2008': 'K',
+}
 
-temperature_ranges = {'Clegg': (25, 25),
-                      'Tang': (25, 25),
-                      'Steiger 2005': (298.15, 298.15),
-                      'Steiger 2008': (278.15, 323.15),
-                      }
+temperature_ranges = {
+    'Clegg': (25, 25),
+    'Tang': (25, 25),
+    'Steiger 2005': (298.15, 298.15),
+    'Steiger 2008': (278.15, 323.15),
+}
 
 
 # ============================== FORMULAS ====================================
@@ -139,10 +143,11 @@ def water_activity_Steiger_2008(m, T):
 
 # ========================== WRAP-UP OF FORMULAS =============================
 
-formulas = {'Clegg': water_activity_clegg,
-            'Tang': water_activity_Tang,
-            'Steiger 2005': water_activity_Steiger_2005,
-            'Steiger 2008': water_activity_Steiger_2008,
-            }
+formulas = {
+    'Clegg': water_activity_clegg,
+    'Tang': water_activity_Tang,
+    'Steiger 2005': water_activity_Steiger_2005,
+    'Steiger 2008': water_activity_Steiger_2008,
+}
 
 sources = [source for source in formulas]
