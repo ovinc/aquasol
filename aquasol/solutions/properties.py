@@ -44,9 +44,9 @@ def activity_coefficient(solute='NaCl', T=25, unit='C', source=None, **concentra
     Solutes and Sources
     -------------------
     (* = default)
-    KCl: 'Steiger 2008'(*)
+    KCl: 'Steiger 2008'(*), 'Tang'
     Na2SO4: 'Steiger 2005', 'Steiger 2008'(*)
-    NaCl (default solute): 'Steiger 2005', 'Steiger 2008'(*)
+    NaCl (default solute): 'Steiger 2005', 'Steiger 2008'(*), 'Tang'
 
     See details about the sources in the submodules and Readme file.
 

@@ -62,8 +62,8 @@ concentration_types = {
 }
 
 concentration_ranges = {
-    'Clegg': (0, 0.23),
-    'Tang': (1e-9, 13),
+    'Clegg': (0, 0.25),
+    'Tang': (1e-9, 14),
     'Steiger 2005': (0, 13.5),
     'Steiger 2008': (0, 15),
 }

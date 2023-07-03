@@ -253,12 +253,12 @@ Sorted by alphabetical order. When available, the sources are written in parenth
 | Solute | Water Activity | Activity Coeff. (Ɣ) | Density  | Surface Tension | Refractive Index | Electrical Conductivity | Convert (**) |
 |:------:|:--------------:|:-------------------:|:--------:|:---------------:|:----------------:|:-----------------------:|:------------:|
 | CaCl2  |      (1)       |                     |  (1*,3)  |      (1,6*)     |       (7)        |                         |       X      |
-| KCl    |     (8,13*)    |        (13)         |   (3)    |       (6)       |       (7)        |           (9)           |       X      |
+| KCl    |     (8,13*)    |       (8,13*)       |   (3)    |       (6)       |       (7)        |           (9)           |       X      |
 | KI     |                |                     |   (3)    |                 |                  |                         |       X      |
 | LiCl   |      (1)       |                     |   (1)    |       (1)       |                  |                         |       X      |
 | MgCl2  |                |                     |   (3)    |       (6)       |                  |                         |       X      |
 | Na2SO4 |   (2,12,13*)   |       (12,13*)      |   (10)   |       (6)       |                  |                         |       X      |
-| NaCl   |  (2*,8,12,13)  |       (12,13*)      | (3,4,5*) |      (6*,11)    |       (7)        |                         |       X      |
+| NaCl   |  (2*,8,12,13)  |      (8,12,13*)     | (3,4,5*) |      (6*,11)    |       (7)        |                         |       X      |
 
 (*) Default source indicated when several formulas are available.
 
