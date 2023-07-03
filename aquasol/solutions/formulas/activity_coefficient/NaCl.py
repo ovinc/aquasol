@@ -56,7 +56,7 @@ concentration_types = {
 concentration_ranges = {
     'Steiger 2005': (0, 13.5),
     'Steiger 2008': (0, 15),
-    'Tang': (1e-9, 14),
+    'Tang': (0, 14),
 }
 
 temperature_units = {
@@ -95,8 +95,8 @@ def activity_coefficient_Tang(m, T):
     E = 0
     beta = 2.796e-2
     coeffs_tang_NaCl = A, B, C, D, E, beta
-    lng = ln_gamma_extended_debye_huckel(m, T, solute='NaCl', coeffs=coeffs_tang_NaCl)
-    return np.exp(lng)
+    log_g = ln_gamma_extended_debye_huckel(m, T, solute='NaCl', coeffs=coeffs_tang_NaCl)
+    return 10**(log_g)
 
 
 # ========================== WRAP-UP OF FORMULAS =============================
