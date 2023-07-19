@@ -148,7 +148,8 @@ def density(solute='NaCl', T=25, unit='C', relative=False, source=None, **concen
     LiCl: 'Conde'(*)
     MgCl2: 'Al Ghafri'(*)
     Na2SO4: 'Tang'(*)
-    NaCl (default solute): 'Simion'(*), 'Tang', 'Al Ghafri'
+    NaCl (default solute): 'Simion'(*), 'Tang', 'Al Ghafri',
+                           'Steiger', 'Krumgalz'
 
     See details about the sources in the submodules and Readme file.
 

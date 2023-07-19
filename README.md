@@ -250,15 +250,15 @@ Available Solutes
 
 Sorted by alphabetical order. When available, the sources are written in parentheses. For convert, an X means available.
 
-| Solute | Water Activity | Activity Coeff. (Ɣ) | Density  | Surface Tension | Refractive Index | Electrical Conductivity | Convert (**) |
-|:------:|:--------------:|:-------------------:|:--------:|:---------------:|:----------------:|:-----------------------:|:------------:|
-| CaCl2  |      (1)       |                     |  (1*,3)  |      (1,6*)     |       (7)        |                         |       X      |
-| KCl    |     (8,13*)    |       (8,13*)       |   (3)    |       (6)       |       (7)        |           (9)           |       X      |
-| KI     |                |                     |   (3)    |                 |                  |                         |       X      |
-| LiCl   |      (1)       |                     |   (1)    |       (1)       |                  |                         |       X      |
-| MgCl2  |                |                     |   (3)    |       (6)       |                  |                         |       X      |
-| Na2SO4 |   (2,12,13*)   |       (12,13*)      |   (10)   |       (6)       |                  |                         |       X      |
-| NaCl   |  (2*,8,12,13)  |      (8,12,13*)     | (3,4,5*) |      (6*,11)    |       (7)        |                         |       X      |
+| Solute | Water Activity | Activity Coeff. (Ɣ) |    Density     | Surface Tension | Refractive Index | Electrical Conductivity | Convert (**) |
+|:------:|:--------------:|:-------------------:|:--------------:|:---------------:|:----------------:|:-----------------------:|:------------:|
+| CaCl2  |      (1)       |                     |     (1*,3)     |      (1,6*)     |       (7)        |                         |       X      |
+| KCl    |     (8,13*)    |       (8,13*)       |      (3)       |       (6)       |       (7)        |           (9)           |       X      |
+| KI     |                |                     |      (3)       |                 |                  |                         |       X      |
+| LiCl   |      (1)       |                     |      (1)       |       (1)       |                  |                         |       X      |
+| MgCl2  |                |                     |      (3)       |       (6)       |                  |                         |       X      |
+| Na2SO4 |   (2,12,13*)   |       (12,13*)      |      (10)      |       (6)       |                  |                         |       X      |
+| NaCl   |  (2*,8,12,13)  |      (8,12,13*)     | (3,4,5*,11,14) |      (6*,11)    |       (7)        |                         |       X      |
 
 (*) Default source indicated when several formulas are available.
 
@@ -293,6 +293,8 @@ International Journal of Thermal Sciences 43, 367–382 (2004).
 (12) Steiger, M., *Crystal growth in porous materials—I: The crystallization pressure of large crystals.* Journal of Crystal Growth 282, 455-469 (2005).
 
 (13) Steiger, M., Kiekbusch, J. & Nicolai, *An improved model incorporating Pitzer's equations for calculation of thermodynamic properties of pore solutions implemented into an efficient program code.* Construction and Building Materials 22, 1841-1850 (2008).
+
+(14) Krumgalz, B. S., Pogorelsky, R. & Pitzer, K. S., *Volumetric Properties of Single Aqueous Electrolytes from Zero to Saturation Concentration at 298.15 K Represented by Pitzer's Ion-Interaction Equations.* Journal of Physical and Chemical Reference Data 25, 663-689 (1996).
 
 
 Constants

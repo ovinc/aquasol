@@ -13,23 +13,34 @@ file.
 
 Sources
 -------
+
 - Simion (default) : "Mathematical modelling of density and
-viscosity of NaCl aqueous solutions" (2015). Valid from w = 0 to w = 0.26
-and for temperatures between 0 and 100°C
+  viscosity of NaCl aqueous solutions" (2015). Valid from w = 0 to w = 0.26
+  and for temperatures between 0 and 100°C
 
 - Tang: "Chemical and size effects of hygroscopic aerosols on light
-scattering coefficients" (1996). Valid at 25°C and from w = 0 to w ~= 0.5
+  scattering coefficients" (1996). Valid at 25°C and from w = 0 to w ~= 0.5
 
 - Al Ghafri et al., Densities of Aqueous MgCl 2 (aq), CaCl 2 (aq), KI(aq),
-NaCl(aq), KCl(aq), AlCl 3 (aq), and (0.964 NaCl + 0.136 KCl)(aq) at
-Temperatures Between (283 and 472) K, Pressures up to 68.5 MPa, and
-Molalities up to 6 mol·kg -1.
-Journal of Chemical & Engineering Data 57, 1288-1304 (2012).
+  NaCl(aq), KCl(aq), AlCl 3 (aq), and (0.964 NaCl + 0.136 KCl)(aq) at
+  Temperatures Between (283 and 472) K, Pressures up to 68.5 MPa, and
+  Molalities up to 6 mol·kg -1.
+  Journal of Chemical & Engineering Data 57, 1288-1304 (2012).
+
+- Steiger:
+  Talreja-Muthreja, T., Linnow, K., Enke, D. & Steiger, M.
+  Deliquescence of NaCl Confined in Nanoporous Silica.
+  Langmuir 38, 10963-10974 (2022).
+
+- Krumgalz, B. S., Pogorelsky, R. & Pitzer, K. S.
+  Volumetric Properties of Single Aqueous Electrolytes from Zero to Saturation
+  Concentration at 298.15 °K Represented by Pitzer's Ion-Interaction Equations.
+  Journal of Physical and Chemical Reference Data 25, 663-689 (1996).
 """
 
 import numpy as np
 
-from .misc import rho_alghafri, rho_tang
+from .misc import rho_alghafri, rho_tang, density_pitzer
 
 # General Info about the formulas
 
@@ -37,22 +48,30 @@ default_source = 'Simion'
 
 concentration_types = {'Simion': 'w',
                        'Tang': 'w',
-                       'Al Ghafri': 'm'
+                       'Al Ghafri': 'm',
+                       'Steiger': 'm',
+                       'Krumgalz': 'm',
                        }
 
 concentration_ranges = {'Simion': (0, 0.26),
                         'Tang': (0, 0.5),
-                        'Al Ghafri': (0, 6)
+                        'Al Ghafri': (0, 6),
+                        'Steiger': (0, 14),
+                        'Krumgalz': (0, 6.2),
                         }
 
 temperature_units = {'Simion': 'C',
                      'Tang': 'C',
-                     'Al Ghafri': 'K'
+                     'Al Ghafri': 'K',
+                     'Steiger': 'C',
+                     'Krumgalz': 'C',
                      }
 
 temperature_ranges = {'Simion': (0, 100),
                       'Tang': (25, 25),
-                      'Al Ghafri': (298.15, 473.15)
+                      'Al Ghafri': (298.15, 473.15),
+                      'Steiger': (25, 25),
+                      'Krumgalz': (25, 25),
                       }
 
 
@@ -99,12 +118,22 @@ def density_alghafri(m, T):
     return rho0, rho
 
 
+def density_steiger(m, T):
+    return density_pitzer(m, solute='NaCl', source='Steiger')
+
+
+def density_krumgalz(m, T):
+    return density_pitzer(m, solute='NaCl', source='Krumgalz')
+
+
 # ========================== WRAP-UP OF FORMULAS =============================
 
 
 formulas = {'Simion': density_simion,
             'Tang': density_tang,
-            'Al Ghafri': density_alghafri
+            'Al Ghafri': density_alghafri,
+            'Steiger': density_steiger,
+            'Krumgalz': density_krumgalz,
             }
 
 sources = [source for source in formulas]
