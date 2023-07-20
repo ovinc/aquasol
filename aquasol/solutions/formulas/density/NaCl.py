@@ -36,43 +36,60 @@ Sources
   Volumetric Properties of Single Aqueous Electrolytes from Zero to Saturation
   Concentration at 298.15 °K Represented by Pitzer's Ion-Interaction Equations.
   Journal of Physical and Chemical Reference Data 25, 663-689 (1996).
+
+- Clegg, S. L. & Wexler, A. S.
+  Densities and Apparent Molar Volumes of Atmospherically Important
+  Electrolyte Solutions. 1. The Solutes H2SO4, HNO3, HCl, Na2SO4, NaNO3, NaCl,
+  (NH4)2SO4, NH4NO3, and NH4Cl from 0 to 50 °C, Including Extrapolations to
+  Very Low Temperature and to the Pure Liquid State, and NaHSO4, NaOH, and NH3
+  at 25 °C. J. Phys. Chem. A 115, 3393-3460 (2011).
 """
 
 import numpy as np
 
+from ....water import density_atm
+from ..clegg import density_NaCl
 from .misc import rho_alghafri, rho_tang, density_pitzer
 
 # General Info about the formulas
 
 default_source = 'Simion'
 
-concentration_types = {'Simion': 'w',
-                       'Tang': 'w',
-                       'Al Ghafri': 'm',
-                       'Steiger': 'm',
-                       'Krumgalz': 'm',
-                       }
+concentration_types = {
+    'Simion': 'w',
+    'Tang': 'w',
+    'Al Ghafri': 'm',
+    'Steiger': 'm',
+    'Krumgalz': 'm',
+    'Clegg': 'w'
+}
 
-concentration_ranges = {'Simion': (0, 0.26),
-                        'Tang': (0, 0.5),
-                        'Al Ghafri': (0, 6),
-                        'Steiger': (0, 14),
-                        'Krumgalz': (0, 6.2),
-                        }
+concentration_ranges = {
+    'Simion': (0, 0.26),
+    'Tang': (0, 0.5),
+    'Al Ghafri': (0, 6),
+    'Steiger': (0, 14),
+    'Krumgalz': (0, 6.2),
+    'Clegg': (0.25, 1),
+}
 
-temperature_units = {'Simion': 'C',
-                     'Tang': 'C',
-                     'Al Ghafri': 'K',
-                     'Steiger': 'C',
-                     'Krumgalz': 'C',
-                     }
+temperature_units = {
+    'Simion': 'C',
+    'Tang': 'C',
+    'Al Ghafri': 'K',
+    'Steiger': 'C',
+    'Krumgalz': 'C',
+    'Clegg': 'K',
+}
 
-temperature_ranges = {'Simion': (0, 100),
-                      'Tang': (25, 25),
-                      'Al Ghafri': (298.15, 473.15),
-                      'Steiger': (25, 25),
-                      'Krumgalz': (25, 25),
-                      }
+temperature_ranges = {
+    'Simion': (0, 100),
+    'Tang': (25, 25),
+    'Al Ghafri': (298.15, 473.15),
+    'Steiger': (25, 25),
+    'Krumgalz': (25, 25),
+    'Clegg': (273.15, 323.15),  # 0 to 50°C
+}
 
 
 # ============================== FORMULAS ====================================
@@ -126,14 +143,22 @@ def density_krumgalz(m, T):
     return density_pitzer(m, solute='NaCl', source='Krumgalz')
 
 
+def density_clegg(w, T):
+    """T in degrees Kelvin (K)"""
+    rho_w = density_atm(T=T, unit='K')
+    return rho_w, density_NaCl(w, T)
+
+
 # ========================== WRAP-UP OF FORMULAS =============================
 
 
-formulas = {'Simion': density_simion,
-            'Tang': density_tang,
-            'Al Ghafri': density_alghafri,
-            'Steiger': density_steiger,
-            'Krumgalz': density_krumgalz,
-            }
+formulas = {
+    'Simion': density_simion,
+    'Tang': density_tang,
+    'Al Ghafri': density_alghafri,
+    'Steiger': density_steiger,
+    'Krumgalz': density_krumgalz,
+    'Clegg': density_clegg,
+}
 
 sources = [source for source in formulas]

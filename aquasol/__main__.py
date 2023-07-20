@@ -28,6 +28,16 @@ npts = 200
 temperature_unit = 'C'
 concentration_unit = 'w'
 
+linestyles = [
+    '-',
+    '--',
+    '-.',
+    ':',
+    (5, (10, 3)),             # long dash with offset
+    (0, (3, 1, 1, 1, 1, 1)),  # densely dashdotdotted
+    (0, (3, 5, 1, 5, 1, 5)),  # dashdotdotted
+]
+
 
 # ================================ WATER =====================================
 
@@ -56,11 +66,10 @@ def plot_all_sources(propty, ax, norm=1):
     ax: Matplotlib axes in which to plot the data
     norm (float): normalization factor for plotting the property (default 1)
     """
-
     infos = infos_water(propty)
     func = functions[propty]
 
-    for source in infos['sources']:
+    for source, linestyle in zip(infos['sources'], linestyles):
 
         tmin, tmax = infos['temp ranges'][source]
         unit = infos['temp units'][source]
@@ -70,7 +79,7 @@ def plot_all_sources(propty, ax, norm=1):
 
         pty = func(tt, temperature_unit, source)
 
-        ax.plot(tt, pty * norm, label=source)
+        ax.plot(tt, pty * norm, ls=linestyle, label=source)
 
     ax.legend()
 
@@ -168,7 +177,7 @@ def plot_all_sources_conc(propty, solute, T, unit, ctype='m', relative=False, ax
     infos = infos_solutions(propty, solute)
     func = functions[propty]
 
-    for source in infos['sources']:
+    for source, linestyle in zip(infos['sources'], linestyles):
 
         cmin, cmax = infos['conc ranges'][source]
         cunit = infos['conc units'][source]
@@ -186,7 +195,7 @@ def plot_all_sources_conc(propty, solute, T, unit, ctype='m', relative=False, ax
             pty = func(solute, T, unit, source, **concentration)
 
         name = f"{solute} , {source} (T={T})"
-        ax.plot(cc, pty * norm, label=name)
+        ax.plot(cc, pty * norm, ls=linestyle, label=name)
 
     ax.legend()
 
@@ -230,7 +239,7 @@ ax_s_surf.set_ylabel('surface tension (mN/m)')
 
 # Density --------------------------------------------------------------------
 
-solutes = ['NaCl', 'CaCl2', 'KCl', 'KI', 'LiCl', 'MgCl2']
+solutes = ['NaCl', 'Na2SO4', 'CaCl2', 'KCl', 'KI', 'LiCl', 'MgCl2']
 
 for solute in solutes:
     plot_all_sources_conc('density', solute, 25, 'C', norm=1e-3,

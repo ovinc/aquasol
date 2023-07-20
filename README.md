@@ -250,15 +250,15 @@ Available Solutes
 
 Sorted by alphabetical order. When available, the sources are written in parentheses. For convert, an X means available.
 
-| Solute | Water Activity | Activity Coeff. (Ɣ) |    Density     | Surface Tension | Refractive Index | Electrical Conductivity | Convert (**) |
-|:------:|:--------------:|:-------------------:|:--------------:|:---------------:|:----------------:|:-----------------------:|:------------:|
-| CaCl2  |      (1)       |                     |     (1*,3)     |      (1,6*)     |       (7)        |                         |       X      |
-| KCl    |     (8,13*)    |       (8,13*)       |      (3)       |       (6)       |       (7)        |           (9)           |       X      |
-| KI     |                |                     |      (3)       |                 |                  |                         |       X      |
-| LiCl   |      (1)       |                     |      (1)       |       (1)       |                  |                         |       X      |
-| MgCl2  |                |                     |      (3)       |       (6)       |                  |                         |       X      |
-| Na2SO4 |   (2,12,13*)   |       (12,13*)      |      (10)      |       (6)       |                  |                         |       X      |
-| NaCl   |  (2*,8,12,13)  |      (8,12,13*)     | (3,4,5*,11,14) |      (6*,11)    |       (7)        |                         |       X      |
+| Solute | Water Activity | Activity Coeff. (Ɣ) |      Density      | Surface Tension | Refractive Index | Electrical Conductivity | Convert (**) |
+|:------:|:--------------:|:-------------------:|:-----------------:|:---------------:|:----------------:|:-----------------------:|:------------:|
+| CaCl2  |      (1)       |                     |       (1*,3)      |      (1,6*)     |       (7)        |                         |       X      |
+| KCl    |     (8,13*)    |       (8,13*)       |        (3)        |       (6)       |       (7)        |           (9)           |       X      |
+| KI     |                |                     |        (3)        |                 |                  |                         |       X      |
+| LiCl   |      (1)       |                     |        (1)        |       (1)       |                  |                         |       X      |
+| MgCl2  |                |                     |        (3)        |       (6)       |                  |                         |       X      |
+| Na2SO4 |   (2,12,13*)   |       (12,13*)      |      (10,15)      |       (6)       |                  |                         |       X      |
+| NaCl   |  (2*,8,12,13)  |      (8,12,13*)     | (3,4,5*,11,14,15) |      (6*,11)    |       (7)        |                         |       X      |
 
 (*) Default source indicated when several formulas are available.
 
@@ -296,6 +296,7 @@ International Journal of Thermal Sciences 43, 367–382 (2004).
 
 (14) Krumgalz, B. S., Pogorelsky, R. & Pitzer, K. S., *Volumetric Properties of Single Aqueous Electrolytes from Zero to Saturation Concentration at 298.15 K Represented by Pitzer's Ion-Interaction Equations.* Journal of Physical and Chemical Reference Data 25, 663-689 (1996).
 
+(15) Clegg, S. L. & Wexler, A. S., *Densities and Apparent Molar Volumes of Atmospherically Important Electrolyte Solutions. 1. The Solutes H2SO4, HNO3, HCl, Na2SO4, NaNO3, NaCl, (NH4)2SO4, NH4NO3, and NH4Cl from 0 to 50°C, Including Extrapolations to Very Low Temperature and to the Pure Liquid State, and NaHSO4, NaOH, and NH3 at 25°C.* J. Phys. Chem. A 115, 3393-3460 (2011).
 
 Constants
 =========

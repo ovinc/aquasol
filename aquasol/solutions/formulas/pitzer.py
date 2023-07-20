@@ -6,7 +6,8 @@ Mostly based on Michael Steiger's group papers.
 import numpy as np
 
 from ..convert import ionic_strength
-from ...constants import R, Mw, charge_numbers, dissociation_numbers
+from ...constants import R as ideal_gas_constant
+from ...constants import Mw, charge_numbers, dissociation_numbers
 
 
 b = 1.2  # kg^1/2.mol^-1/2
@@ -15,16 +16,19 @@ b = 1.2  # kg^1/2.mol^-1/2
 class PitzerBase:
     """Base class for Pitzer equations for water & solute activity, or volumetric."""
 
-    def __init__(self, T=298.15, solute='NaCl', **coeffs):
+    def __init__(self, T=298.15, solute='NaCl', R=None, **coeffs):
         """Init PitzerBase object.
 
         Input
         -----
         T: temperature in K
         solute: solute name (str, default 'NaCl')
+        R: (optional) replacement value for the ideal gas constant, R
+           (useful if e.g. units use atmospheres instead of MPa etc.)
         coeffs: Pitzer coefficients
         """
         self.T = T
+        self.R = R if R is not None else ideal_gas_constant
         self.solute = solute
 
         for coeff_name, coeff_value in coeffs.items():
@@ -63,13 +67,15 @@ class PitzerBase:
 class PitzerVolumetric(PitzerBase):
     """Implementation of Pitzer Equations for volumetric properties"""
 
-    def __init__(self, T=298.15, solute='NaCl', **coeffs):
+    def __init__(self, T=298.15, solute='NaCl', R=None, **coeffs):
         """Init PitzerVolumertic object.
 
         Input
         -----
         T: temperature in K
         solute: solute name (str, default 'NaCl')
+        R: (optional) replacement value for the ideal gas constant, R
+           (useful if e.g. units use atmospheres instead of MPa etc.)
         coeffs: must contain the following keys:
         - A_v [cm3·kg1/2·mol-3/2]: first virial coefficient
         - beta0, beta1 [kg·mol-1·MPa-1]: second virial coefficient parameters
@@ -89,7 +95,7 @@ class PitzerVolumetric(PitzerBase):
         coeffs['beta2'] = coeffs.get('beta2', 0)    # add default values
         coeffs['alpha1'] = coeffs.get('alpha1', 2)  # (these alpha values do not work for 2:2 electrolytes)
         coeffs['alpha2'] = coeffs.get('alpha2', 0)
-        super().__init__(T=T, solute=solute, **coeffs)
+        super().__init__(T=T, solute=solute, R=R, **coeffs)
 
     def apparent_molar_volume(self, m):
         """Apparent molar volume in cm^3 / mol at given molality
@@ -106,6 +112,7 @@ class PitzerVolumetric(PitzerBase):
         Bv = self.virial_B(m=m)
         Cv = self.C_v
         T = self.T
+        R = self.R
 
         sqrtI = ionic_strength(self.solute, m=m)**(1 / 2)
 
@@ -149,7 +156,7 @@ class PitzerActivity(PitzerBase):
 
     @staticmethod
     def _g_phi(x):
-        """Raplacement function for B_phi calculation from virial_B"""
+        """Replacement function for B_phi calculation from virial_B"""
         return np.exp(-x)
 
     def B_phi(self, m):
