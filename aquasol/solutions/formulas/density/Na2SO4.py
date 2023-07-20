@@ -19,6 +19,11 @@ Sources
   Evaporating Aqueous Solution Droplet.
   Aerosol Science and Technology 15, 201-207 (1991).
 
+- Krumgalz, B. S., Pogorelsky, R. & Pitzer, K. S.
+  Volumetric Properties of Single Aqueous Electrolytes from Zero to Saturation
+  Concentration at 298.15 °K Represented by Pitzer's Ion-Interaction Equations.
+  Journal of Physical and Chemical Reference Data 25, 663-689 (1996).
+
 - Clegg, S. L. & Wexler, A. S.
   Densities and Apparent Molar Volumes of Atmospherically Important
   Electrolyte Solutions. 1. The Solutes H2SO4, HNO3, HCl, Na2SO4, NaNO3, NaCl,
@@ -31,7 +36,7 @@ import numpy as np
 
 from ....water import density_atm
 from ..clegg import density_Na2SO4_high_conc
-from .misc import rho_tang
+from .misc import rho_tang, density_pitzer
 
 # General Info about the formulas
 
@@ -39,21 +44,25 @@ default_source = 'Tang'
 
 concentration_types = {
   'Tang': 'w',
+  'Krumgalz': 'm',
   'Clegg': 'w',
 }
 
 concentration_ranges = {
   'Tang': (0, 0.68),
+  'Krumgalz': (0, 1.5),
   'Clegg': (0.22, 1),
 }
 
 temperature_units = {
   'Tang': 'C',
+  'Krumgalz': 'C',
   'Clegg': 'K',
 }
 
 temperature_ranges = {
   'Tang': (25, 25),
+  'Krumgalz': (25, 25),
   'Clegg': (273.15, 348.15),  # 0°C to 75°C
 }
 
@@ -64,6 +73,10 @@ temperature_ranges = {
 def density_tang(w, T):
     coeffs = np.array([8.871e-3, 3.195e-5, 2.28e-7, 0]) * 1000
     return rho_tang(w, coeffs)
+
+
+def density_krumgalz(m, T):
+    return density_pitzer(m, solute='Na2SO4', source='Krumgalz')
 
 
 def density_clegg(w, T):
@@ -80,6 +93,7 @@ def density_clegg(w, T):
 
 formulas = {
     'Tang': density_tang,
+    'Krumgalz': density_krumgalz,
     'Clegg': density_clegg
 }
 

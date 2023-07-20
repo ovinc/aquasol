@@ -69,7 +69,7 @@ concentration_ranges = {
     'Tang': (0, 0.5),
     'Al Ghafri': (0, 6),
     'Steiger': (0, 14),
-    'Krumgalz': (0, 6.2),
+    'Krumgalz': (0, 6.1),
     'Clegg': (0.25, 1),
 }
 

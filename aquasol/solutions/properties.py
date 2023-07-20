@@ -142,12 +142,12 @@ def density(solute='NaCl', T=25, unit='C', relative=False, source=None, **concen
     Solutes and Sources
     -------------------
     (* = default)
-    CaCl2: 'Conde'(*), 'Al Ghafri'
-    KCl: 'Al Ghafri'(*)
-    KI: 'Al Ghafri'(*)
-    LiCl: 'Conde'(*)
-    MgCl2: 'Al Ghafri'(*)
-    Na2SO4: 'Tang'(*), 'Clegg'
+    CaCl2: 'Conde'(*), 'Al Ghafri', 'Krumgalz'
+    KCl: 'Al Ghafri'(*), 'Krumgalz'
+    KI: 'Al Ghafri'(*), 'Krumgalz'
+    LiCl: 'Conde'(*), 'Krumgalz'
+    MgCl2: 'Al Ghafri'(*), 'Krumgalz'
+    Na2SO4: 'Tang'(*), 'Clegg', 'Krumgalz'
     NaCl (default solute): 'Simion'(*), 'Tang', 'Al Ghafri',
                            'Steiger', 'Krumgalz', 'Clegg'
 

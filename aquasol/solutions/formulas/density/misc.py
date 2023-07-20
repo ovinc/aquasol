@@ -19,39 +19,48 @@ from ...formulas.pitzer import PitzerVolumetric
 
 Av_krum = 1.875
 
-vm0_infty_krum = {'NaCl': 16.620,  # cm^3 / mol
-                  'KCl': 26.848,
-                  'LiCl': 16.866,
-                  'CaCl2': 17.612,
-                  'LiBr': 23.758,
-                  'KI': 45.151,
-                  'NaBr': 23.479,
-                  }
+vm0_infty_krum = {
+    'NaCl': 16.620,  # cm^3 / mol
+    'KCl': 26.848,
+    'LiCl': 16.866,
+    'CaCl2': 17.612,
+    'LiBr': 23.758,
+    'KI': 45.151,
+    'NaBr': 23.479,
+    'Na2SO4': 11.766,
+    'MgCl2': 14.083,
+}
 
-#                        beta0        beta1       C
-params_krum = {'NaCl': (1.2335e-4, 0.43543e-4, -0.6578e-5),  # Converted to kg·mol–1·MPa–1 (originally bar-1)
-               'KCl': (1.2793e-4, 0.8948e-4, -0.7131e-5),
-               'LiCl': (0.3853e-4, 1.5553e-4,  -0.1541e-5),
-               'CaCl2': (1.3107e-4, -2.4575e-4,  -0.1265e-5),
-               'LiBr': (0.2399e-4, 0.2406e-4,  -0.1744e-5),
-               'KI': (0.5398e-4, 1.4438e-4, -0.2479e-5),
-               'NaBr': (0.7607e-4, 0.9525e-4, -0.3491e-5)
-              }
+# Converted to kg·mol–1·MPa–1 (originally bar-1)
+params_krum = {  # beta0    beta1       C
+    'NaCl': (1.2335e-4, 0.43543e-4, -0.6578e-5),
+    'KCl': (1.2793e-4, 0.8948e-4, -0.7131e-5),
+    'LiCl': (0.3853e-4, 1.5553e-4,  -0.1541e-5),
+    'CaCl2': (1.3107e-4, -2.4575e-4,  -0.1265e-5),
+    'LiBr': (0.2399e-4, 0.2406e-4,  -0.1744e-5),
+    'KI': (0.5398e-4, 1.4438e-4, -0.2479e-5),
+    'NaBr': (0.7607e-4, 0.9525e-4, -0.3491e-5),
+    'Na2SO4': (5.3250e-4, 12.932e-4, -2.914e-5),
+    'MgCl2': (1.6933e-4, -5.2068e-4, -0.5698e-5),
+}
 
-m_max_krum = {'NaCl': 6.1,  # max molalities (mol/kg) for formula to be valid (cf table 2)
-              'KCl': 4.7,
-              'LiCl': 19.6,
-              'CaCl2': 7.7,
-              'LiBr': 17.7,
-              'KI': 8.6,
-              'NaBr': 8.0,
-             }
+# max molalities (mol/kg) for formula to be valid (cf table 2)
+m_max_krum = {
+    'NaCl': 6.1,
+    'KCl': 4.7,
+    'LiCl': 19.6,
+    'CaCl2': 7.7,
+    'LiBr': 17.7,
+    'KI': 8.6,
+    'NaBr': 8.0,
+    'Na2SO4': 1.5,
+    'MgCl2': 5.8,
+}
 
 # ============= Molar volume Constants from Steiger 2022 (25°C) ==============
 
 # Slightly different from original Krumgalz (1.875, cf p. 665), taken from Archer and Wang
 Av_steiger = 1.8305
-
 vm0_infty_steiger = {'NaCl': 16.620}
 params_steiger = {'NaCl': (1.17996e-4, 0.713188e-4, -0.586951e-5)}
 

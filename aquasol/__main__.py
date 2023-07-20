@@ -99,15 +99,9 @@ plot_all_sources('surface tension', ax_w_sigma, 1e3)
 ax_w_sigma.set_xlabel(f'T ({temperature_unit})')
 ax_w_sigma.set_ylabel(f'Surf. Tension (mN / m)')
 
-# Density (saturated) --------------------------------------------------------
+# Density (saturated and ambient) --------------------------------------------
 
 plot_all_sources('density saturated', ax_w_rho)
-
-ax_w_rho.set_xlabel(f'T ({temperature_unit})')
-ax_w_rho.set_ylabel(f'Density (kg / m^3)')
-
-# Density (ambient) ----------------------------------------------------------
-
 plot_all_sources('density ambient', ax_w_rho)
 
 ax_w_rho.set_xlabel(f'T ({temperature_unit})')
@@ -190,7 +184,12 @@ def plot_all_sources_conc(propty, solute, T, unit, ctype='m', relative=False, ax
         concentration = {ctype: cc}
 
         if propty in ['surface tension', 'density']:
-            pty = func(solute, T, unit, relative, source, **concentration)
+            pty = func(solute=solute,
+                       T=T,
+                       unit=unit,
+                       relative=relative,
+                       source=source,
+                       **concentration)
         else:
             pty = func(solute, T, unit, source, **concentration)
 
@@ -242,7 +241,7 @@ ax_s_surf.set_ylabel('surface tension (mN/m)')
 solutes = ['NaCl', 'Na2SO4', 'CaCl2', 'KCl', 'KI', 'LiCl', 'MgCl2']
 
 for solute in solutes:
-    plot_all_sources_conc('density', solute, 25, 'C', norm=1e-3,
+    plot_all_sources_conc('density', solute, 25, 'C', norm=1,
                           ctype=concentration_unit, ax=ax_s_dens, relative=False)
 
 ax_s_dens.set_xlabel(f'concentration ({concentration_unit})')

@@ -14,31 +14,45 @@ file.
 Sources
 -------
 - Al Ghafri et al., Densities of Aqueous MgCl2(aq), CaCl2 (aq), KI(aq),
-NaCl(aq), KCl(aq), AlCl3(aq), and (0.964 NaCl + 0.136 KCl)(aq) at
-Temperatures Between (283 and 472) K, Pressures up to 68.5 MPa, and
-Molalities up to 6 mol·kg -1.
-Journal of Chemical & Engineering Data 57, 1288-1304 (2012).
+  NaCl(aq), KCl(aq), AlCl3(aq), and (0.964 NaCl + 0.136 KCl)(aq) at
+  Temperatures Between (283 and 472) K, Pressures up to 68.5 MPa, and
+  Molalities up to 6 mol·kg -1.
+  Journal of Chemical & Engineering Data 57, 1288-1304 (2012).
+
+- Krumgalz, B. S., Pogorelsky, R. & Pitzer, K. S.
+  Volumetric Properties of Single Aqueous Electrolytes from Zero to Saturation
+  Concentration at 298.15 °K Represented by Pitzer's Ion-Interaction Equations.
+  Journal of Physical and Chemical Reference Data 25, 663-689 (1996).
+
 """
 
 import numpy as np
 
-from .misc import rho_alghafri
+from .misc import rho_alghafri, density_pitzer
 
 # General Info about the formulas
 
 default_source = 'Al Ghafri'
 
-concentration_types = {'Al Ghafri': 'm'
-                       }
+concentration_types = {
+    'Al Ghafri': 'm',
+    'Krumgalz': 'm',
+}
 
-concentration_ranges = {'Al Ghafri': (0, 5)
-                        }
+concentration_ranges = {
+    'Al Ghafri': (0, 5),
+    'Krumgalz': (0, 5.8),
+}
 
-temperature_units = {'Al Ghafri': 'K'
-                     }
+temperature_units = {
+    'Al Ghafri': 'K',
+    'Krumgalz': 'C',
+}
 
-temperature_ranges = {'Al Ghafri': (298.15, 473.15)
-                      }
+temperature_ranges = {
+    'Al Ghafri': (298.15, 473.15),
+    'Krumgalz': (25, 25),
+}
 
 # ============================== FORMULAS ====================================
 
@@ -63,10 +77,16 @@ def density_alghafri(m, T):
     return rho0, rho
 
 
+def density_krumgalz(m, T):
+    return density_pitzer(m, solute='MgCl2', source='Krumgalz')
+
+
 # ========================== WRAP-UP OF FORMULAS =============================
 
 
-formulas = {'Al Ghafri': density_alghafri
-            }
+formulas = {
+    'Al Ghafri': density_alghafri,
+    'Krumgalz': density_krumgalz,
+}
 
 sources = [source for source in formulas]
