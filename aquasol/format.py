@@ -33,17 +33,6 @@ def format_output_type(value):
             return value
 
 
-def format_source(source, sources, default_source):
-    """Return source if it's in sources, default_source if None."""
-    if source is None:
-        return default_source
-    else:
-        if source not in sources:
-            raise ValueError(f'Source can only be one of {sources}')
-        else:
-            return source
-
-
 def format_temperature(T, unit_in, unit_out):
     """Format temperature from/to Celsius (C) and Kelvin (K)."""
 

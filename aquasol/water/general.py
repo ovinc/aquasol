@@ -5,66 +5,53 @@ from ..format import format_temperature, format_source
 from ..check import check_validity_range
 
 
-# Info on the name of the modules corresponding to the properties ------------
 
-base = '.formulas.'
+class WaterFormula:
+    """Generic class for formulas for water properties as a function of T"""
 
-modules = {'vapor pressure': 'vapor_pressure',
-           'surface tension': 'surface_tension',
-           'density saturated': 'density_sat',
-           'density ambient': 'density_atm',
-           'diffusivity in air': 'diffusivity_in_air',
-           'viscosity ambient': 'viscosity_atm'
-           }
-
-property_modules = {name: f'{base}{module}' for name, module in modules.items()}
+    # To be defined in subclasses
+    name = ''
+    source_name = ''
+    temperature_unit = None
+    temperature_range = None
 
 
-def get_infos(propty):
-    """Get various informations on sources for a particular property.
+class WaterProperty:
+    """Generic class for a property that can have various sources"""
 
-    Input
-    -----
-    propty (str): property name (e.g. 'vapor pressure', 'surface tension')
+    formulas = ()
+    default_formula = None
 
-    Output
-    ------
-    Dictionary of informations, with the following keys:
-    'sources', 'default source', 'formulas', 'temp ranges', 'temp units'
+    def __init__(self):
+        self.available_formulas = {
+            formula.name: formula for formula in self.formulas
+        }
 
-    """
-
-    module = property_modules[propty]
-
-    line1 = f'from {module} import temperature_ranges, temperature_units'
-    line2 = f'from {module} import sources, formulas, default_source'
-
-    for line in line1, line2:
-        exec(line, globals())  # without globals, variables are not defined
-
-    infos = {'sources': sources,
-             'default source': default_source,
-             'formulas': formulas,
-             'temp ranges': temperature_ranges,
-             'temp units': temperature_units}
-
-    return infos
+    def _get_formula(self, source=None):
+    """Return source if it's in sources, default_source if None."""
+    if source is None:
+        return default_source
+    else:
+        if source not in sources:
+            raise ValueError(f'Source can only be one of {sources}')
+        else:
+            return source
 
 
-def calculation(propty, source, parameters):
-    """Choose water property formula, given a source and a list of modules.
+    def calculate(self, T, unit='C', source=None):
+        """Choose water property formula, given a source and a list of modules.
 
-    Inputs
-    ------
-    propty (str): property name (e.g. 'vapor pressure', 'surface tension')
-    source (str): source name (if None, uses default source in module)
-    T: temperature
-    unit (str): unit of temperature ('C' or 'K')
+        Inputs
+        ------
+        propty (str): property name (e.g. 'vapor pressure', 'surface tension')
+        source (str): source name (if None, uses default source in module)
+        T: temperature
+        unit (str): unit of temperature ('C' or 'K')
 
-    Output
-    ------
-    water property of interest calculated following the input parameters
-    """
+        Output
+        ------
+        water property of interest calculated following the input parameters
+        """
 
     T, unit = parameters
 
