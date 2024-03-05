@@ -1,4 +1,4 @@
-"""Miscellaneous checks for the thermo-ov package."""
+"""Miscellaneous checks for the aquasol package."""
 
 
 from warnings import warn

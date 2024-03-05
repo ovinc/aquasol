@@ -4,6 +4,7 @@
 from .general import calculation
 from ..format import format_output_type
 
+
 def vapor_pressure(T=25, unit='C', source=None):
     """Return the vapor pressure (in Pascal) as a function of temperature.
 
@@ -66,7 +67,6 @@ def surface_tension(T=25, unit='C', source=None):
     """
     sigma = calculation('surface tension', source, (T, unit))
     return format_output_type(sigma)
-
 
 def density_sat(T=25, unit='C', source=None):
     """Density (kg/m^3) of saturated liquid water as a function of temperature.

@@ -11,3 +11,4 @@ from .properties import density, surface_tension
 from .properties import refractive_index, electrical_conductivity
 from .convert import convert, ionic_strength, ion_quantities
 from .invert import aw_to_conc
+from .extend import osmotic_pressure, osmotic_coefficient

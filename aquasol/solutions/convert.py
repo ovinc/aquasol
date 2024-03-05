@@ -34,9 +34,17 @@ allowed_units = basic_units + add_units
 # =========================== MAIN CONVERT FUNCTION ==========================
 
 
-def convert(value, unit1, unit2,
-            solute='NaCl', T=25, unit='C',
-            density_source=None, density_wmin=0, density_wmax=0.99):
+def convert(
+    value,
+    unit1,
+    unit2,
+    solute='NaCl',
+    T=25,
+    unit='C',
+    density_source=None,
+    density_wmin=0,
+    density_wmax=0.99,
+):
     """Convert between different concentration units for solutions.
 
     Parameters
@@ -79,7 +87,6 @@ def convert(value, unit1, unit2,
     - convert(5000, 'c', 'x', T=293, unit='K'): same but at 293K
     - convert(5000, 'c', 'x', solute='LiCl'): for LiCl at 25°C
     """
-
     units = [unit1, unit2]
     check_units(units, allowed_units)
 
@@ -96,13 +103,15 @@ def convert(value, unit1, unit2,
 
     # Check if it's unit1 which is a "fancy" unit and convert to w if so.
     if unit1 == 'c':
-        w = molarity_to_w(c=value,
-                          solute=solute,
-                          T=T,
-                          unit=unit,
-                          source=density_source,
-                          wmin=density_wmin,
-                          wmax=density_wmax)
+        w = molarity_to_w(
+            c=value,
+            solute=solute,
+            T=T,
+            unit=unit,
+            source=density_source,
+            wmin=density_wmin,
+            wmax=density_wmax,
+        )
         value_in = w
         unit_in = 'w'
     else:
@@ -116,10 +125,12 @@ def convert(value, unit1, unit2,
 
         w = basic_convert(value_in, unit_in, 'w', solute)
         if unit2 == 'c':
-            return w_to_molarity(w=w,
-                                 solute=solute,
-                                 T=T, unit=unit,
-                                 source=density_source)
+            return w_to_molarity(
+                w=w,
+                solute=solute,
+                T=T, unit=unit,
+                source=density_source,
+            )
 
         else:
             # This case should in principle never happen, except if bug in
@@ -150,11 +161,13 @@ def basic_density(solute, T=25, unit='C', source=None, **concentration):
     - density (kg/m^3)
     """
     parameters = T, unit, concentration
-    _, rho = calculation(propty='density',
-                         solute=solute,
-                         source=source,
-                         parameters=parameters,
-                         converter=basic_convert)
+    _, rho = calculation(
+        propty='density',
+        solute=solute,
+        source=source,
+        parameters=parameters,
+        converter=basic_convert,
+    )
     return rho
 
 
@@ -179,7 +192,13 @@ def molarity_to_w(c, solute, T=25, unit='C', source=None, wmin=0, wmax=0.99):
     def molarity(w):
         with warnings.catch_warnings():      # this is to avoid always warnings
             warnings.simplefilter('ignore')  # which pop up due to wmax being high
-            return w_to_molarity(w=w, solute=solute, T=T, unit=unit, source=source)
+            return w_to_molarity(
+                w=w,
+                solute=solute,
+                T=T,
+                unit=unit,
+                source=source,
+            )
 
     weight_fraction = inversefunc(molarity, domain=[wmin, wmax])
     w = weight_fraction(c)
@@ -192,6 +211,7 @@ def molarity_to_w(c, solute, T=25, unit='C', source=None, wmin=0, wmax=0.99):
 
 
 # ========================== INDIVIDUAL ION QUANTITIES =======================
+
 
 def ion_quantities(solute, **concentration):
     """Return quantities x, m, c but defined for each ion instead of considering
@@ -236,6 +256,7 @@ def ion_quantities(solute, **concentration):
 
 
 # =============================== IONIC STRENGTH =============================
+
 
 def ionic_strength(solute, **concentration):
     """Ionic strength in terms of mole fraction (x), molality (m) or molarity (c)

@@ -1,4 +1,4 @@
-"""Miscellaneous formatting tools for the thermo-ov package."""
+"""Miscellaneous formatting tools for the aquasol package."""
 
 
 import numpy as np
@@ -27,7 +27,7 @@ def format_output_type(value):
     except AttributeError:
         return value   # if not an array, it's a float, so return it rightaway
     else:
-        if len(value.shape) == 0:  # this is to return a scalar if a scalar is used as input
+        if len(sh) == 0:  # this is to return a scalar if a scalar is used as input
             return value.item()
         else:
             return value
@@ -91,8 +91,7 @@ def format_concentration(concentration, unit_out, solute, converter):
     if len(concentration) == 0:
         raise ValueError(f'Concentration of {solute} not provided.')
 
-    else:
-        [unit_in] = concentration.keys()
-        [value] = concentration.values()
-        conc = converter(value, unit_in, unit_out, solute)
-        return conc
+    unit_in, = concentration.keys()
+    value, = concentration.values()
+    conc = converter(value, unit_in, unit_out, solute)
+    return conc

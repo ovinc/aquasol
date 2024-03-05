@@ -181,10 +181,13 @@ class PitzerActivity(PitzerBase):
 
     def osmotic_coefficient(self, m):
         """Osmotic coefficient, phi"""
-        return 1 + self._activity_coeff(m,
-                                        f=self.f_phi(m),
-                                        B=self.B_phi(m),
-                                        C=self.C_phi)
+        coeff = self._activity_coeff(
+            m,
+            f=self.f_phi(m),
+            B=self.B_phi(m),
+            C=self.C_phi,
+        )
+        return 1 + coeff
 
     def water_activity(self, m):
         """Water activity, aw"""
@@ -193,10 +196,12 @@ class PitzerActivity(PitzerBase):
 
     def activity_coefficient(self, m):
         """Activity coefficient, gamma"""
-        ln_gamma = self._activity_coeff(m,
-                                        f=self.f_gamma(m),
-                                        B=self.B_gamma(m),
-                                        C=self.C_gamma)
+        ln_gamma = self._activity_coeff(
+            m,
+            f=self.f_gamma(m),
+            B=self.B_gamma(m),
+            C=self.C_gamma,
+        )
         return np.exp(ln_gamma)
 
     def solute_activity(self, m):

@@ -10,7 +10,7 @@ NOTE: when modifying density, make sure to also change basic_density in convert.
 
 
 from .general import calculation
-from .convert import convert as converter
+from .convert import convert
 from ..format import format_output_type
 
 
@@ -55,8 +55,13 @@ def activity_coefficient(solute='NaCl', T=25, unit='C', source=None, **concentra
     - activity_coefficient(m=6.1)  # at saturation for NaCl
     - activity_coefficient(solute='KCl', T=50, m=[2, 4, 6])  # concentration as iterable
     """
-    parameters = T, unit, concentration
-    gamma = calculation('activity coefficient', solute, source, parameters, converter)
+    gamma = calculation(
+        propty='activity coefficient',
+        solute=solute,
+        source=source,
+        parameters=(T, unit, concentration),
+        converter=convert,
+    )
     return format_output_type(gamma)
 
 
@@ -106,8 +111,13 @@ def water_activity(solute='NaCl', T=25, unit='C', source=None, **concentration):
     - water_activity('LiCl', 293, 'K', m=6): same for LiCl at 293K.
     - water_activity(solute='CaCl2', T=50, m=[2, 4, 6])  # concentration as iterable
     """
-    parameters = T, unit, concentration
-    a_w = calculation('water activity', solute, source, parameters, converter)
+    a_w = calculation(
+        propty='water activity',
+        solute=solute,
+        source=source,
+        parameters=(T, unit, concentration),
+        converter=convert,
+    )
     return format_output_type(a_w)
 
 
@@ -164,9 +174,13 @@ def density(solute='NaCl', T=25, unit='C', relative=False, source=None, **concen
     - density(c=5000, relative=True), relative density of NaCl solution at
     a concentration of 5 mol/L.
     """
-    parameters = T, unit, concentration
-    rho0, rho = calculation('density', solute, source, parameters, converter)
-
+    rho0, rho = calculation(
+        propty='density',
+        solute=solute,
+        source=source,
+        parameters=(T, unit, concentration),
+        converter=convert,
+    )
     if relative:
         return format_output_type(rho / rho0)
     else:
@@ -225,9 +239,13 @@ def surface_tension(solute='NaCl', T=25, unit='C', relative=False, source=None, 
     a CaCl2 solution at 300K and molarity of 5 mol/L
     - surface_tension(x=[0.02, 0.04, 0.08])  # iterable concentration is ok
     """
-    parameters = T, unit, concentration
-    s0, s = calculation('surface tension', solute, source, parameters, converter)
-
+    s0, s = calculation(
+        propty='surface tension',
+        solute=solute,
+        source=source,
+        parameters=(T, unit, concentration),
+        converter=convert,
+    )
     if relative:
         return format_output_type(s / s0)
     else:
@@ -279,9 +297,13 @@ def refractive_index(solute='NaCl', T=25, unit='C', source=None, **concentration
     - refractive_index('KCl', m=3, T=30): same for KCl at 30°C
     - refractive_index('KCl', 293, 'K', m=3): same for KCl at 293K.
     """
-    parameters = T, unit, concentration
-    n = calculation('refractive index', solute, source, parameters, converter)
-
+    n = calculation(
+        propty='refractive index',
+        solute=solute,
+        source=source,
+        parameters=(T, unit, concentration),
+        converter=convert,
+    )
     return format_output_type(n)
 
 
@@ -328,6 +350,11 @@ def electrical_conductivity(solute='NaCl', T=25, unit='C', source=None, **concen
 
     (Note: arrays are accepted for concentration and temperature)
     """
-    parameters = T, unit, concentration
-    a_w = calculation('electrical conductivity', solute, source, parameters, converter)
-    return format_output_type(a_w)
+    sigma = calculation(
+        propty='electrical conductivity',
+        solute=solute,
+        source=source,
+        parameters=(T, unit, concentration),
+        converter=convert,
+    )
+    return format_output_type(sigma)

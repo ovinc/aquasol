@@ -12,6 +12,7 @@ from .water import dewpoint as dp
 from .water import kelvin_pressure as kp
 from .water import kelvin_humidity as kh
 from .water import kelvin_radius as kr
+from .water import molar_volume as vm
 
 from .solutions import water_activity as aw
 from .solutions import aw_to_conc as ac

@@ -2,6 +2,7 @@
 
 
 from aquasol.solutions import activity_coefficient, water_activity
+from aquasol.solutions import osmotic_coefficient, osmotic_pressure
 from aquasol.solutions import density, surface_tension
 from aquasol.solutions import refractive_index, electrical_conductivity
 from aquasol.solutions import aw_to_conc, convert
@@ -75,6 +76,28 @@ def test_aw_8():
 def test_aw_9():
     aw = water_activity(solute='KCl', m=3)  # KCl
     assert round(aw, 2) == 0.90
+
+def test_aw_10():
+    """Check different formulas are consistent"""
+    aw1 = water_activity(solute='Na2SO4', m=4, source='Clegg')
+    aw2 = water_activity(solute='Na2SO4', m=4, source='Steiger 2005')
+    aw3 = water_activity(solute='Na2SO4', m=4, source='Steiger 2008')
+    assert round(aw1, 2) == 0.85
+    assert round(aw2, 2) == 0.85
+    assert round(aw3, 2) == 0.85
+
+
+# Test extensions of water activity ------------------------------------------
+
+
+def test_osmotic_pressure():
+    pi = osmotic_pressure(m=4)
+    assert round(pi / 1e6, 1) == 22.2
+
+
+def test_osmotic_coefficient():
+    phi = osmotic_coefficient(w=0.27)
+    assert round(phi, 1) == 1.3
 
 
 # =============================== Test density ===============================

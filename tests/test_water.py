@@ -1,5 +1,5 @@
 from aquasol.water import vapor_pressure, surface_tension
-from aquasol.water import density_sat, density_atm
+from aquasol.water import density_sat, density_atm, molar_volume
 from aquasol.water import diffusivity_in_air, viscosity_atm
 from aquasol.water import dewpoint, kelvin_humidity, kelvin_radius, kelvin_pressure
 import numpy as np
@@ -127,6 +127,27 @@ def test_rhosat_6():
 def test_rhosat_7():
     rho = density_sat(T=[0, 60, 100])
     assert round(rho[1]) == 983
+
+
+# ============================= Test molar volume ============================
+
+
+def test_vm_1():
+    vm = molar_volume()
+    assert round(vm * 1e5, 3) == 1.807
+
+def test_vm_2():
+    vm = molar_volume(condition='atm')
+    assert round(vm * 1e5, 3) == 1.807
+
+def test_vm_3():
+    vm = molar_volume(T=20)
+    assert round(vm * 1e5, 3) == 1.805
+
+def test_vm_4():
+    vms = molar_volume(T=[15, 25])
+    assert round(vms[1] * 1e5, 3) == 1.807
+
 
 # ========================= Test Diffusivity in air ==========================
 

@@ -11,6 +11,7 @@ from ..check import check_validity_range
 # Info on the name of the modules corresponding to the properties ------------
 
 base = '.formulas.'
+
 property_modules = {
     'activity coefficient': base + 'activity_coefficient',
     'water activity': base + 'water_activity',
@@ -48,13 +49,15 @@ def get_infos(propty, solute):
         except ModuleNotFoundError:
             raise ModuleNotFoundError(f'solute {solute} not available')
 
-    infos = {'sources': sources,
-             'default source': default_source,
-             'formulas': formulas,
-             'temp ranges': temperature_ranges,
-             'temp units': temperature_units,
-             'conc ranges': concentration_ranges,
-             'conc units': concentration_types}
+    infos = {
+        'sources': sources,
+        'default source': default_source,
+        'formulas': formulas,
+        'temp ranges': temperature_ranges,
+        'temp units': temperature_units,
+        'conc ranges': concentration_ranges,
+        'conc units': concentration_types,
+    }
 
     return infos
 
@@ -95,7 +98,12 @@ def calculation(propty, solute, source, parameters, converter):
     cunit = infos['conc units'][src]
     crange = infos['conc ranges'][src]
 
-    conc = format_concentration(concentration, cunit, solute, converter)
+    conc = format_concentration(
+        concentration=concentration,
+        unit_out=cunit,
+        solute=solute,
+        converter=converter,
+    )
     check_validity_range(conc, crange, 'concentration', cunit, src)
 
     # Calculate value according to adequate formula --------------------------

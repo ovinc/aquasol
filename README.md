@@ -21,7 +21,9 @@ The *water* module has the following functions, which return the respective prop
 - `density_sat()` for density on the liquid-vapor coexistence line (kg/m^3)
 - `density_atm()` for density at ambient pressure 0.1 MPa (kg/m^3)
 - `diffusivity_in_air()` for diffusivity of water vapor in air (m^2/s)
-- `viscosity_atm` for viscosity of liquid water (Pa.s)
+- `viscosity_atm()` for viscosity of liquid water (Pa.s)
+
+**Note**: see further below for `dewpoint()`, `kelvin_pressure()`, `kelvin_humidity()`, `kelvin_radius()` and `molar_volume()`, which work a bit differently.
 
 The structure of the call for any property (replace *property* below by one of the function names above) is
 ```python
@@ -72,6 +74,7 @@ Based on the functions above, some inverse and other properties are also provide
 - `kelvin_pressure()`
 - `kelvin_radius()`
 - `kelvin_humidity()`
+- `molar_volume()`
 
 ### Examples
 
@@ -95,6 +98,10 @@ kelvin_humidity(r=4.7e-9)  # activity corresponding to Kelvin radius of 4.7 nm a
 kelvin_humidity(r=4.7e-9, out='rh')  # same, but expressed in %RH instead of activity
 kelvin_humidity(r=4.7e-9, ncurv=1, out='p')  # cylindrical interface, output as pressure
 kelvin_humidity(P=[-30e6, -50e6])  # input can also be liquid pressure
+
+molar_volume()  # molar volume of water at 25°C
+molar_volume(T=30)  # at 30°C
+molar_volume(condition='atm')  # using atmosph. density instead of sat.
 ```
 
 
@@ -138,6 +145,10 @@ The *solutions* module has the following functions, which return the respective 
 - `refractive_index()` (dimensionless)
 - `electrical_conductivity()` (S/m)
 
+The following functions, which are based on some of the ones above, are also defined:
+- `osmotic_coefficient()`: $\phi$, calculated using `water_activity()`
+- `osmotic_pressure()`: $\Pi$, calculated using `water_activity()`
+
 The structure of the call for any property (replace *property* below by one of the function names above) is
 ```python
 data = property(solute='NaCl', T=25, unit='C', source=None, **concentration)
@@ -172,6 +183,10 @@ water_activity(x=0.1)            # NaCl solution, mole fraction 10%, 25°C
 water_activity(r=0.3)           # solution when mixing 55g NaCl with 100g H2O
 water_activity('LiCl', w=0.3, T=70)  # LiCl solution, 30% weight fraction, 70°C
 water_activity(solute='CaCl2', m=[2, 4, 6])  # for several molalities (mol/kg)
+
+# Other ways to express water activity:
+osmotic_pressure(m=5)
+osmotic_coefficient(x=0.1, solute='LiCl')
 
 # Molal activity coefficient (dimensionless, 'gamma') ------------------------
 activity_coefficient(m=6.1)            # ~ Saturated NaCl solution, 25°C
@@ -329,6 +344,7 @@ For rapid calculations without much typing, the following shortcuts are provided
 | `water.kelvin_pressure()`     |  `kp()`  |
 | `water.kelvin_radius()`       |  `kr()`  |
 | `water.kelvin_humidity()`     |  `kh()`  |
+| `water.molar_volume()`        |  `vm()`  |
 | `solutions.water_activity()`  |  `aw()`  |
 | `solutions.aw_to_conc()`      |  `ac()`  |
 | `solutions.convert()`         |  `cv()`  |
