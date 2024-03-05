@@ -67,7 +67,7 @@ temperature_units = {
 
 temperature_ranges = {
     'Steiger 2005': (298.15, 298.15),
-    'Steiger 2008': (278.15, 323.15),
+    'Steiger 2008': (273.15, 323.15),
     'Tang': (25, 25),
 }
 

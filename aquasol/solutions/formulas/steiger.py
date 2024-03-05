@@ -58,7 +58,11 @@ class CoeffsSteiger2008:
 
     @staticmethod
     def _calculate_parameter(T, *coeffs):
-        "Determine betas or third virial coefficient C as a function of the temperature"
+        """Determine betas or third virial coefficient C as a function of T.
+
+        Note: is also used to calculate solubility as a function of T.
+        (see solutions.saturated)
+        """
         Tr = 298.15
         q1, q2, q3, q4, q5, q6 = coeffs
         term2 = q2 * (1 / T - 1 / Tr)
