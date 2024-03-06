@@ -13,7 +13,7 @@ Sources
   Journal of Physics and Chemistry Reference Data 1, 3-118 (1972)
 """
 
-from ..general import WaterFormula, WaterProperty
+from ...general import WaterFormula, WaterProperty
 
 
 class DiffusivityInAir_Massman(WaterFormula):

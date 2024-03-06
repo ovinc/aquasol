@@ -9,7 +9,7 @@ Sources
 
 """
 
-from ..general import WaterFormula, WaterProperty
+from ...general import WaterFormula, WaterProperty
 
 
 class ViscosityAtm_Huber(WaterFormula):

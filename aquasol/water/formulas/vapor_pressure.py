@@ -37,8 +37,7 @@ Here we consider all absolute temperatures as being in Kelvin.
 import numpy as np
 
 from ...constants import Tc, Patm, Pc, Tc
-
-from ..general import WaterFormula, WaterProperty
+from ...general import WaterFormula, WaterProperty
 
 
 class VaporPressure_Wagner(WaterFormula):

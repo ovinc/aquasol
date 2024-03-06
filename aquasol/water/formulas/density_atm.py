@@ -15,8 +15,7 @@ J. Chem. Eng. Data. 1975
 """
 
 from ...constants import Patm
-
-from ..general import WaterFormula, WaterProperty
+from ...general import WaterFormula, WaterProperty
 
 
 class DensityAtm_Patek(WaterFormula):

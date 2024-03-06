@@ -14,8 +14,7 @@ International Journal of Thermal Sciences 43, 367-382 (2004).
 """
 
 from ...constants import Tc, rhoc
-
-from ..general import WaterFormula, WaterProperty
+from ...general import WaterFormula, WaterProperty
 
 
 class DensitySat_Wagner(WaterFormula):

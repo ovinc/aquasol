@@ -7,8 +7,7 @@ IAPWS, London, September 1994.
 """
 
 from ...constants import Tc
-
-from ..general import WaterFormula, WaterProperty
+from ...general import WaterFormula, WaterProperty
 
 
 class SurfaceTension_IAPWS(WaterFormula):
