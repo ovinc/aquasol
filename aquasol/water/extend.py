@@ -8,7 +8,7 @@ etc.
 
 import numpy as np
 
-from .properties import density_atm, density_sat, surface_tension
+from . import density_atm, density_sat, surface_tension
 from ..format import format_output_type, format_temperature, format_input_type
 from ..humidity import format_humidity
 from ..constants import Mw, R
@@ -16,7 +16,6 @@ from ..constants import Mw, R
 
 # ================================== Config ==================================
 
-hparams = ['p', 'rh', 'aw']
 rpparams = ['r', 'P']
 
 msg_rp_error = "Input argument can only be 'r=' (radius in m) or 'P='" \
@@ -82,9 +81,9 @@ def kelvin_pressure(T=25, unit='C', **humidity):
     >>> kelvin_pressure(aw=[0.5, 0.7, 0.9])  # possible to use iterables
     array([-95092982.94809894, -48932297.94944938, -14454427.57302842])
     """
-    aw = format_humidity(unit, T, out='aw', **humidity)
-    vm = molar_volume(T=T, unit=unit)
-    Tk = format_temperature(T, unit, 'K')
+    aw = format_humidity(unit=unit, T=T, source=None, out='aw', **humidity)
+    vm = molar_volume(T=T, unit=unit, source=None)
+    Tk = format_temperature(T=T, unit_in=unit, unit_out='K')
     pc = R * Tk * np.log(aw) / vm  # no need to use format_input_type due to np.log
     return format_output_type(pc)
 
@@ -118,7 +117,7 @@ def kelvin_radius(T=25, unit='C', ncurv=2, **humidity):
     >>> kelvin_radius(aw=[0.5, 0.7, 0.9])  # possible to use iterables
     array([1.51372274e-09, 2.94170551e-09, 9.95849955e-09])
     """
-    sig = surface_tension(T, unit)
+    sig = surface_tension(T=T, unit=unit)
     pc = kelvin_pressure(T=T, unit=unit, **humidity)
     r = -ncurv * sig / pc
     return format_output_type(r)
@@ -177,14 +176,13 @@ def kelvin_humidity(T=25, unit='C', ncurv=2, out='aw', **r_or_p):
 
     if rpin == 'r':
         r = format_input_type(val)
-        sig = surface_tension(T, unit)
+        sig = surface_tension(T=T, unit=unit)
         pc = - ncurv * sig / r
     else:
         pc = format_input_type(val)
 
     vm = molar_volume(T=T, unit=unit)
-    Tk = format_temperature(T, unit, 'K')
+    Tk = format_temperature(T=T, unit_in=unit, unit_out='K')
     aw = np.exp(pc * vm / (R * Tk))
-    hout = format_humidity(unit, T, source=None, out=out, aw=aw)
+    hout = format_humidity(unit=unit, T=T, source=None, out=out, aw=aw)
     return format_output_type(hout)
-

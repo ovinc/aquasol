@@ -1,13 +1,18 @@
 """Properties of pure water."""
 
-# TODO: add viscosity, diffusivity
+from .formulas.density_atm import DensityAtm
+from .formulas.density_sat import DensitySat
+from .formulas.diffusivity_in_air import DiffusivityInAir
+from .formulas.surface_tension import SurfaceTension
+from .formulas.vapor_pressure import VaporPressure
+from .formulas.viscosity_atm import ViscosityAtm
 
-from .properties import vapor_pressure
-from .properties import surface_tension
-from .properties import density_sat
-from .properties import density_atm
-from .properties import diffusivity_in_air
-from .properties import viscosity_atm
+density_atm = DensityAtm()
+density_sat = DensitySat()
+diffusivity_in_air = DiffusivityInAir()
+surface_tension = SurfaceTension()
+vapor_pressure = VaporPressure()
+viscosity_atm = ViscosityAtm()
 
 from .invert import dewpoint
 from .extend import kelvin_humidity, kelvin_radius, kelvin_pressure

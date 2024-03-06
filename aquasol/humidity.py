@@ -58,7 +58,12 @@ def format_humidity(unit='C', T=25, source=None, out='p', **humidity):
         # need to convert to/from p to aw/rh --> need psat(T)
         if T is None:
             T = 25 if unit == 'C' else 298.15  # 25°C is default T for RH, aw
-        psat = vapor_pressure(T, unit, source)
+
+        psat = vapor_pressure(
+            T=T,
+            unit=unit,
+            source=source,
+        )
 
         if hin == 'p':
             return np.array(val) / (psat * hratio[hout])

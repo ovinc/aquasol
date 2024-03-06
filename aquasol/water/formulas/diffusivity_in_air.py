@@ -11,80 +11,98 @@ Sources
 - Marrero, T. R. and Mason E. A.,
   Gaseous diffusion coeffcients.
   Journal of Physics and Chemistry Reference Data 1, 3-118 (1972)
-
 """
 
-# General Info about the formulas
-
-default_source = 'Massman'
-
-temperature_units = {'Massman': 'K',
-                     'MM72': 'K',
-                     }
-
-temperature_ranges = {'Massman': (273.15, 373.15),
-                      'MM72': (273.15, 373.15),
-                      }
+from ..general import WaterFormula, WaterProperty
 
 
-def diffusivity_massman(T):
-    """Diffusivity of water vapor in air according to Massman 1998
+class DiffusivityInAir_Massman(WaterFormula):
 
-    Input
-    -----
-    Temperature in K
+    name = 'Massman'
+    temperature_unit = 'K'
+    temperature_range = (273.15, 373.15)
+    default = True
 
-    Output
-    ------
-    Diffusivity in m^2 / s
+    coeffs = {'T0': 273.15}  # K
 
-    Reference
-    ---------
-    Massman, W. J.
-    A review of the molecular diffusivities of H2O, CO2, CH4, CO, O3, SO2, NH3,
-    N2O, NO, and NO2 in air, O2 and N2 near STP.
-    Atmospheric Environment 32, 1111-1127 (1998).
+    def calculate(self,T):
+        """Diffusivity of water vapor in air according to Massman 1998
 
-    Notes
-    -----
-    - Valid between 273.15 K and 373.15 K (0 to 100°C)
-    """
-    T0 = 273.15   # K
-    return (0.2178 * (T / T0) ** 1.81) * 1e-4
+        Input
+        -----
+        Temperature in K
+
+        Output
+        ------
+        Diffusivity in m^2 / s
+
+        Reference
+        ---------
+        Massman, W. J.
+        A review of the molecular diffusivities of H2O, CO2, CH4, CO, O3, SO2, NH3,
+        N2O, NO, and NO2 in air, O2 and N2 near STP.
+        Atmospheric Environment 32, 1111-1127 (1998).
+
+        Notes
+        -----
+        - Valid between 273.15 K and 373.15 K (0 to 100°C)
+        """
+        return (0.2178 * (T / self.coeffs['T0']) ** 1.81) * 1e-4
 
 
-def diffusivity_mm72(T):
-    """Diffusivity of water vapor in air according to Marrero & Mason (1972)
+class DiffusivityInAir_MM72(WaterFormula):
 
-    (as reported in Massman 1998)
+    name = 'MM72'
+    temperature_unit = 'K'
+    temperature_range = (273.15, 373.15)
 
-    Input
-    -----
-    Temperature in K
+    coeffs = {'T0': 273.15}  # K
 
-    Output
-    ------
-    Diffusivity in m^2 / s
+    def calculate(self, T):
+        """Diffusivity of water vapor in air according to Marrero & Mason (1972)
 
-    Reference
-    ---------
-    Marrero, T. R. and Mason E. A.,
-    Gaseous diffusion coeffcients.
-    Journal of Physics and Chemistry Reference Data 1, 3-118 (1972)
+        (as reported in Massman 1998)
 
-    Notes
-    -----
-    - Valid between 273.15 K and 373.15 K (0 to 100°C)
-    """
-    T0 = 273.15   # K
-    return (0.209 * (T / T0) ** 2.072) * 1e-4
+        Input
+        -----
+        Temperature in K
+
+        Output
+        ------
+        Diffusivity in m^2 / s
+
+        Reference
+        ---------
+        Marrero, T. R. and Mason E. A.,
+        Gaseous diffusion coeffcients.
+        Journal of Physics and Chemistry Reference Data 1, 3-118 (1972)
+
+        Notes
+        -----
+        - Valid between 273.15 K and 373.15 K (0 to 100°C)
+        """
+        return (0.209 * (T / self.coeffs['T0']) ** 2.072) * 1e-4
 
 
 # ========================== WRAP-UP OF FORMULAS =============================
 
 
-formulas = {'Massman': diffusivity_massman,
-            'MM72': diffusivity_mm72,
-            }
+class DiffusivityInAir(WaterProperty):
+    """Diffusivity of water vapor as a function of temperature [m^2/s].
 
-sources = [source for source in formulas]
+    Examples
+    --------
+    >>> from aquasol.water import diffusivity_in_air as d
+    >>> d()  # returns the diffusivity of water in air at 25°C
+    >>> d(20)                  # at 20°C
+    >>> d([0, 10, 20, 30])     # at various temperatures in Celsius
+    >>> d(300, 'K')            # at 300K
+    """
+
+    quantity = 'vapor diffusivity in air'
+    unit = '[m^2/s]'
+
+    Formulas = (
+        DiffusivityInAir_Massman,
+        DiffusivityInAir_MM72
+    )

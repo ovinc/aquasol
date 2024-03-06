@@ -1,5 +1,31 @@
-"""Functions to calculate the vapor pressure of water as a function of
-temperature using NIST or IAPWS recommended equations.
+"""Vapor pressure of water as a function of temperature.
+
+Sources
+-------
+
+--- 'Wagner':
+    W. Wagner, A. Pruß',
+    The IAPWS Formulation 1995 for the Thermodynamic Properties of Ordinary
+    Water Substance for General and Scientific Use,
+    Journal of Physical and Chemical Reference Data',
+    2002,
+    *Note*: Psat expression from IAPWS; temperature validity range seems
+            to be 0 - 1000°C. Equation is (2.5) page 398.
+
+--- 'Wexler':
+    A. Wexler, L. Greenspan,
+    Vapor Pressure Equation for Water in the Range 0 to 100°C,
+    Journal of Research of the National Bureau of Standards - A. Physics and Chemistry,
+    1971,
+    *Note*: Psat expression, valid from 0 to 100°C.
+            We use Equation (17) and not the simplified Equations 18a-c.'
+
+--- 'Bridgeman',
+    O. C. Bridgeman, E. W. Aldrich,
+    Vapor Pressure Tables for Water,
+    Journal of Heat Transfer,
+    1964,
+    *Note*: Psat expression, valid from 0 to 374.15°C.
 
 Notes
 -----
@@ -8,21 +34,43 @@ which might be why some values for the critical point are slightly different.
 Here we consider all absolute temperatures as being in Kelvin.
 """
 
-from dataclasses import dataclass
-
 import numpy as np
 
 from ...constants import Tc, Patm, Pc, Tc
 
+from ..general import WaterFormula, WaterProperty
 
+
+class VaporPressure_Wagner(WaterFormula):
+    """Water saturation pressure according to Wagner & Pruß, T in K."""
+
+    name = 'Wagner'
+    temperature_unit = 'K'
+    temperature_range = (273.15, Tc)  # in fact 273.16 (triple point)
+    default = True
+
+    coeffs = [
+        -7.85951783,
+        1.84408259,
+        -11.7866497,
+        22.6807411,
+        -15.9618719,
+        1.80122502
+    ]
+
+    def calculate(self, T):
+        v = 1 - T / Tc
+        a1, a2, a3, a4, a5, a6 = self.coeffs
+
+        val = Tc / T * (a1 * v + a2 * v**1.5 + a3 * v**3 + a4 * v**3.5 + a5 * v**4 + a6 * v**7.5)
+
+        return np.exp(val) * Pc
 
 
 class VaporPressure_Wexler(WaterFormula):
     """Water Saturation pressure according to Wexler 1971, eq. (17). T in K."""
 
     name = 'Wexler'
-    source_name = 'Wexler'
-
     temperature_unit = 'K'
     temperature_range = (273.15, 373.15)
 
@@ -50,8 +98,6 @@ class VaporPressure_Bridgeman(WaterFormula):
     """Water Saturation pressure according to Bridgeman 1964. T in C."""
 
     name = 'Bridgeman'
-    source_name = 'Bridgeman'
-
     temperature_unit = 'C'
     temperature_range = (0, 374.15)
 
@@ -86,44 +132,27 @@ class VaporPressure_Bridgeman(WaterFormula):
         return (10**logp) * Patm
 
 
-class VaporPressure_Wagner(WaterFormula):
-    """Water saturation pressure according to Wagner & Pruß, T in K."""
-
-    name = 'Wagner'
-    source_name = 'Wagner'
-
-    temperature_unit = 'K'
-    temperature_range = (273.15, Tc)  # in fact 273.16 (triple point)
-
-    coeffs = [
-        -7.85951783,
-        1.84408259,
-        -11.7866497,
-        22.6807411,
-        -15.9618719,
-        1.80122502
-    ]
-
-    def calculate(self, T):
-        v = 1 - T / Tc
-        a1, a2, a3, a4, a5, a6 = self.coeffs
-
-        val = Tc / T * (a1 * v + a2 * v**1.5 + a3 * v**3 + a4 * v**3.5 + a5 * v**4 + a6 * v**7.5)
-
-        return np.exp(val) * Pc
-
-
-
-
 # ========================== WRAP-UP OF FORMULAS =============================
 
 
 class VaporPressure(WaterProperty):
+    """Saturation vapor pressure of water as a function of temperature [Pa]
 
-    formulas = (
+    Examples
+    --------
+    >>> from aquasol.water import vapor_pressure as psat
+    >>> psat()  # returns the saturation vapor pressure of water at 25°C
+    >>> psat(20)                   # at 20°C
+    >>> psat([0, 10, 20, 30])      # at various temperatures in Celsius
+    >>> psat(300, 'K')             # at 300K
+    >>> psat(15, source='Wexler')  # at 15°C using Wexler equation
+    """
+
+    quantity = 'saturated vapor pressure'
+    unit = '[Pa]'
+
+    Formulas = (
         VaporPressure_Wexler,
         VaporPressure_Bridgeman,
         VaporPressure_Wagner
     )
-
-    default_formula = VaporPressure_Wagner
