@@ -8,11 +8,14 @@
 # from .properties import activity_coefficient, water_activity
 # from .properties import density, surface_tension
 # from .properties import refractive_index, electrical_conductivity
-# from .convert import convert, ionic_strength, ion_quantities
 # from .invert import aw_to_conc
 # from .extend import osmotic_pressure, osmotic_coefficient
 # from .formulas.water_activity import WaterActivity
 
-# from .properties import WaterActivity
+from .properties import WaterActivity, Density
 
-# water_activity = WaterActivity()
+water_activity = WaterActivity()
+density = Density()
+
+from .convert import convert
+from ..formulas.solutions.ionic import ion_quantities, ionic_strength

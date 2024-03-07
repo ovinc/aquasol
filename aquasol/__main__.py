@@ -20,7 +20,7 @@ from .solutions import activity_coefficient, water_activity
 from .solutions import surface_tension as sigma_s, density
 from .solutions import refractive_index, electrical_conductivity
 from .solutions.general import get_infos as infos_solutions
-from .solutions import convert
+from .formulas.solutions import convert
 
 
 npts = 200

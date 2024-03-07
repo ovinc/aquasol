@@ -8,8 +8,7 @@ ionic strength expressed as molality is more common, e.g. Pitzer 1973
 """
 
 # Local imports
-from ...check import check_solute
-from ...format import format_input_type
+from ...format import format_input_type, check_solute
 from ...constants import solute_list
 from ...constants import dissociation_numbers, charge_numbers
 

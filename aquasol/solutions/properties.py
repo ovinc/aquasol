@@ -1,23 +1,29 @@
-"""Main module to calculate the properties of aqueous solutions.
-
-NOTE: when modifying density, make sure to also change basic_density in convert.
-"""
+"""Main module to calculate the properties of aqueous solutions."""
 
 # TODO: add densities expression of Clegg & Wexler 2011 (eq. 24)
 # TODO: add expression of Pitzer 1982 (source of CRC Handbook)
 # TODO: write more comprehensive examples
-# TODO: other temperatures than 25°C
 
 
-# from .general import calculation
-# from .convert import convert
-# from ..format import format_output_type
+from .convert import convert
 
 from ..properties import SolutionProperty
 
 from ..formulas.solutions.water_activity import AwFormulas
+from ..formulas.solutions.density import DensityFormulas
 
-class WaterActivity(SolutionProperty):
+class SolutionProperty_Full(SolutionProperty):
+    """Solution property with full converter (inclusing molarity).
+
+    Is used to prevent circular import problems
+    (because SolutionProperty is also used to define the density function used
+    in convert())
+    """
+    # See SolutionProperty for explanation of necessity of staticmethod()
+    converter = staticmethod(convert)
+
+
+class WaterActivity(SolutionProperty_Full):
     """Water activity of a solution(aq) at given concentration and temperature
 
     Examples
@@ -34,6 +40,23 @@ class WaterActivity(SolutionProperty):
     Formulas = AwFormulas
     quantity = 'water activity'
     unit = '[-]'
+
+
+class Density(SolutionProperty_Full):
+    """Examples
+    --------
+    - density(w=0.1) returns the density of a NaCl solution, calculated with
+    Simion equation for a mass fraction of 0.1 at a temperature of 25°C.
+    - density('LiCl', 300, 'K', m=6) density of a LiCl solution at 300K
+    for a molality of 6 mol/kg.
+    - density(source='Tang', x=0.1), density of NaCl solution at a mole
+    fraction of 0.1, calculated with the equation from Tang.
+    - density(c=5000, relative=True), relative density of NaCl solution at
+    a concentration of 5 mol/L.
+    """
+    Formulas = DensityFormulas
+    quantity = 'density'
+    unit = ['kg/m^3']
 
 
 # # ================================== ACTIVITY ================================

@@ -9,7 +9,7 @@ from ..format import format_temperature, format_output_type, format_concentratio
 from ..constants import R, Mw, dissociation_numbers
 from ..water import molar_volume
 from .properties import water_activity
-from .convert import convert
+from ..formulas.solutions.convert import convert
 
 
 def osmotic_pressure(solute='NaCl', T=25, unit='C', source=None, **concentration):

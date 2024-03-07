@@ -1,9 +1,23 @@
-"""Miscellaneous formatting tools for the aquasol package."""
+"""Miscellaneous formatting tools and checks for the aquasol package."""
 
 
 import numpy as np
 
-from .check import check_units
+
+def check_units(units, allowed_units):
+    """Check if units are among allowed units, raise exception if not."""
+    wrong_units = []
+    for unit in units:
+        if unit not in allowed_units:
+            wrong_units.append(unit)
+    if len(wrong_units) > 0:
+        raise ValueError(f'{wrong_units} not in allowed units {allowed_units}')
+
+
+def check_solute(solute, allowed_solutes):
+    """Check if solute in allowed solutes to use, raise exception if not"""
+    if solute not in allowed_solutes:
+        raise ValueError(f"{solute} not in allowed solutes: {allowed_solutes}")
 
 
 def format_input_type(value):
@@ -80,7 +94,7 @@ def format_concentration(concentration, unit_out, solute, converter):
     if len(concentration) == 0:
         raise ValueError(f'Concentration of {solute} not provided.')
 
-    unit_in, = concentration.keys()
-    value, = concentration.values()
-    conc = converter(value, unit_in, unit_out, solute)
+    (unit_in, value), = concentration.items()
+
+    conc = converter(value=value, unit1=unit_in, unit2=unit_out, solute=solute)
     return conc

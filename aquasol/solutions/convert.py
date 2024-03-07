@@ -16,20 +16,88 @@ from pynverse import inversefunc
 # Local imports
 from ..constants import solute_list
 from ..constants import molar_mass
+from ..format import check_solute, check_units
+from ..format import format_input_type, format_output_type, format_concentration
+from ..properties import SolutionProperty
 
-from ..check import check_solute, check_units
-from ..format import format_input_type, format_output_type
+from ..formulas.solutions.basic_conversions import basic_convert
+from ..formulas.solutions.basic_conversions import allowed_units as basic_units
 
-from .formulas.basic_conversions import basic_convert
-from .formulas.basic_conversions import allowed_units as basic_units
-
-from .general import calculation
+from ..formulas.solutions.density import DensityFormulas
 
 
 # ================================== Config ==================================
 
+
 add_units = ['c']
 allowed_units = basic_units + add_units
+
+
+# ============== Reduced density class (avoid circular imports) ==============
+
+
+class Density_Basic(SolutionProperty):
+    """Density property with partial converter (without molarity).
+
+    Is used to prevent circular import problems
+    (because SolutionProperty is also used to define the density function used
+    in convert())
+    """
+    # See SolutionProperty for explantion of staticmethod()
+    converter = staticmethod(basic_convert)
+    Formulas = DensityFormulas
+    quantity = 'density'
+    unit = ['kg/m^3']
+
+
+density_basic = Density_Basic()
+
+
+# ============================= MOLARITY FUNCTIONS ===========================
+
+
+def w_to_molarity(w, solute, T=25, unit='C', source=None):
+    """Calculate molarity of solute from weight fraction at temperature T in °C"""
+    check_solute(solute, solute_list)
+    M = molar_mass(solute)
+    rho = density_basic(solute=solute, T=T, unit=unit, source=source, w=w)
+    return rho * w / M
+
+
+def molarity_to_w(c, solute, T=25, unit='C', source=None, wmin=0, wmax=0.99):
+    """Calculate weight fraction of solute from molarity at temperature T in °C.
+
+    Note: can be slow because of inverting the function each time.
+    """
+    check_solute(solute, solute_list)
+
+    def molarity(w):
+        with warnings.catch_warnings():      # this is to avoid always warnings
+            warnings.simplefilter('ignore')  # which pop up due to wmax being high
+            return w_to_molarity(
+                w=w,
+                solute=solute,
+                T=T,
+                unit=unit,
+                source=source,
+            )
+
+    weight_fraction = inversefunc(molarity, domain=[wmin, wmax])
+    w = weight_fraction(c)
+
+    # This is to give a warning if some value(s) of w out of range when
+    formula = density_basic.get_formula(solute=solute, source=source)
+    c = format_concentration(
+            concentration={'w': w},
+            unit_out=formula.concentration_unit,
+            solute=solute,
+            converter=density_basic.converter,
+        )
+    formula.check_validity_range('concentration', value=c)
+
+    return format_output_type(w)
+
+
 
 # =========================== MAIN CONVERT FUNCTION ==========================
 
@@ -99,7 +167,12 @@ def convert(
     check_solute(solute, solute_list)
 
     if unit1 in basic_units and unit2 in basic_units:
-        return basic_convert(value, unit1, unit2, solute)
+        return basic_convert(
+            value=value,
+            unit1=unit1,
+            unit2=unit2,
+            solute=solute,
+        )
 
     # Check if it's unit1 which is a "fancy" unit and convert to w if so.
     if unit1 == 'c':
@@ -119,7 +192,12 @@ def convert(
         unit_in = unit1
 
     if unit2 in basic_units:   # If unit2 is basic, the job is now easy
-        return basic_convert(value_in, unit_in, unit2, solute)
+        return basic_convert(
+            value=value_in,
+            unit1=unit_in,
+            unit2=unit2,
+            solute=solute,
+        )
 
     else:  # If not, first convert to w, then again to the asked unit
 
@@ -136,75 +214,3 @@ def convert(
             # This case should in principle never happen, except if bug in
             # logics of code above
             raise ValueError('Unknown error --  please check code of convert() function.')
-
-
-# ============================== DENSITY FUNCTION ============================
-
-def basic_density(solute, T=25, unit='C', source=None, **concentration):
-    """Return the density of an aqueous solution at a given concentration.
-
-    Simplified version of main density function, with only basic units
-    to avoid circular imports of the density module when trying to use
-    molarity as a unit.
-
-    Uses the default formula for density as defined in the density submodules.
-
-    Parameters
-    ----------
-    - solute (str): solute name, default 'NaCl'
-    - T (float): temperature in K
-    - source: literature source to calculate density (None = default)
-    - **concentration: kwargs with any basic unit ('x', 'w', 'm', 'r')
-
-    Output
-    ------
-    - density (kg/m^3)
-    """
-    parameters = T, unit, concentration
-    _, rho = calculation(
-        propty='density',
-        solute=solute,
-        source=source,
-        parameters=parameters,
-        converter=basic_convert,
-    )
-    return rho
-
-
-# ============================= MOLARITY FUNCTIONS ===========================
-
-
-def w_to_molarity(w, solute, T=25, unit='C', source=None):
-    """Calculate molarity of solute from weight fraction at temperature T in °C"""
-    check_solute(solute, solute_list)
-    M = molar_mass(solute)
-    rho = basic_density(solute=solute, T=T, unit=unit, source=source, w=w)
-    return rho * w / M
-
-
-def molarity_to_w(c, solute, T=25, unit='C', source=None, wmin=0, wmax=0.99):
-    """Calculate weight fraction of solute from molarity at temperature T in °C.
-
-    Note: can be slow because of inverting the function each time.
-    """
-    check_solute(solute, solute_list)
-
-    def molarity(w):
-        with warnings.catch_warnings():      # this is to avoid always warnings
-            warnings.simplefilter('ignore')  # which pop up due to wmax being high
-            return w_to_molarity(
-                w=w,
-                solute=solute,
-                T=T,
-                unit=unit,
-                source=source,
-            )
-
-    weight_fraction = inversefunc(molarity, domain=[wmin, wmax])
-    w = weight_fraction(c)
-
-    # HACK: this is to give a warning if some parameters out of range when
-    # applying the value found for w
-    _ = basic_density(solute=solute, T=T, unit=unit, source=source, w=w)
-
-    return format_output_type(w)

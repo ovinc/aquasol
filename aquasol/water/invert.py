@@ -53,7 +53,7 @@ def dewpoint(unit='C', T=None, source=None, **humidity):
         out='p',
         **humidity,
     )
-    source = vapor_pressure._get_source(source=source)
+    source = vapor_pressure.get_source(source=source)
     trange_source = vapor_pressure.formulas[source].temperature_range
     tunit_source = vapor_pressure.formulas[source].temperature_unit
 

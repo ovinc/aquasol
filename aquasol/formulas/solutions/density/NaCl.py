@@ -49,13 +49,15 @@ import numpy as np
 
 from ...general import SolutionFormula
 from ...water.density_atm import DensityAtm_Patek
-from ..clegg import density_NaCl
+
+from .clegg import density_NaCl
 from .misc import rho_alghafri, rho_tang, density_pitzer
 
 
 class Density_NaCl_Simion(SolutionFormula):
 
     name = 'Simion'
+    solute = 'NaCl'
 
     temperature_unit = 'C'
     temperature_range = (0, 100)
@@ -93,6 +95,7 @@ class Density_NaCl_Simion(SolutionFormula):
 class Density_NaCl_Tang(SolutionFormula):
 
     name = 'Tang'
+    solute = 'NaCl'
 
     temperature_unit = 'C'
     temperature_range = (25, 25)
@@ -127,6 +130,7 @@ ghafri_c[:] = [0.11725, -0.00134, 0.00056]
 class Density_NaCl_AlGhafri(SolutionFormula):
 
     name = 'Al Ghafri'
+    solute = 'NaCl'
 
     temperature_unit = 'K'
     temperature_range = (298.15, 473.15)
@@ -136,7 +140,7 @@ class Density_NaCl_AlGhafri(SolutionFormula):
 
     with_water_reference = True
 
-    coeffs = [ghafri_a, ghafri_b, ghafri_c]
+    coeffs = ghafri_a, ghafri_b, ghafri_c
 
     def calculate(self, m, T):
         rho = rho_alghafri(m, T, 1e5, *self.coeffs)
@@ -150,6 +154,7 @@ class Density_NaCl_AlGhafri(SolutionFormula):
 class Density_NaCl_Steiger(SolutionFormula):
 
     name = 'Steiger'
+    solute = 'NaCl'
 
     temperature_unit = 'C'
     temperature_range = (25, 25)
@@ -168,6 +173,7 @@ class Density_NaCl_Steiger(SolutionFormula):
 class Density_NaCl_Krumgalz(SolutionFormula):
 
     name = 'Krumgalz'
+    solute = 'NaCl'
 
     temperature_unit = 'C'
     temperature_range = (25, 25)
@@ -186,6 +192,7 @@ class Density_NaCl_Krumgalz(SolutionFormula):
 class Density_NaCl_Clegg(SolutionFormula):
 
     name = 'Clegg'
+    solute = 'NaCl'
 
     temperature_unit = 'K'
     temperature_range = (273.15, 323.15)

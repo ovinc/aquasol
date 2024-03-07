@@ -3,10 +3,10 @@
 
 import numpy as np
 
-from ...constants import dissociation_numbers, Mw, molar_mass, charge_numbers
-from ..water.density_atm import DensityAtm_Patek
-from .ionic import ionic_strength
-from .pitzer import PitzerVolumetric
+from ....constants import dissociation_numbers, Mw, molar_mass, charge_numbers
+from ...water.density_atm import DensityAtm_Patek
+from ..ionic import ionic_strength
+from ..pitzer import PitzerVolumetric
 
 
 Av = 1.8305  # From Archer & Wang 1990, in cm^3 kg^(1/2) mol^(-3/2)

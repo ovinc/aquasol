@@ -6,7 +6,7 @@ from pynverse import inversefunc
 # local imports
 from .general import get_infos
 from .properties import water_activity
-from .convert import convert
+from ..formulas.solutions.convert import convert
 
 from ..format import format_source, format_output_type
 

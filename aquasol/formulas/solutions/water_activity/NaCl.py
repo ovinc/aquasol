@@ -51,6 +51,7 @@ from ...general import SolutionFormula
 class WaterActivity_NaCl_Clegg(SolutionFormula):
 
     name = 'Clegg'
+    solute = 'NaCl'
 
     temperature_unit = 'C'
     temperature_range = (25, 25)
@@ -77,6 +78,7 @@ class WaterActivity_NaCl_Clegg(SolutionFormula):
 class WaterActivity_NaCl_Tang(SolutionFormula):
 
     name = 'Tang'
+    solute = 'NaCl'
 
     temperature_unit = 'C'
     temperature_range = (25, 25)
@@ -102,6 +104,7 @@ class WaterActivity_NaCl_Tang(SolutionFormula):
 class WaterActivity_NaCl_Steiger_2005(SolutionFormula):
 
     name = 'Steiger 2005'
+    solute = 'NaCl'
 
     temperature_unit = 'K'
     temperature_range = (298.15, 298.15)
@@ -120,6 +123,7 @@ class WaterActivity_NaCl_Steiger_2005(SolutionFormula):
 class WaterActivity_NaCl_Steiger_2008(SolutionFormula):
 
     name = 'Steiger 2008'
+    solute = 'NaCl'
 
     temperature_unit = 'K'
     temperature_range = (278.15, 323.15)

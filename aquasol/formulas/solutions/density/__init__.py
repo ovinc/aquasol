@@ -2,4 +2,4 @@
 
 from .NaCl import Density_NaCl_Formulas
 
-Density_Formulas = Density_NaCl_Formulas
+DensityFormulas = Density_NaCl_Formulas

@@ -46,7 +46,8 @@ class Formula:
         if out_of_range:
             warn(
                 f'{input_type.capitalize()} outside of validity range'
-                f'({unit} in [{val_min}-{val_max}]) for {self.source}.',
+                f'({unit} in [{val_min}-{val_max}]) for {self.name}.'
+                f'[{self.solute}]',
                 stacklevel=2
             )
 
