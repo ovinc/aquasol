@@ -1,7 +1,7 @@
 """Water activity"""
 
 from .NaCl import AwFormulas_NaCl
-from ....general import SolutionProperty
+from ....formulas import SolutionProperty
 
 
 class WaterActivity(SolutionProperty):

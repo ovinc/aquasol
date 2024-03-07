@@ -37,7 +37,7 @@ Here we consider all absolute temperatures as being in Kelvin.
 import numpy as np
 
 from ...constants import Tc, Patm, Pc, Tc
-from ...general import WaterFormula, WaterProperty
+from ..general import WaterFormula
 
 
 class VaporPressure_Wagner(WaterFormula):
@@ -133,25 +133,8 @@ class VaporPressure_Bridgeman(WaterFormula):
 
 # ========================== WRAP-UP OF FORMULAS =============================
 
-
-class VaporPressure(WaterProperty):
-    """Saturation vapor pressure of water as a function of temperature [Pa]
-
-    Examples
-    --------
-    >>> from aquasol.water import vapor_pressure as psat
-    >>> psat()  # returns the saturation vapor pressure of water at 25°C
-    >>> psat(20)                   # at 20°C
-    >>> psat([0, 10, 20, 30])      # at various temperatures in Celsius
-    >>> psat(300, 'K')             # at 300K
-    >>> psat(15, source='Wexler')  # at 15°C using Wexler equation
-    """
-
-    quantity = 'saturated vapor pressure'
-    unit = '[Pa]'
-
-    Formulas = (
-        VaporPressure_Wexler,
-        VaporPressure_Bridgeman,
-        VaporPressure_Wagner
-    )
+VaporPressure_Formulas = (
+    VaporPressure_Wexler,
+    VaporPressure_Bridgeman,
+    VaporPressure_Wagner
+)

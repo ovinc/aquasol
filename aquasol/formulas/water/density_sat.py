@@ -14,7 +14,7 @@ International Journal of Thermal Sciences 43, 367-382 (2004).
 """
 
 from ...constants import Tc, rhoc
-from ...general import WaterFormula, WaterProperty
+from ..general import WaterFormula
 
 
 class DensitySat_Wagner(WaterFormula):
@@ -103,23 +103,7 @@ class DensitySat_Conde(WaterFormula):
 
 # ========================== WRAP-UP OF FORMULAS =============================
 
-
-class DensitySat(WaterProperty):
-    """Density of saturated liquid water as a function of temperature [kg/m^3].
-
-    Examples
-    --------
-    >>> from aquasol.water import density_sat as rho
-    >>> rho()  # returns the denisty of water (rho) at 25°C
-    >>> rho(20)                  # rho  at 20°C
-    >>> rho([0, 10, 20, 30])     # rho at various temperatures in Celsius
-    >>> rho(300, 'K')            # rho at 300K
-    """
-
-    quantity = 'density (sat.)'
-    unit = '[kg/m^3]'
-
-    Formulas = (
-        DensitySat_Wagner,
-        DensitySat_Conde
-    )
+DensitySat_Formulas = (
+    DensitySat_Wagner,
+    DensitySat_Conde
+)

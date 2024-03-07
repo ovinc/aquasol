@@ -7,7 +7,7 @@ IAPWS, London, September 1994.
 """
 
 from ...constants import Tc
-from ...general import WaterFormula, WaterProperty
+from ..general import WaterFormula
 
 
 class SurfaceTension_IAPWS(WaterFormula):
@@ -55,22 +55,6 @@ class SurfaceTension_IAPWS(WaterFormula):
 
 # ========================== WRAP-UP OF FORMULAS =============================
 
-
-class SurfaceTension(WaterProperty):
-    """Surface tension of pure water as a function of temperature [N/m]
-
-    Examples
-    --------
-    >>> from aquasol.water import surface_tension as sigma
-    >>> sigma()  # returns the surface tension of water (sigma) at 25°C
-    >>> sigma(20)                  # sigma  at 20°C
-    >>> sigma([0, 10, 20, 30])     # sigma at various temperatures in Celsius
-    >>> sigma(300, 'K')            # sigma at 300K
-    """
-
-    quantity = 'surface tension'
-    unit = '[N/m]'
-
-    Formulas = (
-        SurfaceTension_IAPWS,
-    )
+SurfaceTension_Formulas = (
+    SurfaceTension_IAPWS,
+)

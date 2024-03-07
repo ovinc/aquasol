@@ -9,7 +9,7 @@ Sources
 
 """
 
-from ...general import WaterFormula, WaterProperty
+from ..general import WaterFormula
 
 
 class ViscosityAtm_Huber(WaterFormula):
@@ -52,21 +52,6 @@ class ViscosityAtm_Huber(WaterFormula):
 
 # ========================== WRAP-UP OF FORMULAS =============================
 
-class ViscosityAtm(WaterProperty):
-    """Viscosity of water at ambient pressure as a function of temperature [Pa.s]
-
-    Examples
-    --------
-    >>> from aquasol.water import viscosity_atm as mu
-    >>> mu()  # returns the diffusivity of water in air at 25°C
-    >>> mu(20)                  # at 20°C
-    >>> mu([0, 10, 20, 30])     # at various temperatures in Celsius
-    >>> mu(300, 'K')            # at 300K
-    """
-
-    quantity = 'viscosity (atm.)'
-    unit = '[Pa.s]'
-
-    Formulas = (
-        ViscosityAtm_Huber,
-    )
+ViscosityAtm_Formulas = (
+    ViscosityAtm_Huber,
+)

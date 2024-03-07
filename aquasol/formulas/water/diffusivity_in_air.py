@@ -13,7 +13,7 @@ Sources
   Journal of Physics and Chemistry Reference Data 1, 3-118 (1972)
 """
 
-from ...general import WaterFormula, WaterProperty
+from ..general import WaterFormula
 
 
 class DiffusivityInAir_Massman(WaterFormula):
@@ -86,23 +86,7 @@ class DiffusivityInAir_MM72(WaterFormula):
 
 # ========================== WRAP-UP OF FORMULAS =============================
 
-
-class DiffusivityInAir(WaterProperty):
-    """Diffusivity of water vapor as a function of temperature [m^2/s].
-
-    Examples
-    --------
-    >>> from aquasol.water import diffusivity_in_air as d
-    >>> d()  # returns the diffusivity of water in air at 25°C
-    >>> d(20)                  # at 20°C
-    >>> d([0, 10, 20, 30])     # at various temperatures in Celsius
-    >>> d(300, 'K')            # at 300K
-    """
-
-    quantity = 'vapor diffusivity in air'
-    unit = '[m^2/s]'
-
-    Formulas = (
-        DiffusivityInAir_Massman,
-        DiffusivityInAir_MM72
-    )
+DiffusivityInAir_Formulas = (
+    DiffusivityInAir_Massman,
+    DiffusivityInAir_MM72
+)

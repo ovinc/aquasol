@@ -10,9 +10,6 @@ from ..format import format_temperature, format_output_type
 from ..humidity import format_humidity
 
 
-# ============================== Main Functions ==============================
-
-
 def dewpoint(unit='C', T=None, source=None, **humidity):
     """Inverts vapor_pressure() to calculate dew point at a given humidity.
 

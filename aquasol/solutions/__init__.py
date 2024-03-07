@@ -11,7 +11,6 @@
 # from .convert import convert, ionic_strength, ion_quantities
 # from .invert import aw_to_conc
 # from .extend import osmotic_pressure, osmotic_coefficient
+# from .formulas.water_activity import WaterActivity
 
-from .formulas.water_activity import WaterActivity
-
-water_activity = WaterActivity()
+# water_activity = WaterActivity()

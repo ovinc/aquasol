@@ -15,7 +15,7 @@ J. Chem. Eng. Data. 1975
 """
 
 from ...constants import Patm
-from ...general import WaterFormula, WaterProperty
+from ..general import WaterFormula
 
 
 class DensityAtm_Patek(WaterFormula):
@@ -124,23 +124,7 @@ class DensityAtm_Kell(WaterFormula):
 
 # ========================== WRAP-UP OF FORMULAS =============================
 
-
-class DensityAtm(WaterProperty):
-    """Density of ambient pure water as a function of temperature [kg/m^3].
-
-    Examples
-    --------
-    >>> from aquasol.water import density_sat as rho
-    >>> rho()  # returns the density of water (rho) at 25°C
-    >>> rho(20)                  # rho  at 20°C
-    >>> rho([0, 10, 20, 30])     # rho at various temperatures in Celsius
-    >>> rho(300, 'K')            # rho at 300K
-    """
-
-    quantity = 'density (sat.)'
-    unit = '[kg/m^3]'
-
-    Formulas = (
-        DensityAtm_Patek,
-        DensityAtm_Kell,
-    )
+DensityAtm_Formulas = (
+    DensityAtm_Patek,
+    DensityAtm_Kell,
+)
