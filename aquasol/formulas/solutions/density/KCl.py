@@ -25,68 +25,22 @@ Journal of Chemical & Engineering Data 57, 1288-1304 (2012).
   Journal of Physical and Chemical Reference Data 25, 663-689 (1996).
 """
 
-import numpy as np
-
-from .misc import rho_alghafri, density_pitzer
-
-# General Info about the formulas
-
-default_source = 'Al Ghafri'
-
-concentration_types = {
-    'Al Ghafri': 'm',
-    'Krumgalz': 'm',
-}
-
-concentration_ranges = {
-    'Al Ghafri': (0, 4.5),
-    'Krumgalz': (0, 4.7),
-}
-
-temperature_units = {
-    'Al Ghafri': 'K',
-    'Krumgalz': 'C',
-}
-
-temperature_ranges = {
-    'Al Ghafri': (298.15, 473.15),
-    'Krumgalz': (25, 25),
-}
+from .al_ghafri import Density_KCl_AlGhafri_Base
+from .krumgalz import Density_KCl_Krumgalz_Base
 
 
-# ============================== FORMULAS ====================================
+class Density_KCl_AlGhafri(Density_KCl_AlGhafri_Base):
+    """Already defined in Al Ghafri module"""
+    default = True
 
-
-def density_alghafri(m, T):
-
-    a = np.zeros((4, 5))
-    a[1, :] = [2332.802, -39637.418, 104801.288, -104266.828, 37030.556]
-    a[2, :] = [-1287.572, 23543.994, -63846.097, 65023.561, -23586.370]
-    a[3, :] = [206.032, -4003.757, 11128.162, -11595.475, 4295.498]
-
-    b = np.zeros((2, 4))
-    b[0, :] = [-1622.4, 9383.8, -14893.8, 7309.10]
-    b[1, :] = [211.49, -888.16, 1400.09, -732.79]
-
-    c = np.zeros(3)
-    c[:] = [0.11725, -0.00170, 0.00083]
-
-    rho = rho_alghafri(m, T, 1e5, a, b, c)
-    rho0 = rho_alghafri(0, T, 1e5, a, b, c)
-
-    return rho0, rho
-
-
-def density_krumgalz(m, T):
-    return density_pitzer(m, solute='KCl', source='Krumgalz')
+class Density_KCl_Krumgalz(Density_KCl_Krumgalz_Base):
+    """Already defined in Krumgalz module and not default here"""
+    pass
 
 
 # ========================== WRAP-UP OF FORMULAS =============================
 
-
-formulas = {
-    'Al Ghafri': density_alghafri,
-    'Krumgalz': density_krumgalz,
-}
-
-sources = [source for source in formulas]
+Density_KCl_Formulas = (
+    Density_KCl_AlGhafri,
+    Density_KCl_Krumgalz,
+)

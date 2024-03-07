@@ -141,7 +141,7 @@ class WaterActivity_NaCl_Steiger_2008(SolutionFormula):
 
 # ============================= WRAP-UP FORMULAS =============================
 
-AwFormulas_NaCl = (
+WaterActivityFormulas_NaCl = (
     WaterActivity_NaCl_Clegg,
     WaterActivity_NaCl_Tang,
     WaterActivity_NaCl_Steiger_2005,

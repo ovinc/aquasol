@@ -13,7 +13,7 @@ file.
 
 Sources
 -------
-- Al Ghafri et al., Densities of Aqueous MgCl2(aq), CaCl2 (aq), KI(aq),
+- Al Ghafri et al., Densities of Aqueous MgCl2(aq), CaCl2 (aq), CaCl2(aq),
 NaCl(aq), KCl(aq), AlCl3(aq), and (0.964 NaCl + 0.136 KCl)(aq) at
 Temperatures Between (283 and 472) K, Pressures up to 68.5 MPa, and
 Molalities up to 6 mol·kg -1.
@@ -31,82 +31,50 @@ International Journal of Thermal Sciences 43, 367-382 (2004).
 
 import numpy as np
 
-from .misc import rho_alghafri, relative_rho_conde, density_pitzer
-from ....water import density_atm
+from ...general import SolutionFormula
+from ...water.density_atm import DensityAtm_Patek
 
-# General Info about the formulas
-
-default_source = 'Conde'
-
-concentration_types = {
-    'Al Ghafri': 'm',
-    'Conde': 'r',
-    'Krumgalz': 'm',
-}
-
-concentration_ranges = {
-    'Al Ghafri': (0, 6),
-    'Conde': (0, 1.5),
-    'Krumgalz': (0, 7.7),
-}
-
-temperature_units = {
-    'Al Ghafri': 'K',
-    'Conde': 'K',
-    'Krumgalz': 'C',
-}
-
-temperature_ranges = {
-    'Al Ghafri': (298.15, 473.15),
-    'Conde': (273.15, 373.15),
-    'Krumgalz': (25, 25),
-}
+from .misc import relative_rho_conde
+from .al_ghafri import Density_CaCl2_AlGhafri_Base
+from .krumgalz import Density_CaCl2_Krumgalz_Base
 
 
-# ============================== FORMULAS ====================================
+class Density_CaCl2_Conde(SolutionFormula):
 
+    name = 'Conde'
+    solute = 'CaCl2'
 
-def density_alghafri(m, T):
+    temperature_unit = 'K'
+    temperature_range = (273.15, 373.15)
 
-    a = np.zeros((4, 5))
-    a[1, :] = [2546.760, -39884.946, 102056.957, -98403.334, 33976.048]
-    a[2, :] = [-1362.157, 22785.572, -59216.108, 57894.824, -20222.898]
-    a[3, :] = [217.778, -3770.645, 9908.135, -9793.484, 3455.587]
+    concentration_unit = 'r'
+    concentration_range = (0, 1.5)
 
-    b = np.zeros((2, 4))
-    b[0, :] = [-1622.4, 9383.8, -14893.8, 7309.10]
-    b[1, :] = [307.24, -1259.10, 2034.03, -1084.94]
-
-    c = np.zeros(3)
-    c[:] = [0.11725, -0.00493, 0.00231]
-
-    rho = rho_alghafri(m, T, 1e5, a, b, c)
-    rho0 = rho_alghafri(0, T, 1e5, a, b, c)
-
-    return rho0, rho
-
-
-def density_conde(z, T):
+    default = True
+    with_water_reference = True
 
     coeffs = 1, 0.836014, -0.436300, 0.105642
 
-    d = relative_rho_conde(z, coeffs)
-    rho0 = density_atm(T, 'K')
+    def calculate(self, z, T):
+        d = relative_rho_conde(z, self.coeffs)
+        density_atm = DensityAtm_Patek()
+        rho0 = density_atm.calculate(T=T)
+        return rho0, rho0 * d
 
-    return rho0, rho0 * d
 
+class Density_CaCl2_AlGhafri(Density_CaCl2_AlGhafri_Base):
+    """Already defined in Al Ghafri module"""
+    default = True
 
-def density_krumgalz(m, T):
-    return density_pitzer(m, solute='CaCl2', source='Krumgalz')
+class Density_CaCl2_Krumgalz(Density_CaCl2_Krumgalz_Base):
+    """Already defined in Krumgalz module and not default here"""
+    pass
 
 
 # ========================== WRAP-UP OF FORMULAS =============================
 
-
-formulas = {
-    'Al Ghafri': density_alghafri,
-    'Conde': density_conde,
-    'Krumgalz': density_krumgalz,
-}
-
-sources = [source for source in formulas]
+Density_CaCl2_Formulas = (
+    Density_CaCl2_Conde,
+    Density_CaCl2_AlGhafri,
+    Density_CaCl2_Krumgalz,
+)

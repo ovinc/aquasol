@@ -51,7 +51,9 @@ from ...general import SolutionFormula
 from ...water.density_atm import DensityAtm_Patek
 
 from .clegg import density_NaCl
-from .misc import rho_alghafri, rho_tang, density_pitzer
+from .al_ghafri import Density_NaCl_AlGhafri_Base
+from .krumgalz import Density_NaCl_Krumgalz_Base
+from .misc import rho_tang, density_pitzer
 
 
 class Density_NaCl_Simion(SolutionFormula):
@@ -111,44 +113,9 @@ class Density_NaCl_Tang(SolutionFormula):
         return rho_tang(w, self.coeffs)
 
 
-# -------------------------------- Al Ghafri ---------------------------------
-
-
-ghafri_a = np.zeros((4, 5))
-ghafri_a[1, :] = [2863.158, -46844.356, 120760.118, -116867.722, 40285.426]
-ghafri_a[2, :] = [-2000.028, 34013.518, -88557.123, 86351.784, -29910.216]
-ghafri_a[3, :] = [413.046, -7125.857, 18640.780, -18244.074, 6335.275]
-
-ghafri_b = np.zeros((2, 4))
-ghafri_b[0, :] = [-1622.4, 9383.8, -14893.8, 7309.10]
-ghafri_b[1, :] = [241.57, -980.97, 1482.31, -750.98]
-
-ghafri_c = np.zeros(3)
-ghafri_c[:] = [0.11725, -0.00134, 0.00056]
-
-
-class Density_NaCl_AlGhafri(SolutionFormula):
-
-    name = 'Al Ghafri'
-    solute = 'NaCl'
-
-    temperature_unit = 'K'
-    temperature_range = (298.15, 473.15)
-
-    concentration_unit = 'm'
-    concentration_range = (0, 6)
-
-    with_water_reference = True
-
-    coeffs = ghafri_a, ghafri_b, ghafri_c
-
-    def calculate(self, m, T):
-        rho = rho_alghafri(m, T, 1e5, *self.coeffs)
-        rho0 = rho_alghafri(0, T, 1e5, *self.coeffs)
-        return rho0, rho
-
-
-# ----------------------------------------------------------------------------
+class Density_NaCl_AlGhafri(Density_NaCl_AlGhafri_Base):
+    """Already defined in Al Ghafri module and not default here"""
+    pass
 
 
 class Density_NaCl_Steiger(SolutionFormula):
@@ -164,29 +131,13 @@ class Density_NaCl_Steiger(SolutionFormula):
 
     with_water_reference = True
 
-    coeffs = [ghafri_a, ghafri_b, ghafri_c]
-
     def calculate(self, m, T):
         return density_pitzer(m, solute='NaCl', source='Steiger')
 
 
-class Density_NaCl_Krumgalz(SolutionFormula):
-
-    name = 'Krumgalz'
-    solute = 'NaCl'
-
-    temperature_unit = 'C'
-    temperature_range = (25, 25)
-
-    concentration_unit = 'm'
-    concentration_range = (0, 14)
-
-    with_water_reference = True
-
-    coeffs = [ghafri_a, ghafri_b, ghafri_c]
-
-    def calculate(self, m, T):
-        return density_pitzer(m, solute='NaCl', source='Krumgalz')
+class Density_NaCl_Krumgalz(Density_NaCl_Krumgalz_Base):
+    """Already defined in Krumgalz module and not default here"""
+    pass
 
 
 class Density_NaCl_Clegg(SolutionFormula):

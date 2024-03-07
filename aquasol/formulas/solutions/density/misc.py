@@ -2,9 +2,7 @@
 
 import numpy as np
 
-from ....constants import Tc, molar_mass
-from ...water.vapor_pressure import VaporPressure_Wagner
-from ...water.density_sat import DensitySat_Wagner
+from ....constants import molar_mass
 from ...water.density_atm import DensityAtm_Patek
 
 from ..pitzer import PitzerVolumetric
@@ -100,77 +98,6 @@ def density_pitzer(m, solute='NaCl', source='Krumgalz'):
 # ----------------------------------------------------------------------------
 # ============================== Other formulas ==============================
 # ----------------------------------------------------------------------------
-
-
-def rho_alghafri(m, T, P, a, b, c):
-    """General formula for density accorging to Al Ghafri 2012.
-
-    Valid for many solutes including NaCl, KCl, CaCl2, etc.
-
-    Inputs
-    ------
-    m: molality of salt
-    T: temperature in K
-    a: list of coefficients alpha from table 10
-    b: list of coefficients beta from table 9 and 10
-    c: list of coefficients gamma from table 9 and 10
-
-    Outputs
-    -------
-    Density of solution, kg/m^3
-
-    Reference
-    ---------
-    Al Ghafri et al., Densities of Aqueous MgCl 2 (aq), CaCl 2 (aq), KI(aq),
-    NaCl(aq), KCl(aq), AlCl 3 (aq), and (0.964 NaCl + 0.136 KCl)(aq) at
-    Temperatures Between (283 and 472) K, Pressures up to 68.5 MPa, and
-    Molalities up to 6 mol·kg-1.
-    Journal of Chemical & Engineering Data 57, 1288-1304 (2012).
-
-    Notes
-    -----
-    (from the article's last page)
-    These are valid in the temperature range (298.15 to 473.15) K and at
-    pressures up to 68.5 MPa for all brines studied except in the case of
-    AlCl3 (aq) where the temperature is restricted to the range (298.15 to
-    373.15) K. The correlations are valid for all molalities up to
-    (5.0,      6.0,       1.06,   6.0,      4.5,     2.0,      and 4.95) mol·kg-1 for
-    MgCl2(aq), CaCl2(aq), KI(aq), NaCl(aq), KCl(aq), AlCl3(aq),
-    and (0.864 NaCl + 0.136 KCl)(aq), respectively.
-    """
-    vapor_pressure = VaporPressure_Wagner()
-    p_ref = vapor_pressure.calculate(T)
-
-    density_sat = DensitySat_Wagner()
-    rho_sat = density_sat.calculate(T)
-
-    # reference density (solution density at reference pressure p_ref(T), which
-    # is taken to be the vapor pressure of pure water at the given temperature.
-
-    rho_ref = rho_sat
-
-    for i in range(1, 4):
-        rho_ref += a[i][0] * m**((i + 1) / 2)  # eq 9
-
-    for i in range(1, 4):
-        for j in range(1, 5):
-            rho_ref += a[i][j] * m**((i + 1) / 2) * (T / Tc)**((j + 1) / 2)
-
-    # Parameters of the Tammann-Tait equation --------------------------------
-
-    B = 0
-    for i in range(2):
-        for j in range(4):
-            B += b[i][j] * m**i * (T / Tc)**j  # eq10
-    B *= 1e6
-
-    C = c[0] + c[1] * m + c[2] * m**(3 / 2)  # eq 11
-
-    # Final calculation ------------------------------------------------------
-
-    rho = rho_ref * (1 - C * np.log((B + P) / (B + p_ref)))**(-1)  # eq 7
-
-    return rho
 
 
 def relative_rho_conde(z, coeffs):

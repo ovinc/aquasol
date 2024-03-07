@@ -23,56 +23,43 @@ Sources
   Journal of Physical and Chemical Reference Data 25, 663-689 (1996).
 """
 
-from .misc import relative_rho_conde, density_pitzer
-from ....water import density_atm
+from ...general import SolutionFormula
+from ...water.density_atm import DensityAtm_Patek
 
-# General Info about the formulas
+from .misc import relative_rho_conde
+from .krumgalz import Density_LiCl_Krumgalz_Base
 
-default_source = 'Conde'
+class Density_LiCl_Conde(SolutionFormula):
 
-concentration_types = {
-    'Conde': 'r',
-    'Krumgalz': 'm',
-}
+    name = 'Conde'
+    solute = 'LiCl'
 
-concentration_ranges = {
-    'Conde': (0, 1.273),
-    'Krumgalz': (0, 19.6),
-}
+    temperature_unit = 'K'
+    temperature_range = (273.15, 373.15)
 
-temperature_units = {
-    'Conde': 'K',
-    'Krumgalz': 'C',
-}
+    concentration_unit = 'r'
+    concentration_range = (0, 1.273)
 
-temperature_ranges = {
-    'Conde': (273.15, 373.15),
-    'Krumgalz': (25, 25),
-}
-
-# ============================== FORMULAS ====================================
-
-
-def density_conde(z, T):
+    default = True
+    with_water_reference = True
 
     coeffs = 1, 0.540966, -0.303792, 0.100791
 
-    d = relative_rho_conde(z, coeffs)
-    rho0 = density_atm(T, 'K')
+    def calculate(self, z, T):
+        d = relative_rho_conde(z, self.coeffs)
+        density_atm = DensityAtm_Patek()
+        rho0 = density_atm.calculate(T=T)
+        return rho0, rho0 * d
 
-    return rho0, rho0 * d
 
-
-def density_krumgalz(m, T):
-    return density_pitzer(m, solute='LiCl', source='Krumgalz')
+class Density_LiCl_Krumgalz(Density_LiCl_Krumgalz_Base):
+    """Already defined in Krumgalz module and not default here"""
+    pass
 
 
 # ========================== WRAP-UP OF FORMULAS =============================
 
-
-formulas = {
-    'Conde': density_conde,
-    'Krumgalz': density_krumgalz,
-}
-
-sources = [source for source in formulas]
+Density_LiCl_Formulas = (
+    Density_LiCl_Conde,
+    Density_LiCl_Krumgalz
+)

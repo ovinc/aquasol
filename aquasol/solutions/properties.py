@@ -9,7 +9,7 @@ from .convert import convert
 
 from ..properties import SolutionProperty
 
-from ..formulas.solutions.water_activity import AwFormulas
+from ..formulas.solutions.water_activity import WaterActivityFormulas
 from ..formulas.solutions.density import DensityFormulas
 
 class SolutionProperty_Full(SolutionProperty):
@@ -37,7 +37,7 @@ class WaterActivity(SolutionProperty_Full):
     - water_activity('LiCl', 293, 'K', m=6): same for LiCl at 293K.
     - water_activity(solute='CaCl2', T=50, m=[2, 4, 6])  # concentration as iterable
     """
-    Formulas = AwFormulas
+    Formulas = WaterActivityFormulas
     quantity = 'water activity'
     unit = '[-]'
 

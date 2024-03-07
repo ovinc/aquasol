@@ -213,7 +213,7 @@ class SolutionProperty(Property):
 
     def get_source(self, solute=None, source=None):
         """Return source if it's in sources, default_source if None."""
-        solute =self.get_solute()
+        solute =self.get_solute(solute=solute)
         if source is None:
             return self.default_sources[solute]
         if source in self.sources[solute]:
@@ -223,5 +223,6 @@ class SolutionProperty(Property):
 
     def get_formula(self, solute=None, source=None):
         """Return formula corresponding to source and solute (default if None)"""
+        solute = self.get_solute(solute=solute)
         source = self.get_source(source=source, solute=solute)
         return self.formulas[solute][source]

@@ -34,67 +34,67 @@ Sources
 
 import numpy as np
 
-from ....water import density_atm
-from ..clegg import density_Na2SO4_high_conc
-from .misc import rho_tang, density_pitzer
+from ...general import SolutionFormula
+from ...water.density_atm import DensityAtm_Patek
 
-# General Info about the formulas
-
-default_source = 'Tang'
-
-concentration_types = {
-  'Tang': 'w',
-  'Krumgalz': 'm',
-  'Clegg': 'w',
-}
-
-concentration_ranges = {
-  'Tang': (0, 0.68),
-  'Krumgalz': (0, 1.5),
-  'Clegg': (0.22, 1),
-}
-
-temperature_units = {
-  'Tang': 'C',
-  'Krumgalz': 'C',
-  'Clegg': 'K',
-}
-
-temperature_ranges = {
-  'Tang': (25, 25),
-  'Krumgalz': (25, 25),
-  'Clegg': (273.15, 348.15),  # 0°C to 75°C
-}
+from .clegg import density_Na2SO4_high_conc
+from .krumgalz import Density_Na2SO4_Krumgalz_Base
+from .misc import rho_tang
 
 
-# ============================== FORMULAS ====================================
+class Density_Na2SO4_Tang(SolutionFormula):
 
+    name = 'Tang'
+    solute = 'Na2SO4'
 
-def density_tang(w, T):
+    temperature_unit = 'C'
+    temperature_range = (25, 25)
+
+    concentration_unit = 'w'
+    concentration_range = (0, 0.68)
+
+    default = True
+    with_water_reference = True
+
     coeffs = np.array([8.871e-3, 3.195e-5, 2.28e-7, 0]) * 1000
-    return rho_tang(w, coeffs)
+
+    def calculate(self, w, T):
+        return rho_tang(w, self.coeffs)
 
 
-def density_krumgalz(m, T):
-    return density_pitzer(m, solute='Na2SO4', source='Krumgalz')
+class Density_Na2SO4_Krumgalz(Density_Na2SO4_Krumgalz_Base):
+    """Already defined in Krumgalz module and not default here"""
+    pass
 
 
-def density_clegg(w, T):
-    rho_w = density_atm(T=T, unit='K')
-    # NOTE : there is also a formula that I coded for low concentration
-    # but there seems to be a problem somewhere because it's not continuous
-    # with the high concentration formula
-    # (see clegg.py module)
-    return rho_w, density_Na2SO4_high_conc(w, T)
+class Density_Na2SO4_Clegg(SolutionFormula):
+
+    name = 'Clegg'
+    solute = 'Na2SO4'
+
+    temperature_unit = 'K'
+    temperature_range = (273.15, 348.15)  # 0°C to 75°C
+
+    concentration_unit = 'w'
+    concentration_range = (0.22, 1)
+
+    with_water_reference = True
+
+    def calculate(self, w, T):
+        density_atm = DensityAtm_Patek()
+        rho_w = density_atm.calculate(T=T)
+        # NOTE : there is also a formula that I coded for low concentration
+        # but there seems to be a problem somewhere because it's not continuous
+        # with the high concentration formula
+        # (see clegg.py module)
+        return rho_w, density_Na2SO4_high_conc(w, T)
+
 
 
 # ========================== WRAP-UP OF FORMULAS =============================
 
-
-formulas = {
-    'Tang': density_tang,
-    'Krumgalz': density_krumgalz,
-    'Clegg': density_clegg
-}
-
-sources = [source for source in formulas]
+Density_Na2SO4_Formulas = (
+    Density_Na2SO4_Tang,
+    Density_Na2SO4_Krumgalz,
+    Density_Na2SO4_Clegg,
+)

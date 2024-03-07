@@ -23,70 +23,25 @@ Sources
   Volumetric Properties of Single Aqueous Electrolytes from Zero to Saturation
   Concentration at 298.15 °K Represented by Pitzer's Ion-Interaction Equations.
   Journal of Physical and Chemical Reference Data 25, 663-689 (1996).
-
 """
 
-import numpy as np
-
-from .misc import rho_alghafri, density_pitzer
-
-# General Info about the formulas
-
-default_source = 'Al Ghafri'
-
-concentration_types = {
-    'Al Ghafri': 'm',
-    'Krumgalz': 'm',
-}
-
-concentration_ranges = {
-    'Al Ghafri': (0, 5),
-    'Krumgalz': (0, 5.8),
-}
-
-temperature_units = {
-    'Al Ghafri': 'K',
-    'Krumgalz': 'C',
-}
-
-temperature_ranges = {
-    'Al Ghafri': (298.15, 473.15),
-    'Krumgalz': (25, 25),
-}
-
-# ============================== FORMULAS ====================================
+from .al_ghafri import Density_MgCl2_AlGhafri_Base
+from .krumgalz import Density_MgCl2_Krumgalz_Base
 
 
-def density_alghafri(m, T):
-
-    a = np.zeros((4, 5))
-    a[1, :] = [2385.823, -38428.112, 99526.269, -97041.399, 33841.139]
-    a[2, :] = [-1254.938, 21606.295, -56988.274, 56465.943, -19934.064]
-    a[3, :] = [192.534, -3480.374, 9345.908, -9408.904, 3364.018]
-
-    b = np.zeros((2, 4))
-    b[0, :] = [-1622.4, 9383.8, -14893.8, 7309.10]
-    b[1, :] = [358.00, -1597.10, 2609.47, -1383.91]
-
-    c = np.zeros(3)
-    c[:] = [0.11725, -0.00789, 0.00142]
-
-    rho = rho_alghafri(m, T, 1e5, a, b, c)
-    rho0 = rho_alghafri(0, T, 1e5, a, b, c)
-
-    return rho0, rho
+class Density_MgCl2_AlGhafri(Density_MgCl2_AlGhafri_Base):
+    """Already defined in Al Ghafri module"""
+    default = True
 
 
-def density_krumgalz(m, T):
-    return density_pitzer(m, solute='MgCl2', source='Krumgalz')
+class Density_MgCl2_Krumgalz(Density_MgCl2_Krumgalz_Base):
+    """Already defined in Krumgalz module and not default here"""
+    pass
 
 
 # ========================== WRAP-UP OF FORMULAS =============================
 
-
-formulas = {
-    'Al Ghafri': density_alghafri,
-    'Krumgalz': density_krumgalz,
-}
-
-sources = [source for source in formulas]
+Density_MgCl2_Formulas =(
+    Density_MgCl2_AlGhafri,
+    Density_MgCl2_Krumgalz,
+)

@@ -36,65 +36,73 @@ J. Chem. Eng. Data 52, 1784-1790 (2007).)
 For now, I have assumed validity similar to NaCl (in temperatures)
 """
 
-from .misc import aw_clegg
+from ...general import SolutionFormula
 from ..steiger import coeffs_steiger_2005, coeffs_steiger_2008
 from ..pitzer import PitzerActivity
-
-# General Info about the formulas
-
-default_source = 'Steiger 2008'
-
-concentration_types = {
-    'Clegg': 'x',
-    'Steiger 2005': 'm',
-    'Steiger 2008': 'm',
-}
-
-concentration_ranges = {
-    'Clegg': (0, 0.23),
-    'Steiger 2005': (0, 12),
-    'Steiger 2008': (0, 12),
-}
-
-temperature_units = {
-    'Clegg': 'C',
-    'Steiger 2005': 'K',
-    'Steiger 2008': 'K',
-}
-
-temperature_ranges = {
-    'Clegg': (25, 25),
-    'Steiger 2005': (298.15, 298.15),
-    'Steiger 2008': (278.15, 323.15),
-}
+from .misc import aw_clegg
 
 
-# ============================== FORMULAS ====================================
+class WaterActivity_Na2SO4_Steiger2008(SolutionFormula):
 
-def water_activity_clegg(x, T):
+    name = 'Steiger 2008'
+    solute = 'Na2SO4'
+
+    temperature_unit = 'K'
+    temperature_range = (278.15, 323.15)
+
+    concentration_unit = 'm'
+    concentration_range = (0, 12)
+
+    default = True
+    with_water_reference = False
+
+    def calculate(self, m, T):
+        coeffs = coeffs_steiger_2008.coeffs(solute='Na2SO4', T=T)
+        pitz = PitzerActivity(T=T, solute='Na2SO4', **coeffs)
+        return pitz.water_activity(m=m)
+
+
+class WaterActivity_Na2SO4_Steiger2005(SolutionFormula):
+
+    name = 'Steiger 2005'
+    solute = 'Na2SO4'
+
+    temperature_unit = 'K'
+    temperature_range = (298.15, 298.15)
+
+    concentration_unit = 'm'
+    concentration_range = (0, 12)
+
+    with_water_reference = False
+
+    def calculate(self, m, T):
+        coeffs = coeffs_steiger_2005.coeffs(solute='Na2SO4', T=T)
+        pitz = PitzerActivity(T=T, solute='Na2SO4', **coeffs)
+        return pitz.water_activity(m=m)
+
+class WaterActivity_Na2SO4_Clegg(SolutionFormula):
+
+    name = 'Clegg'
+    solute = 'Na2SO4'
+
+    temperature_unit = 'C'
+    temperature_range = (25, 25)
+
+    concentration_unit = 'x'
+    concentration_range = (0, 0.23)
+
+    with_water_reference = False
+
     coeffs = 2.915, 48.56028, 8.0, 5.555706, 21.88352, -22.81674
-    a1 = aw_clegg(x, T, 'Na2SO4', coeffs)
-    return a1
 
-
-def water_activity_Steiger_2005(m, T):
-    coeffs = coeffs_steiger_2005.coeffs(solute='Na2SO4', T=T)
-    pitz = PitzerActivity(T=T, solute='Na2SO4', **coeffs)
-    return pitz.water_activity(m=m)
-
-
-def water_activity_Steiger_2008(m, T):
-    coeffs = coeffs_steiger_2008.coeffs(solute='Na2SO4', T=T)
-    pitz = PitzerActivity(T=T, solute='Na2SO4', **coeffs)
-    return pitz.water_activity(m=m)
+    def calculate(self, x, T):
+        return aw_clegg(x, T, 'Na2SO4', self.coeffs)
 
 
 # ========================== WRAP-UP OF FORMULAS =============================
 
-formulas = {
-    'Clegg': water_activity_clegg,
-    'Steiger 2005': water_activity_Steiger_2005,
-    'Steiger 2008': water_activity_Steiger_2008,
-}
-
-sources = [source for source in formulas]
+WaterActivityFormulas_Na2SO4 = (
+    WaterActivity_Na2SO4_Steiger2008,
+    WaterActivity_Na2SO4_Steiger2005,
+    WaterActivity_Na2SO4_Clegg,
+)

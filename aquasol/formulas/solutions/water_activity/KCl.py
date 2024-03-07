@@ -31,59 +31,58 @@ NOTE: I could not find explicit info about validity domain for the KCl
 from .misc import aw_extended_debye_huckel
 from ..steiger import coeffs_steiger_2008
 from ..pitzer import PitzerActivity
+from ...general import SolutionFormula
 
-# General Info about the formulas
+class WaterActivity_KCl_Steiger2008(SolutionFormula):
 
-default_source = 'Steiger 2008'
+    name = 'Steiger 2008'
+    solute = 'KCl'
 
-concentration_types = {
-    'Tang': 'm',
-    'Steiger 2008': 'm',
-}
+    temperature_unit = 'K'
+    temperature_range = (278.15, 323.15)   # NOT SURE (see above)
 
-concentration_ranges = {
-    'Tang': (1e-9, 13),
-    'Steiger 2008': (0, 15),  # NOT SURE (see above)
-}
+    concentration_unit = 'm'
+    concentration_range = (0, 15)  # NOT SURE (see above)
 
-temperature_units = {
-    'Tang': 'C',
-    'Steiger 2008': 'K',
-}
+    default = True
+    with_water_reference = False
 
-temperature_ranges = {
-    'Tang': (25, 25),
-    'Steiger 2008': (278.15, 323.15),   # NOT SURE (see above)
-}
+    def calculate(self, m, T):
+        coeffs = coeffs_steiger_2008.coeffs(solute='KCl', T=T)
+        pitz = PitzerActivity(T=T, solute='KCl', **coeffs)
+        return pitz.water_activity(m=m)
 
 
-# ============================== FORMULAS ====================================
+class WaterActivity_KCl_Tang(SolutionFormula):
 
-def water_activity_Tang(m, T):
+    name = 'Tang'
+    solute = 'KCl'
 
-    A = 0.5108
-    B = 1.35
-    C = 7.625e-3
-    D = -7.892e-4
-    E = 2.492e-5
-    beta = -9.842e-3
+    temperature_unit = 'C'
+    temperature_range = (25, 25)
 
-    coeffs_tang_KCl = A, B, C, D, E, beta
+    concentration_unit = 'm'
+    concentration_range = (1e-9, 13)
 
-    return aw_extended_debye_huckel(m, T, solute='KCl', coeffs=coeffs_tang_KCl)
+    with_water_reference = False
 
+    coeffs = {
+        'A': 0.5108,
+        'B': 1.35,
+        'C': 7.625e-3,
+        'D': -7.892e-4,
+        'E': 2.492e-5,
+        'beta': -9.842e-3,
+    }
 
-def water_activity_Steiger_2008(m, T):
-    coeffs = coeffs_steiger_2008.coeffs(solute='KCl', T=T)
-    pitz = PitzerActivity(T=T, solute='KCl', **coeffs)
-    return pitz.water_activity(m=m)
+    def calculate(self, m, T):
+        coeffs_tang_KCl = self.coeffs.values()
+        return aw_extended_debye_huckel(m, T, solute='KCl', coeffs=coeffs_tang_KCl)
 
 
 # ========================== WRAP-UP OF FORMULAS =============================
 
-formulas = {
-    'Tang': water_activity_Tang,
-    'Steiger 2008': water_activity_Steiger_2008,
-}
-
-sources = [source for source in formulas]
+WaterActivityFormulas_KCl = (
+    WaterActivity_KCl_Steiger2008,
+    WaterActivity_KCl_Tang,
+)

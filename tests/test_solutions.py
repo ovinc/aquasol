@@ -1,25 +1,29 @@
 """Tests for the aquasol.solutions module."""
 
 
-# from aquasol.solutions import activity_coefficient, water_activity
+# from aquasol.solutions import activity_coefficient
+from aquasol.solutions import water_activity
+
 # from aquasol.solutions import osmotic_coefficient, osmotic_pressure
-# from aquasol.solutions import density, surface_tension
+from aquasol.solutions import density
+# from aquasol.solutions import surface_tension
 # from aquasol.solutions import refractive_index, electrical_conductivity
-# from aquasol.solutions import aw_to_conc, convert
+# from aquasol.solutions import aw_to_conc
+from aquasol.solutions import convert
 
-# from aquasol.constants import molar_mass
-# from aquasol.constants import charge_numbers
-# from aquasol.constants import dissociation_numbers
-
-
-# # ============================== Test constants ==============================
+from aquasol.constants import molar_mass
+from aquasol.constants import charge_numbers
+from aquasol.constants import dissociation_numbers
 
 
-# def test_constants():
-#     solute = 'Na2SO4'
-#     assert round(molar_mass(solute), 3) == 0.142  # kg / mol
-#     assert charge_numbers[solute] == (1, 2)
-#     assert dissociation_numbers[solute] == (2, 1)
+# ============================== Test constants ==============================
+
+
+def test_constants():
+    solute = 'Na2SO4'
+    assert round(molar_mass(solute), 3) == 0.142  # kg / mol
+    assert charge_numbers[solute] == (1, 2)
+    assert dissociation_numbers[solute] == (2, 1)
 
 
 # # =========================== Test activity coeff ============================
@@ -38,53 +42,58 @@
 #     assert round(gamma, 2) == 1.0
 
 
-# # =========================== Test water activity ============================
+# =========================== Test water activity ============================
 
 
-# def test_aw_1():
-#     aw = water_activity(x=0.1)  # a_w for a mole fraction of 0.1 of NaCl
-#     assert round(aw, 2) == 0.75
+def test_aw_1():
+    aw = water_activity(x=0.1)  # a_w for a mole fraction of 0.1 of NaCl
+    assert round(aw, 2) == 0.75
 
-# def test_aw_2():
-#     aw = water_activity(w=0.2)  # a_w for a mass fraction of 0.2 of NaCl
-#     assert round(aw, 2) == 0.84
+def test_aw_2():
+    aw = water_activity(w=0.2)  # a_w for a mass fraction of 0.2 of NaCl
+    assert round(aw, 2) == 0.84
 
-# def test_aw_3():
-#     aw = water_activity(c=5000)  # a_w for a molality of 5 mol/L of NaCl
-#     assert round(aw, 2) == 0.78
+def test_aw_3():
+    aw = water_activity(c=5000)  # a_w for a molality of 5 mol/L of NaCl
+    assert round(aw, 2) == 0.78
 
-# def test_aw_4():
-#     aw = water_activity(m=6)      # a_w for a molality of 6 mol/kg of NaCl
-#     assert round(aw, 2) == 0.76
+def test_aw_4():
+    aw = water_activity(m=6)      # a_w for a molality of 6 mol/kg of NaCl
+    assert round(aw, 2) == 0.76
 
-# def test_aw_5():
-#     aw = water_activity('LiCl', m=6)  # same for LiCl
-#     assert round(aw, 2) == 0.68
+def test_aw_5():
+    aw = water_activity('LiCl', m=6)  # same for LiCl
+    assert round(aw, 2) == 0.68
 
-# def test_aw_6():
-#     aw = water_activity('LiCl', m=6, T=70)  # same for LiCl at 70°C
-#     assert round(aw, 2) == 0.70
+def test_aw_6():
+    aw = water_activity('LiCl', m=6, T=70)  # same for LiCl at 70°C
+    assert round(aw, 2) == 0.70
 
-# def test_aw_7():
-#     aw = water_activity('LiCl', 293, 'K', m=6)  # same for LiCl at 293K.
-#     assert round(aw, 2) == 0.68
+def test_aw_7():
+    aw = water_activity('LiCl', 293, 'K', m=6)  # same for LiCl at 293K.
+    assert round(aw, 2) == 0.68
 
-# def test_aw_8():
-#     aw = water_activity(solute='CaCl2', T=50, m=[2, 4, 6])  # iterable conc.
-#     assert round(aw[2], 2) == 0.45
+def test_aw_8():
+    aw = water_activity(solute='CaCl2', T=50, m=[2, 4, 6])  # iterable conc.
+    assert round(aw[2], 2) == 0.45
 
-# def test_aw_9():
-#     aw = water_activity(solute='KCl', m=3)  # KCl
-#     assert round(aw, 2) == 0.90
+def test_aw_9():
+    aw = water_activity(solute='KCl', m=3)  # KCl
+    assert round(aw, 2) == 0.90
 
-# def test_aw_10():
-#     """Check different formulas are consistent"""
-#     aw1 = water_activity(solute='Na2SO4', m=4, source='Clegg')
-#     aw2 = water_activity(solute='Na2SO4', m=4, source='Steiger 2005')
-#     aw3 = water_activity(solute='Na2SO4', m=4, source='Steiger 2008')
-#     assert round(aw1, 2) == 0.85
-#     assert round(aw2, 2) == 0.85
-#     assert round(aw3, 2) == 0.85
+def test_aw_10():
+    """Check different formulas are consistent"""
+    aw1 = water_activity(solute='Na2SO4', m=4, source='Clegg')
+    aw2 = water_activity(solute='Na2SO4', m=4, source='Steiger 2005')
+    aw3 = water_activity(solute='Na2SO4', m=4, source='Steiger 2008')
+    assert round(aw1, 2) == 0.85
+    assert round(aw2, 2) == 0.85
+    assert round(aw3, 2) == 0.85
+
+def test_aw_11():
+    """Check CaCl2"""
+    aw = water_activity('CaCl2', w=0.1)  # CaCl2
+    assert round(aw, 2) == 0.94
 
 
 # # Test extensions of water activity ------------------------------------------
@@ -100,32 +109,48 @@
 #     assert round(phi, 1) == 1.3
 
 
-# # =============================== Test density ===============================
+# =============================== Test density ===============================
 
 
-# def test_rho_1():
-#     rho = density(w=0.1)  # NaCl solution, at mass fraction of 0.1 at 25°C.
-#     assert round(rho) == 1069
+def test_rho_1():
+    rho = density(w=0.1)  # NaCl solution, at mass fraction of 0.1 at 25°C.
+    assert round(rho) == 1069
 
-# def test_rho_2():
-#     rho = density('LiCl', 300, 'K', m=6)  # LiCl solution at 300K, 6 mol/kg
-#     assert round(rho) == 1116
+def test_rho_2():
+    rho = density('LiCl', 300, 'K', m=6)  # LiCl solution at 300K, 6 mol/kg
+    assert round(rho) == 1116
 
-# def test_rho_3():
-#     rho = density(source='Tang', x=0.23)  # supersaturatad NaCl, Tang equation
-#     assert round(rho) == 1419
+def test_rho_3():
+    rho = density(source='Tang', x=0.23)  # supersaturatad NaCl, Tang equation
+    assert round(rho) == 1419
 
-# def test_rho_4():
-#     rho = density(c=5000, relative=True)  # relative density of NaCl,  5 mol/L.
-#     assert round(rho, 2) == 1.19
+def test_rho_4():
+    rho = density(c=5000, relative=True)  # relative density of NaCl,  5 mol/L.
+    assert round(rho, 2) == 1.19
 
-# def test_rho_5():
-#     rho = density(w=[0.05, 0.12, 0.25])  # iterable concentration
-#     assert round(rho[2]) == 1186
+def test_rho_5():
+    rho = density(w=[0.05, 0.12, 0.25])  # iterable concentration
+    assert round(rho[2]) == 1186
 
-# def test_rho_Na2SO4():
-#     rho = density('Na2SO4', w=0.5)
-#     assert round(rho) == 1549
+def test_rho_Na2SO4():
+    rho = density('Na2SO4', w=0.5)
+    assert round(rho) == 1549
+
+def test_rho_MgCl2():
+    rho = density('MgCl2', w=0.1)
+    assert round(rho) == 1082
+
+def test_rho_KI():
+    rho = density('KI', w=0.1)
+    assert round(rho) == 1074
+
+def test_rho_KCl():
+    rho = density('KCl', w=0.1)
+    assert round(rho) == 1061
+
+def test_rho_CaCl2():
+    rho = density('CaCl2', w=0.1)
+    assert round(rho) == 1082
 
 
 # # =========================== Test surface tension ===========================

@@ -17,38 +17,48 @@ chlorides: formulations for use in air conditioning equipment design.
 International Journal of Thermal Sciences 43, 367-382 (2004).
 """
 
-# TODO: add Dutcher (it has supersaturated values!)
-
 
 from .misc import aw_conde
-
-# General Info about the formulas
-
-default_source = 'Conde'
-
-concentration_types = {'Conde': 'w'}
-
-# Approximative, actually depends on temperature. Conde not defined in w=0 ...
-concentration_ranges = {'Conde': (0.0001, 0.6)}
-
-temperature_units = {'Conde': 'C'}
-
-temperature_ranges = {'Conde': (0, 100)}   # Deduced from data presented in Fig. 3
+from ...general import SolutionFormula
 
 
-# ============================== FORMULAS ====================================
+class WaterActivity_CaCl2_Conde(SolutionFormula):
 
-def water_activity_conde(w, T):
-    """Water activity for LiCl as a function of concentration according to Conde."""
+    name = 'Conde'
+    solute = 'CaCl2'
 
-    T = T + 273.15
-    coeffs = 0.31, 3.698, 0.6, 0.231, 4.584, 0.49, 0.478, -5.20, -0.4, 0.018
-    aw = aw_conde(w, T, coeffs)
-    return aw
+    temperature_unit = 'C'
+    temperature_range = (0, 100)   # Deduced from data presented in Fig. 3
+
+    concentration_unit = 'w'
+    # Approximative, actually depends on temperature. Conde not defined in w=0 ...
+    concentration_range = (0.00001, 0.6)
+
+    default = True
+    with_water_reference = False
+
+    coeffs = [
+        0.31,
+        3.698,
+        0.6,
+        0.231,
+        4.584,
+        0.49,
+        0.478,
+        -5.20,
+        -0.4,
+        0.018
+    ]
+
+    def calculate(self, w, T):
+        """Water activity for LiCl as a function of concentration according to Conde."""
+        T = T + 273.15
+        aw = aw_conde(w, T, self.coeffs)
+        return aw
 
 
 # ========================== WRAP-UP OF FORMULAS =============================
 
-formulas = {'Conde': water_activity_conde}
-
-sources = [source for source in formulas]
+WaterActivityFormulas_CaCl2 = (
+    WaterActivity_CaCl2_Conde,
+)
