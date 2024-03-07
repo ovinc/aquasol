@@ -3,10 +3,11 @@
 import numpy as np
 
 from ....constants import Tc, molar_mass
-from ....water import vapor_pressure
-from ....water import density_sat, density_atm
+from ...water.vapor_pressure import VaporPressure_Wagner
+from ...water.density_sat import DensitySat_Wagner
+from ...water.density_atm import DensityAtm_Patek
 
-from ...formulas.pitzer import PitzerVolumetric
+from ..pitzer import PitzerVolumetric
 
 
 # ----------------------------------------------------------------------------
@@ -91,7 +92,8 @@ def density_pitzer(m, solute='NaCl', source='Krumgalz'):
     """Density at 25°C in kg / m^3"""
     v_phi = apparent_molar_volume_pitzer(m, solute=solute, source=source)
     Ms = molar_mass(solute)
-    rho_w = density_atm(T=25)
+    density_atm = DensityAtm_Patek()
+    rho_w = density_atm.calculate(T=298.15)
     return rho_w, rho_w * (1 + m * Ms) / (1 + m * rho_w * v_phi)
 
 
@@ -136,9 +138,11 @@ def rho_alghafri(m, T, P, a, b, c):
     MgCl2(aq), CaCl2(aq), KI(aq), NaCl(aq), KCl(aq), AlCl3(aq),
     and (0.864 NaCl + 0.136 KCl)(aq), respectively.
     """
+    vapor_pressure = VaporPressure_Wagner()
+    p_ref = vapor_pressure.calculate(T)
 
-    p_ref = vapor_pressure(T, 'K', source='Wagner')
-    rho_sat = density_sat(T, 'K', source='Wagner')
+    density_sat = DensitySat_Wagner()
+    rho_sat = density_sat.calculate(T)
 
     # reference density (solution density at reference pressure p_ref(T), which
     # is taken to be the vapor pressure of pure water at the given temperature.

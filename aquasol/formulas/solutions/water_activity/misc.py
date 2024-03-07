@@ -4,7 +4,7 @@
 import numpy as np
 
 from ....constants import Mw, Tc, charge_numbers, dissociation_numbers
-from ...convert import ion_quantities, ionic_strength
+from ..ionic import ion_quantities, ionic_strength
 
 
 def aw_conde(w, T, coeffs):
@@ -29,7 +29,7 @@ def aw_conde(w, T, coeffs):
     ---------
     Conde, M. R., Properties of aqueous solutions of lithium and calcium
     chlorides: formulations for use in air conditioning equipment design.
-    International Journal of Thermal Sciences 43, 367–382 (2004).
+    International Journal of Thermal Sciences 43, 367-382 (2004).
     """
     pi0, pi1, pi2, pi3, pi4, pi5, pi6, pi7, pi8, pi9 = coeffs
 

@@ -13,4 +13,6 @@
 # from .extend import osmotic_pressure, osmotic_coefficient
 # from .formulas.water_activity import WaterActivity
 
+# from .properties import WaterActivity
+
 # water_activity = WaterActivity()

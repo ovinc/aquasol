@@ -47,118 +47,167 @@ Sources
 
 import numpy as np
 
-from ....water import density_atm
+from ...general import SolutionFormula
+from ...water.density_atm import DensityAtm_Patek
 from ..clegg import density_NaCl
 from .misc import rho_alghafri, rho_tang, density_pitzer
 
-# General Info about the formulas
 
-default_source = 'Simion'
+class Density_NaCl_Simion(SolutionFormula):
 
-concentration_types = {
-    'Simion': 'w',
-    'Tang': 'w',
-    'Al Ghafri': 'm',
-    'Steiger': 'm',
-    'Krumgalz': 'm',
-    'Clegg': 'w'
-}
+    name = 'Simion'
 
-concentration_ranges = {
-    'Simion': (0, 0.26),
-    'Tang': (0, 0.5),
-    'Al Ghafri': (0, 6),
-    'Steiger': (0, 14),
-    'Krumgalz': (0, 6.1),
-    'Clegg': (0.25, 1),
-}
+    temperature_unit = 'C'
+    temperature_range = (0, 100)
 
-temperature_units = {
-    'Simion': 'C',
-    'Tang': 'C',
-    'Al Ghafri': 'K',
-    'Steiger': 'C',
-    'Krumgalz': 'C',
-    'Clegg': 'K',
-}
+    concentration_unit = 'w'
+    concentration_range = (0, 0.27)
 
-temperature_ranges = {
-    'Simion': (0, 100),
-    'Tang': (25, 25),
-    'Al Ghafri': (298.15, 473.15),
-    'Steiger': (25, 25),
-    'Krumgalz': (25, 25),
-    'Clegg': (273.15, 323.15),  # 0 to 50°C
-}
+    default = True
+    with_water_reference = True
 
+    coeffs = {
+        'a1': 750.2834,
+        'a2': 26.7822,
+        'a3': -0.26389,
+        'a4': 1.90165,
+        'a5': -0.11734,
+        'a6': 0.00175,
+        'a7': -0.003604,
+        'a8': 0.0001701,
+        'a9': -0.00000261,
+    }
 
-# ============================== FORMULAS ====================================
+    def calculate(self, w, T):
 
+        w = w * 100  # avoid using *= to not mutate objects in place
+        T = T + 273.15  # same
 
-def density_simion(w, T):
+        a1, a2, a3, a4, a5, a6, a7, a8, a9 = self.coeffs.values()
 
-    w = w * 100  # avoid using *= to not mutate objects in place
-    T = T + 273.15  # same
+        rho0 = a1 + a4*T + a7*T**2  # density of pure water
+        rho = rho0 + a2*w + a3*w**2 + (a5*w + a6*w**2) * T + (a8*w + a9*w**2) * T**2
 
-    a1 = 750.2834; a2 = 26.7822; a3 = -0.26389
-    a4 = 1.90165; a5 = -0.11734; a6 = 0.00175
-    a7 = -0.003604; a8 = 0.0001701; a9 = -0.00000261
+        return rho0, rho
 
-    rho0 = a1 + a4*T + a7*T**2  # density of pure water
-    rho = rho0 + a2*w + a3*w**2 + (a5*w + a6*w**2) * T + (a8*w + a9*w**2) * T**2
+class Density_NaCl_Tang(SolutionFormula):
 
-    return rho0, rho
+    name = 'Tang'
 
+    temperature_unit = 'C'
+    temperature_range = (25, 25)
 
-def density_tang(w, T):
+    concentration_unit = 'w'
+    concentration_range = (0, 0.5)
+
+    with_water_reference = True
+
     coeffs = np.array([7.41e-3, -3.741e-5, 2.252e-6, -2.06e-8]) * 1000
-    return rho_tang(w, coeffs)
+
+    def calculate(self, w, T):
+        return rho_tang(w, self.coeffs)
 
 
-def density_alghafri(m, T):
-
-    a = np.zeros((4, 5))
-    a[1, :] = [2863.158, -46844.356, 120760.118, -116867.722, 40285.426]
-    a[2, :] = [-2000.028, 34013.518, -88557.123, 86351.784, -29910.216]
-    a[3, :] = [413.046, -7125.857, 18640.780, -18244.074, 6335.275]
-
-    b = np.zeros((2, 4))
-    b[0, :] = [-1622.4, 9383.8, -14893.8, 7309.10]
-    b[1, :] = [241.57, -980.97, 1482.31, -750.98]
-
-    c = np.zeros(3)
-    c[:] = [0.11725, -0.00134, 0.00056]
-
-    rho = rho_alghafri(m, T, 1e5, a, b, c)
-    rho0 = rho_alghafri(0, T, 1e5, a, b, c)
-
-    return rho0, rho
+# -------------------------------- Al Ghafri ---------------------------------
 
 
-def density_steiger(m, T):
-    return density_pitzer(m, solute='NaCl', source='Steiger')
+ghafri_a = np.zeros((4, 5))
+ghafri_a[1, :] = [2863.158, -46844.356, 120760.118, -116867.722, 40285.426]
+ghafri_a[2, :] = [-2000.028, 34013.518, -88557.123, 86351.784, -29910.216]
+ghafri_a[3, :] = [413.046, -7125.857, 18640.780, -18244.074, 6335.275]
+
+ghafri_b = np.zeros((2, 4))
+ghafri_b[0, :] = [-1622.4, 9383.8, -14893.8, 7309.10]
+ghafri_b[1, :] = [241.57, -980.97, 1482.31, -750.98]
+
+ghafri_c = np.zeros(3)
+ghafri_c[:] = [0.11725, -0.00134, 0.00056]
 
 
-def density_krumgalz(m, T):
-    return density_pitzer(m, solute='NaCl', source='Krumgalz')
+class Density_NaCl_AlGhafri(SolutionFormula):
+
+    name = 'Al Ghafri'
+
+    temperature_unit = 'K'
+    temperature_range = (298.15, 473.15)
+
+    concentration_unit = 'm'
+    concentration_range = (0, 6)
+
+    with_water_reference = True
+
+    coeffs = [ghafri_a, ghafri_b, ghafri_c]
+
+    def calculate(self, m, T):
+        rho = rho_alghafri(m, T, 1e5, *self.coeffs)
+        rho0 = rho_alghafri(0, T, 1e5, *self.coeffs)
+        return rho0, rho
 
 
-def density_clegg(w, T):
-    """T in degrees Kelvin (K)"""
-    rho_w = density_atm(T=T, unit='K')
-    return rho_w, density_NaCl(w, T)
+# ----------------------------------------------------------------------------
 
+
+class Density_NaCl_Steiger(SolutionFormula):
+
+    name = 'Steiger'
+
+    temperature_unit = 'C'
+    temperature_range = (25, 25)
+
+    concentration_unit = 'm'
+    concentration_range = (0, 6.1)
+
+    with_water_reference = True
+
+    coeffs = [ghafri_a, ghafri_b, ghafri_c]
+
+    def calculate(self, m, T):
+        return density_pitzer(m, solute='NaCl', source='Steiger')
+
+
+class Density_NaCl_Krumgalz(SolutionFormula):
+
+    name = 'Krumgalz'
+
+    temperature_unit = 'C'
+    temperature_range = (25, 25)
+
+    concentration_unit = 'm'
+    concentration_range = (0, 14)
+
+    with_water_reference = True
+
+    coeffs = [ghafri_a, ghafri_b, ghafri_c]
+
+    def calculate(self, m, T):
+        return density_pitzer(m, solute='NaCl', source='Krumgalz')
+
+
+class Density_NaCl_Clegg(SolutionFormula):
+
+    name = 'Clegg'
+
+    temperature_unit = 'K'
+    temperature_range = (273.15, 323.15)
+
+    concentration_unit = 'w'
+    concentration_range = (0.25, 1)
+
+    with_water_reference = True
+
+    def calculate(self, w, T):
+        density_atm = DensityAtm_Patek()  # because used internally by Clegg
+        rho_0 = density_atm.calculate(T)
+        rho = density_NaCl(w, T)
+        return rho_0, rho
 
 # ========================== WRAP-UP OF FORMULAS =============================
 
-
-formulas = {
-    'Simion': density_simion,
-    'Tang': density_tang,
-    'Al Ghafri': density_alghafri,
-    'Steiger': density_steiger,
-    'Krumgalz': density_krumgalz,
-    'Clegg': density_clegg,
-}
-
-sources = [source for source in formulas]
+Density_NaCl_Formulas = (
+    Density_NaCl_Simion,
+    Density_NaCl_Tang,
+    Density_NaCl_AlGhafri,
+    Density_NaCl_Steiger,
+    Density_NaCl_Krumgalz,
+    Density_NaCl_Clegg,
+)

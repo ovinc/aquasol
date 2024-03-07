@@ -5,9 +5,9 @@ Mostly based on Michael Steiger's group papers.
 
 import numpy as np
 
-from ..convert import ionic_strength
 from ...constants import R as ideal_gas_constant
 from ...constants import Mw, charge_numbers, dissociation_numbers
+from .ionic import ionic_strength
 
 
 b = 1.2  # kg^1/2.mol^-1/2

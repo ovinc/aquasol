@@ -3,10 +3,10 @@
 
 import numpy as np
 
-from ..formulas.pitzer import PitzerVolumetric
-from ...water import density_atm
-from ...solutions import ionic_strength, convert
 from ...constants import dissociation_numbers, Mw, molar_mass, charge_numbers
+from ..water.density_atm import DensityAtm_Patek
+from .ionic import ionic_strength
+from .pitzer import PitzerVolumetric
 
 
 Av = 1.8305  # From Archer & Wang 1990, in cm^3 kg^(1/2) mol^(-3/2)
@@ -70,7 +70,10 @@ def apparent_molar_volume_25(w, solute='NaCl'):
     nu_m, nu_x = dissociation_numbers[solute]
     nu_mx = nu_m + nu_x
 
-    x = convert(w, 'w', 'x', solute=solute)
+    # Note: I use for now the 2 lines below instead of convert() because of
+    # current unavailability of the convert() function [broken temporarily]
+    M = molar_mass(solute)
+    x = (w / M) / (w / M + (1 - w) / Mw)
     Ix = ionic_strength(solute, x=x)
 
     V_phi = params['V_phi_infty']
@@ -85,12 +88,17 @@ def apparent_molar_volume_25(w, solute='NaCl'):
 def density_25(w, solute='NaCl'):
     """Density at 25°C in kg / m^3"""
 
-    Ms = molar_mass(solute)
-    m = convert(w, 'w', 'm', solute=solute)
-    rho_w = density_atm(T=25)
+    M = molar_mass(solute)
+
+    # Note: I use for now the line below instead of convert() because of
+    # current unavailability of the convert() function [broken temporarily]
+    m = w / ((1 - w) * M)
+
+    density_atm = DensityAtm_Patek()
+    rho_w = density_atm.calculate(T=298.15)
     V_phi = apparent_molar_volume_25(w, solute=solute)
 
-    return rho_w * (1 + m * Ms) / (1 + m * rho_w * V_phi)
+    return rho_w * (1 + m * M) / (1 + m * rho_w * V_phi)
 
 
 # ----------------------------------------------------------------------------
@@ -205,6 +213,8 @@ def density_Na2SO4_low_conc(m, T):
     v_phi = pitz.apparent_molar_volume(m=m) * 1e-6  # conversion cm^3 --> m^3
 
     Ms = molar_mass('Na2SO4')
-    rho_w = density_atm(T=T, unit='K')
+
+    density_atm = DensityAtm_Patek()
+    rho_w = density_atm.calculate(T)
 
     return rho_w * (1 + m * Ms) / (1 + m * rho_w * v_phi)

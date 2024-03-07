@@ -42,14 +42,10 @@ J. Chem. Eng. Data 52, 1784-1790 (2007).)
 
 # TODO: add Dutcher (it has supersaturated values!)
 
-import numpy as np
-
 from .misc import aw_extended_debye_huckel, aw_clegg
 from ..steiger import coeffs_steiger_2005, coeffs_steiger_2008
 from ..pitzer import PitzerActivity
-from ...convert import ion_quantities, ionic_strength
-from ....constants import charge_numbers
-from ....formulas import SolutionFormula
+from ...general import SolutionFormula
 
 
 class WaterActivity_NaCl_Clegg(SolutionFormula):
@@ -140,7 +136,6 @@ class WaterActivity_NaCl_Steiger_2008(SolutionFormula):
 
 
 # ============================= WRAP-UP FORMULAS =============================
-
 
 AwFormulas_NaCl = (
     WaterActivity_NaCl_Clegg,
