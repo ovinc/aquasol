@@ -13,7 +13,7 @@ from ..general import WaterFormula
 class SurfaceTension_IAPWS(WaterFormula):
     """Water surface tension as a function of temperature, from IAPWS"""
 
-    name = 'IAPWS'
+    source ='IAPWS'
     temperature_unit = 'K'
     temperature_range = (248.15, Tc)   # Extrapolated range included
     default = True

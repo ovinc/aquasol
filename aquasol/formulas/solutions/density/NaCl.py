@@ -58,7 +58,7 @@ from .misc import rho_tang, density_pitzer
 
 class Density_NaCl_Simion(SolutionFormula):
 
-    name = 'Simion'
+    source ='Simion'
     solute = 'NaCl'
 
     temperature_unit = 'C'
@@ -96,7 +96,7 @@ class Density_NaCl_Simion(SolutionFormula):
 
 class Density_NaCl_Tang(SolutionFormula):
 
-    name = 'Tang'
+    source ='Tang'
     solute = 'NaCl'
 
     temperature_unit = 'C'
@@ -120,7 +120,7 @@ class Density_NaCl_AlGhafri(Density_NaCl_AlGhafri_Base):
 
 class Density_NaCl_Steiger(SolutionFormula):
 
-    name = 'Steiger'
+    source ='Steiger'
     solute = 'NaCl'
 
     temperature_unit = 'C'
@@ -142,7 +142,7 @@ class Density_NaCl_Krumgalz(Density_NaCl_Krumgalz_Base):
 
 class Density_NaCl_Clegg(SolutionFormula):
 
-    name = 'Clegg'
+    source ='Clegg'
     solute = 'NaCl'
 
     temperature_unit = 'K'

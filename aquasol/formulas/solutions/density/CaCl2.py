@@ -41,7 +41,7 @@ from .krumgalz import Density_CaCl2_Krumgalz_Base
 
 class Density_CaCl2_Conde(SolutionFormula):
 
-    name = 'Conde'
+    source ='Conde'
     solute = 'CaCl2'
 
     temperature_unit = 'K'

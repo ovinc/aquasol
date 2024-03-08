@@ -29,7 +29,7 @@ class WaterProperty(Property):
         for Formula in self.Formulas:
 
             formula = Formula()
-            source = formula.name
+            source = formula.source
             self.formulas[source] = formula
 
             if formula.default:
@@ -111,7 +111,7 @@ class SolutionProperty(Property):
         for Formula in self.Formulas:
 
             formula = Formula()
-            source = formula.name
+            source = formula.source
             solute = formula.solute
 
             self.formulas[solute][source] = formula

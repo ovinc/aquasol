@@ -36,67 +36,23 @@ J. Chem. Eng. Data 52, 1784-1790 (2007).)
 For now, I have assumed validity similar to NaCl (in temperatures)
 """
 
-from ...general import SolutionFormula
-from ..steiger import coeffs_steiger_2005, coeffs_steiger_2008
-from ..pitzer import PitzerActivity
-from .misc import aw_clegg
+from .clegg import WaterActivity_Na2SO4_Clegg_Base
+from .steiger import WaterActivity_Na2SO4_Steiger2005_Base
+from .steiger import WaterActivity_Na2SO4_Steiger2008_Base
 
 
-class WaterActivity_Na2SO4_Steiger2008(SolutionFormula):
+class WaterActivity_Na2SO4_Steiger2005(WaterActivity_Na2SO4_Steiger2005_Base):
+    """Already defined in steiger module"""
+    pass
 
-    name = 'Steiger 2008'
-    solute = 'Na2SO4'
 
-    temperature_unit = 'K'
-    temperature_range = (278.15, 323.15)
-
-    concentration_unit = 'm'
-    concentration_range = (0, 12)
-
+class WaterActivity_Na2SO4_Steiger2008(WaterActivity_Na2SO4_Steiger2008_Base):
+    """Already defined in steiger module"""
     default = True
-    with_water_reference = False
 
-    def calculate(self, m, T):
-        coeffs = coeffs_steiger_2008.coeffs(solute='Na2SO4', T=T)
-        pitz = PitzerActivity(T=T, solute='Na2SO4', **coeffs)
-        return pitz.water_activity(m=m)
-
-
-class WaterActivity_Na2SO4_Steiger2005(SolutionFormula):
-
-    name = 'Steiger 2005'
-    solute = 'Na2SO4'
-
-    temperature_unit = 'K'
-    temperature_range = (298.15, 298.15)
-
-    concentration_unit = 'm'
-    concentration_range = (0, 12)
-
-    with_water_reference = False
-
-    def calculate(self, m, T):
-        coeffs = coeffs_steiger_2005.coeffs(solute='Na2SO4', T=T)
-        pitz = PitzerActivity(T=T, solute='Na2SO4', **coeffs)
-        return pitz.water_activity(m=m)
-
-class WaterActivity_Na2SO4_Clegg(SolutionFormula):
-
-    name = 'Clegg'
-    solute = 'Na2SO4'
-
-    temperature_unit = 'C'
-    temperature_range = (25, 25)
-
-    concentration_unit = 'x'
-    concentration_range = (0, 0.23)
-
-    with_water_reference = False
-
-    coeffs = 2.915, 48.56028, 8.0, 5.555706, 21.88352, -22.81674
-
-    def calculate(self, x, T):
-        return aw_clegg(x, T, 'Na2SO4', self.coeffs)
+class WaterActivity_Na2SO4_Clegg(WaterActivity_Na2SO4_Clegg_Base):
+    """Already defined in clegg module"""
+    pass
 
 
 # ========================== WRAP-UP OF FORMULAS =============================

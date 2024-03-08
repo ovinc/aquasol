@@ -15,7 +15,7 @@ from .misc import density_pitzer
 
 class Density_Krumgalz_Base(SolutionFormula):
 
-    name = 'Krumgalz'
+    source ='Krumgalz'
 
     temperature_unit = 'C'
     temperature_range = (25, 25)

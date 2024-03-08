@@ -21,70 +21,42 @@ Sources
   Langmuir 38, 10963-10974 (2022).
 """
 
-
 # TODO: add data from Ali 2006
 
-
-from .misc import sigma_dutcher, sigma_iapws
-
-
-# ============================ GENERAL INFO ==================================
-
-default_source = 'Dutcher'
-
-concentration_types = {'Dutcher': 'x',
-                       'Steiger': 'm',
-                       }
-
-concentration_ranges = {'Dutcher': (0, 0.145),
-                        'Steiger': (0, 7),     # approx (up to saturation)
-                        }
-
-temperature_units = {'Dutcher': 'K',
-                     'Steiger': 'C',
-                     }
-
-temperature_ranges = {'Dutcher': (263.13, 473.15),
-                      'Steiger': (-10, 50)
-                      }
+from ...general import SolutionFormula
+from .dutcher import SufaceTension_NaCl_Dutcher_Base
+from .misc import sigma_iapws
 
 
-# ============================== FORMULAS ====================================
-
-def surface_tension_dutcher(x, T):
-    """Surface tension calculated from Dutcher 2010.
-    Input: mole fraction x, temperature T in K."""
-
-    # Coefficients (Table 3)
-    c1 = 191.16     # note - other values possible: (193.48, -0.07188)
-    c2 = -0.0747
-    # Coefficients (Table 5)
-    aws = 232.54
-    bws = -0.245
-    asw = -142.42
-    bsw = 0
-
-    coeffs_table3 = c1, c2
-    coeffs_table5 = aws, bws, asw, bsw
-
-    sigma_w = sigma_iapws(T)
-    sigma = sigma_dutcher(x, T, coeffs_table3, coeffs_table5)
-
-    return sigma_w, sigma
+class SurfaceTension_NaCl_Dutcher(SufaceTension_NaCl_Dutcher_Base):
+    """Already defined in dutcher module"""
+    default = True
 
 
-def surface_tension_steiger(m, T):
-    """Surface tension calculated from Talreja-Muthreja et al. 2022
-    Input: molality m, temperature T in Celsius."""
-    sigma_w = sigma_iapws(T + 273.15)
-    sigma = sigma_w + 0.00166 * m
-    return sigma_w, sigma
+class SurfaceTension_NaCl_Steiger(SolutionFormula):
+
+    source ='Steiger'
+    solute = 'NaCl'
+
+    temperature_unit = 'C'
+    temperature_range = (-10, 50)
+
+    concentration_unit = 'm'
+    concentration_range = (0, 7)     # approx (up to saturation)
+
+    with_water_reference = True
+
+    def calculate(self, m, T):
+        """Surface tension calculated from Talreja-Muthreja et al. 2022
+        Input: molality m, temperature T in Celsius."""
+        sigma_w = sigma_iapws(T + 273.15)
+        sigma = sigma_w + 0.00166 * m
+        return sigma_w, sigma
 
 
 # ========================== WRAP-UP OF FORMULAS =============================
 
-formulas = {'Dutcher': surface_tension_dutcher,
-            'Steiger': surface_tension_steiger
-            }
-
-sources = [source for source in formulas]
+SurfaceTensionFormulas_NaCl = (
+    SurfaceTension_NaCl_Dutcher,
+    SurfaceTension_NaCl_Steiger,
+)

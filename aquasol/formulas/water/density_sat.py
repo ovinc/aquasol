@@ -19,7 +19,7 @@ from ..general import WaterFormula
 
 class DensitySat_Wagner(WaterFormula):
 
-    name = 'Wagner'
+    source ='Wagner'
     temperature_unit = 'K'
     temperature_range = (273.15, Tc)
     default = True
@@ -63,7 +63,7 @@ class DensitySat_Wagner(WaterFormula):
 
 class DensitySat_Conde(WaterFormula):
 
-    name = 'Conde'
+    source ='Conde'
     temperature_unit = 'K'
     temperature_range = (273.15, Tc)
 

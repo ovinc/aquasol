@@ -18,43 +18,12 @@ International Journal of Thermal Sciences 43, 367-382 (2004).
 """
 
 
-from .misc import aw_conde
-from ...general import SolutionFormula
+from .conde import WaterActivity_CaCl2_Conde_Base
 
 
-class WaterActivity_CaCl2_Conde(SolutionFormula):
-
-    name = 'Conde'
-    solute = 'CaCl2'
-
-    temperature_unit = 'C'
-    temperature_range = (0, 100)   # Deduced from data presented in Fig. 3
-
-    concentration_unit = 'w'
-    # Approximative, actually depends on temperature. Conde not defined in w=0 ...
-    concentration_range = (0.00001, 0.6)
-
+class WaterActivity_CaCl2_Conde(WaterActivity_CaCl2_Conde_Base):
+    """Already defined in conde module"""
     default = True
-    with_water_reference = False
-
-    coeffs = [
-        0.31,
-        3.698,
-        0.6,
-        0.231,
-        4.584,
-        0.49,
-        0.478,
-        -5.20,
-        -0.4,
-        0.018
-    ]
-
-    def calculate(self, w, T):
-        """Water activity for LiCl as a function of concentration according to Conde."""
-        T = T + 273.15
-        aw = aw_conde(w, T, self.coeffs)
-        return aw
 
 
 # ========================== WRAP-UP OF FORMULAS =============================

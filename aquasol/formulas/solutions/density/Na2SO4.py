@@ -44,7 +44,7 @@ from .misc import rho_tang
 
 class Density_Na2SO4_Tang(SolutionFormula):
 
-    name = 'Tang'
+    source ='Tang'
     solute = 'Na2SO4'
 
     temperature_unit = 'C'
@@ -69,7 +69,7 @@ class Density_Na2SO4_Krumgalz(Density_Na2SO4_Krumgalz_Base):
 
 class Density_Na2SO4_Clegg(SolutionFormula):
 
-    name = 'Clegg'
+    source ='Clegg'
     solute = 'Na2SO4'
 
     temperature_unit = 'K'

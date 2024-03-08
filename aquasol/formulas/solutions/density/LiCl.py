@@ -31,7 +31,7 @@ from .krumgalz import Density_LiCl_Krumgalz_Base
 
 class Density_LiCl_Conde(SolutionFormula):
 
-    name = 'Conde'
+    source ='Conde'
     solute = 'LiCl'
 
     temperature_unit = 'K'

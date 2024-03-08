@@ -18,7 +18,7 @@ from ..general import WaterFormula
 
 class DiffusivityInAir_Massman(WaterFormula):
 
-    name = 'Massman'
+    source ='Massman'
     temperature_unit = 'K'
     temperature_range = (273.15, 373.15)
     default = True
@@ -52,7 +52,7 @@ class DiffusivityInAir_Massman(WaterFormula):
 
 class DiffusivityInAir_MM72(WaterFormula):
 
-    name = 'MM72'
+    source ='MM72'
     temperature_unit = 'K'
     temperature_range = (273.15, 373.15)
 

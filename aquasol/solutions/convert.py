@@ -12,6 +12,7 @@ import warnings
 
 # Non-standard imports
 from pynverse import inversefunc
+import numpy as np
 
 # Local imports
 from ..constants import solute_list
@@ -64,7 +65,17 @@ def w_to_molarity(w, solute, T=25, unit='C', source=None):
     return rho * w / M
 
 
-def molarity_to_w(c, solute, T=25, unit='C', source=None, wmin=0, wmax=0.99):
+def _get_max_w(solute, T=25, unit='C', source=None, wmin=0, wmax=0.999):
+    """Detect if density has a maximum, in which case the inversion fails."""
+    ww = np.linspace(wmin, wmax, num=200)
+    with warnings.catch_warnings():      # this is to avoid always warnings
+        warnings.simplefilter('ignore')  # which pop up due to wmax being high
+        rho = density_basic(solute=solute, T=T, unit=unit, source=source, w=ww)
+    imax = np.argmax(rho)
+    return ww[imax] # will be equal to wmax if function only increases
+
+
+def molarity_to_w(c, solute, T=25, unit='C', source=None, wmin=0, wmax=0.999):
     """Calculate weight fraction of solute from molarity at temperature T in °C.
 
     Note: can be slow because of inverting the function each time.
@@ -82,6 +93,39 @@ def molarity_to_w(c, solute, T=25, unit='C', source=None, wmin=0, wmax=0.99):
                 source=source,
             )
 
+    # replace wmax if density goes through a maximum
+    # (in order to prevent function inversion to fail)
+    wmax = _get_max_w(
+        solute=solute,
+        T=T,
+        unit=unit,
+        source=source,
+        wmin=wmin,
+        wmax=wmax,
+    )
+
+    # Also prevents inversion fail, and provides more explicit error msg -----
+    cmax = molarity(wmax)
+    # Line below should always work because c is usually converted to np array
+    # if it is a list or tuple etc.
+    test = (c > cmax)
+
+    try:  # won't work for an array
+        cmax_exceeded = bool(test)
+    except ValueError:
+        cc = np.array(c).flatten()
+        cmax_exceeded = any(cc > cmax)
+
+    if cmax_exceeded:
+        src = density_basic.get_source(solute=solute, source=source)
+        msg = (
+            f"Requested molality (c={c}) exceeds maximum available with "
+            f"{src}'s density formula (cmax={round(cmax):_}), "
+            f"corresponding to wmax={wmax:.3f}"
+        )
+        raise ValueError(msg)
+    # ------------------------------------------------------------------------
+
     weight_fraction = inversefunc(molarity, domain=[wmin, wmax])
     w = weight_fraction(c)
 
@@ -98,7 +142,6 @@ def molarity_to_w(c, solute, T=25, unit='C', source=None, wmin=0, wmax=0.99):
     return format_output_type(w)
 
 
-
 # =========================== MAIN CONVERT FUNCTION ==========================
 
 
@@ -111,7 +154,7 @@ def convert(
     unit='C',
     density_source=None,
     density_wmin=0,
-    density_wmax=0.99,
+    density_wmax=0.999,
 ):
     """Convert between different concentration units for solutions.
 

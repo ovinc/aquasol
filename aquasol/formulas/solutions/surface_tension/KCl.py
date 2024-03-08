@@ -14,52 +14,20 @@ Sources
 -------
 - Dutcher: Dutcher, C. S., Wexler, A. S. & Clegg, S. L. Surface Tensions of
 Inorganic Multicomponent Aqueous Electrolyte Solutions and Melts.
-J. Phys. Chem. A 114, 12216–12230 (2010).
+J. Phys. Chem. A 114, 12216-12230 (2010).
 """
 
-from .misc import sigma_dutcher, sigma_iapws
+from .dutcher import SufaceTension_KCl_Dutcher_Base
 
 
-# ============================ GENERAL INFO ==================================
-
-default_source = 'Dutcher'
-
-concentration_types = {'Dutcher': 'x'}
-
-concentration_ranges = {'Dutcher': (0, 0.138)}  # Estimated from m_max = 8.86
-
-temperature_units = {'Dutcher': 'K'}
-
-temperature_ranges = {'Dutcher': (265.15, 353.15)}
-
-
-# ============================== FORMULAS ====================================
-
-def surface_tension_dutcher(x, T):
-    """Surface tension calculated from Dutcher 2010.
-    Input: mole fraction x, temperature T in K."""
-
-    # Coefficients (Table 3)
-    c1 = 177.61
-    c2 = -0.07519
-    # Coefficients (Table 5)
-    aws = -117.33
-    bws = 0.489
-    asw = 0
-    bsw = 0
-
-    coeffs_table3 = c1, c2
-    coeffs_table5 = aws, bws, asw, bsw
-
-    sigma_w = sigma_iapws(T)
-    sigma = sigma_dutcher(x, T, coeffs_table3, coeffs_table5)
-
-    return sigma_w, sigma
+class SurfaceTension_KCl_Dutcher(SufaceTension_KCl_Dutcher_Base):
+    """Already defined in dutcher module"""
+    default = True
 
 
 # ========================== WRAP-UP OF FORMULAS =============================
 
-formulas = {'Dutcher': surface_tension_dutcher,
-            }
+SurfaceTensionFormulas_KCl = (
+    SurfaceTension_KCl_Dutcher,
+)
 
-sources = [source for source in formulas]

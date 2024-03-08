@@ -9,7 +9,7 @@ class Formula:
     """base class for formulas for water/solution properties"""
 
     # To be defined in subclasses
-    name = ''
+    source =''
     input_types = ()
     default = False  # Change to True to select default source
 
@@ -46,7 +46,7 @@ class Formula:
         if out_of_range:
             warn(
                 f'{input_type.capitalize()} outside of validity range'
-                f'({unit} in [{val_min}-{val_max}]) for {self.name}.'
+                f'({unit} in [{val_min}-{val_max}]) for {self.source}.'
                 f'[{self.solute}]',
                 stacklevel=2
             )

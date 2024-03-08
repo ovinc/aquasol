@@ -20,7 +20,7 @@ from ..general import WaterFormula
 
 class DensityAtm_Patek(WaterFormula):
 
-    name = 'Patek'
+    source ='Patek'
     temperature_unit = 'K'
     temperature_range = (253.15, 383.15)
     default = True
@@ -90,7 +90,7 @@ class DensityAtm_Patek(WaterFormula):
 
 class DensityAtm_Kell(WaterFormula):
 
-    name = 'Kell'
+    source ='Kell'
     temperature_unit = 'C'
     temperature_range = (0, 150)
 

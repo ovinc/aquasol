@@ -42,101 +42,29 @@ J. Chem. Eng. Data 52, 1784-1790 (2007).)
 
 # TODO: add Dutcher (it has supersaturated values!)
 
-from .misc import aw_extended_debye_huckel, aw_clegg
-from ..steiger import coeffs_steiger_2005, coeffs_steiger_2008
-from ..pitzer import PitzerActivity
-from ...general import SolutionFormula
+from .clegg import WaterActivity_NaCl_Clegg_Base
+from .steiger import WaterActivity_NaCl_Steiger2005_Base
+from .steiger import WaterActivity_NaCl_Steiger2008_Base
+from .tang import WaterActivity_NaCl_Tang_Base
 
 
-class WaterActivity_NaCl_Clegg(SolutionFormula):
-
-    name = 'Clegg'
-    solute = 'NaCl'
-
-    temperature_unit = 'C'
-    temperature_range = (25, 25)
-
-    concentration_unit = 'x'
-    concentration_range = (0, 0.25)
-
+class WaterActivity_NaCl_Clegg(WaterActivity_NaCl_Clegg_Base):
+    """Already defined in clegg module"""
     default = True
-    with_water_reference = False
-
-    coeffs = {
-        'A_x': 2.915,
-        'B': 24.22023,
-        'alpha': 5.0,
-        'W1': 0.7945378,
-        'U1': 12.15304,
-        'V1': -12.76357,
-    }
-
-    def calculate(self, x, T):
-        return aw_clegg(x, T, solute='NaCl', coeffs=self.coeffs.values())
 
 
-class WaterActivity_NaCl_Tang(SolutionFormula):
+class WaterActivity_NaCl_Tang(WaterActivity_NaCl_Tang_Base):
+    """Already defined in tang module"""
+    pass
 
-    name = 'Tang'
-    solute = 'NaCl'
-
-    temperature_unit = 'C'
-    temperature_range = (25, 25)
-
-    concentration_unit = 'm'
-    concentration_range = (1e-9, 14)
-
-    with_water_reference = False
-
-    coeffs = {
-        'A': 0.5108,
-        'B': 1.37,
-        'C': 4.803e-3,
-        'D': -2.736e-4,
-        'E': 0,
-        'beta': 2.796e-2,
-    }
-
-    def calculate(self, m, T):
-        return aw_extended_debye_huckel(m, T, solute='NaCl', coeffs=self.coeffs.values())
+class WaterActivity_NaCl_Steiger2005(WaterActivity_NaCl_Steiger2005_Base):
+    """Already defined in steiger module"""
+    pass
 
 
-class WaterActivity_NaCl_Steiger_2005(SolutionFormula):
-
-    name = 'Steiger 2005'
-    solute = 'NaCl'
-
-    temperature_unit = 'K'
-    temperature_range = (298.15, 298.15)
-
-    concentration_unit = 'm'
-    concentration_range = (0, 13.5)
-
-    with_water_reference = False
-
-    def calculate(self, m, T):
-        coeffs = coeffs_steiger_2005.coeffs(solute='NaCl', T=T)
-        pitz = PitzerActivity(T=T, solute='NaCl', **coeffs)
-        return pitz.water_activity(m=m)
-
-
-class WaterActivity_NaCl_Steiger_2008(SolutionFormula):
-
-    name = 'Steiger 2008'
-    solute = 'NaCl'
-
-    temperature_unit = 'K'
-    temperature_range = (278.15, 323.15)
-
-    concentration_unit = 'm'
-    concentration_range = (0, 15)
-
-    with_water_reference = False
-
-    def calculate(self, m, T):
-        coeffs = coeffs_steiger_2008.coeffs(solute='NaCl', T=T)
-        pitz = PitzerActivity(T=T, solute='NaCl', **coeffs)
-        return pitz.water_activity(m=m)
+class WaterActivity_NaCl_Steiger2008(WaterActivity_NaCl_Steiger2008_Base):
+    """Already defined in steiger module"""
+    pass
 
 
 # ============================= WRAP-UP FORMULAS =============================
@@ -144,6 +72,6 @@ class WaterActivity_NaCl_Steiger_2008(SolutionFormula):
 WaterActivityFormulas_NaCl = (
     WaterActivity_NaCl_Clegg,
     WaterActivity_NaCl_Tang,
-    WaterActivity_NaCl_Steiger_2005,
-    WaterActivity_NaCl_Steiger_2008,
+    WaterActivity_NaCl_Steiger2005,
+    WaterActivity_NaCl_Steiger2008,
 )

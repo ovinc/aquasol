@@ -11,6 +11,7 @@ from ..properties import SolutionProperty
 
 from ..formulas.solutions.water_activity import WaterActivityFormulas
 from ..formulas.solutions.density import DensityFormulas
+from ..formulas.solutions.surface_tension import SurfaceTensionFormulas
 
 class SolutionProperty_Full(SolutionProperty):
     """Solution property with full converter (inclusing molarity).
@@ -43,7 +44,9 @@ class WaterActivity(SolutionProperty_Full):
 
 
 class Density(SolutionProperty_Full):
-    """Examples
+    """Density of a solution(aq) at a given concentration and temperature
+
+    Examples
     --------
     - density(w=0.1) returns the density of a NaCl solution, calculated with
     Simion equation for a mass fraction of 0.1 at a temperature of 25°C.
@@ -57,6 +60,27 @@ class Density(SolutionProperty_Full):
     Formulas = DensityFormulas
     quantity = 'density'
     unit = '[kg/m^3]'
+
+
+class SurfaceTension(SolutionProperty_Full):
+    """Surface tension of a solution(aq) at a given concentration and temperature
+
+    Examples
+    --------
+    - surface_tension(x=0.05) returns surface tension of an aqueous NaCl
+    solution at 25°C and a mole fraction of 5%
+    - surface_tension('LiCl', w=0.1) returns the surface tension of a LiCl
+    solution at 25°C and weight fraction of 10%
+    - surface_tension('CaCl2', 20, m=6) returns the surface tension of
+    a CaCl2 solution at 20°C and molality 6 mol/kg
+    - surface_tension('CaCl2', 300, 'K', c=5e3) returns the surface tension of
+    a CaCl2 solution at 300K and molarity of 5 mol/L
+    - surface_tension(x=[0.02, 0.04, 0.08])  # iterable concentration is ok
+    """
+    Formulas = SurfaceTensionFormulas
+    quantity = 'surface tension'
+    unit = '[N/m]'
+
 
 
 # # ================================== ACTIVITY ================================

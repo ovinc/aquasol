@@ -181,7 +181,7 @@ def coeffs_NaCl():
 class Density_AlGhafri_Base(SolutionFormula):
     """Gathers all info common to all Al Ghafri Formulae"""
 
-    name = 'Al Ghafri'
+    source ='Al Ghafri'
 
     temperature_unit = 'K'
     temperature_range = (283.15, 473.15)
