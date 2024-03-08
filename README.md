@@ -15,7 +15,7 @@ WATER
 Properties
 ----------
 
-The *water* module has the following functions, which return the respective properties of interest as a function of temperature:
+The *water* module has the following functions(*), which return the respective properties of interest as a function of temperature:
 - `vapor_pressure()` for saturation vapor pressure of pure water (Pa),
 - `surface_tension()` for surface tension of pure water (N/m).
 - `density_sat()` for density on the liquid-vapor coexistence line (kg/m^3)
@@ -23,12 +23,11 @@ The *water* module has the following functions, which return the respective prop
 - `diffusivity_in_air()` for diffusivity of water vapor in air (m^2/s)
 - `viscosity_atm()` for viscosity of liquid water (Pa.s)
 
-**Note**: see further below for `dewpoint()`, `kelvin_pressure()`, `kelvin_humidity()`, `kelvin_radius()` and `molar_volume()`, which work a bit differently.
-
 The structure of the call for any property (replace *property* below by one of the function names above) is
 ```python
 from aquasol.water import property
-data = property(T=25, unit='C', source=None)
+
+value = property(T=25, unit='C', source=None)
 ```
 *Inputs*
 
@@ -39,6 +38,12 @@ data = property(T=25, unit='C', source=None)
 *Output*
 
 - Property in SI units, returned as numpy array if input is not a scalar.
+
+*Note*
+
+- See further below for `dewpoint()`, `kelvin_pressure()`, `kelvin_humidity()`, `kelvin_radius()` and `molar_volume()`, which work a bit differently.
+
+(*) As of aquasol 1.6, the functions are now callable objects, which act as functions but have additional attributes, see *Attributes and Methods* below.
 
 
 ### Examples
@@ -64,6 +69,35 @@ diffusivity_in_air(27)  # Diffusivity of water vapor in air at 27°C
 
 viscosity_atm()         # Viscosity of liquid water at 25°C
 ```
+
+### Attributes & Methods
+
+The properties listed above are in fact (since version 1.6) extended functions (i.e. callable objects), with additional attributes and methods that can be useful in various contexts; below are some examples using `vapor_pressure`.
+```python
+from aquasol.water import vapor_pressure
+
+vapor_pressure()         # Saturation vapor pressure (Pa) at 25°C
+
+vapor_pressure.sources         # all available sources
+vapor_pressure.default_source  # source used by default if None is provided
+vapor_pressure.get_source()          # return default source
+vapor_pressure.get_source('Wexler')  # checks if source exists and returns it
+
+vapor_pressure.quantity  # 'saturated vapor pressure'
+vapor_pressure.unit      # '[Pa]'
+```
+
+It is also possible to access specific formulas (i.e. corresponding to a specific source), and get their properties.
+
+```python
+formula = vapor_pressure.get_formula('Wexler')  # default formula if no arg.
+
+formula.temperature_range  # validity range of expression
+formula.temperature_unit   # 'C' or 'K', varies across formulas
+
+formula.calculate(T=300)  # Return value at given T (input in temperature_unit)
+```
+
 
 Inverse and other property functions
 ------------------------------------
@@ -137,7 +171,7 @@ SOLUTIONS
 Properties
 ----------
 
-The *solutions* module has the following functions, which return the respective properties of interest as a function of solute concentration and temperature (when available) of an aqueous solution.
+The *solutions* module has the following functions(**), which return the respective properties of interest as a function of solute concentration and temperature (when available) of an aqueous solution.
 - `density()` for absolute (kg / m^3) or relative density,
 - `activity_coefficient()` for molal activity coefficient of solute (dimensionless)
 - `water_activity()` for solvent activity (dimensionless, range 0-1),
@@ -170,6 +204,8 @@ gets the default source for the particular solute (defined in submodules).
 - Property in SI units, returned as numpy array if input is not a scalar.
 
 Note: similarly to temperature, the values in `**concentration` can be an array, list or tuple, however if it's the case, temperature needs to be a scalar.
+
+(**) As of aquasol 1.6, the functions are now callable objects, which act as functions but have additional attributes, see *Attributes and Methods* below.*
 
 
 ### Examples
@@ -211,6 +247,42 @@ refractive_index('KCl', T=22, r=[0.1, 0.175])  # various mass ratios of KCl
 electrical_conductivity('KCl', m=0.1)  # molality of 0.1 mol/L of KCl, 25°C
 electrical_conductivity('KCl', T=50, x=[0.01, 0.02])  # various mole fractions
 electrical_conductivity('KCl', T=[0, 25, 50], m=1)  # various mole fractions
+```
+
+### Attributes & Methods
+
+Similarly to the `water` module, the properties listed above are in fact (since version 1.6) extended functions (i.e. callable objects), with additional attributes and methods that can be useful in various contexts; below are some examples using `density`.
+```python
+from aquasol.solutions import density
+
+density(m=6)  # Density of an NaCl solution at 6 mol/kg
+
+density.quantity  # 'density'
+density.unit  #   # '[kg/m^3]'
+
+density.solutes  # All solutes available for the given property
+density.default_solute  # solute used by default if None provided
+density.get_solute()  # get solute or defautl solute, see docstring
+
+density.sources  # Dictionary of sources available for each solute
+density.default_sources  # Dict of sources used by default if None provided
+density.get_source()   # get source or default source, see docstring
+```
+
+It is also possible to access specific formulas (i.e. corresponding to a specific source and solute), and get their properties.
+
+```python
+formula = density.get_formula(solute='KCl', source='Krumgalz')
+
+formula.temperature_range  # validity range of expression in temperature
+formula.temperature_unit   # 'C' or 'K', varies across formulas
+formula.solute             # solute of interest
+
+formula.concentration_range  # validity range of expression in concentration
+formula.concentration_unit   # 'm' 'w', 'x', etc., varies across formulas
+
+formula.with_water_reference  # if true, returns a tuple with value at c=0 and value at c
+formula.calculate(m=2.2)      # Value at given concentration (in concentration_unit)
 ```
 
 

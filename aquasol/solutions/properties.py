@@ -56,7 +56,7 @@ class Density(SolutionProperty_Full):
     """
     Formulas = DensityFormulas
     quantity = 'density'
-    unit = ['kg/m^3']
+    unit = '[kg/m^3]'
 
 
 # # ================================== ACTIVITY ================================
