@@ -92,6 +92,7 @@ It is also possible to access specific formulas (i.e. corresponding to a specifi
 ```python
 formula = vapor_pressure.get_formula('Wexler')  # default formula if no arg.
 
+formula.source  # 'Wexler'
 formula.temperature_range  # validity range of expression
 formula.temperature_unit   # 'C' or 'K', varies across formulas
 
@@ -274,6 +275,7 @@ It is also possible to access specific formulas (i.e. corresponding to a specifi
 ```python
 formula = density.get_formula(solute='KCl', source='Krumgalz')
 
+formula.source  # 'Krumgalz'
 formula.temperature_range  # validity range of expression in temperature
 formula.temperature_unit   # 'C' or 'K', varies across formulas
 formula.solute             # solute of interest

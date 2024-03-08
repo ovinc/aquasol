@@ -41,6 +41,7 @@ class WaterActivity_KCl_Tang(WaterActivity_KCl_Tang_Base):
     """Already defined in tang module"""
     pass
 
+
 # ========================== WRAP-UP OF FORMULAS =============================
 
 WaterActivityFormulas_KCl = (

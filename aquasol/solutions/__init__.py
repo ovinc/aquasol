@@ -12,5 +12,6 @@ from .extend import osmotic_pressure, osmotic_coefficient
 
 from ..formulas.solutions.ionic import ion_quantities, ionic_strength
 from .convert import convert
-from .properties import water_activity, density, surface_tension
+from .properties import activity_coefficient, water_activity
+from .properties import density, surface_tension
 

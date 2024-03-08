@@ -1,6 +1,6 @@
-"""Activity of solutions according to Steiger
+"""Steiger formulas for the activity coefficients of solutions.
 
-NOTE: Almost identical in structure to activity_coefficient.steiger
+NOTE: Almost identical in structure to water_activity.steiger
 
 Sources
 -------
@@ -33,7 +33,7 @@ steiger_coeffs = {
 }
 
 
-class WaterActivity_Steiger_Base(SolutionFormula):
+class ActivityCoefficient_Steiger_Base(SolutionFormula):
 
     temperature_unit = 'K'
     concentration_unit = 'm'
@@ -43,23 +43,23 @@ class WaterActivity_Steiger_Base(SolutionFormula):
     def calculate(self, m, T):
         coeffs = steiger_coeffs[self.source].coeffs(solute=self.solute, T=T)
         pitz = PitzerActivity(T=T, solute=self.solute, **coeffs)
-        return pitz.water_activity(m=m)
+        return pitz.activity_coefficient(m=m)
 
 
 # =============================== Steiger 2005 ===============================
 
 
-class WaterActivity_Steiger2005_Base(WaterActivity_Steiger_Base):
+class ActivityCoefficient_Steiger2005_Base(ActivityCoefficient_Steiger_Base):
     source ='Steiger 2005'
     temperature_range = (298.15, 298.15)
 
 
-class WaterActivity_NaCl_Steiger2005_Base(WaterActivity_Steiger2005_Base):
+class ActivityCoefficient_NaCl_Steiger2005_Base(ActivityCoefficient_Steiger2005_Base):
     solute = 'NaCl'
     concentration_range = (0, 13.5)
 
 
-class WaterActivity_Na2SO4_Steiger2005_Base(WaterActivity_Steiger2005_Base):
+class ActivityCoefficient_Na2SO4_Steiger2005_Base(ActivityCoefficient_Steiger2005_Base):
     solute = 'Na2SO4'
     concentration_range = (0, 12)
 
@@ -67,21 +67,21 @@ class WaterActivity_Na2SO4_Steiger2005_Base(WaterActivity_Steiger2005_Base):
 # =============================== Steiger 2008 ===============================
 
 
-class WaterActivity_Steiger2008_Base(WaterActivity_Steiger_Base):
+class ActivityCoefficient_Steiger2008_Base(ActivityCoefficient_Steiger_Base):
     source ='Steiger 2008'
     temperature_range = (278.15, 323.15)
 
 
-class WaterActivity_NaCl_Steiger2008_Base(WaterActivity_Steiger2008_Base):
+class ActivityCoefficient_NaCl_Steiger2008_Base(ActivityCoefficient_Steiger2008_Base):
     solute = 'NaCl'
     concentration_range = (0, 15)
 
 
-class WaterActivity_Na2SO4_Steiger2008_Base(WaterActivity_Steiger2008_Base):
+class ActivityCoefficient_Na2SO4_Steiger2008_Base(ActivityCoefficient_Steiger2008_Base):
     solute = 'Na2SO4'
     concentration_range = (0, 12)
 
 
-class WaterActivity_KCl_Steiger2008_Base(WaterActivity_Steiger2008_Base):
+class ActivityCoefficient_KCl_Steiger2008_Base(ActivityCoefficient_Steiger2008_Base):
     solute = 'KCl'
     concentration_range = (0, 15)  # NOT SURE (see above)

@@ -34,54 +34,23 @@ Geochimica et Cosmochimica Acta 72, 4291-4306 (2008).
 For now, I have assumed validity similar to NaCl (in temperatures)
 """
 
-from ..steiger import coeffs_steiger_2005, coeffs_steiger_2008
-from ..pitzer import PitzerActivity
-
-# General Info about the formulas
-
-default_source = 'Steiger 2008'
-
-concentration_types = {
-    'Steiger 2005': 'm',
-    'Steiger 2008': 'm',
-}
-
-concentration_ranges = {
-    'Steiger 2005': (0, 12),
-    'Steiger 2008': (0, 12),     # guessed identical to 2005
-}
-
-temperature_units = {
-    'Steiger 2005': 'K',
-    'Steiger 2008': 'K',
-}
-
-temperature_ranges = {
-    'Steiger 2005': (298.15, 298.15),
-    'Steiger 2008': (278.15, 323.15),
-}
+from .steiger import ActivityCoefficient_Na2SO4_Steiger2005_Base
+from .steiger import ActivityCoefficient_Na2SO4_Steiger2008_Base
 
 
-# ============================== FORMULAS ====================================
+class ActivityCoefficient_Na2SO4_Steiger2005(ActivityCoefficient_Na2SO4_Steiger2005_Base):
+    """Already defined in steiger module"""
+    pass
 
 
-def activity_coefficient_Steiger_2005(m, T):
-    coeffs = coeffs_steiger_2005.coeffs(solute='Na2SO4', T=T)
-    pitz = PitzerActivity(T=T, solute='Na2SO4', **coeffs)
-    return pitz.activity_coefficient(m=m)
-
-
-def activity_coefficient_Steiger_2008(m, T):
-    coeffs = coeffs_steiger_2008.coeffs(solute='Na2SO4', T=T)
-    pitz = PitzerActivity(T=T, solute='Na2SO4', **coeffs)
-    return pitz.activity_coefficient(m=m)
+class ActivityCoefficient_Na2SO4_Steiger2008(ActivityCoefficient_Na2SO4_Steiger2008_Base):
+    """Already defined in steiger module"""
+    default = True
 
 
 # ========================== WRAP-UP OF FORMULAS =============================
 
-formulas = {
-    'Steiger 2005': activity_coefficient_Steiger_2005,
-    'Steiger 2008': activity_coefficient_Steiger_2008,
-}
-
-sources = [source for source in formulas]
+ActivityCoefficientFormulas_Na2SO4 = (
+    ActivityCoefficient_Na2SO4_Steiger2005,
+    ActivityCoefficient_Na2SO4_Steiger2008,
+)

@@ -37,74 +37,29 @@ J. Chem. Eng. Data 52, 1784-1790 (2007).)
   Valid at 25°C and for solutions of molality up to ~13 mol/kg
 """
 
-import numpy as np
-
-from .misc import ln_gamma_extended_debye_huckel
-from ..steiger import coeffs_steiger_2005, coeffs_steiger_2008
-from ..pitzer import PitzerActivity
-
-# General Info about the formulas
-
-default_source = 'Steiger 2008'
-
-concentration_types = {
-    'Steiger 2005': 'm',
-    'Steiger 2008': 'm',
-    'Tang': 'm',
-}
-
-concentration_ranges = {
-    'Steiger 2005': (0, 13.5),
-    'Steiger 2008': (0, 15),
-    'Tang': (0, 14),
-}
-
-temperature_units = {
-    'Steiger 2005': 'K',
-    'Steiger 2008': 'K',
-    'Tang': 'C',
-}
-
-temperature_ranges = {
-    'Steiger 2005': (298.15, 298.15),
-    'Steiger 2008': (273.15, 323.15),
-    'Tang': (25, 25),
-}
+from .steiger import ActivityCoefficient_NaCl_Steiger2005_Base
+from .steiger import ActivityCoefficient_NaCl_Steiger2008_Base
+from .tang import ActivityCoefficient_NaCl_Tang_Base
 
 
-# ============================== FORMULAS ====================================
+class ActivityCoefficient_NaCl_Tang(ActivityCoefficient_NaCl_Tang_Base):
+    """Already defined in tang module"""
+    pass
+
+class ActivityCoefficient_NaCl_Steiger2005(ActivityCoefficient_NaCl_Steiger2005_Base):
+    """Already defined in steiger module"""
+    pass
 
 
-def activity_coefficient_Steiger_2005(m, T):
-    coeffs = coeffs_steiger_2005.coeffs(solute='NaCl', T=T)
-    pitz = PitzerActivity(T=T, solute='NaCl', **coeffs)
-    return pitz.activity_coefficient(m=m)
+class ActivityCoefficient_NaCl_Steiger2008(ActivityCoefficient_NaCl_Steiger2008_Base):
+    """Already defined in steiger module"""
+    default = True
 
 
-def activity_coefficient_Steiger_2008(m, T):
-    coeffs = coeffs_steiger_2008.coeffs(solute='NaCl', T=T)
-    pitz = PitzerActivity(T=T, solute='NaCl', **coeffs)
-    return pitz.activity_coefficient(m=m)
+# ============================= WRAP-UP FORMULAS =============================
 
-
-def activity_coefficient_Tang(m, T):
-    A = 0.5108
-    B = 1.37
-    C = 4.803e-3
-    D = -2.736e-4
-    E = 0
-    beta = 2.796e-2
-    coeffs_tang_NaCl = A, B, C, D, E, beta
-    log_g = ln_gamma_extended_debye_huckel(m, T, solute='NaCl', coeffs=coeffs_tang_NaCl)
-    return 10**(log_g)
-
-
-# ========================== WRAP-UP OF FORMULAS =============================
-
-formulas = {
-    'Steiger 2005': activity_coefficient_Steiger_2005,
-    'Steiger 2008': activity_coefficient_Steiger_2008,
-    'Tang': activity_coefficient_Tang,
-}
-
-sources = [source for source in formulas]
+ActivityCoefficientFormulas_NaCl = (
+    ActivityCoefficient_NaCl_Tang,
+    ActivityCoefficient_NaCl_Steiger2005,
+    ActivityCoefficient_NaCl_Steiger2008,
+)

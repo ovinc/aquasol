@@ -9,9 +9,11 @@ from .convert import convert
 
 from ..properties import SolutionProperty
 
+from ..formulas.solutions.activity_coefficient import ActivityCoefficientFormulas
 from ..formulas.solutions.water_activity import WaterActivityFormulas
 from ..formulas.solutions.density import DensityFormulas
 from ..formulas.solutions.surface_tension import SurfaceTensionFormulas
+
 
 class SolutionProperty_Full(SolutionProperty):
     """Solution property with full converter (inclusing molarity).
@@ -22,6 +24,19 @@ class SolutionProperty_Full(SolutionProperty):
     """
     # See SolutionProperty for explanation of necessity of staticmethod()
     converter = staticmethod(convert)
+
+
+class ActivityCoefficient(SolutionProperty_Full):
+    """Molal activity coefficient (Ɣ) of solute in a solution (a_s = Ɣ * m / mref)
+
+    Examples
+    --------
+    - activity_coefficient(m=6.1)  # at saturation for NaCl
+    - activity_coefficient(solute='KCl', T=50, m=[2, 4, 6])  # concentration as iterable
+    """
+    Formulas = ActivityCoefficientFormulas
+    quantity = 'activity coefficient'
+    unit = '[-]'
 
 
 class WaterActivity(SolutionProperty_Full):
@@ -82,6 +97,7 @@ class SurfaceTension(SolutionProperty_Full):
     unit = '[N/m]'
 
 
+activity_coefficient = ActivityCoefficient()
 water_activity = WaterActivity()
 density = Density()
 surface_tension = SurfaceTension()

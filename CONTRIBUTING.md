@@ -1,3 +1,8 @@
+INSTRUCTIONS BELOW ONLY APPLY TO AQUASOL < 1.6
+==============================================
+--> *TO UPDATE*
+(Things are easier >= 1.6 with classes)
+
 # How to add data
 
 **Note:** For a quick and clean additions, new properties must depend on the exact same parameters as existing properties (i.e. temperature for *water*, temperature and concentration for *solutions*). Adding more complex dependencies is possible but requires modification of the factored code in *general.py* or specific, non-factored definitions in *properties.py* (not recommended).

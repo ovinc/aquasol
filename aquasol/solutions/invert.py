@@ -1,6 +1,7 @@
 """Inverse functions for solutions"""
 
 # Non standard imports
+import numpy as np
 from pynverse import inversefunc
 
 # local imports
@@ -55,14 +56,24 @@ def aw_to_conc(a, out='w', solute='NaCl', T=25, unit='C', source=None):
             **{cunit: conc},
         )
 
+    # If activity goes through a min, replace cmax to avoid problems w/ invert
+    cc = np.linspace(cmin, cmax, num=200)
+    aa = activity(cc)
+    imin = np.argmin(aa)
+    cmax = cc[imin] # will be equal to cmax if function only decreases
+    amin = aa[imin]
+
     concentration = inversefunc(activity, domain=[cmin, cmax])
 
     try:
         conc = concentration(a)
     except ValueError:
         src = water_activity.get_source(solute=solute, source=source)
-        print(f"{a} outside of range of validity of {src}'s' formula")
-        return None
+        msg = (
+            f"Water activity a={a} lower than minimum achievable with {src}'s'"
+            f"formula (a={amin:.3f})"
+        )
+        raise ValueError(msg)
     else:
         c = convert(
             value=conc,

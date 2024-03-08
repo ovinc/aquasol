@@ -50,7 +50,7 @@ from .tang import WaterActivity_NaCl_Tang_Base
 
 class WaterActivity_NaCl_Clegg(WaterActivity_NaCl_Clegg_Base):
     """Already defined in clegg module"""
-    default = True
+    pass
 
 
 class WaterActivity_NaCl_Tang(WaterActivity_NaCl_Tang_Base):
@@ -64,7 +64,7 @@ class WaterActivity_NaCl_Steiger2005(WaterActivity_NaCl_Steiger2005_Base):
 
 class WaterActivity_NaCl_Steiger2008(WaterActivity_NaCl_Steiger2008_Base):
     """Already defined in steiger module"""
-    pass
+    default = True
 
 
 # ============================= WRAP-UP FORMULAS =============================

@@ -1,13 +1,13 @@
 """Tests for the aquasol.solutions module."""
 
 
-# from aquasol.solutions import activity_coefficient
+from aquasol.solutions import activity_coefficient
 from aquasol.solutions import water_activity
 
-from aquasol.solutions import osmotic_coefficient, osmotic_pressure
 from aquasol.solutions import density
 from aquasol.solutions import surface_tension
 # from aquasol.solutions import refractive_index, electrical_conductivity
+from aquasol.solutions import osmotic_coefficient, osmotic_pressure
 from aquasol.solutions import aw_to_conc
 from aquasol.solutions import convert
 
@@ -29,17 +29,36 @@ def test_constants():
 # # =========================== Test activity coeff ============================
 
 
-# def test_gamma_1():
-#     gamma = activity_coefficient(m=6.1)  # around saturation for NaCl
-#     assert round(gamma, 2) == 1.0
+def test_gamma_1():
+    gamma = activity_coefficient(m=[6.1, 10])  # around saturation for NaCl
+    assert round(gamma[0], 2) == 1.0
 
-# def test_gamma_2():
-#     gamma = activity_coefficient(m=0)  # at infinite dilution
-#     assert round(gamma, 2) == 1.0
+def test_gamma_2():
+    gamma = activity_coefficient(m=0)  # at infinite dilution
+    assert round(gamma, 2) == 1.0
 
-# def test_gamma_3():
-#     gamma = activity_coefficient(m=0, solute='KCl')  # at infinite dilution
-#     assert round(gamma, 2) == 1.0
+def test_gamma_3():
+    gamma = activity_coefficient(m=0, solute='KCl')  # at infinite dilution
+    assert round(gamma, 2) == 1.0
+
+def test_gamma_KCl():
+    kwargs = {'c': 2000, 'solute': 'KCl'}
+    g1 = activity_coefficient(source='Tang', **kwargs)
+    g2 = activity_coefficient(source='Steiger 2008', **kwargs)
+    assert (round(g1, 2) == round(g2, 2) == 0.57)
+
+def test_gamma_Na2SO4():
+    kwargs = {'m': 10, 'solute': 'Na2SO4'}
+    g1 = activity_coefficient(source='Steiger 2005', **kwargs)
+    g2 = activity_coefficient(source='Steiger 2008', **kwargs)
+    assert (round(g1, 2) == round(g2, 2) == 0.16)
+
+def test_gamma_NaCl():
+    kwargs = {'x': 0.15, 'solute': 'NaCl'}
+    g1 = activity_coefficient(source='Steiger 2005', **kwargs)
+    g2 = activity_coefficient(source='Steiger 2008', **kwargs)
+    g3 = activity_coefficient(source='Tang', **kwargs)
+    assert (round(g1, 1) == round(g2, 1) == round(g3, 1) == 1.5)
 
 
 # =========================== Test water activity ============================
@@ -101,7 +120,7 @@ def test_aw_11():
 
 def test_osmotic_pressure():
     pi = osmotic_pressure(m=4)
-    assert round(pi / 1e6, 1) == 22.2
+    assert round(pi / 1e6, 1) == 22.1
 
 
 def test_osmotic_coefficient():
@@ -274,11 +293,11 @@ def test_convert_9():
 
 
 def test_ac_1():                # in terms of weight fracton
-    w = aw_to_conc(0.39)
-    assert round(w, 2) == 0.49
+    w = aw_to_conc(0.45)
+    assert round(w, 2) == 0.46
 
 def test_ac_2():                # in terms of molality
-    m = aw_to_conc([0.39, 0.75], out='m')
+    m = aw_to_conc([0.5, 0.75], out='m')
     assert round(m[1], 1) == 6.2
 
 def test_ac_3():                # in terms of mass ratio, for LiCl, at 50°C
