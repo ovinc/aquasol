@@ -4,11 +4,11 @@
 from pynverse import inversefunc
 
 # local imports
-from .general import get_infos
+# (DO NOT import from . because it will create circular import problems)
 from .properties import water_activity
-from ..formulas.solutions.convert import convert
+from .convert import convert
 
-from ..format import format_source, format_output_type
+from ..format import format_output_type
 
 
 # ======================== ACTIVITY TO CONCENTRATION =========================
@@ -42,26 +42,34 @@ def aw_to_conc(a, out='w', solute='NaCl', T=25, unit='C', source=None):
     Note: part of the structure of this function resembles that of
     general.calculation(), so see if there is a way to avoid redundancy
     """
-
-    # Find infos on souces for the property of interest
-    infos = get_infos('water activity', solute)
-
-    # Check range of allowed concentrations in source ------------------------
-    src = format_source(source, infos['sources'], infos['default source'])
-    cunit = infos['conc units'][src]
-    cmin, cmax = infos['conc ranges'][src]
+    formula = water_activity.get_formula(solute=solute, source=source)
+    cunit = formula.concentration_unit
+    cmin, cmax = formula.concentration_range
 
     def activity(conc):
-        cinfo = {cunit: conc}
-        return water_activity(solute, T, unit, src, **cinfo)
+        return water_activity(
+            solute=solute,
+            T=T,
+            unit=unit,
+            source=source,
+            **{cunit: conc},
+        )
 
     concentration = inversefunc(activity, domain=[cmin, cmax])
 
     try:
         conc = concentration(a)
     except ValueError:
+        src = water_activity.get_source(solute=solute, source=source)
         print(f"{a} outside of range of validity of {src}'s' formula")
         return None
     else:
-        c = convert(conc, cunit, out, solute, T, unit)
+        c = convert(
+            value=conc,
+            unit1=cunit,
+            unit2=out,
+            solute=solute,
+            T=T,
+            unit=unit,
+        )
         return format_output_type(c)

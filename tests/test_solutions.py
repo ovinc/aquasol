@@ -4,11 +4,11 @@
 # from aquasol.solutions import activity_coefficient
 from aquasol.solutions import water_activity
 
-# from aquasol.solutions import osmotic_coefficient, osmotic_pressure
+from aquasol.solutions import osmotic_coefficient, osmotic_pressure
 from aquasol.solutions import density
 from aquasol.solutions import surface_tension
 # from aquasol.solutions import refractive_index, electrical_conductivity
-# from aquasol.solutions import aw_to_conc
+from aquasol.solutions import aw_to_conc
 from aquasol.solutions import convert
 
 from aquasol.constants import molar_mass
@@ -96,17 +96,17 @@ def test_aw_11():
     assert round(aw, 2) == 0.94
 
 
-# # Test extensions of water activity ------------------------------------------
+# Test extensions of water activity ------------------------------------------
 
 
-# def test_osmotic_pressure():
-#     pi = osmotic_pressure(m=4)
-#     assert round(pi / 1e6, 1) == 22.2
+def test_osmotic_pressure():
+    pi = osmotic_pressure(m=4)
+    assert round(pi / 1e6, 1) == 22.2
 
 
-# def test_osmotic_coefficient():
-#     phi = osmotic_coefficient(w=0.27)
-#     assert round(phi, 1) == 1.3
+def test_osmotic_coefficient():
+    phi = osmotic_coefficient(w=0.27)
+    assert round(phi, 1) == 1.3
 
 
 # =============================== Test density ===============================
@@ -273,14 +273,14 @@ def test_convert_9():
 # # ========================= Test Inverse Functions ===========================
 
 
-# def test_ac_1():                # in terms of weight fracton
-#     w = aw_to_conc(0.39)
-#     assert round(w, 2) == 0.49
+def test_ac_1():                # in terms of weight fracton
+    w = aw_to_conc(0.39)
+    assert round(w, 2) == 0.49
 
-# def test_ac_2():                # in terms of molality
-#     m = aw_to_conc([0.39, 0.75], out='m')
-#     assert round(m[1], 1) == 6.2
+def test_ac_2():                # in terms of molality
+    m = aw_to_conc([0.39, 0.75], out='m')
+    assert round(m[1], 1) == 6.2
 
-# def test_ac_3():                # in terms of mass ratio, for LiCl, at 50°C
-#     r = aw_to_conc(0.11, 'r', 'LiCl', T=50)
-#     assert round(r, 2) == 0.92
+def test_ac_3():                # in terms of mass ratio, for LiCl, at 50°C
+    r = aw_to_conc(0.11, 'r', 'LiCl', T=50)
+    assert round(r, 2) == 0.92

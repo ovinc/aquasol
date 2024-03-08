@@ -82,6 +82,10 @@ class SurfaceTension(SolutionProperty_Full):
     unit = '[N/m]'
 
 
+water_activity = WaterActivity()
+density = Density()
+surface_tension = SurfaceTension()
+
 
 # # ================================== ACTIVITY ================================
 
