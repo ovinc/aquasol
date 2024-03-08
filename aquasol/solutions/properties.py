@@ -13,7 +13,8 @@ from ..formulas.solutions.activity_coefficient import ActivityCoefficientFormula
 from ..formulas.solutions.water_activity import WaterActivityFormulas
 from ..formulas.solutions.density import DensityFormulas
 from ..formulas.solutions.surface_tension import SurfaceTensionFormulas
-
+from ..formulas.solutions.electrical_conductivity import ElectricalConductivityFormulas
+from ..formulas.solutions.refractive_index import RefractiveIndexFormulas
 
 class SolutionProperty_Full(SolutionProperty):
     """Solution property with full converter (inclusing molarity).
@@ -97,10 +98,48 @@ class SurfaceTension(SolutionProperty_Full):
     unit = '[N/m]'
 
 
+class ElectricalConductivity(SolutionProperty_Full):
+    """Electrical conductivity of an aqueous solution at a given concentration.
+
+    Examples
+    --------
+    - electrical_conductivity(c=1000)  # 1 molar NaCl conductivity
+    - electrical_conductivity(solute='KCl', m=0.1)
+    - electrical_conductivity(solute='KCl, m=2.2, T=50)  # at 50°C
+
+    (Note: arrays are accepted for concentration and temperature)
+    """
+    Formulas = ElectricalConductivityFormulas
+    quantity = 'electrical conductivity'
+    unit = '[S/m]'
+
+
+class RefractiveIndex(SolutionProperty_Full):
+    """Refractive index of a solution as a function of concentration and temperature
+
+    Examples
+    --------
+    - refractive_index(x=0.1) returns n for a mole fraction of 0.1 of NaCl
+    - refractive_index(w=0.2) returns n for a mass fraction of 0.2 of NaCl
+    - refractive_index(c=5000) returns n for a molality of 5 mol/L of NaCl
+    - refractive_index(m=3) returns n for a molality of 6 mol/kg of NaCl
+    - refractive_index('KCl', m=3): same for KCl
+    - refractive_index('KCl', m=3, T=30): same for KCl at 30°C
+    - refractive_index('KCl', 293, 'K', m=3): same for KCl at 293K.
+    """
+    Formulas = RefractiveIndexFormulas
+    quantity = 'refractive index'
+    unit = '[-]'
+
+
+# ================ GENERATE USABLE OBJECTS FROM ABOVE CLASSES ================
+
 activity_coefficient = ActivityCoefficient()
 water_activity = WaterActivity()
 density = Density()
 surface_tension = SurfaceTension()
+electrical_conductivity = ElectricalConductivity()
+refractive_index = RefractiveIndex()
 
 
 # # ================================== ACTIVITY ================================

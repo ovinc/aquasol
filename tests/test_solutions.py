@@ -6,7 +6,8 @@ from aquasol.solutions import water_activity
 
 from aquasol.solutions import density
 from aquasol.solutions import surface_tension
-# from aquasol.solutions import refractive_index, electrical_conductivity
+from aquasol.solutions import refractive_index
+from aquasol.solutions import electrical_conductivity
 from aquasol.solutions import osmotic_coefficient, osmotic_pressure
 from aquasol.solutions import aw_to_conc
 from aquasol.solutions import convert
@@ -196,57 +197,57 @@ def test_sigma_5():
     assert round(s[4], 3) == 0.082
 
 
-# # ========================== Test refractive index ===========================
+# ========================== Test refractive index ===========================
 
 
-# def test_n_1():
-#     n = refractive_index(x=0.08)  # mole fraction of 0.08 of NaCl
-#     assert round(n, 2) == 1.37
+def test_n_1():
+    n = refractive_index(x=0.08)  # mole fraction of 0.08 of NaCl
+    assert round(n, 2) == 1.37
 
-# def test_n_2():
-#     n = refractive_index(w=0.2)  # mass fraction of 0.2 of NaCl
-#     assert round(n, 2) == 1.37
+def test_n_2():
+    n = refractive_index(w=0.2)  # mass fraction of 0.2 of NaCl
+    assert round(n, 2) == 1.37
 
-# def test_n_3():
-#     n = refractive_index(c=4321)  # molality of 4.321 mol/L of NaCl
-#     assert round(n, 2) == 1.37
+def test_n_3():
+    n = refractive_index(c=4321)  # molality of 4.321 mol/L of NaCl
+    assert round(n, 2) == 1.37
 
-# def test_n_4():
-#     n = refractive_index(m=3)   # molality of 6 mol/kg of NaCl
-#     assert round(n, 2) == 1.36
+def test_n_4():
+    n = refractive_index(m=3)   # molality of 6 mol/kg of NaCl
+    assert round(n, 2) == 1.36
 
-# def test_n_5():
-#     n = refractive_index('KCl', m=1.6)  # KCl, 1.6 mol/kg, 25°C
-#     assert round(n, 2) == 1.35
+def test_n_5():
+    n = refractive_index('KCl', m=1.6)  # KCl, 1.6 mol/kg, 25°C
+    assert round(n, 2) == 1.35
 
-# def test_n_6():
-#     n = refractive_index('KCl', m=1.9, T=40)  # KCl at 40°C, 1.9 mol/kg
-#     assert round(n, 2) == 1.35
+def test_n_6():
+    n = refractive_index('KCl', m=1.9, T=40)  # KCl at 40°C, 1.9 mol/kg
+    assert round(n, 2) == 1.35
 
-# def test_n_7():
-#     n = refractive_index('KCl', 312, 'K', m=1.9)  # KCl at 312K, 1.9 mol/kg
-#     assert round(n, 2) == 1.35
+def test_n_7():
+    n = refractive_index('KCl', 312, 'K', m=1.9)  # KCl at 312K, 1.9 mol/kg
+    assert round(n, 2) == 1.35
 
-# def test_n_8():
-#     n = refractive_index('KCl', T=22, w=[0.05, 0.1, 0.15])  # iterable conc.
-#     assert round(n[2], 2) == 1.36
-
-
-# # ====================== Test electrical conductivity ========================
+def test_n_8():
+    n = refractive_index('KCl', T=22, w=[0.05, 0.1, 0.15])  # iterable conc.
+    assert round(n[2], 2) == 1.36
 
 
-# def test_conduc_concs():
-#     s1, s2, s3 = electrical_conductivity('KCl', m=[0.01, 0.1, 1])  # At 25°C
-#     assert round(s1, 4) == 0.1408
-#     assert round(s2, 3) == 1.282
-#     assert round(s3, 2) == 10.86
+# ====================== Test electrical conductivity ========================
 
 
-# def test_conduc_temps():
-#     s_0, s_25, s_50 = electrical_conductivity('KCl', m=1, T=[0, 25, 50])
-#     assert round(s_0, 2) == 6.35
-#     assert round(s_25, 2) == 10.86
-#     assert round(s_50, 2) == 15.75
+def test_conduc_concs():
+    s1, s2, s3 = electrical_conductivity('KCl', m=[0.01, 0.1, 1])  # At 25°C
+    assert round(s1, 4) == 0.1408
+    assert round(s2, 3) == 1.282
+    assert round(s3, 2) == 10.86
+
+
+def test_conduc_temps():
+    s_0, s_25, s_50 = electrical_conductivity('KCl', m=1, T=[0, 25, 50])
+    assert round(s_0, 2) == 6.35
+    assert round(s_25, 2) == 10.86
+    assert round(s_50, 2) == 15.75
 
 
 

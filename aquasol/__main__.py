@@ -12,17 +12,17 @@ from .water import density_atm, density_sat
 from .water import diffusivity_in_air, viscosity_atm
 
 from .solutions import water_activity
-# from .solutions import activity_coefficient
-# from .solutions import surface_tension as sigma_s, density
+from .solutions import activity_coefficient
+from .solutions import surface_tension as sigma_s
 from .solutions import density
-# from .solutions import refractive_index, electrical_conductivity
+from .solutions import refractive_index, electrical_conductivity
 from .solutions import convert
 
 
 npts = 200
 
 temperature_unit = 'C'
-concentration_unit = 'w'
+concentration_unit = 'm'
 
 linestyles = [
     '-',
@@ -99,8 +99,12 @@ plot_all_sources(viscosity_atm, ax_w_visc)
 
 
 solution_properties = (
+    activity_coefficient,
     water_activity,
-    density
+    density,
+    sigma_s,
+    refractive_index,
+    electrical_conductivity,
 )
 
 
@@ -131,7 +135,9 @@ def plot_all_sources_conc(ppty, solute, T=25, unit='C', ctype='m', ax=None, norm
         else:
             c_max = cmax * 0.999
 
-        cc_raw = np.linspace(cmin, c_max, npts)
+        c_min = cmin if cmin == 0 else 1.001 * cmin
+
+        cc_raw = np.linspace(c_min, c_max, npts)
 
         cc = format_concentration(
             concentration={cunit: cc_raw},

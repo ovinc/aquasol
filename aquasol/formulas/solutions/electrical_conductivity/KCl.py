@@ -20,17 +20,7 @@ Sources
 
 import numpy as np
 
-# ----------------------------------------------------------------------------
-
-default_source = 'McKee'
-
-concentration_types = {'McKee': 'm'}
-
-concentration_ranges = {'McKee': (0, 5)}
-
-temperature_units = {'McKee': 'C'}
-
-temperature_ranges = {'McKee': (0, 55)}
+from ...general import SolutionFormula
 
 
 # ============================== FORMULAS ====================================
@@ -187,9 +177,27 @@ def conductivity_KCl_McKee(m, T=25):
     return 0.1 * m * mc25(m) * mc_mc25(m, T)
 
 
+
+class ElectricalConductivity_KCl_McKee(SolutionFormula):
+
+    source ='McKee'
+    solute = 'KCl'
+
+    temperature_unit = 'C'
+    temperature_range = (0, 55)
+
+    concentration_unit = 'm'
+    concentration_range = (0, 5)
+
+    default = True
+    with_water_reference = False
+
+    def calculate(self, m, T):
+        return conductivity_KCl_McKee(m=m, T=T)
+
+
 # ========================== WRAP-UP OF FORMULAS =============================
 
-
-formulas = {'McKee': conductivity_KCl_McKee}
-
-sources = [source for source in formulas]
+ElectricalConductivity_KCl_Formulas = (
+    ElectricalConductivity_KCl_McKee,
+)

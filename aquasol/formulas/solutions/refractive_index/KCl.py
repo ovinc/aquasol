@@ -18,46 +18,19 @@ Protein Solution", Tan & Huang, J. Chem. Eng. Data  (2015).
 Valid from w = 0 to w = 0.15 and for temperatures between 20 and 45°C
 """
 
-import numpy as np
-
-# General Info about the formulas
-
-default_source = 'Tan'
-
-concentration_types = {'Tan': 'w',
-                       }
-
-concentration_ranges = {'Tan': (0, 0.15),
-                        }
-
-temperature_units = {'Tan': 'C',
-                     }
-
-temperature_ranges = {'Tan': (20, 45),
-                      }
+from .tan import RefractiveIndex_KCl_Tan_Base
 
 
-# ============================== FORMULAS ====================================
+class RefractiveIndex_KCl_Tan(RefractiveIndex_KCl_Tan_Base):
+    """Already defined in tan module"""
+    default = True
 
 
-def n_tan(w, T):
+# ============================= WRAP-UP FORMULAS =============================
 
-    c = w * 100  # avoid using *= to not mutate objects in place
-
-    n0 = 1.3352
-    a1, a2 = 1.6167e-3, -4e-7
-    b1, b2 = -1.1356e-4, -5.7e-9
-
-    return n0 + a1 * c + a2 * c**2 + b1 * T + b2 * T**2
-
-
-# ========================== WRAP-UP OF FORMULAS =============================
-
-
-formulas = {'Tan': n_tan,
-            }
-
-sources = [source for source in formulas]
+RefractiveIndexFormulas_KCl = (
+    RefractiveIndex_KCl_Tan,
+)
 
 # ====================== DIRECT RUN (test of formulas) =======================
 
@@ -77,7 +50,7 @@ if __name__ == '__main__':
     fig, ax = plt.subplots()
 
     for T, ns in nexps.items():
-        
+
         nn = refractive_index(w=ww, T=T, solute='KCl')
 
         ax.plot(ws, ns, '.')

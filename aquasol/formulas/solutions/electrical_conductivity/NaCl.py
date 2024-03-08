@@ -18,43 +18,44 @@ Sources
 """
 
 import numpy as np
-from aquasol.water import density_atm
 
-# ----------------------------------------------------------------------------
-
-default_source = 'Sinmyo'
-
-concentration_types = {'Sinmyo': 'w'}
-
-concentration_ranges = {'Sinmyo': (0, 0.06)}  # approx. 1M NaCl
-
-temperature_units = {'Sinmyo': 'K'}
-
-temperature_ranges = {'Sinmyo': (100 + 273.15, 600 + 273.15)}
+from ...general import SolutionFormula
+from ...water.density_atm import DensityAtm_Patek
 
 
-# ============================== FORMULAS ====================================
+class ElectricalConductivity_NaCl_Sinmyo(SolutionFormula):
+    """FOR NOW THIS DOES NOT WORK WELL"""
 
+    source ='Sinmyo'
+    solute = 'NaCl'
 
-# FOR NOW THIS DOES NOT WORK WELL
+    temperature_unit = 'K'
+    temperature_range = (100 + 273.15, 600 + 273.15)
 
+    concentration_unit = 'w'
+    concentration_range = (0, 0.06)
 
-def lambda_0(T, rho):
-    """Molar conductivity of NaCl in water at infinite dilution (S cm^2 mol^-1).
+    default = True
+    with_water_reference = False
 
-    Used in Sinmyo's equation for NaCl solution conductivity.
-    """
-    return 1573 - 1212 * rho + 537_062 / T - 208_122_721 / T**2
+    @staticmethod
+    def lambda_0(T, rho):
+        """Molar conductivity of NaCl in water at infinite dilution (S cm^2 mol^-1).
 
-def conductivity_NaCl_Sinmyo(w, T):
-    """w weight fraction, T temperature in K"""
-    rho = density_atm(T=T, unit='K') / 1000  # pure water density in g / cm^3
-    log_sigma = -1.7060 - 93.78 / T + 0.8075 * np.log(w) + 3.0781 * np.log(rho) + np.log(lambda_0(T, rho))
-    return np.exp(log_sigma)
+        Used in Sinmyo's equation for NaCl solution conductivity.
+        """
+        return 1573 - 1212 * rho + 537_062 / T - 208_122_721 / T**2
+
+    def calculate(self, w, T):
+        """w weight fraction, T temperature in K"""
+        density_atm = DensityAtm_Patek()
+        rho = density_atm.calculate(T=T) / 1000  # pure water density in g / cm^3
+        log_sigma = -1.7060 - 93.78 / T + 0.8075 * np.log(w) + 3.0781 * np.log(rho) + np.log(self.lambda_0(T, rho))
+        return np.exp(log_sigma)
+
 
 # ========================== WRAP-UP OF FORMULAS =============================
 
-
-formulas = {'Sinmyo': conductivity_NaCl_Sinmyo}
-
-sources = [source for source in formulas]
+ElectricalConductivity_NaCl_Formulas = (
+    # ElectricalConductivity_NaCl_Sinmyo,  NOT INCLUDED BECAUSE FAILS FOR NOW
+)
