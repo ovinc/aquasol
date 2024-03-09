@@ -32,7 +32,7 @@ International Journal of Thermal Sciences 43, 367-382 (2004).
 import numpy as np
 
 from ...general import SolutionFormula
-from ...water.density_atm import DensityAtm_Patek
+from ...water.density_atm import DensityAtm_IAPWS
 
 from .misc import relative_rho_conde
 from .al_ghafri import Density_CaCl2_AlGhafri_Base
@@ -57,7 +57,7 @@ class Density_CaCl2_Conde(SolutionFormula):
 
     def calculate(self, z, T):
         d = relative_rho_conde(z, self.coeffs)
-        density_atm = DensityAtm_Patek()
+        density_atm = DensityAtm_IAPWS()
         rho0 = density_atm.calculate(T=T)
         return rho0, rho0 * d
 

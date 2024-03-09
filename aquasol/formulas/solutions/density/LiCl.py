@@ -24,7 +24,7 @@ Sources
 """
 
 from ...general import SolutionFormula
-from ...water.density_atm import DensityAtm_Patek
+from ...water.density_atm import DensityAtm_IAPWS
 
 from .misc import relative_rho_conde
 from .krumgalz import Density_LiCl_Krumgalz_Base
@@ -47,7 +47,7 @@ class Density_LiCl_Conde(SolutionFormula):
 
     def calculate(self, z, T):
         d = relative_rho_conde(z, self.coeffs)
-        density_atm = DensityAtm_Patek()
+        density_atm = DensityAtm_IAPWS()
         rho0 = density_atm.calculate(T=T)
         return rho0, rho0 * d
 

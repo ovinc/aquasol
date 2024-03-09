@@ -3,18 +3,19 @@
 Sources
 -------
 
-- Huber, M. L. et al.
-  New International Formulation for the Viscosity of H2O.
-  Journal of Physical and Chemical Reference Data 38, 101-125 (2009).
-
+--- 'IAPWS':
+    Huber, M. L. et al.
+    "New International Formulation for the Viscosity of H2O."
+    Journal of Physical and Chemical Reference Data 38, 101-125
+    (2009)
 """
 
 from ..general import WaterFormula
 
 
-class ViscosityAtm_Huber(WaterFormula):
+class ViscosityAtm_IAPWS(WaterFormula):
 
-    source ='Huber'
+    source ='IAPWS'
     temperature_unit = 'K'
     temperature_range = (253.15, 383.15)
     default = True
@@ -53,5 +54,5 @@ class ViscosityAtm_Huber(WaterFormula):
 # ========================== WRAP-UP OF FORMULAS =============================
 
 ViscosityAtm_Formulas = (
-    ViscosityAtm_Huber,
+    ViscosityAtm_IAPWS,
 )

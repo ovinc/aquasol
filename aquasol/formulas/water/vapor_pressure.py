@@ -3,29 +3,30 @@
 Sources
 -------
 
---- 'Wagner':
-    W. Wagner, A. Pruß',
-    The IAPWS Formulation 1995 for the Thermodynamic Properties of Ordinary
-    Water Substance for General and Scientific Use,
-    Journal of Physical and Chemical Reference Data',
-    2002,
-    *Note*: Psat expression from IAPWS; temperature validity range seems
-            to be 0 - 1000°C. Equation is (2.5) page 398.
+--- 'IAPWS':
+    W. Wagner, A. Pruß
+    "The IAPWS Formulation 1995 for the Thermodynamic Properties of Ordinary
+    Water Substance for General and Scientific Use"
+    Journal of Physical and Chemical Reference Data
+    (2002)
+*Note*: Psat expression from IAPWS; temperature validity range seems
+        to be 0 - 1000°C. Equation is (2.5) page 398.
 
 --- 'Wexler':
-    A. Wexler, L. Greenspan,
-    Vapor Pressure Equation for Water in the Range 0 to 100°C,
-    Journal of Research of the National Bureau of Standards - A. Physics and Chemistry,
-    1971,
-    *Note*: Psat expression, valid from 0 to 100°C.
-            We use Equation (17) and not the simplified Equations 18a-c.'
+    A. Wexler, L. Greenspan
+    "Vapor Pressure Equation for Water in the Range 0 to 100°C"
+    Journal of Research of the National Bureau of Standards - A. Physics and
+    Chemistry
+    (1971)
+*Note*: Psat expression, valid from 0 to 100°C.
+        We use Equation (17) and not the simplified Equations 18a-c.'
 
---- 'Bridgeman',
-    O. C. Bridgeman, E. W. Aldrich,
-    Vapor Pressure Tables for Water,
-    Journal of Heat Transfer,
-    1964,
-    *Note*: Psat expression, valid from 0 to 374.15°C.
+--- 'Bridgeman':
+    O. C. Bridgeman, E. W. Aldrich
+    "Vapor Pressure Tables for Water"
+    Journal of Heat Transfer
+    (1964)
+*Note*: Psat expression, valid from 0 to 374.15°C.
 
 Notes
 -----
@@ -40,10 +41,10 @@ from ...constants import Tc, Patm, Pc, Tc
 from ..general import WaterFormula
 
 
-class VaporPressure_Wagner(WaterFormula):
+class VaporPressure_IAPWS(WaterFormula):
     """Water saturation pressure according to Wagner & Pruß, T in K."""
 
-    source ='Wagner'
+    source ='IAPWS'
     temperature_unit = 'K'
     temperature_range = (273.15, Tc)  # in fact 273.16 (triple point)
     default = True
@@ -134,7 +135,7 @@ class VaporPressure_Bridgeman(WaterFormula):
 # ========================== WRAP-UP OF FORMULAS =============================
 
 VaporPressure_Formulas = (
+    VaporPressure_IAPWS,
     VaporPressure_Wexler,
     VaporPressure_Bridgeman,
-    VaporPressure_Wagner
 )

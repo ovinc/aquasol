@@ -20,7 +20,7 @@ Sources
 import numpy as np
 
 from ...general import SolutionFormula
-from ...water.density_atm import DensityAtm_Patek
+from ...water.density_atm import DensityAtm_IAPWS
 
 
 class ElectricalConductivity_NaCl_Sinmyo(SolutionFormula):
@@ -48,7 +48,7 @@ class ElectricalConductivity_NaCl_Sinmyo(SolutionFormula):
 
     def calculate(self, w, T):
         """w weight fraction, T temperature in K"""
-        density_atm = DensityAtm_Patek()
+        density_atm = DensityAtm_IAPWS()
         rho = density_atm.calculate(T=T) / 1000  # pure water density in g / cm^3
         log_sigma = -1.7060 - 93.78 / T + 0.8075 * np.log(w) + 3.0781 * np.log(rho) + np.log(self.lambda_0(T, rho))
         return np.exp(log_sigma)

@@ -1,26 +1,32 @@
 """Function to calculate the desnity of ambient water as a function of
-temperature using IAPWS recommended equations.
+temperature using IAPWS recommended equations or others.
 
 Sources
 -------
 
-- Patek et al., "Reference Correlations for Thermophysical Properties of
-Liquid Water at 0.1 MPa", J. Phys. Chem. Ref. Data, 2009.
-(recommended by IAPWS)
+--- 'IAPWS'
+    Patek et al.
+    "Reference Correlations for Thermophysical Properties of Liquid Water
+    at 0.1 MPa"
+    J. Phys. Chem. Ref. Data
+    (2009)
 
-- Kell : "Density, Thermal Expansivity, and Compressibility of Liquid
-Water from 0° to 150°C: Correlations and Tables for Atmospheric Pressure
-and Saturation Reviewed and Expressed on 1968 Temperature Scale",
-J. Chem. Eng. Data. 1975
+--- 'Kell'
+    Kell
+    "Density, Thermal Expansivity, and Compressibility of Liquid Water from
+    0° to 150°C: Correlations and Tables for Atmospheric Pressure and
+    Saturation Reviewed and Expressed on 1968 Temperature Scale"
+    J. Chem. Eng. Data.
+    (1975)
 """
 
 from ...constants import Patm
 from ..general import WaterFormula
 
 
-class DensityAtm_Patek(WaterFormula):
+class DensityAtm_IAPWS(WaterFormula):
 
-    source ='Patek'
+    source ='IAPWS'
     temperature_unit = 'K'
     temperature_range = (253.15, 383.15)
     default = True
@@ -125,6 +131,6 @@ class DensityAtm_Kell(WaterFormula):
 # ========================== WRAP-UP OF FORMULAS =============================
 
 DensityAtm_Formulas = (
-    DensityAtm_Patek,
+    DensityAtm_IAPWS,
     DensityAtm_Kell,
 )

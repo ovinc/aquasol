@@ -4,7 +4,7 @@
 import numpy as np
 
 from ....constants import dissociation_numbers, Mw, molar_mass, charge_numbers
-from ...water.density_atm import DensityAtm_Patek
+from ...water.density_atm import DensityAtm_IAPWS
 from ..ionic import ionic_strength
 from ..pitzer import PitzerVolumetric
 
@@ -94,7 +94,7 @@ def density_25(w, solute='NaCl'):
     # current unavailability of the convert() function [broken temporarily]
     m = w / ((1 - w) * M)
 
-    density_atm = DensityAtm_Patek()
+    density_atm = DensityAtm_IAPWS()
     rho_w = density_atm.calculate(T=298.15)
     V_phi = apparent_molar_volume_25(w, solute=solute)
 
@@ -214,7 +214,7 @@ def density_Na2SO4_low_conc(m, T):
 
     Ms = molar_mass('Na2SO4')
 
-    density_atm = DensityAtm_Patek()
+    density_atm = DensityAtm_IAPWS()
     rho_w = density_atm.calculate(T)
 
     return rho_w * (1 + m * Ms) / (1 + m * rho_w * v_phi)

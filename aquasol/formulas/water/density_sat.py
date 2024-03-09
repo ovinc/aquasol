@@ -1,25 +1,31 @@
-"""Function to calculate the desnity of saturated water as a function of
-temperature using IAPWS recommended equation.
+"""Function to calculate the density of saturated water as a function of
+temperature using IAPWS recommended equation and others.
 
 Sources
 -------
 
-- Wagner and Pruß : "The IAPWS Formulation 1995 for the Thermodynamic
-Properties of Ordinary Water Substance for General and Scientific Use" (2002).
-Equation 2.6 page 399
+--- 'IAPWS'
+    Wagner and Pruß
+    "The IAPWS Formulation 1995 for the Thermodynamic Properties of Ordinary
+    Water Substance for General and Scientific Use"
+    (2002)
+    Equation 2.6 page 399
 
-- Conde, M. R., Properties of aqueous solutions of lithium and calcium
-chlorides: formulations for use in air conditioning equipment design.
-International Journal of Thermal Sciences 43, 367-382 (2004).
+--- 'Conde'
+    Conde, M. R.
+    Properties of aqueous solutions of lithium and calcium chlorides:
+    formulations for use in air conditioning equipment design.
+    International Journal of Thermal Sciences 43, 367-382
+    (2004)
 """
 
 from ...constants import Tc, rhoc
 from ..general import WaterFormula
 
 
-class DensitySat_Wagner(WaterFormula):
+class DensitySat_IAPWS(WaterFormula):
 
-    source ='Wagner'
+    source ='IAPWS'
     temperature_unit = 'K'
     temperature_range = (273.15, Tc)
     default = True
@@ -104,6 +110,6 @@ class DensitySat_Conde(WaterFormula):
 # ========================== WRAP-UP OF FORMULAS =============================
 
 DensitySat_Formulas = (
-    DensitySat_Wagner,
+    DensitySat_IAPWS,
     DensitySat_Conde
 )

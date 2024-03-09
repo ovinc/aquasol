@@ -43,7 +43,7 @@ value = property(T=25, unit='C', source=None)
 
 - See further below for `dewpoint()`, `kelvin_pressure()`, `kelvin_humidity()`, `kelvin_radius()` and `molar_volume()`, which work a bit differently.
 
-(*) As of aquasol 1.6, the functions are now callable objects, which act as functions but have additional attributes, see *Attributes and Methods* below.
+(*) As of aquasol 1.5, the main functions (excluding `dewpoint` etc.) are now callable objects, which act as functions but have additional attributes, see *Attributes and Methods* below.
 
 
 ### Examples
@@ -72,7 +72,7 @@ viscosity_atm()         # Viscosity of liquid water at 25°C
 
 ### Attributes & Methods
 
-The properties listed above are in fact (since version 1.6) extended functions (i.e. callable objects), with additional attributes and methods that can be useful in various contexts; below are some examples using `vapor_pressure`.
+The properties listed above are in fact (since version 1.5) extended functions (i.e. callable objects), with additional attributes and methods that can be useful in various contexts; below are some examples using `vapor_pressure`.
 ```python
 from aquasol.water import vapor_pressure
 
@@ -145,25 +145,25 @@ Sources
 
 Below are the sources for water vapor pressure (1, 2, 3), density (1, 4, 5), surface tension (6), diffusivity in air (7, 8), viscosity (9)
 
-(1) Wagner, W. & Pruß, A. *The IAPWS Formulation 1995 for the Thermodynamic Properties of Ordinary Water Substance for General and Scientific Use.* Journal of Physical and Chemical Reference Data 31, 387–535 (2002).
+(1) Wagner, W. & Pruß, A. *The IAPWS Formulation 1995 for the Thermodynamic Properties of Ordinary Water Substance for General and Scientific Use.* Journal of Physical and Chemical Reference Data 31, 387–535 (2002). [*]
 
 (2) Wexler, A. & Greenspan, L. *Vapor Pressure Equation for Water in the Range 0 to 100°C.* Journal of Research of the National Bureau of Standards - A. Physics and Chemistry 75A, 213–245 (1971).
 
 (3) Bridgeman, O. C. & Aldrich, E. W. *Vapor Pressure Tables for Water.* Journal of Heat Transfer 86, 279–286 (1964).
 
-(4) Pátek, J., Hrubý, J., Klomfar, J., Součková, M. & Harvey, A. H. *Reference Correlations for Thermophysical Properties of Liquid Water at 0.1MPa.* Journal of Physical and Chemical Reference Data 38, 21–29 (2009).*
+(4) Pátek, J., Hrubý, J., Klomfar, J., Součková, M. & Harvey, A. H. *Reference Correlations for Thermophysical Properties of Liquid Water at 0.1MPa.* Journal of Physical and Chemical Reference Data 38, 21–29 (2009). [*]
 
 (5) Kell, G. S. Density, thermal expansivity, and compressibility of liquid water from 0.deg. to 150.deg.. *Correlations and tables for atmospheric pressure and saturation reviewed and expressed on 1968 temperature scale.* J. Chem. Eng. Data 20, 97–105 (1975).
 
-(6) IAPWS *Revised Release on Surface Tension of Ordinary Water Substance.* Moscow, Russia, June 2014.
+(6) IAPWS *Revised Release on Surface Tension of Ordinary Water Substance.* Moscow, Russia, June 2014. [*]
 
 (7) Massman, W. J. *A review of the molecular diffusivities of H2O, CO2, CH4, CO, O3, SO2, NH3, N2O, NO, and NO2 in air, O2 and N2 near STP.* Atmospheric Environment 32, 1111-1127 (1998).
 
 (8) Marrero, T. R. and Mason E. A., *Gaseous diffusion coeffcients.* Journal of Physics and Chemistry Reference Data 1, 3-118 (1972)
 
-(9) Huber, M. L. et al. *New International Formulation for the Viscosity of H2O.* Journal of Physical and Chemical Reference Data 38, 101-125 (2009).*
+(9) Huber, M. L. et al. *New International Formulation for the Viscosity of H2O.* Journal of Physical and Chemical Reference Data 38, 101-125 (2009). [*]
 
-(*) recommended by IAPWS.
+[*] Recommended by IAPWS.
 
 
 SOLUTIONS
@@ -206,7 +206,7 @@ gets the default source for the particular solute (defined in submodules).
 
 Note: similarly to temperature, the values in `**concentration` can be an array, list or tuple, however if it's the case, temperature needs to be a scalar.
 
-(**) As of aquasol 1.6, the functions are now callable objects, which act as functions but have additional attributes, see *Attributes and Methods* below.*
+(**) As of aquasol 1.5, the main property functions (excluding `osmotic pressure` etc.) are now callable objects, which act as functions but have additional attributes, see *Attributes and Methods* below.*
 
 
 ### Examples
@@ -252,7 +252,7 @@ electrical_conductivity('KCl', T=[0, 25, 50], m=1)  # various mole fractions
 
 ### Attributes & Methods
 
-Similarly to the `water` module, the properties listed above are in fact (since version 1.6) extended functions (i.e. callable objects), with additional attributes and methods that can be useful in various contexts; below are some examples using `density`.
+Similarly to the `water` module, the properties listed above are in fact (since version 1.5) extended functions (i.e. callable objects), with additional attributes and methods that can be useful in various contexts; below are some examples using `density`.
 ```python
 from aquasol.solutions import density
 
@@ -455,4 +455,4 @@ Marine Poizat (2019), Léo Martin (2020), Hugo Bellezza (2023)
 
 License
 -------
---- TO BE DETERMINED ---
+CeCILL v.2.1 (equivalent to GNU GPL, see https://cecill.info/)

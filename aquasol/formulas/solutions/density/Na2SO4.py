@@ -35,7 +35,7 @@ Sources
 import numpy as np
 
 from ...general import SolutionFormula
-from ...water.density_atm import DensityAtm_Patek
+from ...water.density_atm import DensityAtm_IAPWS
 
 from .clegg import density_Na2SO4_high_conc
 from .krumgalz import Density_Na2SO4_Krumgalz_Base
@@ -81,7 +81,7 @@ class Density_Na2SO4_Clegg(SolutionFormula):
     with_water_reference = True
 
     def calculate(self, w, T):
-        density_atm = DensityAtm_Patek()
+        density_atm = DensityAtm_IAPWS()
         rho_w = density_atm.calculate(T=T)
         # NOTE : there is also a formula that I coded for low concentration
         # but there seems to be a problem somewhere because it's not continuous

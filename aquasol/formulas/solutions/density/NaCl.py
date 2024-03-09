@@ -48,7 +48,7 @@ Sources
 import numpy as np
 
 from ...general import SolutionFormula
-from ...water.density_atm import DensityAtm_Patek
+from ...water.density_atm import DensityAtm_IAPWS
 
 from .clegg import density_NaCl
 from .al_ghafri import Density_NaCl_AlGhafri_Base
@@ -154,7 +154,7 @@ class Density_NaCl_Clegg(SolutionFormula):
     with_water_reference = True
 
     def calculate(self, w, T):
-        density_atm = DensityAtm_Patek()  # because used internally by Clegg
+        density_atm = DensityAtm_IAPWS()  # because used internally by Clegg
         rho_0 = density_atm.calculate(T)
         rho = density_NaCl(w, T)
         return rho_0, rho

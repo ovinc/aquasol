@@ -3,7 +3,7 @@
 import numpy as np
 
 from ....constants import molar_mass
-from ...water.density_atm import DensityAtm_Patek
+from ...water.density_atm import DensityAtm_IAPWS
 
 from ..pitzer import PitzerVolumetric
 
@@ -90,7 +90,7 @@ def density_pitzer(m, solute='NaCl', source='Krumgalz'):
     """Density at 25°C in kg / m^3"""
     v_phi = apparent_molar_volume_pitzer(m, solute=solute, source=source)
     Ms = molar_mass(solute)
-    density_atm = DensityAtm_Patek()
+    density_atm = DensityAtm_IAPWS()
     rho_w = density_atm.calculate(T=298.15)
     return rho_w, rho_w * (1 + m * Ms) / (1 + m * rho_w * v_phi)
 

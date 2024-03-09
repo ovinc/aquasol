@@ -2,8 +2,9 @@
 
 Sources
 -------
-IAPWS, Release on Surface Tension of Ordinary Water Substance,
-IAPWS, London, September 1994.
+--- 'IAPWS':
+    Release on Surface Tension of Ordinary Water Substance, IAPWS, London
+    (September 1994)
 """
 
 from ...constants import Tc

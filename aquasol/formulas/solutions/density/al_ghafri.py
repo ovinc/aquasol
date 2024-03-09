@@ -13,8 +13,8 @@ import numpy as np
 
 from ....constants import Tc, Patm
 from ...general import SolutionFormula
-from ...water.vapor_pressure import VaporPressure_Wagner
-from ...water.density_sat import DensitySat_Wagner
+from ...water.vapor_pressure import VaporPressure_IAPWS
+from ...water.density_sat import DensitySat_IAPWS
 
 
 def rho_alghafri(m, T, P, a, b, c):
@@ -53,10 +53,10 @@ def rho_alghafri(m, T, P, a, b, c):
     MgCl2(aq), CaCl2(aq), KI(aq), NaCl(aq), KCl(aq), AlCl3(aq),
     and (0.864 NaCl + 0.136 KCl)(aq), respectively.
     """
-    vapor_pressure = VaporPressure_Wagner()
+    vapor_pressure = VaporPressure_IAPWS()
     p_ref = vapor_pressure.calculate(T)
 
-    density_sat = DensitySat_Wagner()
+    density_sat = DensitySat_IAPWS()
     rho_sat = density_sat.calculate(T)
 
     # reference density (solution density at reference pressure p_ref(T), which
