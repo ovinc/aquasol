@@ -10,7 +10,7 @@ from ..format import format_temperature, format_output_type, format_concentratio
 from ..water import molar_volume
 
 from .convert import convert
-from .properties import water_activity
+from .properties import water_activity, solubility
 
 
 def osmotic_pressure(solute='NaCl', T=25, unit='C', source=None, **concentration):
@@ -41,14 +41,8 @@ def osmotic_pressure(solute='NaCl', T=25, unit='C', source=None, **concentration
 
     Solutes and Sources
     -------------------
-    (* = default)
-    CaCl2: 'Conde'(*)
-    KCl: 'Steiger 2008'(*), 'Tang'
-    LiCl: 'Conde'(*)
-    Na2SO4: 'Clegg', 'Steiger 2005', 'Steiger 2008'(*)
-    NaCl (default solute): 'Clegg' (*), 'Tang', 'Steiger 2005', 'Steiger 2008'
-
-    See details about the sources in the submodules and Readme file.
+    See water_activity.solutes, water_activity.sources and
+    water_activity.default_sources and README.md
 
     Examples
     --------
@@ -101,14 +95,8 @@ def osmotic_coefficient(solute='NaCl', T=25, unit='C', source=None, **concentrat
 
     Solutes and Sources
     -------------------
-    (* = default)
-    CaCl2: 'Conde'(*)
-    KCl: 'Steiger 2008'(*), 'Tang'
-    LiCl: 'Conde'(*)
-    Na2SO4: 'Clegg', 'Steiger 2005', 'Steiger 2008'(*)
-    NaCl (default solute): 'Clegg' (*), 'Tang', 'Steiger 2005', 'Steiger 2008'
-
-    See details about the sources in the submodules and Readme file.
+    See water_activity.solutes, water_activity.sources and
+    water_activity.default_sources and README.md
 
     Examples
     --------
@@ -137,3 +125,55 @@ def osmotic_coefficient(solute='NaCl', T=25, unit='C', source=None, **concentrat
     nu_mx = sum(dissociation_numbers[solute])
     phi = - np.log(a_w) / (Mw * nu_mx * m)
     return format_output_type(phi)
+
+
+def aw_saturated(
+    solute='NaCl',
+    T=25,
+    unit='C',
+    activity_source=None,
+    solubility_source=None,
+):
+    """Water activity of the saturated solution.
+
+    Basically the same as solubility, but expressed as a_w
+
+    Parameters
+    ----------
+    - solute (str): solute name, default 'NaCl'
+    - T (float): temperature (default 25)
+    - unit (str, default 'C'): 'C' for Celsius, 'K' for Kelvin
+
+    - source (str, default None) : Source for the used equation, if None then
+    gets the default source for the particular solute (defined in submodules).
+    See summary of available sources below.
+
+    Output
+    ------
+    - Water activity, dimensionless
+
+    Solutes and Sources
+    -------------------
+    See solubility.solutes, solubility.sources and
+    solubility.default_sources and README.md
+
+    Examples
+    --------
+    - aw_saturated()               # of NaCl at 25°C
+    - aw_saturated('LiCl', T=15)   # of LiCl at 15°C
+    """
+    m_sat = solubility(
+        solute=solute,
+        T=T,
+        unit=unit,
+        source=solubility_source,
+        out='m',
+    )
+    a_w = water_activity(
+        solute=solute,
+        T=T,
+        unit=unit,
+        source=activity_source,
+        m=m_sat,
+    )
+    return a_w

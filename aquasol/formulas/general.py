@@ -93,6 +93,7 @@ class SaturatedSolutionFormula(Formula):
     # To be defined in subclasses --------------------------------------------
 
     solute = None
+    crystal_hydration = None   # e.g. 2 for NaCl-2H2O
 
     temperature_unit = None
     temperature_range = None

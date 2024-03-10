@@ -179,16 +179,23 @@ The *solutions* module has the following functions(**), which return the respect
 - `surface_tension()` for absolute surface tension (N/m) or relative (normalized by that of pure water at the same temperature).
 - `refractive_index()` (dimensionless)
 - `electrical_conductivity()` (S/m)
+- `solubility()` (output unit can be chosen)
 
 The following functions, which are based on some of the ones above, are also defined:
 - `osmotic_coefficient()`: $\phi$, calculated using `water_activity()`
 - `osmotic_pressure()`: $\Pi$, calculated using `water_activity()`
+- `aw_saturated()`: water activity of saturated solutions (i.e., equilibrium humidity)
 
 The structure of the call for any property (replace *property* below by one of the function names above) is
 ```python
 data = property(solute='NaCl', T=25, unit='C', source=None, **concentration)
 ```
 with an additional parameter `relative=False` where applicable.
+
+Note that the solubility has a slightly different call:
+```python
+data = solubility(solute='NaCl', T=25, unit='C', source=None, out='m')
+```
 
 *Inputs*
 
@@ -197,8 +204,9 @@ with an additional parameter `relative=False` where applicable.
 - `unit` (str, default 'C'): 'C' for Celsius, 'K' for Kelvin
 - `source` (str, default None) : Source for the used equation, if None then
 gets the default source for the particular solute (defined in submodules).
-- `**concentration`: kwargs with any unit that is allowed by `convert` (see below), e.g. `property(m=5.3)` for molality.
+- `**concentration`: kwargs with any unit that is allowed by `convert()` (see below), e.g. `property(m=5.3)` for molality.
 - when applicable: `relative` (bool, default False): True for relative density
+- for solubility, the `out` parameter is the unit in which the solubility will be expressed (see `convert()` below)
 
 *Output*
 
@@ -213,7 +221,9 @@ Note: similarly to temperature, the values in `**concentration` can be an array,
 
 ```python
 from aquasol.solutions import water_activity, activity_coefficient
+from aquasol.solutions import osmotic_pressure, osmotic_coefficient
 from aquasol.solutions import density, surface_tension, refractive_index
+from aquasol.solutions import solubility, aw_saturated
 
 # Water activity (dimensionless, 'aw') ---------------------------------------
 water_activity(x=0.1)            # NaCl solution, mole fraction 10%, 25°C
@@ -248,6 +258,15 @@ refractive_index('KCl', T=22, r=[0.1, 0.175])  # various mass ratios of KCl
 electrical_conductivity('KCl', m=0.1)  # molality of 0.1 mol/L of KCl, 25°C
 electrical_conductivity('KCl', T=50, x=[0.01, 0.02])  # various mole fractions
 electrical_conductivity('KCl', T=[0, 25, 50], m=1)  # various mole fractions
+
+# Solubility -----------------------------------------------------------------
+solubility()       # NaCl at 25°C
+solubility(T=10)   # NaCl at 10°C
+solubility('KCl')  # KCl, 25°C
+
+# And other ways to express solubility:
+aw_saturated()        # Activity of saturated NaCl solution = 0.753
+aw_saturated('LiCl')  # etc.
 ```
 
 ### Attributes & Methods
@@ -339,15 +358,15 @@ Available Solutes
 
 Sorted by alphabetical order. When available, the sources are written in parentheses. For convert, an X means available.
 
-| Solute | Water Activity | Activity Coeff. (Ɣ) |      Density      | Surface Tension | Refractive Index | Electrical Conductivity | Convert (**) |
-|:------:|:--------------:|:-------------------:|:-----------------:|:---------------:|:----------------:|:-----------------------:|:------------:|
-| CaCl2  |      (1)       |                     |     (1*,3,14)     |      (1,6*)     |       (7)        |                         |       X      |
-| KCl    |     (8,13*)    |       (8,13*)       |      (3,14)       |       (6)       |       (7)        |           (9)           |       X      |
-| KI     |                |                     |      (3,14)       |                 |                  |                         |       X      |
-| LiCl   |      (1)       |                     |      (1,14)       |       (1)       |                  |                         |       X      |
-| MgCl2  |                |                     |      (3,14)       |       (6)       |                  |                         |       X      |
-| Na2SO4 |   (2,12,13*)   |       (12,13*)      |    (10,,1415)     |       (6)       |                  |                         |       X      |
-| NaCl   |  (2*,8,12,13)  |      (8,12,13*)     | (3,4,5*,11,14,15) |      (6*,11)    |       (7)        |                         |       X      |
+| Solute | Water Activity | Activity Coeff. (Ɣ) |      Density      | Surface Tension | Refractive Index | Electrical Conductivity | Solubility | Convert (**) |
+|:------:|:--------------:|:-------------------:|:-----------------:|:---------------:|:----------------:|:-----------------------:|:----------:|:------------:|
+| CaCl2  |      (1)       |                     |     (1*,3,14)     |      (1,6*)     |       (7)        |                         |            |       X      |
+| KCl    |     (8,13*)    |       (8,13*)       |      (3,14)       |       (6)       |       (7)        |           (9)           |    (13)    |       X      |
+| KI     |                |                     |      (3,14)       |                 |                  |                         |            |       X      |
+| LiCl   |      (1)       |                     |      (1,14)       |       (1)       |                  |                         |    (17)    |       X      |
+| MgCl2  |                |                     |      (3,14)       |       (6)       |                  |                         |            |       X      |
+| Na2SO4 |   (2,12,13*)   |       (12,13*)      |    (10,,1415)     |       (6)       |                  |                         |    (13)    |       X      |
+| NaCl   |  (2*,8,12,13)  |      (8,12,13*)     | (3,4,5*,11,14,15) |      (6*,11)    |       (7)        |                         | (13,16,17) |       X      |
 
 (*) Default source indicated when several formulas are available.
 
@@ -386,6 +405,11 @@ International Journal of Thermal Sciences 43, 367–382 (2004).
 (14) Krumgalz, B. S., Pogorelsky, R. & Pitzer, K. S., *Volumetric Properties of Single Aqueous Electrolytes from Zero to Saturation Concentration at 298.15 K Represented by Pitzer's Ion-Interaction Equations.* Journal of Physical and Chemical Reference Data 25, 663-689 (1996).
 
 (15) Clegg, S. L. & Wexler, A. S., *Densities and Apparent Molar Volumes of Atmospherically Important Electrolyte Solutions. 1. The Solutes H2SO4, HNO3, HCl, Na2SO4, NaNO3, NaCl, (NH4)2SO4, NH4NO3, and NH4Cl from 0 to 50°C, Including Extrapolations to Very Low Temperature and to the Pure Liquid State, and NaHSO4, NaOH, and NH3 at 25°C.* J. Phys. Chem. A 115, 3393-3460 (2011).
+
+(16) Sparrow, B. S., *Empirical equations for the thermodynamic properties of aqueous sodium chloride*. Desalination 159, 161-170 (2003).
+
+(17) CRC Handbook of Chemistry and Physics: A Ready-Reference Book of Chemical and Physical Data. (CRC Press, Boca Raton London New York, 2023).
+
 
 Constants
 =========

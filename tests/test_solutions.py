@@ -7,7 +7,7 @@ from aquasol.solutions import density
 from aquasol.solutions import surface_tension
 from aquasol.solutions import refractive_index
 from aquasol.solutions import electrical_conductivity
-from aquasol.solutions import solubility
+from aquasol.solutions import solubility, aw_saturated
 
 from aquasol.solutions import osmotic_coefficient, osmotic_pressure
 from aquasol.solutions import aw_to_conc
@@ -290,6 +290,20 @@ def test_solubility_7():
     assert round(m_sat_25, 3) == 19.935
 
 # NOTE: Na2SO4 and KCl behave in a weird way so I have not put tests for now
+
+# ------------------------- Extensions of solubility -------------------------
+
+def test_aw_saturated_1():
+    aw_sat = aw_saturated()  # NaCl at 25°C
+    assert round(100 * aw_sat, 1) == 75.3
+
+def test_aw_saturated_2():
+    aw_sat = aw_saturated('KCl')  # KCl at 25°C
+    assert round(100 * aw_sat) == 84
+
+def test_aw_saturated_2():
+    aw_sat = aw_saturated('LiCl')  # KCl at 25°C
+    assert round(100 * aw_sat) == 11
 
 # =============================== Test convert ===============================
 

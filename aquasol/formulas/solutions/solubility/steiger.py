@@ -47,8 +47,15 @@ class Solubility_Steiger_Base(SaturatedSolutionFormula):
         return np.exp(ln_K)
 
     def _solute_activity(self, m, T):
-        coeffs = coeffs_steiger2008_activity.coeffs(solute=self.solute, T=T)
-        pitz = PitzerActivity(T=T, solute=self.solute, **coeffs)
+
+        # In case of hydrated phases:
+        try:
+            solute, _ = self.solute.split('-')
+        except ValueError:  # not hydrated (solute=crystal)
+            solute = self.solute
+
+        coeffs = coeffs_steiger2008_activity.coeffs(solute=solute, T=T)
+        pitz = PitzerActivity(T=T, solute=solute, **coeffs)
         gamma = pitz.activity_coefficient(m=m)
         return (gamma * m)**2
 
@@ -76,6 +83,11 @@ class Solubility_NaCl_Steiger2008_Base(Solubility_Steiger_Base):
 
 class Solubility_Na2SO4_Steiger2008_Base(Solubility_Steiger_Base):
     solute = 'Na2SO4'
+
+
+class Solubility_Na2SO4_10H2O_Steiger2008_Base(Solubility_Steiger_Base):
+    solute = 'Na2SO4'
+    crystal_hydration = 2
 
 
 class Solubility_KCl_Steiger2008_Base(Solubility_Steiger_Base):
