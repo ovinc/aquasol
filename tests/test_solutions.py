@@ -3,11 +3,12 @@
 
 from aquasol.solutions import activity_coefficient
 from aquasol.solutions import water_activity
-
 from aquasol.solutions import density
 from aquasol.solutions import surface_tension
 from aquasol.solutions import refractive_index
 from aquasol.solutions import electrical_conductivity
+from aquasol.solutions import solubility
+
 from aquasol.solutions import osmotic_coefficient, osmotic_pressure
 from aquasol.solutions import aw_to_conc
 from aquasol.solutions import convert
@@ -250,6 +251,45 @@ def test_conduc_temps():
     assert round(s_50, 2) == 15.75
 
 
+
+# ============================= Test solubility ==============================
+
+
+def test_solubility_1():
+    m_sat = solubility()          # solubility (molality) of NaCl at 25°C
+    assert round(m_sat, 2) == 6.15
+
+def test_solubility_2():
+    m_sat = solubility(T=40)      # solubility (molality) of NaCl at 40°C
+    assert round(m_sat, 2) == 6.22
+
+def test_solubility_3():
+    x_sat = solubility(out='x')   # solubility (mole fraction) of NaCl at 25°C
+    assert round(x_sat, 2) == 0.1
+
+def test_solubility_4():
+    c_sat = solubility(out='c')   # solubility (molarity) of NaCl at 25°C
+    assert round(c_sat / 1000, 1) == 5.4
+
+def test_solubility_6():
+    m_sat = solubility(T=[10, 15, 20, 25, 30])     # iterables accepted too
+    assert round(m_sat[-2], 2) == 6.15
+
+def test_solubility_7():
+    """Must correspond to CRC Handbook values"""
+    m_sat_10 = solubility(T=5, source='CRC Handbook')
+    m_sat_40 = solubility(T=40, source='CRC Handbook')
+    assert round(m_sat_10, 2) == 6.11
+    assert round(m_sat_40, 2) == 6.22
+
+def test_solubility_7():
+    """Must correspond to CRC Handbook values"""
+    m_sat_10 = solubility('LiCl', T=10)
+    m_sat_25 = solubility('LiCl', T=25)
+    assert round(m_sat_10, 3) == 19.296
+    assert round(m_sat_25, 3) == 19.935
+
+# NOTE: Na2SO4 and KCl behave in a weird way so I have not put tests for now
 
 # =============================== Test convert ===============================
 

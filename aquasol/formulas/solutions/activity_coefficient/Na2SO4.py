@@ -51,6 +51,6 @@ class ActivityCoefficient_Na2SO4_Steiger2008(ActivityCoefficient_Na2SO4_Steiger2
 # ========================== WRAP-UP OF FORMULAS =============================
 
 ActivityCoefficientFormulas_Na2SO4 = (
-    ActivityCoefficient_Na2SO4_Steiger2005,
     ActivityCoefficient_Na2SO4_Steiger2008,
+    ActivityCoefficient_Na2SO4_Steiger2005,
 )

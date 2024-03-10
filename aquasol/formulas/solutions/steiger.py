@@ -17,12 +17,14 @@ c_21 = 4 / 2**(1 / 2)
 pitzer_corr = {2: c_11, 3: c_21}
 
 
-class CoeffsSteiger2005:
+class CoeffsSteiger2005_Activity:
     """Load and manage Steiger 2005 coefficients for activity"""
+
+    file = 'Coeffs_Steiger2005_Activity.json'
 
     def __init__(self):
         """Load and format raw coefficients stored in json file."""
-        path = Path(__file__).parent / 'data' / 'Coeffs_Steiger2005.json'
+        path = Path(__file__).parent / 'data' / self.file
         with open(path, 'r', encoding='utf8') as file:
             self.all_coeffs = json.load(file)
 
@@ -34,11 +36,16 @@ class CoeffsSteiger2005:
 
 
 class CoeffsSteiger2008:
-    """Load and manage Steiger 2008 coefficients for activity"""
+    """Load and manage Steiger 2008 coefficients for activity and solubility
+
+    (base class)
+    """
+
+    file = None  # define in subclasses
 
     def __init__(self):
         """Load and format raw coefficients stored in json file."""
-        path = Path(__file__).parent / 'data' / 'Coeffs_Steiger2008.json'
+        path = Path(__file__).parent / 'data' / self.file
         with open(path, 'r', encoding='utf8') as file:
             raw_coeffs = json.load(file)
         self.all_coeffs = self._format_coeffs(raw_coeffs)
@@ -72,6 +79,25 @@ class CoeffsSteiger2008:
         term6 = q6 * np.log(T - 225)
         return q1 + term2 + term3 + term4 + term5 + term6
 
+
+class CoeffsSteiger2008_Activity(CoeffsSteiger2008):
+    """Load and manage Steiger 2008 coefficients for activity"""
+
+    file = 'Coeffs_Steiger2008_Activity.json'
+
+    @staticmethod
+    def _format_coeffs(raw_coeffs):
+        """Take into account corrective factors depending on dissociation numbers."""
+        all_coeffs = deepcopy(raw_coeffs)
+        A_phi = all_coeffs.pop('A_phi')
+        for solute, coeffs in all_coeffs.items():
+            c_phi = coeffs.pop('C_phi')
+            nu_mx = sum(dissociation_numbers[solute])
+            corr = pitzer_corr[nu_mx]
+            coeffs['C_phi'] = [corr * q for q in c_phi]
+        all_coeffs['A_phi'] = A_phi
+        return all_coeffs
+
     def A_phi(self, T=298.15):
         """Debye-Huckel parameter as a function of the temperature T at 0.1MPa"""
         a1, a2, a3, a4, a5, a6 = self.all_coeffs['A_phi']
@@ -89,5 +115,20 @@ class CoeffsSteiger2008:
         return coeffs
 
 
-coeffs_steiger_2005 = CoeffsSteiger2005()
-coeffs_steiger_2008 = CoeffsSteiger2008()
+class CoeffsSteiger2008_Solubility(CoeffsSteiger2008):
+    """Load and manage Steiger 2008 coefficients for solubility"""
+
+    file = 'Coeffs_Steiger2008_Solubility.json'
+
+    @staticmethod
+    def _format_coeffs(raw_coeffs):
+        """Take into account corrective factors depending on dissociation numbers."""
+        return raw_coeffs
+
+    def ln_K(self, solute='NaCl', T=298.15):
+        return self._calculate_parameter(T, *self.all_coeffs[solute])
+
+
+coeffs_steiger2005_activity = CoeffsSteiger2005_Activity()
+coeffs_steiger2008_activity = CoeffsSteiger2008_Activity()
+coeffs_steiger2008_solubility = CoeffsSteiger2008_Solubility()

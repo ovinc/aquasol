@@ -1,5 +1,6 @@
 """Miscellaneous formatting tools and checks for the aquasol package."""
 
+import functools
 
 import numpy as np
 
@@ -98,3 +99,39 @@ def format_concentration(concentration, unit_out, solute, converter):
 
     conc = converter(value=value, unit1=unit_in, unit2=unit_out, solute=solute)
     return conc
+
+
+def make_array(function):
+    """Decorator to execute function on arrays even when it's not designed initially to accept arrays"""
+
+    @functools.wraps(function)  # to preserve function signature
+    def wrapper(x, *args, **kwargs):
+        try:
+            iter(x)
+        except TypeError:  # Not an array
+            return function(x, *args, **kwargs)
+        else:
+            result = []
+            for xi in x:
+                y = function(xi, *args, **kwargs)
+                result.append(y)
+            return np.array(result)
+    return wrapper
+
+
+def make_array_method(method):
+    """Decorator to execute method on arrays even when it's not designed initially to accept arrays"""
+
+    @functools.wraps(method)  # to preserve method signature
+    def wrapper(self, x, *args, **kwargs):
+        try:
+            iter(x)
+        except TypeError:  # Not an array
+            return method(self, x, *args, **kwargs)
+        else:
+            result = []
+            for xi in x:
+                y = method(self, xi, *args, **kwargs)
+                result.append(y)
+            return np.array(result)
+    return wrapper

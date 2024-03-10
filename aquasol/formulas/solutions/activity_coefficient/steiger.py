@@ -23,13 +23,13 @@ J. Chem. Eng. Data 52, 1784-1790 (2007).)
 """
 
 from ...general import SolutionFormula
-from ..steiger import coeffs_steiger_2005, coeffs_steiger_2008
+from ..steiger import coeffs_steiger2005_activity, coeffs_steiger2008_activity
 from ..pitzer import PitzerActivity
 
 
 steiger_coeffs = {
-    'Steiger 2005': coeffs_steiger_2005,
-    'Steiger 2008': coeffs_steiger_2008,
+    'Steiger 2005': coeffs_steiger2005_activity,
+    'Steiger 2008': coeffs_steiger2008_activity,
 }
 
 

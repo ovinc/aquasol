@@ -7,7 +7,7 @@
 
 from .convert import convert
 
-from ..properties import SolutionProperty
+from ..properties import SolutionProperty, SolutionSolubilityProperty
 
 from ..formulas.solutions.activity_coefficient import ActivityCoefficientFormulas
 from ..formulas.solutions.water_activity import WaterActivityFormulas
@@ -15,6 +15,8 @@ from ..formulas.solutions.density import DensityFormulas
 from ..formulas.solutions.surface_tension import SurfaceTensionFormulas
 from ..formulas.solutions.electrical_conductivity import ElectricalConductivityFormulas
 from ..formulas.solutions.refractive_index import RefractiveIndexFormulas
+from ..formulas.solutions.solubility import SolubilityFormulas
+
 
 class SolutionProperty_Full(SolutionProperty):
     """Solution property with full converter (inclusing molarity).
@@ -132,6 +134,24 @@ class RefractiveIndex(SolutionProperty_Full):
     unit = '[-]'
 
 
+class Solubility(SolutionSolubilityProperty):
+    """Solubility as a function of temperature.
+
+    Examples
+    --------
+    - solubility()                   # solubility (molality) of NaCl at 25°C
+    - solubility(T=40)               # solubility (molality) of NaCl at 40°C
+    - solubility(T=40, out='x')      # same, but in terms of mole fraction
+    - solubility(T=40, out='c')      # same, but in terms of molarity (mol/m^3)
+    - solubility('KCl', T=303.15, unit='K')  # solubility of KCl at 30°C
+    - solubility(T=[0, 10, 20, 30])          # iterables accepted too
+    - solubility('Na2SO4')           # solubility of Na2SO4 at 25°C
+    """
+    Formulas = SolubilityFormulas
+    quantity = 'solubility'
+    converter = staticmethod(convert)
+
+
 # ================ GENERATE USABLE OBJECTS FROM ABOVE CLASSES ================
 
 activity_coefficient = ActivityCoefficient()
@@ -140,6 +160,7 @@ density = Density()
 surface_tension = SurfaceTension()
 electrical_conductivity = ElectricalConductivity()
 refractive_index = RefractiveIndex()
+solubility = Solubility()
 
 
 # # ================================== ACTIVITY ================================

@@ -100,4 +100,3 @@ class SaturatedSolutionFormula(Formula):
     # Do not change below ----------------------------------------------------
 
     input_types = 'temperature',
-

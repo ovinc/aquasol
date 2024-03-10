@@ -1,7 +1,7 @@
 General information
 ===================
 
-This package computes useful thermodynamic quantities for water and aqueous solutions. Is is divided in two modules: **water** (properties of pure water) and **solutions** (properties of aqueous solutions), which provide various functions to calculate properties of interest. There is also a list of useful constants in the *constants.py* module.
+This package computes useful thermodynamic quantities for water and aqueous solutions (undersaturated, saturated and supersaturated). Is is divided in two modules: **water** (properties of pure water) and **solutions** (properties of aqueous solutions), which provide various functions to calculate properties of interest. There is also a list of useful constants in the *constants.py* module.
 
 It is also possible to just see plots of the properties by running the package directly from a shell console with
 ```bash

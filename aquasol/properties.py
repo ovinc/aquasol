@@ -46,6 +46,7 @@ class WaterProperty(Property):
         - unit (str, default 'C'): 'C' for Celsius, 'K' for Kelvin
         - source (str, default None) : Source for the used equation, if None then
         the default source for the particular property is used.
+        (see self.sources and self.default_source for more info)
 
         Output
         ------
@@ -85,8 +86,8 @@ class WaterProperty(Property):
         return self.formulas[source]
 
 
-class SolutionProperty(Property):
-    """Generic class for a property of solutions as a function of T/c"""
+class SolutionProperty_Base(Property):
+    """Generic class for a property of solutions (saturated or not)"""
 
     # Change in subclasses if needed (e.g. if NaCl not available)
     default_solute = 'NaCl'
@@ -131,6 +132,29 @@ class SolutionProperty(Property):
     def __repr__(self):
         return f'{self.quantity.capitalize()} {self.unit} (solutes: {self.solutes})'
 
+    def get_solute(self, solute=None):
+        return self.default_solute if solute is None else solute
+
+    def get_source(self, solute=None, source=None):
+        """Return source if it's in sources, default_source if None."""
+        solute =self.get_solute(solute=solute)
+        if source is None:
+            return self.default_sources[solute]
+        if source in self.sources[solute]:
+            return source
+        msg = f'Source can only be one of {self.sources} for {solute}'
+        raise ValueError(msg)
+
+    def get_formula(self, solute=None, source=None):
+        """Return formula corresponding to source and solute (default if None)"""
+        solute = self.get_solute(solute=solute)
+        source = self.get_source(source=source, solute=solute)
+        return self.formulas[solute][source]
+
+
+class SolutionProperty(SolutionProperty_Base):
+    """Generic class for a property of solutions as a function of T/c"""
+
     def __call__(
         self,
         solute=None,
@@ -152,7 +176,7 @@ class SolutionProperty(Property):
 
         - source (str, default None) : Source for the used equation, if None then
         gets the default source for the particular solute (defined in submodules).
-        See summary of available sources below.
+        See self.sources and self.default_sources for more info
 
         - **concentration: kwargs with any unit that is allowed by convert(), e.g.
             - m= : molality (mol/kg)
@@ -208,21 +232,66 @@ class SolutionProperty(Property):
 
         return format_output_type(result)
 
-    def get_solute(self, solute=None):
-        return self.default_solute if solute is None else solute
 
-    def get_source(self, solute=None, source=None):
-        """Return source if it's in sources, default_source if None."""
-        solute =self.get_solute(solute=solute)
-        if source is None:
-            return self.default_sources[solute]
-        if source in self.sources[solute]:
-            return source
-        msg = f'Source can only be one of {self.sources} for {solute}'
-        raise ValueError(msg)
+class SolutionSolubilityProperty(SolutionProperty_Base):
+    """Generic class for a property of solutions as a function of T/c"""
 
-    def get_formula(self, solute=None, source=None):
-        """Return formula corresponding to source and solute (default if None)"""
+    def __call__(
+        self,
+        solute=None,
+        T=25,
+        unit='C',
+        source=None,
+        out='m',
+    ):
+        """Calculate solution property as a function of temperature and composition
+
+        Parameters
+        ----------
+        - solute (str): solute name (if None, use default solute)
+        - T (float): temperature (default 25)
+        - unit (str, default 'C'): 'C' for Celsius, 'K' for Kelvin
+        - source (str, default None) : Source for the used equation, if None then
+        gets the default source for the particular solute (defined in submodules).
+        See self.sources and self.default_sources for more info
+        - out: any unit that is allowed by convert(), e.g.
+            - m= : molality (mol/kg)
+            - w= : mass fraction
+            - x= : mole fraction
+            - c= : molarity (mol/m^3)
+            - r= : mass ratio (unitless)
+
+        Output
+        ------
+        Value of property in SI units
+        (float or array of floats depending on input)
+
+        Attributes
+        ----------
+        .solutes --- list of available solutes
+        .sources --- dict of available sources for every solute
+        .default_sources --- default source for every solute
+        .quantity --- type of physical quantity (e.g. 'surface tension')
+        """
         solute = self.get_solute(solute=solute)
-        source = self.get_source(source=source, solute=solute)
-        return self.formulas[solute][source]
+        formula = self.get_formula(source=source, solute=solute)
+
+        T = format_temperature(
+            T,
+            unit_in=unit,
+            unit_out=formula.temperature_unit,
+        )
+
+        formula.check_validity_range('temperature', value=T)
+
+        c_unit = formula.concentration_unit
+        c_raw = formula.calculate(T)
+
+        c = format_concentration(
+            concentration={c_unit: c_raw},
+            unit_out=out,
+            solute=solute,
+            converter=self.converter,
+        )
+
+        return format_output_type(c)

@@ -59,7 +59,7 @@ class ActivityCoefficient_NaCl_Steiger2008(ActivityCoefficient_NaCl_Steiger2008_
 # ============================= WRAP-UP FORMULAS =============================
 
 ActivityCoefficientFormulas_NaCl = (
-    ActivityCoefficient_NaCl_Tang,
-    ActivityCoefficient_NaCl_Steiger2005,
     ActivityCoefficient_NaCl_Steiger2008,
+    ActivityCoefficient_NaCl_Steiger2005,
+    ActivityCoefficient_NaCl_Tang,
 )
