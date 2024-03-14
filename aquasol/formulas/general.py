@@ -13,6 +13,22 @@ class Formula:
     input_types = ()
     default = False  # Change to True to select default source
 
+    def __repr__(self):
+        msg = f'{self.source} formula'
+        if self.default:
+            msg += ' [default]'
+        msg += '; '
+        for input_type in self.input_types:
+            validity_info = self._get_range_and_unit(input_type)
+            v1, v2 = validity_info['range']
+            unit = validity_info['unit']
+            if v1 == v2:
+                value = f'{v1}[{unit}]'
+            else:
+                value = f'{v1}-{v2}[{unit}]'
+            msg += f"{input_type} {value} "
+        return msg
+
     def _get_range_and_unit(self, input_type):
         if input_type not in self.input_types:
             raise ValueError(f'Input type {input_type} not in {self.input_types}')

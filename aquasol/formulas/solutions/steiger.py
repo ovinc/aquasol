@@ -51,19 +51,6 @@ class CoeffsSteiger2008:
         self.all_coeffs = self._format_coeffs(raw_coeffs)
 
     @staticmethod
-    def _format_coeffs(raw_coeffs):
-        """Take into account corrective factors depending on dissociation numbers."""
-        all_coeffs = deepcopy(raw_coeffs)
-        A_phi = all_coeffs.pop('A_phi')
-        for solute, coeffs in all_coeffs.items():
-            c_phi = coeffs.pop('C_phi')
-            nu_mx = sum(dissociation_numbers[solute])
-            corr = pitzer_corr[nu_mx]
-            coeffs['C_phi'] = [corr * q for q in c_phi]
-        all_coeffs['A_phi'] = A_phi
-        return all_coeffs
-
-    @staticmethod
     def _calculate_parameter(T, *coeffs):
         """Determine betas or third virial coefficient C as a function of T.
 

@@ -1,5 +1,6 @@
 """Tests for the aquasol.solutions module."""
 
+import numpy as np
 
 from aquasol.solutions import activity_coefficient
 from aquasol.solutions import water_activity
@@ -49,11 +50,17 @@ def test_gamma_KCl():
     g2 = activity_coefficient(source='Steiger 2008', **kwargs)
     assert (round(g1, 2) == round(g2, 2) == 0.57)
 
+def test_gamma_KCl_supersaturated():
+    g1 = activity_coefficient('KCl', T=5, m=6)
+    g2 = activity_coefficient('KCl', T=45, m=6)
+    assert round(np.log(g1), 2) == -0.56
+    assert round(np.log(g2), 2) == -0.46
+
 def test_gamma_Na2SO4():
     kwargs = {'m': 10, 'solute': 'Na2SO4'}
     g1 = activity_coefficient(source='Steiger 2005', **kwargs)
     g2 = activity_coefficient(source='Steiger 2008', **kwargs)
-    assert (round(g1, 2) == round(g2, 2) == 0.16)
+    assert round(g1, 2) == round(g2, 2) == 0.16
 
 def test_gamma_NaCl():
     kwargs = {'x': 0.15, 'solute': 'NaCl'}
@@ -289,21 +296,34 @@ def test_solubility_7():
     assert round(m_sat_10, 3) == 19.296
     assert round(m_sat_25, 3) == 19.935
 
-# NOTE: Na2SO4 and KCl behave in a weird way so I have not put tests for now
+def test_solubility_KCl():
+    s1 = solubility('KCl', out='w', T=290, unit='K')
+    s2 = solubility('KCl', out='m', T=45)
+    assert round(s1, 2) == 0.25
+    assert round(s2, 1) == 5.6
+
+
+# NOTE: Na2SO4 behaves in a weird way so I have not put tests for now
 
 # ------------------------- Extensions of solubility -------------------------
 
-def test_aw_saturated_1():
-    aw_sat = aw_saturated()  # NaCl at 25°C
-    assert round(100 * aw_sat, 1) == 75.3
+def test_aw_saturated_NaCl():
+    aw_sat_25 = aw_saturated()     # NaCl at 25°C
+    aw_sat_07 = aw_saturated(T=7)  # NaCl at 7°C
+    assert round(100 * aw_sat_25, 1) == 75.3
+    assert round(100 * aw_sat_07, 1) == 75.7
 
-def test_aw_saturated_2():
-    aw_sat = aw_saturated('KCl')  # KCl at 25°C
-    assert round(100 * aw_sat) == 84
+def test_aw_saturated_KCl():
+    aw_sat_25 = aw_saturated('KCl')        # KCl at 25°C
+    aw_sat_10 = aw_saturated('KCl', T=10)  # KCl at 10°C
+    assert round(100 * aw_sat_25) == 84
+    assert round(100 * aw_sat_10) == 87
 
-def test_aw_saturated_2():
-    aw_sat = aw_saturated('LiCl')  # KCl at 25°C
-    assert round(100 * aw_sat) == 11
+def test_aw_saturated_4():
+    aw_sat_25 = aw_saturated('LiCl')        # LiCl at 25°C
+    aw_sat_10 = aw_saturated('LiCl', T=10)  # LiCl at 10°C
+    assert round(100 * aw_sat_25) == 11
+    assert round(100 * aw_sat_10) == 10
 
 # =============================== Test convert ===============================
 
