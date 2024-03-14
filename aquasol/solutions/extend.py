@@ -128,7 +128,7 @@ def osmotic_coefficient(solute='NaCl', T=25, unit='C', source=None, **concentrat
 
 
 def aw_saturated(
-    solute='NaCl',
+    crystal='NaCl',
     T=25,
     unit='C',
     activity_source=None,
@@ -140,7 +140,7 @@ def aw_saturated(
 
     Parameters
     ----------
-    - solute (str): solute name, default 'NaCl'
+    - crystal (str): crystal name, default 'NaCl'
     - T (float): temperature (default 25)
     - unit (str, default 'C'): 'C' for Celsius, 'K' for Kelvin
 
@@ -163,14 +163,20 @@ def aw_saturated(
     - aw_saturated('LiCl', T=15)   # of LiCl at 15°C
     """
     m_sat = solubility(
-        solute=solute,
+        crystal=crystal,
         T=T,
         unit=unit,
         source=solubility_source,
         out='m',
     )
+
+    formula = solubility.get_formula(
+        crystal=crystal,
+        source=solubility_source,
+    )
+
     a_w = water_activity(
-        solute=solute,
+        solute=formula.solute,
         T=T,
         unit=unit,
         source=activity_source,

@@ -112,8 +112,8 @@ class CoeffsSteiger2008_Solubility(CoeffsSteiger2008):
         """Take into account corrective factors depending on dissociation numbers."""
         return raw_coeffs
 
-    def ln_K(self, solute='NaCl', T=298.15):
-        return self._calculate_parameter(T, *self.all_coeffs[solute])
+    def ln_K(self, crystal='NaCl', T=298.15):
+        return self._calculate_parameter(T, *self.all_coeffs[crystal])
 
 
 coeffs_steiger2005_activity = CoeffsSteiger2005_Activity()

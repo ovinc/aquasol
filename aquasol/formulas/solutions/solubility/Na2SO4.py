@@ -1,4 +1,4 @@
-"""Gathers the formulas for the solubility of NaCl solutions.
+"""Gathers the formulas for the solubility of Na2SO4 solutions.
 
 
 Sources

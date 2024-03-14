@@ -1,4 +1,4 @@
-"""Gathers the formulas for the solubility of KCl solutions.
+"""Gathers the formulas for the solubility of NaCl,2H2O solutions.
 
 
 Sources
@@ -15,16 +15,16 @@ Ternary System NaCH 3 COO + NaCl + H 2 O from 278 K to 323 K.
 J. Chem. Eng. Data 52, 1784-1790 (2007).)
 """
 
-from .steiger import Solubility_KCl_Steiger2008_Base
+from .steiger import Solubility_NaCl_2H2O_Steiger2008_Base
 
 
-class Solubility_KCl_Steiger(Solubility_KCl_Steiger2008_Base):
+class Solubility_NaCl_2H2O_Steiger(Solubility_NaCl_2H2O_Steiger2008_Base):
     """Already defined in steiger module"""
     default = True
 
 
 # ============================= WRAP-UP FORMULAS =============================
 
-SolubilityFormulas_KCl = (
-    Solubility_KCl_Steiger,
+SolubilityFormulas_NaCl_2H2O = (
+    Solubility_NaCl_2H2O_Steiger,
 )

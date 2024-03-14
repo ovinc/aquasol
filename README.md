@@ -263,6 +263,7 @@ electrical_conductivity('KCl', T=[0, 25, 50], m=1)  # various mole fractions
 solubility()       # NaCl at 25°C
 solubility(T=10)   # NaCl at 10°C
 solubility('KCl')  # KCl, 25°C
+solubility('Na2SO4,10H20', T=10)  # Mirabilite at T=10°C
 
 # And other ways to express solubility:
 aw_saturated()        # Activity of saturated NaCl solution = 0.753

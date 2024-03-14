@@ -31,12 +31,12 @@ class Solubility_CRCHandbook_Base(SaturatedSolutionFormula):
 
 
 class Solubility_NaCl_CRCHandbook_Base(Solubility_CRCHandbook_Base):
-    solute = 'NaCl'
+    crystal = 'NaCl'
     temperature_range = (10, 40)
     coeffs = 6.09457143, 9.47619048e-4, 5.61904762e-5
 
 
 class Solubility_LiCl_CRCHandbook_Base(Solubility_CRCHandbook_Base):
-    solute = 'LiCl'
+    crystal = 'LiCl'
     temperature_range = (10, 25)
     coeffs = 19.13215, 5.87e-03, 1.05e-3

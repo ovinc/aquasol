@@ -107,9 +107,9 @@ class SaturatedSolutionFormula(Formula):
     """Formulas for saturated solution properties (depend only on T)"""
 
     # To be defined in subclasses --------------------------------------------
-
-    solute = None
-    crystal_hydration = None   # e.g. 2 for NaCl-2H2O
+    crystal = None   # because several crystal forms are possible
+    crystal_hydration = None  # put integer if crystal is hydrated
+    solute = None  # if not provided, extracted automatically from cystal name
 
     temperature_unit = None
     temperature_range = None
@@ -117,3 +117,15 @@ class SaturatedSolutionFormula(Formula):
     # Do not change below ----------------------------------------------------
 
     input_types = 'temperature',
+
+    def __init__(self):
+        super().__init__()
+        if self.solute is None:
+            components = self.crystal.split(',')
+            if len(components) > 2:
+                raise ValueError(f'Crystal {self.crystal} not recognized')
+            elif len(components) == 1:
+                self.solute = self.crystal
+            else:
+                solute, _ = components
+                self.__class__.solute = solute

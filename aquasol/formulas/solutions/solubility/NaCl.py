@@ -40,6 +40,7 @@ class Solubility_NaCl_CRCHandbook(Solubility_NaCl_CRCHandbook_Base):
 class Solubility_NaCl_Sparrow(SaturatedSolutionFormula):
 
     source = 'Sparrow'
+    crystal = 'NaCl'
 
     temperature_unit = 'C'
     temperature_range = (0, 450)
@@ -51,7 +52,6 @@ class Solubility_NaCl_Sparrow(SaturatedSolutionFormula):
     def calculate(self, T):
         a0, a1, a2 = self.coeffs
         return a0 + a1 * T + a2 * T**2
-
 
 
 # ============================= WRAP-UP FORMULAS =============================

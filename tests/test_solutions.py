@@ -302,8 +302,18 @@ def test_solubility_KCl():
     assert round(s1, 2) == 0.25
     assert round(s2, 1) == 5.6
 
+def test_solubility_Na2SO4():
+    T = 32.38  # This is the point of equilibrium thenardite/mirabilite
+    s1 = solubility('Na2SO4', out='m', T=T)
+    s2 = solubility('Na2SO4,10H2O', out='m', T=T)
+    assert round(s1, 2) == round(s2, 2) == 3.51
 
-# NOTE: Na2SO4 behaves in a weird way so I have not put tests for now
+def test_solubility_Halite():
+    T = 0.1  # This is the point of equilibrium halite/hydrohalite
+    s1 = solubility('NaCl', out='m', T=T)
+    s2 = solubility('NaCl,2H2O', out='m', T=T)
+    assert round(s1, 2) == round(s2, 2) == 6.10
+
 
 # ------------------------- Extensions of solubility -------------------------
 

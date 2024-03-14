@@ -89,9 +89,6 @@ class WaterProperty(Property):
 class SolutionProperty_Base(Property):
     """Generic class for a property of solutions (saturated or not)"""
 
-    # Change in subclasses if needed (e.g. if NaCl not available)
-    default_solute = 'NaCl'
-
     # Define in subclasses (is used to avoid importing convert() in this
     # module, because SolutionProperty is used to defined both the general
     # density and the reduced density used in convert())
@@ -101,11 +98,13 @@ class SolutionProperty_Base(Property):
     # See e.g. here: https://stackoverflow.com/questions/35321744/python-function-as-class-attribute-becomes-a-bound-method
     converter = None
 
-    def __init__(self):
+    def _set_formulas(self, component_type='solute'):
+        """Component type is 'solute' or 'crystal' (for saturated solutions)"""
 
-        self.solutes = self._get_available_solutes()
+        components = self._get_available_components(component_type)
+        setattr(self, f'{component_type}s', components)
 
-        self.formulas = {solute: {} for solute in self.solutes}
+        self.formulas = {component: {} for component in components}
         self.sources = {}
         self.default_sources = {}
 
@@ -113,21 +112,33 @@ class SolutionProperty_Base(Property):
 
             formula = Formula()
             source = formula.source
-            solute = formula.solute
+            component = getattr(formula, component_type)
 
-            self.formulas[solute][source] = formula
+            self.formulas[component][source] = formula
 
             if formula.default:
-                self.default_sources[solute] = source
+                self.default_sources[component] = source
 
             # only the source names
-            self.sources[solute] = tuple(self.formulas[solute])
+            self.sources[component] = tuple(self.formulas[component])
 
-    def _get_available_solutes(self):
-        solutes = set()
+    def _get_available_components(self, component_type='solute'):
+        """Component type is 'solute', or 'crystal' (for saturated solutions)"""
+        components = set()
         for Formula in self.Formulas:
-            solutes.add(Formula.solute)
-        return tuple(solutes)
+            component = getattr(Formula, component_type)
+            components.add(component)
+        return tuple(components)
+
+
+class SolutionProperty(SolutionProperty_Base):
+    """Generic class for a property of solutions as a function of T/c"""
+
+    # Change in subclasses if needed (e.g. if NaCl not available)
+    default_solute = 'NaCl'
+
+    def __init__(self):
+        self._set_formulas(component_type='solute')
 
     def __repr__(self):
         return f'{self.quantity.capitalize()} {self.unit} (solutes: {self.solutes})'
@@ -150,10 +161,6 @@ class SolutionProperty_Base(Property):
         solute = self.get_solute(solute=solute)
         source = self.get_source(source=source, solute=solute)
         return self.formulas[solute][source]
-
-
-class SolutionProperty(SolutionProperty_Base):
-    """Generic class for a property of solutions as a function of T/c"""
 
     def __call__(
         self,
@@ -234,11 +241,39 @@ class SolutionProperty(SolutionProperty_Base):
 
 
 class SolutionSolubilityProperty(SolutionProperty_Base):
-    """Generic class for a property of solutions as a function of T/c"""
+    """Class for describing solubility"""
+
+    # Change in subclasses if needed (e.g. if NaCl not available)
+    default_crystal = 'NaCl'
+
+    def __init__(self):
+        self._set_formulas(component_type='crystal')
+
+    def __repr__(self):
+        return f'{self.quantity.capitalize()} (crystals: {self.crystals})'
+
+    def get_crystal(self, crystal=None):
+        return self.default_crystal if crystal is None else crystal
+
+    def get_source(self, crystal=None, source=None):
+        """Return source if it's in sources, default_source if None."""
+        crystal =self.get_crystal(crystal=crystal)
+        if source is None:
+            return self.default_sources[crystal]
+        if source in self.sources[crystal]:
+            return source
+        msg = f'Source can only be one of {self.sources} for {crystal}'
+        raise ValueError(msg)
+
+    def get_formula(self, crystal=None, source=None):
+        """Return formula corresponding to source and crystal (default if None)"""
+        crystal = self.get_crystal(crystal=crystal)
+        source = self.get_source(source=source, crystal=crystal)
+        return self.formulas[crystal][source]
 
     def __call__(
         self,
-        solute=None,
+        crystal=None,
         T=25,
         unit='C',
         source=None,
@@ -248,7 +283,8 @@ class SolutionSolubilityProperty(SolutionProperty_Base):
 
         Parameters
         ----------
-        - solute (str): solute name (if None, use default solute)
+        - crystal (str): crystal name (usually same as solute except if several
+                                       crystalline forms)
         - T (float): temperature (default 25)
         - unit (str, default 'C'): 'C' for Celsius, 'K' for Kelvin
         - source (str, default None) : Source for the used equation, if None then
@@ -273,8 +309,8 @@ class SolutionSolubilityProperty(SolutionProperty_Base):
         .default_sources --- default source for every solute
         .quantity --- type of physical quantity (e.g. 'surface tension')
         """
-        solute = self.get_solute(solute=solute)
-        formula = self.get_formula(source=source, solute=solute)
+        crystal = self.get_crystal(crystal=crystal)
+        formula = self.get_formula(source=source, crystal=crystal)
 
         T = format_temperature(
             T,
@@ -290,7 +326,7 @@ class SolutionSolubilityProperty(SolutionProperty_Base):
         c = format_concentration(
             concentration={c_unit: c_raw},
             unit_out=out,
-            solute=solute,
+            solute=formula.solute,
             converter=self.converter,
         )
 

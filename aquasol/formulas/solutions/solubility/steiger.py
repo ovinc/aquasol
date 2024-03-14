@@ -23,6 +23,7 @@ J. Chem. Eng. Data 52, 1784-1790 (2007).)
 import numpy as np
 from pynverse import inversefunc
 
+from ....constants import dissociation_numbers
 from ....format import make_array_method
 from ...general import SaturatedSolutionFormula
 from ..steiger import coeffs_steiger2008_activity
@@ -40,24 +41,30 @@ class Solubility_Steiger_Base(SaturatedSolutionFormula):
     concentration_unit = 'm'
 
     temperature_unit = 'K'
-    temperature_range = (0 + 273.15, 45 + 273.15)
+    temperature_range = (0 + 273.15, 50 + 273.15)
 
     def _solubility_product(self, T):
-        ln_K = coeffs_steiger2008_solubility.ln_K(solute=self.solute, T=T)
+        ln_K = coeffs_steiger2008_solubility.ln_K(crystal=self.crystal, T=T)
         return np.exp(ln_K)
 
     def _solute_activity(self, m, T):
-
-        # In case of hydrated phases:
-        try:
-            solute, _ = self.solute.split('-')
-        except ValueError:  # not hydrated (solute=crystal)
-            solute = self.solute
-
-        coeffs = coeffs_steiger2008_activity.coeffs(solute=solute, T=T)
-        pitz = PitzerActivity(T=T, solute=solute, **coeffs)
+        """Incorporates water activity if hydrated crystal"""
+        coeffs = coeffs_steiger2008_activity.coeffs(solute=self.solute, T=T)
+        pitz = PitzerActivity(T=T, solute=self.solute, **coeffs)
         gamma = pitz.activity_coefficient(m=m)
-        return (gamma * m)**2
+
+        nu_m, nu_x = dissociation_numbers[self.solute]
+        nu = nu_m + nu_x
+
+        if self.crystal_hydration:
+            nu_w = self.crystal_hydration
+            a_w = pitz.water_activity(m=m)
+            K_w = a_w ** nu_w
+        else:
+            K_w = 1
+
+        return nu_m**nu_m * nu_x**nu_x * (gamma * m)**nu * K_w
+
 
     @make_array_method
     def calculate(self, T):
@@ -78,17 +85,27 @@ class Solubility_Steiger_Base(SaturatedSolutionFormula):
 
 
 class Solubility_NaCl_Steiger2008_Base(Solubility_Steiger_Base):
-    solute = 'NaCl'
+    crystal = 'NaCl'
 
 
-class Solubility_Na2SO4_Steiger2008_Base(Solubility_Steiger_Base):
-    solute = 'Na2SO4'
-
-
-class Solubility_Na2SO4_10H2O_Steiger2008_Base(Solubility_Steiger_Base):
-    solute = 'Na2SO4'
+class Solubility_NaCl_2H2O_Steiger2008_Base(Solubility_Steiger_Base):
+    crystal = 'NaCl,2H2O'
     crystal_hydration = 2
 
 
+class Solubility_Na2SO4_Steiger2008_Base(Solubility_Steiger_Base):
+    """Thenardite"""
+    crystal = 'Na2SO4'
+
+
+class Solubility_Na2SO4_10H2O_Steiger2008_Base(Solubility_Steiger_Base):
+    """Mirabilite"""
+    crystal = 'Na2SO4,10H2O'
+    crystal_hydration = 10
+
+    # Mirabilite stable zone stops at 32.38°C
+    temperature_range = (0 + 273.15, 32.38 + 273.15)
+
+
 class Solubility_KCl_Steiger2008_Base(Solubility_Steiger_Base):
-    solute = 'KCl'
+    crystal = 'KCl'
