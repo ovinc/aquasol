@@ -3,3 +3,5 @@
 .vscode/
 .eggs/
 *DS_Store*
+build/
+dist/
