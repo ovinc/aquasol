@@ -19,7 +19,7 @@ from ..formulas.solutions.solubility import SolubilityFormulas
 
 
 class SolutionProperty_Full(SolutionProperty):
-    """Solution property with full converter (inclusing molarity).
+    """Solution property with full converter (including molarity).
 
     Is used to prevent circular import problems
     (because SolutionProperty is also used to define the density function used

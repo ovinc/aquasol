@@ -16,6 +16,7 @@ from .solutions import activity_coefficient
 from .solutions import surface_tension as sigma_s
 from .solutions import density
 from .solutions import refractive_index, electrical_conductivity
+from .solutions import solubility
 from .solutions import convert
 
 
@@ -24,7 +25,7 @@ npts = 200
 temperature_unit = 'C'
 concentration_unit = 'm'
 
-linestyles = [
+LINESTYLES = [
     '-',
     '--',
     '-.',
@@ -38,7 +39,8 @@ linestyles = [
 # ================================ WATER =====================================
 
 
-fig_w, ((ax_w_psat, ax_w_sigma, ax_w_rho), (ax_w_diff, ax_w_visc, _)) = plt.subplots(2, 3)
+faxs = plt.subplots(2, 3)
+fig_w, ((ax_w_psat, ax_w_sigma, ax_w_rho), (ax_w_diff, ax_w_visc, _)) = faxs
 
 fig_w.suptitle('Water')
 
@@ -62,7 +64,7 @@ def plot_all_sources(ppty, ax, norm=1):
     ax: Matplotlib axes in which to plot the data
     norm (float): normalization factor for plotting the property (default 1)
     """
-    for source, linestyle in zip(ppty.sources, linestyles):
+    for source, linestyle in zip(ppty.sources, LINESTYLES):
 
         formula = ppty.get_formula(source)
 
@@ -107,10 +109,30 @@ solution_properties = (
     electrical_conductivity,
 )
 
+COLORS = {
+    'NaCl': 'cornflowerblue',
+    'KCl': 'darkblue',
+    'LiCl': 'lightblue',
+    'KI': 'darkgreen',
+    'MgCl2': 'gold',
+    'CaCl2': 'orange',
+    'Na2SO4': 'brown',
+}
+
 
 # General plotting functions -------------------------------------------------
 
-def plot_all_sources_conc(ppty, solute, T=25, unit='C', ctype='m', ax=None, norm=1):
+def plot_all_sources_conc(
+    ppty,
+    solute,
+    T=25,
+    unit='C',
+    ctype='m',
+    ax=None,
+    norm=1,
+    linestyle=None,
+    color=None,
+):
     """Plot all available sources for a given property/solute as a function of concentration
 
     Inputs
@@ -122,8 +144,9 @@ def plot_all_sources_conc(ppty, solute, T=25, unit='C', ctype='m', ax=None, norm
     relative (bool): if True, use the relative option when applicable
     ax: Matplotlib axes in which to plot the data
     norm (float): normalization factor for plotting the property (default 1)
+    linestyle, color: if not None, override default COLORS/LINESTYLES
     """
-    for source, linestyle in zip(ppty.sources[solute], linestyles):
+    for source, ls in zip(ppty.sources[solute], LINESTYLES):
         formula = ppty.get_formula(solute=solute, source=source)
 
         cmin, cmax = formula.concentration_range
@@ -157,7 +180,12 @@ def plot_all_sources_conc(ppty, solute, T=25, unit='C', ctype='m', ax=None, norm
         data = ppty(**kwargs)
 
         name = f"{solute}, {source} (T={T})"
-        ax.plot(cc, data * norm, ls=linestyle, label=name)
+
+        plot_kwargs = {'label': name}
+        plot_kwargs['color'] = COLORS[solute] if color is None else color
+        plot_kwargs['ls'] = ls if linestyle is None else linestyle
+
+        ax.plot(cc, data * norm, **plot_kwargs)
 
     ax.legend()
     ax.set_xlabel(f'concentration ({concentration_unit})')
@@ -168,31 +196,70 @@ for ppty in solution_properties:
     fig, ax = plt.subplots()
     fig.suptitle('Solutions')
     for solute in ppty.solutes:
-        plot_all_sources_conc(ppty, solute, ctype='m', ax=ax, norm=1)
+        kwargs = {'ctype': 'm', 'ax': ax, 'norm': 1}
+        plot_all_sources_conc(ppty, solute, **kwargs)
+        if ppty.quantity == 'electrical conductivity':
+            plot_all_sources_conc(ppty, solute, T=0, linestyle=':', **kwargs)
+            plot_all_sources_conc(ppty, solute, T=50, linestyle='--', **kwargs)
+    fig.tight_layout()
 
 
-# # Electrical Conductivity  ---------------------------------------------------
+# ---------------------------- Solubility diagrams ---------------------------
 
-# solutes = ['KCl']
+fig, ax = plt.subplots()
 
-# for solute in solutes:
 
-#     plot_all_sources_conc('electrical conductivity', solute, 0, 'C', norm=1,
-#                           ctype=concentration_unit, ax=ax_s_conductivity)
+# KCl and LiCl --------------
 
-#     plot_all_sources_conc('electrical conductivity', solute, 25, 'C', norm=1,
-#                           ctype=concentration_unit, ax=ax_s_conductivity)
+T_KCl = np.linspace(0, 50)
+T_LiCl = np.linspace(10, 25)
 
-#     plot_all_sources_conc('electrical conductivity', solute, 50, 'C', norm=1,
-#                           ctype=concentration_unit, ax=ax_s_conductivity)
+sol_KCl = solubility('KCl', T=T_KCl)
+sol_LiCl = solubility('LiCl', T=T_LiCl)
 
-# ax_s_conductivity.set_xlabel(f'concentration ({concentration_unit})')
-# ax_s_conductivity.set_ylabel('electrical conductivity (S/m)')
+ax.plot(T_KCl, sol_KCl, '-', c=COLORS['KCl'], label='KCl')
+ax.plot(T_LiCl, sol_LiCl, '-', c=COLORS['LiCl'], label='LiCl')
+
+
+# NaCl --------------
+
+T_hydrohalite = np.linspace(-10, 0.1)
+T_halite = np.linspace(0.1, 50)
+
+sol_hydrohalite = solubility('NaCl,2H2O', T=T_hydrohalite)
+sol_halite = solubility('NaCl', T=T_halite)
+
+c = COLORS['NaCl']
+
+ax.plot(T_hydrohalite, sol_hydrohalite, '--', c=c, label='NaCl,2H2O (hydrohalite)')
+ax.plot(T_halite, sol_halite, '-', c=c, label='NaCl (halite)')
+
+
+# Na2SO4 ----------
+
+T_mirabilite = np.linspace(0, 32.38)
+T_thenardite = np.linspace(0, 50)
+
+sol_mirabilite = solubility('Na2SO4,10H2O', T=T_mirabilite)
+sol_thenardite = solubility('Na2SO4', T=T_thenardite)
+
+c = COLORS['Na2SO4']
+
+ax.plot(T_mirabilite, sol_mirabilite, '--', c=c, label='Na2SO4,10H2O (mirabilite)')
+ax.plot(T_thenardite, sol_thenardite, '-', c=c, label='Na2SO4 (thenardite)')
+
+
+# -----------------
+
+ax.set_xlabel('T (°C)')
+ax.set_ylabel('$m_\mathrm{sat}$ [mol/kg]')
+ax.set_xlim(-10, 50)
+ax.grid()
+ax.legend()
 
 
 # ================================ FINAL =====================================
 
 
 fig_w.tight_layout()
-
 plt.show()

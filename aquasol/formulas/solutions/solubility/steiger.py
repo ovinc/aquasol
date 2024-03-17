@@ -92,6 +92,9 @@ class Solubility_NaCl_2H2O_Steiger2008_Base(Solubility_Steiger_Base):
     crystal = 'NaCl,2H2O'
     crystal_hydration = 2
 
+    # Unsure of Tmin, but definitely its stability stops at 0.1°C
+    temperature_range = (-20 + 273.15, 0.1 + 273.15)
+
 
 class Solubility_Na2SO4_Steiger2008_Base(Solubility_Steiger_Base):
     """Thenardite"""

@@ -109,7 +109,7 @@ class DensitySat_Conde(WaterFormula):
 
 # ========================== WRAP-UP OF FORMULAS =============================
 
-DensitySat_Formulas = (
+DensitySatFormulas = (
     DensitySat_IAPWS,
     DensitySat_Conde
 )

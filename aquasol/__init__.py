@@ -1,6 +1,6 @@
-"""Physico-chemical properties of water and solutions
+"""Thermodynamic & physico-chemical properties for water and aqueous solutions
 
-Copyright Olivier VINCENT (2020-2024)
+Copyright Olivier Vincent (2020-2024)
 (ovinc.py@gmail.com)
 
 This software is a computer program whose purpose is to provide the
@@ -56,4 +56,4 @@ from importlib_metadata import version
 
 __author__ = 'Olivier Vincent'
 __version__ = version('aquasol')
-__license__ = 'CeCILL 2.1'
+__license__ = 'CeCILL-2.1'

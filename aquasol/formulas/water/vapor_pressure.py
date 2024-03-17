@@ -134,7 +134,7 @@ class VaporPressure_Bridgeman(WaterFormula):
 
 # ========================== WRAP-UP OF FORMULAS =============================
 
-VaporPressure_Formulas = (
+VaporPressureFormulas = (
     VaporPressure_IAPWS,
     VaporPressure_Wexler,
     VaporPressure_Bridgeman,

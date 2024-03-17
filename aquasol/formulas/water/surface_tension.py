@@ -56,6 +56,6 @@ class SurfaceTension_IAPWS(WaterFormula):
 
 # ========================== WRAP-UP OF FORMULAS =============================
 
-SurfaceTension_Formulas = (
+SurfaceTensionFormulas = (
     SurfaceTension_IAPWS,
 )

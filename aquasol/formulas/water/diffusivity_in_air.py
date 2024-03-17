@@ -86,7 +86,7 @@ class DiffusivityInAir_MM72(WaterFormula):
 
 # ========================== WRAP-UP OF FORMULAS =============================
 
-DiffusivityInAir_Formulas = (
+DiffusivityInAirFormulas = (
     DiffusivityInAir_Massman,
     DiffusivityInAir_MM72
 )

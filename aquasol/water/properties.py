@@ -2,12 +2,12 @@
 
 from ..properties import WaterProperty
 
-from ..formulas.water.density_atm import DensityAtm_Formulas
-from ..formulas.water.density_sat import DensitySat_Formulas
-from ..formulas.water.diffusivity_in_air import DiffusivityInAir_Formulas
-from ..formulas.water.surface_tension import SurfaceTension_Formulas
-from ..formulas.water.vapor_pressure import VaporPressure_Formulas
-from ..formulas.water.viscosity_atm import ViscosityAtm_Formulas
+from ..formulas.water.density_atm import DensityAtmFormulas
+from ..formulas.water.density_sat import DensitySatFormulas
+from ..formulas.water.diffusivity_in_air import DiffusivityInAirFormulas
+from ..formulas.water.surface_tension import SurfaceTensionFormulas
+from ..formulas.water.vapor_pressure import VaporPressureFormulas
+from ..formulas.water.viscosity_atm import ViscosityAtmFormulas
 
 
 class DensityAtm(WaterProperty):
@@ -25,7 +25,7 @@ class DensityAtm(WaterProperty):
     quantity = 'density (sat.)'
     unit = '[kg/m^3]'
 
-    Formulas = DensityAtm_Formulas
+    Formulas = DensityAtmFormulas
 
 
 class DensitySat(WaterProperty):
@@ -43,7 +43,7 @@ class DensitySat(WaterProperty):
     quantity = 'density (sat.)'
     unit = '[kg/m^3]'
 
-    Formulas = DensitySat_Formulas
+    Formulas = DensitySatFormulas
 
 
 class DiffusivityInAir(WaterProperty):
@@ -61,7 +61,7 @@ class DiffusivityInAir(WaterProperty):
     quantity = 'vapor diffusivity in air'
     unit = '[m^2/s]'
 
-    Formulas = DiffusivityInAir_Formulas
+    Formulas = DiffusivityInAirFormulas
 
 
 class SurfaceTension(WaterProperty):
@@ -79,7 +79,7 @@ class SurfaceTension(WaterProperty):
     quantity = 'surface tension'
     unit = '[N/m]'
 
-    Formulas = SurfaceTension_Formulas
+    Formulas = SurfaceTensionFormulas
 
 
 class VaporPressure(WaterProperty):
@@ -98,7 +98,7 @@ class VaporPressure(WaterProperty):
     quantity = 'saturated vapor pressure'
     unit = '[Pa]'
 
-    Formulas = VaporPressure_Formulas
+    Formulas = VaporPressureFormulas
 
 
 class ViscosityAtm(WaterProperty):
@@ -116,7 +116,7 @@ class ViscosityAtm(WaterProperty):
     quantity = 'viscosity (atm.)'
     unit = '[Pa.s]'
 
-    Formulas = ViscosityAtm_Formulas
+    Formulas = ViscosityAtmFormulas
 
 
 density_atm = DensityAtm()

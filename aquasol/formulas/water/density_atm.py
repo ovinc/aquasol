@@ -130,7 +130,7 @@ class DensityAtm_Kell(WaterFormula):
 
 # ========================== WRAP-UP OF FORMULAS =============================
 
-DensityAtm_Formulas = (
+DensityAtmFormulas = (
     DensityAtm_IAPWS,
     DensityAtm_Kell,
 )

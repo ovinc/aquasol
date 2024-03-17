@@ -53,6 +53,6 @@ class ViscosityAtm_IAPWS(WaterFormula):
 
 # ========================== WRAP-UP OF FORMULAS =============================
 
-ViscosityAtm_Formulas = (
+ViscosityAtmFormulas = (
     ViscosityAtm_IAPWS,
 )
