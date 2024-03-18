@@ -112,6 +112,7 @@ solution_properties = (
 COLORS = {
     'NaCl': 'cornflowerblue',
     'KCl': 'darkblue',
+    'LiBr': 'rebeccapurple',
     'LiCl': 'lightblue',
     'KI': 'darkgreen',
     'MgCl2': 'gold',
@@ -247,6 +248,23 @@ c = COLORS['Na2SO4']
 
 ax.plot(T_mirabilite, sol_mirabilite, '--', c=c, label='Na2SO4,10H2O (mirabilite)')
 ax.plot(T_thenardite, sol_thenardite, '-', c=c, label='Na2SO4 (thenardite)')
+
+
+# LiBr ------------
+
+T3 = np.linspace(-25, 5.7)
+T2 = np.linspace(5.7, 34.6)
+T1 = np.linspace(34.6, 50)
+
+sol1 = solubility('LiBr,H2O', T=T1)
+sol2 = solubility('LiBr,2H2O', T=T2)
+sol3 = solubility('LiBr,3H2O', T=T3)
+
+c = COLORS['LiBr']
+
+ax.plot(T1, sol1, '--', c=c, label='LiBr,H2O')
+ax.plot(T2, sol2, '-', c=c, label='LiBr,2H2O')
+ax.plot(T3, sol3, ':', c=c, label='LiBr,3H2O')
 
 
 # -----------------

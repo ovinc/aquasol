@@ -31,9 +31,6 @@ from ..steiger import coeffs_steiger2008_solubility
 from ..pitzer import PitzerActivity
 
 
-# NOTE: KCl and Na2SO4 do not behave nicely for now --> INVESTIGATE
-
-
 class Solubility_Steiger_Base(SaturatedSolutionFormula):
 
     source = 'Steiger 2008'
@@ -51,10 +48,8 @@ class Solubility_Steiger_Base(SaturatedSolutionFormula):
         """Incorporates water activity if hydrated crystal"""
         coeffs = coeffs_steiger2008_activity.coeffs(solute=self.solute, T=T)
         pitz = PitzerActivity(T=T, solute=self.solute, **coeffs)
-        gamma = pitz.activity_coefficient(m=m)
 
-        nu_m, nu_x = dissociation_numbers[self.solute]
-        nu = nu_m + nu_x
+        K_s = pitz.solute_activity(m=m)
 
         if self.crystal_hydration:
             nu_w = self.crystal_hydration
@@ -63,7 +58,7 @@ class Solubility_Steiger_Base(SaturatedSolutionFormula):
         else:
             K_w = 1
 
-        return nu_m**nu_m * nu_x**nu_x * (gamma * m)**nu * K_w
+        return K_s * K_w
 
 
     @make_array_method

@@ -22,6 +22,13 @@ Sources
   Journal of Colloid and Interface Science 114, 409-415 (1986).
   Valid at 25°C and for solutions of molality up to ~13 mol/kg
 
+- Pitzer, K. S. & Mayorga, G.
+  Thermodynamics of electrolytes. II.
+  Activity and osmotic coefficients for strong electrolytes with one or both
+  ions univalent.
+  J. Phys. Chem. 77, 2300-2308
+  (1973)
+
 - Steiger, M.,
   Crystal growth in porous materials—I:
   The crystallization pressure of large crystals.
@@ -43,6 +50,7 @@ J. Chem. Eng. Data 52, 1784-1790 (2007).)
 # TODO: add Dutcher (it has supersaturated values!)
 
 from .clegg import WaterActivity_NaCl_Clegg_Base
+from .pitzer import WaterActivity_NaCl_Pitzer_Base
 from .steiger import WaterActivity_NaCl_Steiger2005_Base
 from .steiger import WaterActivity_NaCl_Steiger2008_Base
 from .tang import WaterActivity_NaCl_Tang_Base
@@ -52,6 +60,10 @@ class WaterActivity_NaCl_Clegg(WaterActivity_NaCl_Clegg_Base):
     """Already defined in clegg module"""
     pass
 
+
+class WaterActivity_NaCl_Pitzer(WaterActivity_NaCl_Pitzer_Base):
+    """Already defined in pitzer module"""
+    pass
 
 class WaterActivity_NaCl_Tang(WaterActivity_NaCl_Tang_Base):
     """Already defined in tang module"""
@@ -70,8 +82,9 @@ class WaterActivity_NaCl_Steiger2008(WaterActivity_NaCl_Steiger2008_Base):
 # ============================= WRAP-UP FORMULAS =============================
 
 WaterActivityFormulas_NaCl = (
+    WaterActivity_NaCl_Steiger2008,
+    WaterActivity_NaCl_Steiger2005,
     WaterActivity_NaCl_Clegg,
     WaterActivity_NaCl_Tang,
-    WaterActivity_NaCl_Steiger2005,
-    WaterActivity_NaCl_Steiger2008,
+    WaterActivity_NaCl_Pitzer,
 )

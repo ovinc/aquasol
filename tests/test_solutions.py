@@ -314,6 +314,23 @@ def test_solubility_Halite():
     s2 = solubility('NaCl,2H2O', out='m', T=T)
     assert round(s1, 2) == round(s2, 2) == 6.10
 
+def test_solubility_LiBr():
+
+    # solubiliity at 25°C
+    assert round(solubility('LiBr,2H2O')) == 21
+
+    # equilibrium dihydrate/trihydrate
+    T = 5.7
+    sa1 = solubility('LiBr,2H2O', T=T)
+    sa2 = solubility('LiBr,3H2O', T=T)
+    assert round(sa1, 1) == round(sa2, 1)
+
+    # equilibrium dihydrate/monohydrate
+    T = 34.6
+    sb1 = solubility('LiBr,2H2O', T=T)
+    sb2 = solubility('LiBr,H2O', T=T)
+    assert round(sb1, 1) == round(sb2, 1)
+
 
 # ------------------------- Extensions of solubility -------------------------
 

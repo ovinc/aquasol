@@ -1,15 +1,5 @@
 """Gathers the formulas for the activity coefficients of KCl solutions.
 
-Note
-----
-When adding source, make sure to make a function that has two parameters:
-- w (weight fraction), range 0-1 or other concentration quantity
-- T (temperature), in K
-and returns one parameter
-- gamma, molal activity coefficient (dimensionless)
-Also, add the name of the function to the formulas dictionary at the end of the
-file.
-
 Sources
 -------
 

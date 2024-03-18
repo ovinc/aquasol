@@ -24,11 +24,17 @@ J. Chem. Eng. Data 52, 1784-1790 (2007).)
 
 from ...general import SaturatedSolutionFormula
 from .steiger import Solubility_NaCl_Steiger2008_Base
+from .steiger import Solubility_NaCl_2H2O_Steiger2008_Base
 from .crc_handbook import Solubility_NaCl_CRCHandbook_Base
 
 
 class Solubility_NaCl_Steiger(Solubility_NaCl_Steiger2008_Base):
-    """Already defined in steiger module"""
+    """Already defined in steiger module; default for NaCl anhydrous"""
+    default = True
+
+
+class Solubility_NaCl_2H2O_Steiger(Solubility_NaCl_2H2O_Steiger2008_Base):
+    """Already defined in steiger module; default for hydrohalite"""
     default = True
 
 
@@ -58,6 +64,7 @@ class Solubility_NaCl_Sparrow(SaturatedSolutionFormula):
 
 SolubilityFormulas_NaCl = (
     Solubility_NaCl_Steiger,
+    Solubility_NaCl_2H2O_Steiger,
     Solubility_NaCl_CRCHandbook,
     Solubility_NaCl_Sparrow
 )

@@ -10,6 +10,12 @@ python -m aquasol
 
 The package is under CeCILL-2.1 license, which is equivalent to GNU-GPL (see license file and information below)
 
+How to install:
+```bash
+pip install aquasol
+```
+
+
 
 WATER
 =====
@@ -361,19 +367,18 @@ Available Solutes
 
 Sorted by alphabetical order. When available, the sources are written in parentheses. For convert, an X means available.
 
-| Solute | Water Activity | Activity Coeff. (Ɣ) |      Density      | Surface Tension | Refractive Index | Electrical Conductivity | Solubility | Convert (**) |
-|:------:|:--------------:|:-------------------:|:-----------------:|:---------------:|:----------------:|:-----------------------:|:----------:|:------------:|
-| CaCl2  |      (1)       |                     |     (1*,3,14)     |      (1,6*)     |       (7)        |                         |            |       X      |
-| KCl    |     (8,13*)    |       (8,13*)       |      (3,14)       |       (6)       |       (7)        |           (9)           |    (13)    |       X      |
-| KI     |                |                     |      (3,14)       |                 |                  |                         |            |       X      |
-| LiCl   |      (1)       |                     |      (1,14)       |       (1)       |                  |                         |    (17)    |       X      |
-| MgCl2  |                |                     |      (3,14)       |       (6)       |                  |                         |            |       X      |
-| Na2SO4 |   (2,12,13*)   |       (12,13*)      |    (10,,1415)     |       (6)       |                  |                         |    (13)    |       X      |
-| NaCl   |  (2*,8,12,13)  |      (8,12,13*)     | (3,4,5*,11,14,15) |      (6*,11)    |       (7)        |                         | (13,16,17) |       X      |
+| Solute | Water Activity | Activity Coeff. |      Density      | Surface Tension | Refr. Index | Elec. Conduct. | Solubility | Convert (*) |
+|:------:|:--------------:|:---------------:|:-----------------:|:---------------:|:-----------:|:--------------:|:----------:|:-----------:|
+| CaCl2  |      (1)       |                 |     (1,3,14)      |      (1,6)      |     (7)     |                |            |      X      |
+| KCl    |     (8,13)     |     (8,13)      |      (3,14)       |       (6)       |     (7)     |       (9)      |    (13)    |      X      |
+| KI     |                |                 |      (3,14)       |                 |             |                |            |      X      |
+| LiBr   |    (19,20)     |      (20)       |                   |                 |             |                |    (18)    |      -      |
+| LiCl   |   (1,19,20)    |      (20)       |      (1,14)       |       (1)       |             |                |    (17)    |      X      |
+| MgCl2  |                |                 |      (3,14)       |       (6)       |             |                |            |      X      |
+| Na2SO4 |   (2,12,13)    |    (12,13)      |    (10,14,15)     |       (6)       |             |                |    (13)    |      X      |
+| NaCl   | (2,8,12,13,20) |  (8,12,13,20)   | (3,4,5,11,14,15)  |      (6,11)     |     (7)     |                | (13,16,17) |      X      |
 
-(*) Default source indicated when several formulas are available.
-
-(**) Solutes with no density data cannot use conversion to/from molarity ('c') but all other conversions work. They are noted with - instead of X.
+(*) Solutes with no density data cannot use conversion to/from molarity ('c') but all other conversions work. They are noted with - instead of X.
 
 Sources
 -------
@@ -412,6 +417,12 @@ International Journal of Thermal Sciences 43, 367–382 (2004).
 (16) Sparrow, B. S., *Empirical equations for the thermodynamic properties of aqueous sodium chloride*. Desalination 159, 161-170 (2003).
 
 (17) CRC Handbook of Chemistry and Physics: A Ready-Reference Book of Chemical and Physical Data. (CRC Press, Boca Raton London New York, 2023).
+
+(18) Duvall, K. N., Dirksen, J. A. & Ring, T. A. *Ostwald-Meyers Metastable Region in LiBr Crystallization—Comparison of Measurements with Predictions.* Journal of Colloid and Interface Science 239, 391-398 (2001).
+
+(19) Patil, K. R., Tripathi, A. D., Pathak, G. & Katti, S. S. *Thermodynamic Properties of Aqueous Electrolyte Solutions. 1. Vapor Pressure of Aqueous Solutions of LiCI, LiBr, and LiI.* J. Chem. Eng. Data 35, 166-168 (1990)
+
+(20) Pitzer, K. S. & Mayorga, G., *Thermodynamics of electrolytes. II. Activity and osmotic coefficients for strong electrolytes with one or both ions univalent.* J. Phys. Chem. 77, 2300-2308 (1973).
 
 
 Constants
@@ -462,8 +473,8 @@ Information
 Package requirements
 --------------------
 - numpy
-- matplotlib (only if running the package directly as a main file to plot the properties)
 - pynverse
+- [optional] matplotlib (only if running the package directly as a main file to plot the properties)
 
 Python requirements
 -------------------

@@ -1,15 +1,5 @@
 """Gathers the formulas for the activity coefficients of NaCl solutions.
 
-Note
-----
-When adding source, make sure to make a function that has two parameters:
-- w (weight fraction), range 0-1 or other concentration quantity
-- T (temperature), in K
-and returns one parameter
-- gamma, molal activity coefficient (dimensionless)
-Also, add the name of the function to the formulas dictionary at the end of the
-file.
-
 Sources
 -------
 
@@ -35,8 +25,16 @@ J. Chem. Eng. Data 52, 1784-1790 (2007).)
   The NaCl-H2O and KCl-H2O systems.
   Journal of Colloid and Interface Science 114, 409-415 (1986).
   Valid at 25°C and for solutions of molality up to ~13 mol/kg
+
+- Pitzer, K. S. & Mayorga, G.
+  Thermodynamics of electrolytes. II.
+  Activity and osmotic coefficients for strong electrolytes with one or both
+  ions univalent.
+  J. Phys. Chem. 77, 2300-2308
+  (1973)
 """
 
+from .pitzer import ActivityCoefficient_NaCl_Pitzer_Base
 from .steiger import ActivityCoefficient_NaCl_Steiger2005_Base
 from .steiger import ActivityCoefficient_NaCl_Steiger2008_Base
 from .tang import ActivityCoefficient_NaCl_Tang_Base
@@ -44,6 +42,11 @@ from .tang import ActivityCoefficient_NaCl_Tang_Base
 
 class ActivityCoefficient_NaCl_Tang(ActivityCoefficient_NaCl_Tang_Base):
     """Already defined in tang module"""
+    pass
+
+
+class ActivityCoefficient_NaCl_Pitzer(ActivityCoefficient_NaCl_Pitzer_Base):
+    """Already defined in pitzer module"""
     pass
 
 class ActivityCoefficient_NaCl_Steiger2005(ActivityCoefficient_NaCl_Steiger2005_Base):
@@ -62,4 +65,5 @@ ActivityCoefficientFormulas_NaCl = (
     ActivityCoefficient_NaCl_Steiger2008,
     ActivityCoefficient_NaCl_Steiger2005,
     ActivityCoefficient_NaCl_Tang,
+    ActivityCoefficient_NaCl_Pitzer,
 )

@@ -205,6 +205,34 @@ class PitzerActivity(PitzerBase):
         return np.exp(ln_gamma)
 
     def solute_activity(self, m):
-        """Solute activity, as = m * gamma"""
-        gamma = self.osmotic_coefficient(m)
-        return gamma * m
+        """The complicated prefactor is due to how gamma_+/- etc. are defined
+
+        (cf e.g. Steiger 2005)
+        """
+        prefactor = (self.nu_m ** self.nu_m) * (self.nu_x ** self.nu_x)
+        gamma = self.activity_coefficient(m=m)
+        return  prefactor * (gamma * m) ** self.nu_mx
+
+
+class PitzerActivityOriginal(PitzerActivity):
+    """In the original Pitzer 1973 paper, there are no alpha2, beta2 terms.
+
+    (but just alpha=alpha1=2 fixed, A_phi = 0.392 fixed
+    and beta0, beta1, C_phi tabulated)
+    """
+    def __init__(self, T=298.15, solute='NaCl', **coeffs):
+        """Init PitzerActivity object.
+
+        Input
+        -----
+        T: temperature in K
+        solute: solute name (str, default 'NaCl')
+        coeffs: must contain the following keys:
+        - beta0, beta1, 2d virial coefficient parameters
+        - C_phi: third virial coefficient
+        """
+        coeffs['A_phi'] = 0.392
+        coeffs['alpha1'] = 2
+        coeffs['alpha2'] = 0
+        coeffs['beta2'] = 0
+        super().__init__(T=T, solute=solute, **coeffs)

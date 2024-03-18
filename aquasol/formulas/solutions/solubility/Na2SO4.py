@@ -1,4 +1,4 @@
-"""Gathers the formulas for the solubility of Na2SO4 solutions.
+"""Gathers the formulas for the solubility of Na2SO4.
 
 
 Sources
@@ -16,10 +16,16 @@ J. Chem. Eng. Data 52, 1784-1790 (2007).)
 """
 
 from .steiger import Solubility_Na2SO4_Steiger2008_Base
+from .steiger import Solubility_Na2SO4_10H2O_Steiger2008_Base
 
 
 class Solubility_Na2SO4_Steiger(Solubility_Na2SO4_Steiger2008_Base):
-    """Already defined in steiger module"""
+    """Already defined in steiger module. Default formula for thenardite."""
+    default = True
+
+
+class Solubility_Na2SO4_10H2O_Steiger(Solubility_Na2SO4_10H2O_Steiger2008_Base):
+    """Already defined in steiger module. Default formula for mirabilite"""
     default = True
 
 
@@ -27,4 +33,5 @@ class Solubility_Na2SO4_Steiger(Solubility_Na2SO4_Steiger2008_Base):
 
 SolubilityFormulas_Na2SO4 = (
     Solubility_Na2SO4_Steiger,
+    Solubility_Na2SO4_10H2O_Steiger,
 )
