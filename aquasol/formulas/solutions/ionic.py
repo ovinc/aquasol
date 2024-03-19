@@ -15,7 +15,7 @@ from ...constants import get_solute
 # ========================== INDIVIDUAL ION QUANTITIES =======================
 
 
-def ion_quantities(solute, **concentration):
+def ion_quantities(solute='NaCl', **concentration):
     """Return quantities x, m, c but defined for each ion instead of considering
     the solute as a single species. Used in ionic strength calculations.
 
@@ -60,7 +60,7 @@ def ion_quantities(solute, **concentration):
 # =============================== IONIC STRENGTH =============================
 
 
-def ionic_strength(solute, **concentration):
+def ionic_strength(solute='NaCl', **concentration):
     """Ionic strength in terms of mole fraction (x), molality (m) or molarity (c)
 
     ionic_strength('NaCl', x=0.1) returns the mole fraction ionic strength (Ix)

@@ -12,6 +12,8 @@ Fundamental constants:
 Other constants:
     - R (float): ideal gas constant
     - Patm (float): atmospheric pressure in Pa
+    - epsilon0: electric permittivity in vacuum
+    - mu0: magnetic permeability in vacuum
 Water properties:
     - Mw (float): molar mass of water in kg / mol
     - Tc (float): critical temperature in K
@@ -50,7 +52,9 @@ C = 299_792_458         # speed of light in vacuum [m/s]
 # ============================= Other constants ==============================
 
 R = k * Na
-Patm = 101_325           # atmospheric pressure [Pa]
+Patm = 101_325                   # atmospheric pressure [Pa]
+epsilon0 = 8.854_187_8128e-12    # electric permittivity in vacuum
+mu0 = 1.256_637_062_12e-6        # magnetic permeability in vacuum
 
 # ============================== WATER PROPERTIES ============================
 

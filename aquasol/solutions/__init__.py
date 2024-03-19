@@ -11,6 +11,7 @@ from .properties import solubility
 
 from .convert import convert
 from .invert import aw_to_conc
-from .extend import osmotic_pressure, osmotic_coefficient, aw_saturated
+from .extend import osmotic_pressure, osmotic_coefficient
+from .extend import aw_saturated, debye_length
 
 from ..formulas.solutions.ionic import ion_quantities, ionic_strength

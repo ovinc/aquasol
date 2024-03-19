@@ -8,9 +8,11 @@ from aquasol.solutions import density
 from aquasol.solutions import surface_tension
 from aquasol.solutions import refractive_index
 from aquasol.solutions import electrical_conductivity
-from aquasol.solutions import solubility, aw_saturated
+from aquasol.solutions import solubility
+from aquasol.solutions import aw_saturated
 
 from aquasol.solutions import osmotic_coefficient, osmotic_pressure
+from aquasol.solutions import debye_length
 from aquasol.solutions import aw_to_conc
 from aquasol.solutions import convert
 
@@ -405,3 +407,18 @@ def test_ac_2():                # in terms of molality
 def test_ac_3():                # in terms of mass ratio, for LiCl, at 50°C
     r = aw_to_conc(0.11, 'r', 'LiCl', T=50)
     assert round(r, 2) == 0.92
+
+
+# ============================ Test Debye length =============================
+
+def test_Debye_1():
+    l = debye_length(c=10)         # at 10mM
+    assert round(l / 1e-9) == 3    # 3 nm
+
+def test_Debye_2():
+    l = debye_length(c=10e3, T=10)          # at 10M
+    assert round(l / 1e-9, 1) == 0.1        # 1 Angström
+
+def test_Debye_3():
+    l = debye_length('Na2SO4', c=3000, T=10)  # sodium sulfate at 3M
+    assert round(l / 1e-9, 1) == 0.1          # 1 Angström

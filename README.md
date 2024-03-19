@@ -198,6 +198,7 @@ The following functions, which are based on some of the ones above, are also def
 - `osmotic_coefficient()`: $\phi$, calculated using `water_activity()`
 - `osmotic_pressure()`: $\Pi$, calculated using `water_activity()`
 - `aw_saturated()`: water activity of saturated solutions (i.e., equilibrium humidity)
+- `debye_length()`: Debye length as a function of temperature and concentration
 
 The structure of the call for any property (replace *property* below by one of the function names above) is
 ```python
@@ -237,6 +238,7 @@ from aquasol.solutions import water_activity, activity_coefficient
 from aquasol.solutions import osmotic_pressure, osmotic_coefficient
 from aquasol.solutions import density, surface_tension, refractive_index
 from aquasol.solutions import solubility, aw_saturated
+from aquasol.solutions import ionic_strength, debye_length
 
 # Water activity (dimensionless, 'aw') ---------------------------------------
 water_activity(x=0.1)            # NaCl solution, mole fraction 10%, 25°C
@@ -278,9 +280,13 @@ solubility(T=10)   # NaCl at 10°C
 solubility('KCl')  # KCl, 25°C
 solubility('Na2SO4,10H20', T=10)  # Mirabilite at T=10°C
 
-# And other ways to express solubility:
+# Other ways to express solubility:
 aw_saturated()        # Activity of saturated NaCl solution = 0.753
 aw_saturated('LiCl')  # etc.
+
+# Debye length and ionic strength
+debye_length('Na2SO4', c=100)  # sodium sulfate at 100mM
+ionic_strength('KCl', m=2)     # molal ionic strength
 ```
 
 ### Attributes & Methods

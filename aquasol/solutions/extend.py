@@ -5,9 +5,10 @@ e.g., osmotic_pressure instead of water_activity, etc.
 
 import numpy as np
 
-from ..constants import R, Mw, get_solute
+from ..constants import R, Mw, Na, k, e, epsilon0, get_solute
 from ..format import format_temperature, format_output_type, format_concentration
-from ..water import molar_volume
+from ..water import molar_volume, dielectric_constant
+from ..formulas.solutions.ionic import ionic_strength
 
 from .convert import convert
 from .properties import water_activity, solubility
@@ -184,3 +185,50 @@ def aw_saturated(
         m=m_sat,
     )
     return a_w
+
+
+def debye_length(solute='NaCl', T=25, unit='C', **concentration):
+    """Return Debye length of an aqueous solution at a given concentration.
+
+    NOTE: the dependence of water dielectric constant (epsilon) as a function
+    of temperature is taken into account, but not as a function of concentration
+    --> TODO?
+
+    Parameters
+    ----------
+    - solute (str): solute name, default 'NaCl'
+    - T (float): temperature (default 25)
+    - unit (str, default 'C'): 'C' for Celsius, 'K' for Kelvin
+
+    - **concentration: kwargs with any unit that is allowed by convert(), e.g.
+        - m= : molality (mol/kg)
+        - w= : mass fraction
+        - x= : mole fraction
+        - c= : molarity (mol/m^3)
+        - r= : mass ratio (unitless)
+
+    Output
+    ------
+    - Debye length [m]
+
+    Solutes and Sources
+    -------------------
+    See water_activity.solutes, water_activity.sources and
+    water_activity.default_sources and README.md
+
+    Examples
+    --------
+    - debye_length(w=0.26)        # Debye length in saturated NaCl
+    - debye_length(c=2.5, T=20)   # Debye length at 2.5mM, 20°C
+    """
+    c = format_concentration(
+        concentration=concentration,
+        unit_out='c',
+        solute=solute,
+        converter=convert,
+    )
+    Ic = ionic_strength(solute=solute, c=c)
+    epsilon = epsilon0 * dielectric_constant(T=T, unit=unit)
+    T_kelvin = format_temperature(T=T, unit_in=unit, unit_out='K')
+    l_squared = epsilon * k * T_kelvin / (2 * e**2 * Ic * Na)
+    return l_squared**(1 / 2)
