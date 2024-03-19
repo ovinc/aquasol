@@ -4,6 +4,7 @@ from ..properties import WaterProperty
 
 from ..formulas.water.density_atm import DensityAtmFormulas
 from ..formulas.water.density_sat import DensitySatFormulas
+from ..formulas.water.dielectric_constant import DielectricConstantFormulas
 from ..formulas.water.diffusivity_in_air import DiffusivityInAirFormulas
 from ..formulas.water.surface_tension import SurfaceTensionFormulas
 from ..formulas.water.vapor_pressure import VaporPressureFormulas
@@ -21,10 +22,8 @@ class DensityAtm(WaterProperty):
     >>> rho([0, 10, 20, 30])     # rho at various temperatures in Celsius
     >>> rho(300, 'K')            # rho at 300K
     """
-
     quantity = 'density (sat.)'
     unit = '[kg/m^3]'
-
     Formulas = DensityAtmFormulas
 
 
@@ -39,11 +38,25 @@ class DensitySat(WaterProperty):
     >>> rho([0, 10, 20, 30])     # rho at various temperatures in Celsius
     >>> rho(300, 'K')            # rho at 300K
     """
-
     quantity = 'density (sat.)'
     unit = '[kg/m^3]'
-
     Formulas = DensitySatFormulas
+
+
+class DielectricConstant(WaterProperty):
+    """Dielectric constant of water at ambient pressure as a function of T
+
+    Examples
+    --------
+    >>> from aquasol.water import dielectric_constant as epsilon
+    >>> epsilon()  # returns the diffusivity of water in air at 25°C
+    >>> epsilon(20)                  # at 20°C
+    >>> epsilon([0, 10, 20, 30])     # at various temperatures in Celsius
+    >>> epsilon(300, 'K')            # at 300K
+    """
+    quantity = 'dielectric constant'
+    unit = '[-]'
+    Formulas = DielectricConstantFormulas
 
 
 class DiffusivityInAir(WaterProperty):
@@ -57,10 +70,8 @@ class DiffusivityInAir(WaterProperty):
     >>> d([0, 10, 20, 30])     # at various temperatures in Celsius
     >>> d(300, 'K')            # at 300K
     """
-
     quantity = 'vapor diffusivity in air'
     unit = '[m^2/s]'
-
     Formulas = DiffusivityInAirFormulas
 
 
@@ -75,10 +86,8 @@ class SurfaceTension(WaterProperty):
     >>> sigma([0, 10, 20, 30])     # sigma at various temperatures in Celsius
     >>> sigma(300, 'K')            # sigma at 300K
     """
-
     quantity = 'surface tension'
     unit = '[N/m]'
-
     Formulas = SurfaceTensionFormulas
 
 
@@ -94,10 +103,8 @@ class VaporPressure(WaterProperty):
     >>> psat(300, 'K')             # at 300K
     >>> psat(15, source='Wexler')  # at 15°C using Wexler equation
     """
-
     quantity = 'saturated vapor pressure'
     unit = '[Pa]'
-
     Formulas = VaporPressureFormulas
 
 
@@ -106,22 +113,21 @@ class ViscosityAtm(WaterProperty):
 
     Examples
     --------
-    >>> from aquasol.water import viscosity_atm as mu
+    >>> from aquasol.water import viscosity as mu
     >>> mu()  # returns the diffusivity of water in air at 25°C
     >>> mu(20)                  # at 20°C
     >>> mu([0, 10, 20, 30])     # at various temperatures in Celsius
     >>> mu(300, 'K')            # at 300K
     """
-
-    quantity = 'viscosity (atm.)'
+    quantity = 'viscosity'
     unit = '[Pa.s]'
-
     Formulas = ViscosityAtmFormulas
 
 
 density_atm = DensityAtm()
 density_sat = DensitySat()
+dielectric_constant = DielectricConstant()
 diffusivity_in_air = DiffusivityInAir()
 surface_tension = SurfaceTension()
 vapor_pressure = VaporPressure()
-viscosity_atm = ViscosityAtm()
+viscosity = ViscosityAtm()

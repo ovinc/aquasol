@@ -1,4 +1,4 @@
-"""Function to calculate the desnity of ambient water as a function of
+"""Function to calculate the density of ambient water as a function of
 temperature using IAPWS recommended equations or others.
 
 Sources

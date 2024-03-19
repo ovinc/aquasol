@@ -1,6 +1,6 @@
 from aquasol.water import vapor_pressure, surface_tension
 from aquasol.water import density_sat, density_atm, molar_volume
-from aquasol.water import diffusivity_in_air, viscosity_atm
+from aquasol.water import diffusivity_in_air, dielectric_constant, viscosity
 from aquasol.water import dewpoint, kelvin_humidity, kelvin_radius, kelvin_pressure
 import numpy as np
 
@@ -149,6 +149,16 @@ def test_vm_4():
     assert round(vms[1] * 1e5, 3) == 1.807
 
 
+# ========================= Test dielectric constant =========================
+
+def test_epsilon_1():
+    e = dielectric_constant(T=20)
+    assert round(e) == 80
+
+def test_epsilon_2():
+    e = dielectric_constant(50)
+    assert round(e) == 70
+
 # ========================= Test Diffusivity in air ==========================
 
 def test_diffusivity_1():
@@ -162,11 +172,11 @@ def test_diffusivity_2():
 # ========================= Test Viscosity (Ambient) =========================
 
 def test_viscosity_1():
-    mu = viscosity_atm()
+    mu = viscosity()
     assert round(mu * 1e3, 2) == 0.89
 
 def test_viscosity_2():
-    mu = viscosity_atm(T=100)
+    mu = viscosity(T=100)
     assert round(mu * 1e3, 2) == 0.28
 
 # ============================== Test Dewpoint ===============================

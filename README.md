@@ -24,12 +24,13 @@ Properties
 ----------
 
 The *water* module has the following functions(*), which return the respective properties of interest as a function of temperature:
-- `vapor_pressure()` for saturation vapor pressure of pure water (Pa),
-- `surface_tension()` for surface tension of pure water (N/m).
 - `density_sat()` for density on the liquid-vapor coexistence line (kg/m^3)
 - `density_atm()` for density at ambient pressure 0.1 MPa (kg/m^3)
+- `dielectric_constant()` for the dielectric constant at 0.1 MPa (-)
 - `diffusivity_in_air()` for diffusivity of water vapor in air (m^2/s)
-- `viscosity_atm()` for viscosity of liquid water (Pa.s)
+- `surface_tension()` for surface tension of pure water (N/m).
+- `vapor_pressure()` for saturation vapor pressure of pure water (Pa),
+- `viscosity()` for viscosity of liquid water (Pa.s)
 
 The structure of the call for any property (replace *property* below by one of the function names above) is
 ```python
@@ -61,7 +62,7 @@ value = property(T=25, unit='C', source=None)
 ```python
 from aquasol.water import vapor_pressure, surface_tension
 from aquasol.water import density_atm, density_sat
-from aquasol.water import diffusivity_in_air, viscosity_atm
+from aquasol.water import diffusivity_in_air, viscosity
 
 vapor_pressure()             # Saturation vapor pressure (Pa) at 25°C (3170 Pa)
 vapor_pressure(298.15, 'K')        # same thing
@@ -75,7 +76,9 @@ density_sat(277.15, 'K')     # same thing, but on the coexistence line
 
 diffusivity_in_air(27)  # Diffusivity of water vapor in air at 27°C
 
-viscosity_atm()         # Viscosity of liquid water at 25°C
+viscosity()         # Viscosity of liquid water at 25°C
+
+dielectric_constant(T=20)   # Dielectric constant at 20°C ( = 80)
 ```
 
 ### Attributes & Methods
@@ -170,6 +173,8 @@ Below are the sources for water vapor pressure (1, 2, 3), density (1, 4, 5), sur
 (8) Marrero, T. R. and Mason E. A., *Gaseous diffusion coeffcients.* Journal of Physics and Chemistry Reference Data 1, 3-118 (1972)
 
 (9) Huber, M. L. et al. *New International Formulation for the Viscosity of H2O.* Journal of Physical and Chemical Reference Data 38, 101-125 (2009). [*]
+
+(10) Archer, D. G. & Wang, P. *The Dielectric Constant of Water and Debye-Hückel Limiting Law Slopes.* Journal of Physical and Chemical Reference Data 19, 371-411 (1990).
 
 [*] Recommended by IAPWS.
 

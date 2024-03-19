@@ -8,8 +8,8 @@ import numpy as np
 from .format import format_temperature, format_concentration
 
 from .water import vapor_pressure, surface_tension as sigma_w
-from .water import density_atm, density_sat
-from .water import diffusivity_in_air, viscosity_atm
+from .water import density_atm, density_sat, dielectric_constant
+from .water import diffusivity_in_air, viscosity
 
 from .solutions import water_activity
 from .solutions import activity_coefficient
@@ -40,17 +40,18 @@ LINESTYLES = [
 
 
 faxs = plt.subplots(2, 3)
-fig_w, ((ax_w_psat, ax_w_sigma, ax_w_rho), (ax_w_diff, ax_w_visc, _)) = faxs
+fig_w, ((ax_w_psat, ax_w_sigma, ax_w_rho), (ax_w_diff, ax_w_visc, ax_w_eps)) = faxs
 
 fig_w.suptitle('Water')
 
 water_properties = (
     vapor_pressure,
     sigma_w,
+    dielectric_constant,
     density_sat,
     density_atm,
     diffusivity_in_air,
-    viscosity_atm,
+    viscosity,
 )
 
 # General plotting functions -------------------------------------------------
@@ -78,6 +79,7 @@ def plot_all_sources(ppty, ax, norm=1):
         ax.plot(tt, data * norm, ls=linestyle, label=source)
 
     ax.legend()
+    ax.grid()
     ax.set_xlabel(f'T ({temperature_unit})')
     ax.set_ylabel(f'{ppty.quantity.capitalize()} {ppty.unit}')
 
@@ -94,8 +96,8 @@ plot_all_sources(density_atm, ax_w_rho)
 ax_w_rho.set_ylabel('Density [kg / m^3]')
 
 plot_all_sources(diffusivity_in_air, ax_w_diff)
-plot_all_sources(viscosity_atm, ax_w_visc)
-
+plot_all_sources(viscosity, ax_w_visc)
+plot_all_sources(dielectric_constant, ax_w_eps)
 
 # # ============================== SOLUTIONS ===================================
 
@@ -189,6 +191,7 @@ def plot_all_sources_conc(
         ax.plot(cc, data * norm, **plot_kwargs)
 
     ax.legend()
+    ax.grid()
     ax.set_xlabel(f'concentration ({concentration_unit})')
     ax.set_ylabel(f'{ppty.quantity.capitalize()} {ppty.unit}')
 
