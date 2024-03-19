@@ -5,7 +5,7 @@ e.g., osmotic_pressure instead of water_activity, etc.
 
 import numpy as np
 
-from ..constants import R, Mw, dissociation_numbers
+from ..constants import R, Mw, get_solute
 from ..format import format_temperature, format_output_type, format_concentration
 from ..water import molar_volume
 
@@ -122,7 +122,8 @@ def osmotic_coefficient(solute='NaCl', T=25, unit='C', source=None, **concentrat
         solute=solute,
         converter=convert,
     )
-    nu_mx = sum(dissociation_numbers[solute])
+    salt = get_solute(formula=solute)
+    nu_mx = sum(salt.stoichiometry)
     phi = - np.log(a_w) / (Mw * nu_mx * m)
     return format_output_type(phi)
 

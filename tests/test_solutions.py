@@ -15,8 +15,7 @@ from aquasol.solutions import aw_to_conc
 from aquasol.solutions import convert
 
 from aquasol.constants import molar_mass
-from aquasol.constants import charge_numbers
-from aquasol.constants import dissociation_numbers
+from aquasol.constants import get_solute
 
 
 # ============================== Test constants ==============================
@@ -24,9 +23,10 @@ from aquasol.constants import dissociation_numbers
 
 def test_constants():
     solute = 'Na2SO4'
+    salt = get_solute(formula=solute)
     assert round(molar_mass(solute), 3) == 0.142  # kg / mol
-    assert charge_numbers[solute] == (1, 2)
-    assert dissociation_numbers[solute] == (2, 1)
+    assert salt.charges == (1, -2)
+    assert salt.stoichiometry == (2, 1)
 
 
 # # =========================== Test activity coeff ============================

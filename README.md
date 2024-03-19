@@ -428,19 +428,21 @@ International Journal of Thermal Sciences 43, 367–382 (2004).
 Constants
 =========
 
-The *constants.py* file includes useful values including critical point data, molecular weights of species, dissociation numbers etc. Use the function `molar_mass` to get the molar mass (in kg/mol) of a specific solute from the *solute_list*, e.g.:
+The *constants.py* file includes useful values including critical point data, molecular weights of species, dissociation numbers etc. Use the function `molar_mass` to get the molar mass (in kg/mol) of a specific solute from the available solutes, e.g.:
 
 ```python
 from aquasol.constants import Mw           # molar mass of water (kg/mol)
 from aquasol.constants import molar_mass   # molar mass of specific solute
-from aquasol.constants import charge_numbers        # charges z+ / z-
-from aquasol.constants import dissociation_numbers  # nu+ / nu-
+from aquasol.constants import get_solute   # returns solute object with info
 
-solute = 'Na2SO4'
+Na2SO4 = get_solute('Na2SO4')
 
-molar_mass(solute)  # 0.142 kg/mol
-z_m, z_x = charge_numbers[solute]          # (1, 2) for Na(1+), SO4(2-)
-nu_m, nu_x = dissociation_numbers[solute]  # (2, 1) for Na(2) SO4(1)
+molar_mass('Na2SO4')            # 0.142 kg/mol
+Na2SO4.molar_mass               # same
+Na2SO4.molecular_weight         # same but in Daltons (142)
+
+z_m, z_x = Na2SO4.charges          # (1, -2) for Na(1+), SO4(2-)
+nu_m, nu_x = Na2SO4.stoichiometry   # (2, 1) for Na(2) SO4(1)
 ```
 
 

@@ -3,7 +3,7 @@
 
 import numpy as np
 
-from ....constants import dissociation_numbers, Mw, molar_mass, charge_numbers
+from ....constants import Mw, molar_mass, get_solute
 from ...water.density_atm import DensityAtm_IAPWS
 from ..ionic import ionic_strength
 from ..pitzer import PitzerVolumetric
@@ -66,8 +66,9 @@ def apparent_molar_volume_25(w, solute='NaCl'):
     if solute == 'NaCl':
         powers['c6'] = 1.75
 
-    z_m, z_x = charge_numbers[solute]
-    nu_m, nu_x = dissociation_numbers[solute]
+    salt = get_solute(formula=solute)
+    z_m, z_x = tuple(abs(z) for z in salt.charges)
+    nu_m, nu_x = salt.stoichiometry
     nu_mx = nu_m + nu_x
 
     # Note: I use for now the 2 lines below instead of convert() because of

@@ -8,9 +8,8 @@ ionic strength expressed as molality is more common, e.g. Pitzer 1973
 """
 
 # Local imports
-from ...format import format_input_type, check_solute
-from ...constants import solute_list
-from ...constants import dissociation_numbers, charge_numbers
+from ...format import format_input_type
+from ...constants import get_solute
 
 
 # ========================== INDIVIDUAL ION QUANTITIES =======================
@@ -40,8 +39,8 @@ def ion_quantities(solute, **concentration):
 
     value = format_input_type(value)  # allows for lists and tuples as inputs
 
-    check_solute(solute, solute_list)
-    n1, n2 = dissociation_numbers[solute]
+    salt = get_solute(formula=solute)
+    n1, n2 = salt.stoichiometry
 
     if param == 'x':
         x = value
@@ -71,8 +70,8 @@ def ionic_strength(solute, **concentration):
     Note: output units is different for each case (same as input parameter, e.g.
     mol / m^3 for 'c').
     """
-    check_solute(solute, solute_list)
-    z1, z2 = charge_numbers[solute]
+    salt = get_solute(formula=solute)
+    z1, z2 =  salt.charges
     y1, y2 = ion_quantities(solute, **concentration)
     I_strength = 0.5 * (y1 * z1 ** 2 + y2 * z2 ** 2)
     return I_strength

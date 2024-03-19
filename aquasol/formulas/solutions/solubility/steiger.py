@@ -23,7 +23,6 @@ J. Chem. Eng. Data 52, 1784-1790 (2007).)
 import numpy as np
 from pynverse import inversefunc
 
-from ....constants import dissociation_numbers
 from ....format import make_array_method
 from ...general import SaturatedSolutionFormula
 from ..steiger import coeffs_steiger2008_activity

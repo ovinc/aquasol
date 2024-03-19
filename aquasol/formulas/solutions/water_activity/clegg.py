@@ -9,7 +9,7 @@ up to ~17 mol/kg (x ~ 0.23)
 
 import numpy as np
 
-from ....constants import charge_numbers
+from ....constants import get_solute
 from ...general import SolutionFormula
 from ..ionic import ion_quantities, ionic_strength
 
@@ -19,7 +19,8 @@ def aw_clegg(x, T, solute, coeffs):
     x_ion1, x_ion2 = ion_quantities(solute, x=x)
     x1 = 1 - (x_ion1 + x_ion2)  # mole fraction of water
 
-    z_ion1, z_ion2 = charge_numbers[solute]
+    salt = get_solute(formula=solute)
+    z_ion1, z_ion2 = tuple(abs(z) for z in salt.charges)
 
     Ix = ionic_strength(solute, x=x)  # ionic strength
 

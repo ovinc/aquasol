@@ -6,7 +6,7 @@ Mostly based on Michael Steiger's group papers.
 import numpy as np
 
 from ...constants import R as ideal_gas_constant
-from ...constants import Mw, charge_numbers, dissociation_numbers
+from ...constants import Mw, get_solute
 from .ionic import ionic_strength
 
 
@@ -34,8 +34,9 @@ class PitzerBase:
         for coeff_name, coeff_value in coeffs.items():
             setattr(self, coeff_name, coeff_value)
 
-        self.z_m, self.z_x = charge_numbers[solute]
-        self.nu_m, self.nu_x = dissociation_numbers[solute]
+        salt = get_solute(formula=solute)
+        self.z_m, self.z_x = tuple(abs(z) for z in salt.charges)
+        self.nu_m, self.nu_x = salt.stoichiometry
         self.nu_mx = self.nu_m + self.nu_x
 
     @staticmethod

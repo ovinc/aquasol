@@ -15,9 +15,8 @@ from pynverse import inversefunc
 import numpy as np
 
 # Local imports
-from ..constants import solute_list
 from ..constants import molar_mass
-from ..format import check_solute, check_units
+from ..format import check_units
 from ..format import format_input_type, format_output_type, format_concentration
 from ..properties import SolutionProperty
 
@@ -59,7 +58,6 @@ density_basic = Density_Basic()
 
 def w_to_molarity(w, solute, T=25, unit='C', source=None):
     """Calculate molarity of solute from weight fraction at temperature T in °C"""
-    check_solute(solute, solute_list)
     M = molar_mass(solute)
     rho = density_basic(solute=solute, T=T, unit=unit, source=source, w=w)
     return rho * w / M
@@ -80,8 +78,6 @@ def molarity_to_w(c, solute, T=25, unit='C', source=None, wmin=0, wmax=0.999):
 
     Note: can be slow because of inverting the function each time.
     """
-    check_solute(solute, solute_list)
-
     def molarity(w):
         with warnings.catch_warnings():      # this is to avoid always warnings
             warnings.simplefilter('ignore')  # which pop up due to wmax being high
@@ -206,8 +202,6 @@ def convert(
     # No need to calculate anything if the in and out units are the same -----
     if unit1 == unit2:
         return value
-
-    check_solute(solute, solute_list)
 
     if unit1 in basic_units and unit2 in basic_units:
         return basic_convert(

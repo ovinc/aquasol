@@ -15,12 +15,6 @@ def check_units(units, allowed_units):
         raise ValueError(f'{wrong_units} not in allowed units {allowed_units}')
 
 
-def check_solute(solute, allowed_solutes):
-    """Check if solute in allowed solutes to use, raise exception if not"""
-    if solute not in allowed_solutes:
-        raise ValueError(f"{solute} not in allowed solutes: {allowed_solutes}")
-
-
 def format_input_type(value):
     """If type of input doesn't support math operations, convert to np array."""
     try:

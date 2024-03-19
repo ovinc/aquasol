@@ -13,7 +13,7 @@ Source
 
 import numpy as np
 
-from ....constants import charge_numbers
+from ....constants import get_solute
 from ...general import SolutionFormula
 from ..ionic import ionic_strength
 
@@ -23,7 +23,8 @@ def ln_gamma_extended_debye_huckel(m, T, solute, coeffs):
 
     Used for NaCl and KCl
     """
-    z1, z2 = charge_numbers[solute]
+    salt = get_solute(formula=solute)
+    z1, z2 = tuple(abs(z) for z in salt.charges)
     A, B, C, D, E, beta = coeffs
     I = ionic_strength(solute, m=m)
 

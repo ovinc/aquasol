@@ -13,17 +13,18 @@ Source
 
 import numpy as np
 
-from ....constants import Mw, charge_numbers, dissociation_numbers
+from ....constants import Mw, get_solute
 from ...general import SolutionFormula
 
 
-def aw_extended_debye_huckel(m, T, solute, coeffs):
+def aw_extended_debye_huckel(m, solute, coeffs):
     """Mix of Hamer & Wu 1972 and Tang, Munkelwitz and Wang 1986.
 
-    Used for NaCl and KCl
+    Used for NaCl and KCl at 25°C
     """
-    z1, z2 = charge_numbers[solute]
-    nu = sum(dissociation_numbers[solute])
+    salt = get_solute(formula=solute)
+    z1, z2 = tuple(abs(z) for z in salt.charges)
+    nu = sum(salt.stoichiometry)
 
     A, B, C, D, E, beta = coeffs
 
@@ -51,7 +52,6 @@ class WaterActivity_Tang_Base(SolutionFormula):
     def calculate(self, m, T):
         return aw_extended_debye_huckel(
             m=m,
-            T=T,
             solute=self.solute,
             coeffs=self.coeffs.values(),
         )

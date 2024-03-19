@@ -4,23 +4,22 @@ Note: dictionaries written in alphabetical order.
 
 CONTENTS
 --------
-General properties:
+Fundamental constants:
+    - k (float): Boltzmann's constant
     - Na (float): Avogadro's constant
-    - R (float): molar gas constant
+    - e (float): elementary charge
+    - C (float): speed of light in vacuum
+Other constants:
+    - R (float): ideal gas constant
     - Patm (float): atmospheric pressure in Pa
 Water properties:
     - Mw (float): molar mass of water in kg / mol
     - Tc (float): critical temperature in K
     - Pc (float): critical pressure in Pa
     - rhoc (float): critical density in kg / m^3
-Ion properties in dictionaries (keys : ion name, e.g. 'Cl')
-    - weight_cations: molecular weight of cations in Daltons
-    - weight_anions: molecular weight of anions in Daltons
-Solute properties as dictionaries (keys: solute name, e.g. 'NaCl')
-    - dissociation_numbers: tuple of  number of cations and anions released
-    - charge_numbers: tuple of unit charges of cation and anion
 Solute properties as functions:
-    - molar_mass(solute). Input: solute name (e.g. 'NaCl'), output M in kg / mol
+    - get_salt(formula): return Salt object (see Salt docstring and help)
+    - molar_mass(formula). Input: formula (e.g. 'NaCl'), output M in kg / mol
 
 SOURCES
 -------
@@ -33,17 +32,25 @@ CRC Handbook of Physics and Chemistry:
     http://hbcponline.com/faces/documents/01_01/01_01_0001.xhtml
     - Fixed-point properties of H20 and D20
     http://hbcponline.com/faces/documents/06_04/06_04_0001.xhtml
+    - CODATA RECOMMENDED VALUES OF THE FUNDAMENTAL PHYSICAL CONSTANTS: 2018
+    https://hbcp.chemnetbase.com/documents/18_01/18_01_0001.xhtml
 
 IAPWS, Release on Surface Tension of Ordinary Water Substance
 IAPWS, London, September 1994.
 
 """
 
-# ============================= GENERAL CONSTANTS ============================
+# =========================== FUNDAMENTAL CONSTANTS ==========================
 
-Na = 6.02214085774e23  # Avogadro's constant
-R = 8.314459848  # molar gas constant in J/(mol.K)
-Patm = 101325  # atmospheric pressure in Pa
+k = 1.380_649e-23   # Boltzmann's constant [J / K]
+Na = 6.022_140_76e23    # Avogadro's constant [1/mol]
+e = 1.602_176_634e-19   # elementary charge [C]
+C = 299_792_458         # speed of light in vacuum [m/s]
+
+# ============================= Other constants ==============================
+
+R = k * Na
+Patm = 101_325           # atmospheric pressure [Pa]
 
 # ============================== WATER PROPERTIES ============================
 
@@ -54,104 +61,124 @@ rhoc = 322    # critical density in kg/m^3 (CRC Handbook & IAPWS)
 
 # =========================== SOLUTE/IONS PROPERTIES =========================
 
-solute_list = [
-    'AlCl3',
-    'CaCl2',
-    'K2SO4',
-    'KCl',
-    'KI',
-    'KNO3',
-    'LiBr',
-    'LiCl',
-    'MgCl2',
-    'MgSO4',
-    'Na2SO4',
-    'NaCl',
-    'NaNO3',
-]
+# Individual ions ------------------------------------------------------------
 
-# Individual ion molecular weights in Daltons --------------------------------
-weight_cations = {
-    'Al': 26.982,
-    'Ca': 40.078,
-    'K': 39.098,
-    'Li': 6.94,
-    'Mg': 24.305,
-    'Na': 22.99,
-}
+class Ion:
+    """Representation of anions and cations"""
 
-weight_anions = {
-    'Br': 79.904,
-    'Cl': 35.453,
-    'I': 126.904,
-    'NO3': 62.005,
-    'SO3': 80.063,
-    'SO4': 96.063,
-}
+    def __init__(self, molecule, name, charge, molecular_weight):
+        self.molecule = molecule  # e.g. 'Cl'
+        self.name = name          # e.g. 'chloride'
+        self.charge = charge      # e.g. -1
+        self.molecular_weight = molecular_weight  # in Daltons
 
-# Number of ions per solute molecule after dissociation, for cation and anion
-dissociation_numbers = {
-    'AlCl3': (1, 3),
-    'CaCl2': (1, 2),
-    'K2SO4': (2, 1),
-    'KCl': (1, 1),
-    'KI': (1, 1),
-    'KNO3': (1, 1),
-    'LiBr': (1, 1),
-    'LiCl': (1, 1),
-    'MgCl2': (1, 2),
-    'MgSO4': (1, 1),
-    'Na2SO4': (2, 1),
-    'NaCl': (1, 1),
-    'NaNO3': (1, 1),
-}
+    @property
+    def ion_type(self):
+        return 'cation' if self.charge > 0 else 'anion'
 
-# Unit charges of cation and anion in the solute -----------------------------
-charge_numbers = {
-    'AlCl3': (3, 1),
-    'CaCl2': (2, 1),
-    'K2SO4': (1, 2),
-    'KCl': (1, 1),
-    'KI': (1, 1),
-    'KNO3': (1, 1),
-    'LiBr': (1, 1),
-    'LiCl': (1, 1),
-    'MgCl2': (2, 1),
-    'MgSO4': (2, 2),
-    'Na2SO4': (1, 2),
-    'NaCl': (1, 1),
-    'NaNO3': (1, 1),
-}
-
-# Individual ions composing the molecule -------------------------------------
-individual_ions = {
-    'AlCl3': ('Al', 'Cl'),
-    'CaCl2': ('Ca', 'Cl'),
-    'K2SO4': ('K', 'SO4'),
-    'KCl': ('K', 'Cl'),
-    'KI': ('K', 'I'),
-    'KNO3': ('K', 'NO3'),
-    'LiBr': ('Li', 'Br'),
-    'LiCl': ('Li', 'Cl'),
-    'MgCl2': ('Mg', 'Cl'),
-    'MgSO4': ('Mg', 'SO4'),
-    'Na2SO4': ('Na', 'SO4'),
-    'NaCl': ('Na', 'Cl'),
-    'NaNO3': ('Na', 'NO3'),
-}
-
-# calculation of molar mass from the molecular weights -----------------------
+    def __repr__(self):
+        charge_str = ''
+        if abs(self.charge) > 1:
+            charge_str += f'{abs(self.charge)}'
+        charge_str += ('+' if self.charge > 0 else '-')
+        return f'{self.name.capitalize()} {self.ion_type} {self.molecule}[{charge_str}]'
 
 
-def molar_mass(solute):
-    """Return molar mass of solute compound in kg / mol."""
+cations = (
+    Ion('Al', name='aluminium', charge=3, molecular_weight=26.982),
+    Ion('Ca', name='calcium', charge=2, molecular_weight=40.078),
+    Ion('K', name='potassium', charge=1, molecular_weight=39.098),
+    Ion('Li', name='lithium', charge=1, molecular_weight=6.94),
+    Ion('Mg', name='magnesium', charge=2, molecular_weight=24.305),
+    Ion('Na', name='sodium', charge=1, molecular_weight=22.99),
+)
+
+anions = (
+    Ion('Br', name='bromide', charge=-1, molecular_weight=79.904),
+    Ion('Cl', name='chloride', charge=-1, molecular_weight=35.453),
+    Ion('I', name='iodide', charge=-1, molecular_weight=126.904),
+    Ion('NO3', name='nitrate', charge=-1, molecular_weight=62.005),
+    Ion('SO3', name='sulfite', charge=-2, molecular_weight=80.063),
+    Ion('SO4', name='sulfate', charge=-2, molecular_weight=96.063),
+)
+
+CATIONS = {cation.name: cation for cation in cations}
+ANIONS = {anion.name: anion for anion in anions}
+
+
+#  Solutes / salts -----------------------------------------------------------
+
+class Solute:
+    """Base class for solutes, including salts"""
+    pass
+
+
+class Salt(Solute):
+    """Representation of salt solute and its characteristics"""
+
+    def __init__(self, cation, anion):
+        """Name is e.g. 'NaCl'"""
+        self.cation = CATIONS[cation]
+        self.anion = ANIONS[anion]
+        self.ions = self.cation, self.anion
+        self.charges = tuple((ion.charge for ion in self.ions))
+        self.stoichiometry = tuple(abs(ion.charge) for ion in reversed(self.ions))
+        self.formula = self._get_formula()
+        self.molecular_weight = self._get_weight()      # in Daltons
+        self.molar_mass = self.molecular_weight * 1e-3  # In kg / mol
+
+    def _get_formula(self):
+        formula = ''
+        for ion, coeff in zip(self.ions, self.stoichiometry):
+            formula += ion.molecule
+            if coeff > 1:
+                formula += str(coeff)
+        return formula
+
+    def _get_weight(self):
+        """In Daltons"""
+        ion_coeffs = zip(self.ions, self.stoichiometry)
+        ws = [ion.molecular_weight * coeff for ion, coeff in ion_coeffs]
+        return sum(ws)
+
+    def __repr__(self):
+        return f'{self.cation.name.capitalize()} {self.anion.name} {self.formula}'
+
+
+salts = (
+    Salt('aluminium', 'chloride'),
+    Salt('calcium', 'chloride'),
+    Salt('potassium', 'sulfate'),
+    Salt('potassium', 'chloride'),
+    Salt('potassium', 'iodide'),
+    Salt('potassium', 'nitrate'),
+    Salt('lithium', 'bromide'),
+    Salt('lithium', 'chloride'),
+    Salt('magnesium', 'chloride'),
+    Salt('magnesium', 'sulfate'),
+    Salt('sodium', 'sulfate'),
+    Salt('sodium', 'chloride'),
+    Salt('sodium', 'nitrate'),
+)
+
+SALTS = {salt.formula: salt for salt in salts}
+
+
+# Useful constants and functions ---------------------------------------------
+
+
+SOLUTES = {**SALTS}  # more solutes (possibly non-salts) can be added later
+
+
+def get_solute(formula):
+    """Get salt object from its formula"""
     try:
-        cation, anion = individual_ions[solute]
+        return SOLUTES[formula]
     except KeyError:
-        raise KeyError(f'{solute} molecular/molar mass data not available')
+        raise ValueError(f'{formula} not in available solutes: {list(SOLUTES)}')
 
-    m1, m2 = weight_cations[cation], weight_anions[anion]
-    nu1, nu2 = dissociation_numbers[solute]
-    mtot = nu1 * m1 + nu2 * m2
 
-    return mtot * 1e-3
+def molar_mass(formula):
+    """Return molar mass of solute compound in kg / mol."""
+    solute = get_solute(formula=formula)
+    return solute.molar_mass

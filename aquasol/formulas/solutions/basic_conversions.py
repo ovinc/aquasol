@@ -17,8 +17,8 @@ http://hbcponline.com/faces/documents/01_19/01_19_0001.xhtml
 # TODO -- write more comprehensive examples
 # TODO -- add checks that inputs are within normal range (e.g. 0-1 for x or w)
 
-from ...constants import molar_mass, Mw, solute_list
-from ...format import check_solute, check_units
+from ...constants import molar_mass, Mw
+from ...format import check_units
 
 # Define what solutes and units are acceptable for conversion
 
@@ -57,7 +57,6 @@ def basic_convert(value, unit1, unit2, solute='NaCl'):
     if unit1 == unit2:
         return value
 
-    check_solute(solute, solute_list)
     check_units([unit1, unit2], allowed_units)
 
     # Get useful quantities related to solute --------------------------------

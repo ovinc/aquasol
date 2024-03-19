@@ -6,7 +6,7 @@ from pathlib import Path
 
 import numpy as np
 
-from ...constants import dissociation_numbers
+from ...constants import get_solute
 
 
 # corrective factors between 2005 / 2008 for 1:1 and 2:1 electrolytes
@@ -79,7 +79,8 @@ class CoeffsSteiger2008_Activity(CoeffsSteiger2008):
         A_phi = all_coeffs.pop('A_phi')
         for solute, coeffs in all_coeffs.items():
             c_phi = coeffs.pop('C_phi')
-            nu_mx = sum(dissociation_numbers[solute])
+            salt = get_solute(formula=solute)
+            nu_mx = sum(salt.stoichiometry)
             corr = pitzer_corr[nu_mx]
             coeffs['C_phi'] = [corr * q for q in c_phi]
         all_coeffs['A_phi'] = A_phi
