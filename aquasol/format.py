@@ -129,3 +129,73 @@ def make_array_method(method):
                 result.append(y)
             return np.array(result)
     return wrapper
+
+
+def make_array_args(function):
+    """Decorator to execute function on arrays even when it's not designed initially to accept arrays.
+
+    This one looks for an iterable in args, not in kwargs.
+    Any position of the arg can be iterable, the first one will be chosen if several
+    """
+
+    @functools.wraps(function)  # to preserve function signature
+    def wrapper(*args, **kwargs):
+
+        for i, val in enumerate(args):
+            try:
+                iter(val)
+            except TypeError: # Not an array --> continue searching
+                pass
+            else:
+                iter_index = i
+                iter_val = val
+                break
+        else:  # No iterable has been found --> apply function directly
+            return function(*args, **kwargs)
+
+        result = []
+
+        for val in iter_val:
+            new_args = list(args)
+            new_args[iter_index] = val
+            y = function(*new_args, **kwargs)
+            result.append(y)
+
+        return np.array(result)
+
+    return wrapper
+
+
+def make_array_kwargs(function):
+    """Decorator to execute function on arrays even when it's not designed initially to accept arrays
+
+    Here, the array/iterable needs to be passed in the kwargs
+    (any kwargs will work, no matter the order)
+    If there are several kwargs with iterables, only the first one will be considered
+    """
+
+    @functools.wraps(function)  # to preserve function signature
+    def wrapper(*args, **kwargs):
+
+        for key, val in kwargs.items():
+            try:
+                iter(val)
+            except TypeError:  # Not an array --> continue searching
+                pass
+            else:
+                iter_key = key
+                iter_val = kwargs.pop(key)  # Array: store it elsewhere
+                break
+        else:  # No iterable has been found --> apply function directly
+            return function(*args, **kwargs)
+
+        result = []
+
+        for val in iter_val:
+            new_kwargs = {iter_key: val, **kwargs}
+            y = function(*args, **new_kwargs)
+            result.append(y)
+
+        return np.array(result)
+
+    return wrapper
