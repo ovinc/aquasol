@@ -1,16 +1,5 @@
 """Gathers the formulas for the density of NaCl solutions.
 
-Note
-----
-When adding source, make sure to make a function that has two parameters:
-- w (weight fraction), range 0-1 or other concentration quantity
-- T (temperature), in K
-and returns two parameters:
-- rho0, density of pure water in kg / m^3
-- rho, density of solution in kg / m^3
-Also, add the name of the function to the formulas dictionary at the end of the
-file.
-
 Sources
 -------
 
@@ -45,20 +34,19 @@ Sources
   at 25 °C. J. Phys. Chem. A 115, 3393-3460 (2011).
 """
 
-import numpy as np
-
 from ...general import SolutionFormula
 from ...water.density_atm import DensityAtm_IAPWS
 
 from .clegg import density_NaCl
 from .al_ghafri import Density_NaCl_AlGhafri_Base
 from .krumgalz import Density_NaCl_Krumgalz_Base
-from .misc import rho_tang, density_pitzer
+from .misc import density_pitzer
+from .tang import Density_NaCl_Tang_Base
 
 
 class Density_NaCl_Simion(SolutionFormula):
 
-    source ='Simion'
+    source = 'Simion'
     solute = 'NaCl'
 
     temperature_unit = 'C'
@@ -94,23 +82,10 @@ class Density_NaCl_Simion(SolutionFormula):
 
         return rho0, rho
 
-class Density_NaCl_Tang(SolutionFormula):
 
-    source ='Tang'
-    solute = 'NaCl'
-
-    temperature_unit = 'C'
-    temperature_range = (25, 25)
-
-    concentration_unit = 'w'
-    concentration_range = (0, 0.5)
-
-    with_water_reference = True
-
-    coeffs = np.array([7.41e-3, -3.741e-5, 2.252e-6, -2.06e-8]) * 1000
-
-    def calculate(self, w, T):
-        return rho_tang(w, self.coeffs)
+class Density_NaCl_Tang(Density_NaCl_Tang_Base):
+    """Already defined in tang.py module and not default here"""
+    pass
 
 
 class Density_NaCl_AlGhafri(Density_NaCl_AlGhafri_Base):
@@ -120,7 +95,7 @@ class Density_NaCl_AlGhafri(Density_NaCl_AlGhafri_Base):
 
 class Density_NaCl_Steiger(SolutionFormula):
 
-    source ='Steiger'
+    source = 'Steiger'
     solute = 'NaCl'
 
     temperature_unit = 'C'
@@ -142,7 +117,7 @@ class Density_NaCl_Krumgalz(Density_NaCl_Krumgalz_Base):
 
 class Density_NaCl_Clegg(SolutionFormula):
 
-    source ='Clegg'
+    source = 'Clegg'
     solute = 'NaCl'
 
     temperature_unit = 'K'
@@ -158,6 +133,7 @@ class Density_NaCl_Clegg(SolutionFormula):
         rho_0 = density_atm.calculate(T)
         rho = density_NaCl(w, T)
         return rho_0, rho
+
 
 # ========================== WRAP-UP OF FORMULAS =============================
 

@@ -9,7 +9,7 @@ class Formula:
     """base class for formulas for water/solution properties"""
 
     # To be defined in subclasses
-    source =''
+    source = ''
     input_types = ()
     default = False  # Change to True to select default source
 

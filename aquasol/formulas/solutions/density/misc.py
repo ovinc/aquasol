@@ -1,7 +1,5 @@
 """Functions for the calculation of the density of solutions."""
 
-import numpy as np
-
 from ....constants import molar_mass
 from ...water.density_atm import DensityAtm_IAPWS
 
@@ -113,13 +111,3 @@ def relative_rho_conde(z, coeffs):
         d += c * z**i
 
     return d
-
-
-def rho_tang(w, coeffs):
-    """From Tang 1996, only at 25°C"""
-    w = w * 100
-    rho0 = 997.1  # density of pure water (at 25°C)
-    rho = rho0
-    for i, coeff in enumerate(coeffs):
-        rho += coeff * w ** (i + 1)
-    return rho0, rho

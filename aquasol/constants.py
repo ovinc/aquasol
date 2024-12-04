@@ -65,7 +65,9 @@ rhoc = 322    # critical density in kg/m^3 (CRC Handbook & IAPWS)
 
 # =========================== SOLUTE/IONS PROPERTIES =========================
 
+
 # Individual ions ------------------------------------------------------------
+
 
 class Ion:
     """Representation of anions and cations"""

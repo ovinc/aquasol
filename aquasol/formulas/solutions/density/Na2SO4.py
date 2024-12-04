@@ -1,16 +1,5 @@
 """Gathers the formulas for the density of Na2SO4 solutions.
 
-Note
-----
-When adding source, make sure to make a function that has two parameters:
-- w (weight fraction), range 0-1 or other concentration quantity
-- T (temperature), in K
-and returns two parameters:
-- rho0, density of pure water in kg / m^3
-- rho, density of solution in kg / m^3
-Also, add the name of the function to the formulas dictionary at the end of the
-file.
-
 Sources
 -------
 
@@ -32,34 +21,17 @@ Sources
   at 25 °C. J. Phys. Chem. A 115, 3393-3460 (2011).
 """
 
-import numpy as np
-
 from ...general import SolutionFormula
 from ...water.density_atm import DensityAtm_IAPWS
 
 from .clegg import density_Na2SO4_high_conc
 from .krumgalz import Density_Na2SO4_Krumgalz_Base
-from .misc import rho_tang
+from .tang import Density_Na2SO4_Tang_Base
 
 
-class Density_Na2SO4_Tang(SolutionFormula):
-
-    source ='Tang'
-    solute = 'Na2SO4'
-
-    temperature_unit = 'C'
-    temperature_range = (25, 25)
-
-    concentration_unit = 'w'
-    concentration_range = (0, 0.68)
-
+class Density_Na2SO4_Tang(Density_Na2SO4_Tang_Base):
+    """Already defined in Tang module, added as default here."""
     default = True
-    with_water_reference = True
-
-    coeffs = np.array([8.871e-3, 3.195e-5, 2.28e-7, 0]) * 1000
-
-    def calculate(self, w, T):
-        return rho_tang(w, self.coeffs)
 
 
 class Density_Na2SO4_Krumgalz(Density_Na2SO4_Krumgalz_Base):
@@ -69,7 +41,7 @@ class Density_Na2SO4_Krumgalz(Density_Na2SO4_Krumgalz_Base):
 
 class Density_Na2SO4_Clegg(SolutionFormula):
 
-    source ='Clegg'
+    source = 'Clegg'
     solute = 'Na2SO4'
 
     temperature_unit = 'K'
@@ -88,7 +60,6 @@ class Density_Na2SO4_Clegg(SolutionFormula):
         # with the high concentration formula
         # (see clegg.py module)
         return rho_w, density_Na2SO4_high_conc(w, T)
-
 
 
 # ========================== WRAP-UP OF FORMULAS =============================

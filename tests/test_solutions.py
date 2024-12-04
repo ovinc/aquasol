@@ -242,6 +242,10 @@ def test_n_8():
     n = refractive_index('KCl', T=22, w=[0.05, 0.1, 0.15])  # iterable conc.
     assert round(n[2], 2) == 1.36
 
+def test_n_9():
+    n = refractive_index('Na2SO4', w=0.7)
+    assert round(n, 2) == 1.42
+
 
 # ====================== Test electrical conductivity ========================
 

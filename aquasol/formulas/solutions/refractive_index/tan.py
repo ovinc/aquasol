@@ -1,11 +1,14 @@
 """Refractive index of solutions according to Tan
 
+
 Source
-------
-- Tan (default) : "Dependence of Refractive Index on Concentration and
-Temperature in Electrolyte Solution, Polar Solution, Nonpolar Solution, and
-Protein Solution", Tan & Huang, J. Chem. Eng. Data  (2015).
-Valid from w = 0 to w = 0.25 and for temperatures between 20 and 45°C
+-------
+"Dependence of Refractive Index on Concentration and Temperature in
+Electrolyte Solution, Polar Solution, Nonpolar Solution, and Protein
+Solution"
+Tan & Huang, J. Chem. Eng. Data  (2015).
+
+(Valid from w = 0 to w = 0.25 and for temperatures between 20 and 45°C)
 """
 
 from ...general import SolutionFormula
@@ -13,19 +16,21 @@ from ...general import SolutionFormula
 
 class RefractiveIndex_Tan_Base(SolutionFormula):
 
-    source ='Tan'
+    source = 'Tan'
 
     temperature_unit = 'C'
     temperature_range = (20, 45)
 
     concentration_unit = 'w'
 
-    with_water_reference = False
+    with_water_reference = True
 
     def calculate(self, w, T):
         c = w * 100   # avoid using *= to not mutate objects in place
         n0, a1, a2, b1, b2 = self.coeffs.values()
-        return n0 + a1 * c + a2 * c**2 + b1 * T + b2 * T**2
+        n_c0 = n0 + b1 * T + b2 * T**2
+        n_c = n_c0 + a1 * c + a2 * c**2
+        return n_c0, n_c
 
 
 class RefractiveIndex_CaCl2_Tan_Base(RefractiveIndex_Tan_Base):
@@ -58,7 +63,7 @@ class RefractiveIndex_NaCl_Tan_Base(RefractiveIndex_Tan_Base):
     coeffs = {
         'n0': 1.3373,
         'a1': 1.7682e-3,
-        'a2': 0,          # modified -5.8e-6 to 0 to fit the data adequately
+        'a2': -5.8e-6,
         'b1': -1.3531e-4,
         'b2': -5.1e-8,
     }
