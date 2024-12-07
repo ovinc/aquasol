@@ -36,6 +36,7 @@ knowledge of the CeCILL license and that you accept its terms.
 
 # TODO: Switch automatically to another equation if outside of range?
 
+from .config import CONFIG
 
 # Shortcuts ------------------------------------------------------------------
 

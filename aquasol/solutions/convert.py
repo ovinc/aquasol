@@ -70,7 +70,7 @@ def _get_max_w(solute, T=25, unit='C', source=None, wmin=0, wmax=0.999):
         warnings.simplefilter('ignore')  # which pop up due to wmax being high
         rho = density_basic(solute=solute, T=T, unit=unit, source=source, w=ww)
     imax = np.argmax(rho)
-    return ww[imax] # will be equal to wmax if function only increases
+    return ww[imax]  # will be equal to wmax if function only increases
 
 
 def molarity_to_w(c, solute, T=25, unit='C', source=None, wmin=0, wmax=0.999):

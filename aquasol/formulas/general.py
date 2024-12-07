@@ -1,8 +1,10 @@
 """Classes to describe specific formulas for water and solutions"""
 
-from warnings import warn
+import warnings
 
 import numpy as np
+
+from ..config import CONFIG
 
 
 class Formula:
@@ -59,12 +61,12 @@ class Formula:
             values = np.array(value).flatten()
             out_of_range = any(values < val_min) or any(values > val_max)
 
-        if out_of_range:
-            warn(
+        if out_of_range and CONFIG["out of range warnings"]:
+            warnings.warn(
                 f'{input_type.capitalize()} outside of validity range'
                 f'({unit} in [{val_min}-{val_max}]) for {self.source}.'
                 f'[{self.solute}]',
-                stacklevel=2
+                stacklevel=2,
             )
 
     def calculate(self, *args, **kwargs):
