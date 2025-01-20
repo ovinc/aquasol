@@ -1,0 +1,64 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aquasol"
+authors = [
+    {name = "Olivier Vincent", email = "ovinc.py@gmail.com"},
+]
+description = "Thermodynamic and physico-chemical properties for water and aqueous solutions"
+readme = "README.md"
+requires-python = ">=3.6"
+keywords = [
+    "water",
+    "solutions",
+    "salt",
+    "thermodynamic",
+    "properties",
+    "relations",
+    "convert",
+    "IAPWS",
+    "supersaturated",
+    "supersaturation",
+    "pitzer",
+    "kelvin",
+    "activity",
+    "volumetric",
+    "vapor_pressure",
+    "dewpoint",
+    "density",
+    "surface tension",
+    "viscosity",
+    "diffusivity",
+    "solubility",
+    "activity coefficient",
+    "osmotic",
+    "refractive index",
+    "electrical conductivity",
+    "physics",
+    "chemistry",
+]
+license = {text = "CeCILL-2.1"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: CEA CNRS Inria Logiciel Libre License, version 2.1 (CeCILL-2.1)",
+]
+dependencies = [
+    "numpy",
+    "pynverse",
+    "importlib-metadata",
+]
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://github.com/ovinc/aquasol"
+Documentation = "https://github.com/ovinc/aquasol/README.md"
+Repository = "https://github.com/ovinc/aquasol.git"
+
+# [tool.setuptools.packages.find]
+# exclude = ["media",]
+
+[tool.setuptools_scm]
+# can be empty if no extra settings are needed, presence enables setuptools-scm
