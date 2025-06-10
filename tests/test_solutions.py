@@ -125,6 +125,11 @@ def test_aw_11():
     aw = water_activity('CaCl2', w=0.1)  # CaCl2
     assert round(aw, 2) == 0.94
 
+def test_aw_12():
+    """Check glycerol"""
+    aw = water_activity('glycerol', w=0.2, T=20)
+    assert round(aw, 3) == 0.947
+
 
 # Test extensions of water activity ------------------------------------------
 
@@ -181,6 +186,10 @@ def test_rho_KCl():
 def test_rho_CaCl2():
     rho = density('CaCl2', w=0.1)
     assert round(rho) == 1082
+
+def test_rho_glycerol():
+    rho = density('glycerol', w=0.1)
+    assert round(rho) == 1020
 
 
 # =========================== Test surface tension ===========================

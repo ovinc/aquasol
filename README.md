@@ -378,16 +378,17 @@ Available Solutes
 
 Sorted by alphabetical order. When available, the sources are written in parentheses. For convert, an X means available.
 
-| Solute | Water Activity | Activity Coeff. |      Density      | Surface Tension | Refr. Index | Elec. Conduct. | Solubility | Convert (*) |
-|:------:|:--------------:|:---------------:|:-----------------:|:---------------:|:-----------:|:--------------:|:----------:|:-----------:|
-| CaCl2  |      (1)       |                 |     (1,3,14)      |      (1,6)      |     (7)     |                |            |      X      |
-| KCl    |     (8,13)     |     (8,13)      |     (3,14,21)     |       (6)       |    (7,21)   |       (9)      |    (13)    |      X      |
-| KI     |                |                 |      (3,14)       |                 |             |                |            |      X      |
-| LiBr   |    (19,20)     |      (20)       |                   |                 |             |                |    (18)    |      -      |
-| LiCl   |   (1,19,20)    |      (20)       |      (1,14)       |       (1)       |             |                |    (17)    |      X      |
-| MgCl2  |                |                 |      (3,14)       |       (6)       |             |                |            |      X      |
-| Na2SO4 |   (2,12,13)    |    (12,13)      |    (10,14,15)     |       (6)       |     (21)    |                |    (13)    |      X      |
-| NaCl   | (2,8,12,13,20) |  (8,12,13,20)   | (3,4,5,11,14,15)  |      (6,11)     |    (7,21)   |                | (13,16,17) |      X      |
+|  Solute  | Water Activity | Activity Coeff. |      Density      | Surface Tension | Refr. Index | Elec. Conduct. | Solubility | Convert (*) |
+|:--------:|:--------------:|:---------------:|:-----------------:|:---------------:|:-----------:|:--------------:|:----------:|:-----------:|
+| CaCl2    |      (1)       |                 |     (1,3,14)      |      (1,6)      |     (7)     |                |            |      X      |
+| KCl      |     (8,13)     |     (8,13)      |     (3,14,21)     |       (6)       |    (7,21)   |       (9)      |    (13)    |      X      |
+| KI       |                |                 |      (3,14)       |                 |             |                |            |      X      |
+| LiBr     |    (19,20)     |      (20)       |                   |                 |             |                |    (18)    |      -      |
+| LiCl     |   (1,19,20)    |      (20)       |      (1,14)       |       (1)       |             |                |    (17)    |      X      |
+| MgCl2    |                |                 |      (3,14)       |       (6)       |             |                |            |      X      |
+| Na2SO4   |   (2,12,13)    |    (12,13)      |    (10,14,15)     |       (6)       |     (21)    |                |    (13)    |      X      |
+| NaCl     | (2,8,12,13,20) |  (8,12,13,20)   | (3,4,5,11,14,15)  |      (6,11)     |    (7,21)   |                | (13,16,17) |      X      |
+| Glycerol |       (22)     |                 |       (23)        |                 |             |                |            |      X      |
 
 (*) Solutes with no density data cannot use conversion to/from molarity ('c') but all other conversions work. They are noted with - instead of X.
 
@@ -436,6 +437,10 @@ International Journal of Thermal Sciences 43, 367–382 (2004).
 (20) Pitzer, K. S. & Mayorga, G., *Thermodynamics of electrolytes. II. Activity and osmotic coefficients for strong electrolytes with one or both ions univalent.* J. Phys. Chem. 77, 2300-2308 (1973).
 
 (21) Tang, I. N., *Thermodynamic and optical properties of mixed-salt aerosols of atmospheric importance*. Journal of Geophysical Research 102, 1883-1893 (1997).
+
+(22) Zhang, L., Grace, P. M. & Sun, D.-W., *An accurate water activity model for glycerol solutions and its implementation on moisture sorption isotherm determination*. Drying Technology 40, 2404–2413 (2022).
+
+(23) Volk, A. & Kähler, C. J., *Density model for aqueous glycerol solutions*. Exp Fluids 59, 75 (2018). 
 
 
 Constants
@@ -504,7 +509,11 @@ Olivier Vincent
 
 Contributors
 ------------
-Marine Poizat (2019), Léo Martin (2020), Hugo Bellezza (2023)
+- Marine Poizat (2019)
+- Léo Martin (2020)
+- Hugo Bellezza (2023)
+- Julien Besombes (2025): glycerol formulas
+
 
 License
 -------

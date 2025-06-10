@@ -120,6 +120,7 @@ COLORS = {
     'MgCl2': 'gold',
     'CaCl2': 'orange',
     'Na2SO4': 'brown',
+    'glycerol': 'black',
 }
 
 
@@ -200,7 +201,7 @@ for ppty in solution_properties:
     fig, ax = plt.subplots()
     fig.suptitle('Solutions')
     for solute in ppty.solutes:
-        kwargs = {'ctype': 'm', 'ax': ax, 'norm': 1}
+        kwargs = {'ctype': 'w', 'ax': ax, 'norm': 1}
         plot_all_sources_conc(ppty, solute, **kwargs)
         if ppty.quantity == 'electrical conductivity':
             plot_all_sources_conc(ppty, solute, T=0, linestyle=':', **kwargs)

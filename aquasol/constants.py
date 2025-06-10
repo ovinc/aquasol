@@ -114,9 +114,13 @@ ANIONS = {anion.name: anion for anion in anions}
 
 #  Solutes / salts -----------------------------------------------------------
 
-class Solute:
+class Solute():
     """Base class for solutes, including salts"""
-    pass
+
+    def __init__(self, formula, molar_mass):
+
+        self.formula = formula
+        self.molar_mass = molar_mass
 
 
 class Salt(Solute):
@@ -129,9 +133,12 @@ class Salt(Solute):
         self.ions = self.cation, self.anion
         self.charges = tuple((ion.charge for ion in self.ions))
         self.stoichiometry = tuple(abs(ion.charge) for ion in reversed(self.ions))
-        self.formula = self._get_formula()
         self.molecular_weight = self._get_weight()      # in Daltons
-        self.molar_mass = self.molecular_weight * 1e-3  # In kg / mol
+
+        super().__init__(
+            formula=self._get_formula(), 
+            molar_mass=self.molecular_weight * 1e-3,    # in kg/mol
+        )
 
     def _get_formula(self):
         formula = ''
@@ -170,10 +177,23 @@ salts = (
 SALTS = {salt.formula: salt for salt in salts}
 
 
+class NeutralSolute(Solute):
+    """Representation of neutral solute and its characteristics"""
+
+    def __repr__(self) -> str:
+        return f'Neutral solute: {self.formula.capitalize()}'
+
+neutral_solutes = (
+    NeutralSolute(formula='glycerol', molar_mass=92.0938e-3),
+)
+
+NEUTRAL_SOLUTES = {solute.formula: solute for solute in neutral_solutes}
+
+
 # Useful constants and functions ---------------------------------------------
 
 
-SOLUTES = {**SALTS}  # more solutes (possibly non-salts) can be added later
+SOLUTES = {**SALTS, **NEUTRAL_SOLUTES}  # more solutes (possibly non-salts) can be added later
 
 
 def get_solute(formula):
