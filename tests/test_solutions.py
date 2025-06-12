@@ -16,6 +16,9 @@ from aquasol.solutions import debye_length
 from aquasol.solutions import aw_to_conc
 from aquasol.solutions import convert
 
+from aquasol.solutions.pores import drop_conc_from_pore_aw
+from aquasol.solutions.pores import pore_aw_from_drop_conc
+
 from aquasol.constants import molar_mass
 from aquasol.constants import get_solute
 
@@ -435,3 +438,29 @@ def test_Debye_2():
 def test_Debye_3():
     l = debye_length('Na2SO4', c=3000, T=10)  # sodium sulfate at 3M
     assert round(l / 1e-9, 1) == 0.1          # 1 Angström
+
+
+# ======================== Test solutions.pores module =======================
+
+
+def test_aw_from_drop():
+    a = pore_aw_from_drop_conc(
+        w=0.185,
+        solute='glycerol',
+        drop_volume=1,
+        pore_volume=0.2,
+        T=25,
+    )
+    assert round(a, 2) == 0.5
+
+
+def test_drop_conc_from_pore_aw():
+    w = drop_conc_from_pore_aw(
+        0.5,
+        solute='glycerol',
+        drop_volume=1,
+        pore_volume=0.2,
+        T=25,
+        out='w',
+    )
+    assert round(w, 3) == 0.185

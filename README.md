@@ -373,6 +373,19 @@ which calculate quantities of individual ions within the solution instead of con
 
 *See docstrings for more details.*
 
+The `solutions.pores` modules also contains convenience functions to evaluate water activities in pores after depositing a droplet of solution of a given volume and concentration into the pore space.
+For example
+```python
+from aquasol.solutions.pores import pore_aw_from_drop_conc
+from aquasol.solutions.pores import drop_conc_from_pore_aw
+
+# Calculate drop concentration to achieve water activity of 0.8
+drop_conc_from_pore_aw(0.8, drop_volume=1, pore_volume=0.2, out='m')
+
+# Inverse function, i.e. what water activity is achieved with m=0.944
+pore_aw_from_drop_conc(m=0.944, drop_volume=1, pore_volume=0.2)
+```
+
 Available Solutes
 -----------------
 
@@ -440,7 +453,7 @@ International Journal of Thermal Sciences 43, 367–382 (2004).
 
 (22) Zhang, L., Grace, P. M. & Sun, D.-W., *An accurate water activity model for glycerol solutions and its implementation on moisture sorption isotherm determination*. Drying Technology 40, 2404–2413 (2022).
 
-(23) Volk, A. & Kähler, C. J., *Density model for aqueous glycerol solutions*. Exp Fluids 59, 75 (2018). 
+(23) Volk, A. & Kähler, C. J., *Density model for aqueous glycerol solutions*. Exp Fluids 59, 75 (2018).
 
 
 Constants
