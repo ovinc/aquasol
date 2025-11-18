@@ -15,21 +15,38 @@ from ..format import format_output_type
 # ======================== ACTIVITY TO CONCENTRATION =========================
 
 
-def aw_to_conc(a, out='w', solute='NaCl', T=25, unit='C', source=None):
+def aw_to_conc(
+    a,
+    out='w',
+    solute='NaCl',
+    T=25,
+    unit='C',
+    source=None,
+    density_source=None,
+):
     """Calculate concentration needed to achieve a certain water activity.
 
     Parameters
     ----------
-    - a is the water activity,
-    - out: any concentration unit manageable by convert()
-    - solute (default NaCl) is the solute of interest
-    - T: temperature
-    - unit: temperature unit ('C' or 'K')
-    - source: if None, use default source.
+    a : float or array-like
+        water activity value(s)
+    out : str
+        any concentration unit manageable by convert()
+    solute : str
+        solute of interest (default NaCl)
+    T : float
+        temperature
+    unit : str
+        temperature unit ('C' or 'K')
+    source : str or None
+        source for water activity; if None, use default source.
+    density_source : str or None
+        source for density in case out is 'c'
 
-    Output
-    ------
-    Concentration using the units asked for with the "out" parameter.
+    Returns
+    -------
+    float or array-like
+        concentration using the units asked for with the "out" parameter.
 
     Examples
     --------
@@ -60,7 +77,7 @@ def aw_to_conc(a, out='w', solute='NaCl', T=25, unit='C', source=None):
     cc = np.linspace(cmin, cmax, num=200)
     aa = activity(cc)
     imin = np.argmin(aa)
-    cmax = cc[imin] # will be equal to cmax if function only decreases
+    cmax = cc[imin]  # will be equal to cmax if function only decreases
     amin = aa[imin]
 
     concentration = inversefunc(activity, domain=[cmin, cmax])
@@ -82,5 +99,6 @@ def aw_to_conc(a, out='w', solute='NaCl', T=25, unit='C', source=None):
             solute=solute,
             T=T,
             unit=unit,
+            density_source=density_source,
         )
         return format_output_type(c)
