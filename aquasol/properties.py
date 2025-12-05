@@ -153,7 +153,7 @@ class SolutionProperty(SolutionProperty_Base):
             return self.default_sources[solute]
         if source in self.sources[solute]:
             return source
-        msg = f'Source can only be one of {self.sources} for {solute}'
+        msg = f'Source can only be one of {self.sources[solute]} for {solute}'
         raise ValueError(msg)
 
     def get_formula(self, solute=None, source=None):
@@ -262,7 +262,7 @@ class SolutionSolubilityProperty(SolutionProperty_Base):
             return self.default_sources[crystal]
         if source in self.sources[crystal]:
             return source
-        msg = f'Source can only be one of {self.sources} for {crystal}'
+        msg = f'Source can only be one of {self.sources[crystal]} for {crystal}'
         raise ValueError(msg)
 
     def get_formula(self, crystal=None, source=None):

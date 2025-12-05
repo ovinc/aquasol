@@ -9,7 +9,8 @@ from .format import format_temperature, format_concentration
 
 from .water import vapor_pressure, surface_tension as sigma_w
 from .water import density_atm, density_sat, dielectric_constant
-from .water import diffusivity_in_air, viscosity
+from .water import diffusivity_in_air
+from .water import viscosity as viscosity_w
 
 from .solutions import water_activity
 from .solutions import activity_coefficient
@@ -17,6 +18,7 @@ from .solutions import surface_tension as sigma_s
 from .solutions import density
 from .solutions import refractive_index, electrical_conductivity
 from .solutions import solubility
+from .solutions import viscosity as viscosity_s
 from .solutions import convert
 
 
@@ -51,10 +53,11 @@ water_properties = (
     density_sat,
     density_atm,
     diffusivity_in_air,
-    viscosity,
+    viscosity_w,
 )
 
 # General plotting functions -------------------------------------------------
+
 
 def plot_all_sources(ppty, ax, norm=1):
     """Plot all available sources for a given property
@@ -96,7 +99,7 @@ plot_all_sources(density_atm, ax_w_rho)
 ax_w_rho.set_ylabel('Density [kg / m^3]')
 
 plot_all_sources(diffusivity_in_air, ax_w_diff)
-plot_all_sources(viscosity, ax_w_visc)
+plot_all_sources(viscosity_w, ax_w_visc)
 plot_all_sources(dielectric_constant, ax_w_eps)
 
 # # ============================== SOLUTIONS ===================================
@@ -108,6 +111,7 @@ solution_properties = (
     density,
     sigma_s,
     refractive_index,
+    viscosity_s,
     electrical_conductivity,
 )
 

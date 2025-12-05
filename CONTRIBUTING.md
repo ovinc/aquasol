@@ -113,9 +113,9 @@ The strategy is similar to that for water, but with a few extra steps.
 
 - Create new folder in `aquasol.formulas.water` with an ``__init__.py`` empty file. This module will contain all formulas for the new property.
 
-- In that new folder, also create one python file per solute (e.g. `NaCl.py`) that will be
+- In that new folder, also create one python file per solute (e.g. `NaCl.py`) that will be defined.
 
-- Add formulas in the module (see *Add formula (to existing property)* section above)
+- Add formulas in the module (see *Add formula (to existing property)* section above).
 
 - One of the formulas in each solute file has to be designed as the default formula to use for the particular property and given solute. This is achieved by setting the class attribute `default=True` in the formula class.
 
@@ -141,13 +141,9 @@ The strategy is similar to that for water, but with a few extra steps.
     )
     ```
 
-#### 2. Define new property in `aquasol.water`
+#### 2. Define new property in `aquasol.solutions`
 
 - Create new class inheriting from `SolutionProperty` (or equivalent, e.g. `SolubilityProperty`) in `aquasol/solution/properties.py`, which will describe the new property and gather all available formulas. Then, go to *Final steps* section below.
-
-#### 2. Define new property in `aquasol.water`
-
-- Create new class inheriting from `WaterProperty` in `aquasol/water/properties.py`, which will describe the new property and gather all available formulas. Then, go to *Final steps* section below.
 
 
 ### Final steps for both *water* and *solutions* properties

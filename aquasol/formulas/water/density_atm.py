@@ -26,7 +26,7 @@ from ..general import WaterFormula
 
 class DensityAtm_IAPWS(WaterFormula):
 
-    source ='IAPWS'
+    source = 'IAPWS'
     temperature_unit = 'K'
     temperature_range = (253.15, 383.15)
     default = True
@@ -93,10 +93,9 @@ class DensityAtm_IAPWS(WaterFormula):
         return rho
 
 
-
 class DensityAtm_Kell(WaterFormula):
 
-    source ='Kell'
+    source = 'Kell'
     temperature_unit = 'C'
     temperature_range = (0, 150)
 

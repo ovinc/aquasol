@@ -50,7 +50,7 @@ def sigma_conde(w, T, coeffs):
 
 class SurfaceTension_Conde_Base(SolutionFormula):
 
-    source ='Conde'
+    source = 'Conde'
 
     temperature_unit = 'K'
     temperature_range = (273.15, 373.15)
