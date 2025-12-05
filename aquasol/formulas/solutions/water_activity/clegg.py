@@ -42,7 +42,7 @@ def aw_clegg(x, T, solute, coeffs):
 
 class WaterActivity_Clegg_Base(SolutionFormula):
 
-    source ='Clegg'
+    source = 'Clegg'
 
     temperature_unit = 'C'
     temperature_range = (25, 25)

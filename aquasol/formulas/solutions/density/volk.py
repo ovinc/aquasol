@@ -1,20 +1,31 @@
-""" Functions to calculate the density of glycerol-water solutions using Volk formulas.
-Volk, A. & Kähler, C. J. Density model for aqueous glycerol solutions. Exp Fluids 59, 75 (2018).
+"""Functions to calculate the density of glycerol-water solutions using Volk formulas.
+
+References
+----------
+--- Volk, A. & Kähler, C. J.
+    Density model for aqueous glycerol solutions.
+    Exp Fluids 59, 75 (2018).
 """
 
 import numpy as np
 
+
 def glycerol_density(T):
     """
-    Calculate the density (kg/m^3) of pure glycerol based on temperature (K).
+    Calculate the density (kg/m^3) of pure glycerol based on temperature (°C).
+
+    Seems to work well beyond the indicated range of 15-30°C
+    (even at 80°C it looks consistend with tabulated data; check more)
     """
-    return 1273 - 0.612*T # kg/m^3
+    return 1273 - 0.612 * T  # kg/m^3
+
 
 def water_density(T):
     """
-    Calculate the density (kg/m^3) of pure water based on temperature (K).
+    Calculate the density (kg/m^3) of pure water based on temperature (°C).
     """
-    return 1000 * (1 - np.abs((T - 3.98) / 615) ** 1.71) # kg/m^3
+    return 1000 * (1 - np.abs((T - 3.98) / 615) ** 1.71)  # kg/m^3
+
 
 def density_water_glycerol(w, T):
     """

@@ -35,7 +35,7 @@ class SurfaceTension_NaCl_Dutcher(SufaceTension_NaCl_Dutcher_Base):
 
 class SurfaceTension_NaCl_Steiger(SolutionFormula):
 
-    source ='Steiger'
+    source = 'Steiger'
     solute = 'NaCl'
 
     temperature_unit = 'C'

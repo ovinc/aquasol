@@ -136,7 +136,7 @@ class Salt(Solute):
         self.molecular_weight = self._get_weight()      # in Daltons
 
         super().__init__(
-            formula=self._get_formula(), 
+            formula=self._get_formula(),
             molar_mass=self.molecular_weight * 1e-3,    # in kg/mol
         )
 
@@ -182,6 +182,7 @@ class NeutralSolute(Solute):
 
     def __repr__(self) -> str:
         return f'Neutral solute: {self.formula.capitalize()}'
+
 
 neutral_solutes = (
     NeutralSolute(formula='glycerol', molar_mass=92.0938e-3),

@@ -44,7 +44,7 @@ from ..general import WaterFormula
 class VaporPressure_IAPWS(WaterFormula):
     """Water saturation pressure according to Wagner & Pruß, T in K."""
 
-    source ='IAPWS'
+    source = 'IAPWS'
     temperature_unit = 'K'
     temperature_range = (273.15, Tc)  # in fact 273.16 (triple point)
     default = True
@@ -70,7 +70,7 @@ class VaporPressure_IAPWS(WaterFormula):
 class VaporPressure_Wexler(WaterFormula):
     """Water Saturation pressure according to Wexler 1971, eq. (17). T in K."""
 
-    source ='Wexler'
+    source = 'Wexler'
     temperature_unit = 'K'
     temperature_range = (273.15, 373.15)
 
@@ -97,7 +97,7 @@ class VaporPressure_Wexler(WaterFormula):
 class VaporPressure_Bridgeman(WaterFormula):
     """Water Saturation pressure according to Bridgeman 1964. T in C."""
 
-    source ='Bridgeman'
+    source = 'Bridgeman'
     temperature_unit = 'C'
     temperature_range = (0, 374.15)
 

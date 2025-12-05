@@ -4,9 +4,9 @@ Gathers the formulas for the density of glycerol-water solutions.
 Sources
 -------
 
-- Volk, A. & Kähler, C. J. 
-Density model for aqueous glycerol solutions. 
-Exp Fluids 59, 75 (2018). 
+--- Volk, A. & Kähler, C. J.
+    Density model for aqueous glycerol solutions.
+    Exp Fluids 59, 75 (2018).
 """
 
 from ...general import SolutionFormula
@@ -18,7 +18,7 @@ class Density_Glycerol_Volk(SolutionFormula):
 
     source = 'Volk'
     solute = 'glycerol'
-    
+
     temperature_unit = 'C'
     temperature_range = (15, 30)
 

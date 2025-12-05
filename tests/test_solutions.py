@@ -219,8 +219,10 @@ def test_rho_CaCl2():
 
 
 def test_rho_glycerol():
-    rho = density('glycerol', w=0.1)
-    assert round(rho) == 1020
+    rho1 = density('glycerol', w=0.1)
+    rho2 = density('glycerol', w=1, T=20)
+    assert round(rho1) == 1020
+    assert round(rho2 / 1000, 2) == 1.26
 
 
 # =========================== Test surface tension ===========================
@@ -334,6 +336,17 @@ def test_viscosity_KCl():
 def test_viscosity_LiCl():
     nu = viscosity('LiCl', w=0.4)
     assert round(nu * 1e3) == 8
+
+
+def test_viscosity_glycerol():
+    mu_20_78 = viscosity('glycerol', T=20, w=0.78)
+    mu_20_91 = viscosity('glycerol', T=20, w=0.91)
+    mu_40_60 = viscosity('glycerol', T=40, w=0.60)
+    mu_80_78 = viscosity('glycerol', T=80, w=0.78)
+    assert round(mu_20_78 * 100) == 5
+    assert round(mu_20_91 * 100) == 25
+    assert round(mu_40_60 * 1000) == 6
+    assert round(mu_80_78 * 1000) == 6
 
 
 # ============================= Test solubility ==============================

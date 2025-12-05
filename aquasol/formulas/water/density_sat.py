@@ -25,7 +25,7 @@ from ..general import WaterFormula
 
 class DensitySat_IAPWS(WaterFormula):
 
-    source ='IAPWS'
+    source = 'IAPWS'
     temperature_unit = 'K'
     temperature_range = (273.15, Tc)
     default = True
@@ -69,7 +69,7 @@ class DensitySat_IAPWS(WaterFormula):
 
 class DensitySat_Conde(WaterFormula):
 
-    source ='Conde'
+    source = 'Conde'
     temperature_unit = 'K'
     temperature_range = (273.15, Tc)
 

@@ -50,7 +50,7 @@ class WaterActivity_Steiger_Base(SolutionFormula):
 
 
 class WaterActivity_Steiger2005_Base(WaterActivity_Steiger_Base):
-    source ='Steiger 2005'
+    source = 'Steiger 2005'
     temperature_range = (298.15, 298.15)
 
 
@@ -68,7 +68,7 @@ class WaterActivity_Na2SO4_Steiger2005_Base(WaterActivity_Steiger2005_Base):
 
 
 class WaterActivity_Steiger2008_Base(WaterActivity_Steiger_Base):
-    source ='Steiger 2008'
+    source = 'Steiger 2008'
     temperature_range = (273.15, 323.15)
 
 

@@ -180,7 +180,7 @@ def conductivity_KCl_McKee(m, T=25):
 
 class ElectricalConductivity_KCl_McKee(SolutionFormula):
 
-    source ='McKee'
+    source = 'McKee'
     solute = 'KCl'
 
     temperature_unit = 'C'

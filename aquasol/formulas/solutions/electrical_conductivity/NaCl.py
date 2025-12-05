@@ -26,7 +26,7 @@ from ...water.density_atm import DensityAtm_IAPWS
 class ElectricalConductivity_NaCl_Sinmyo(SolutionFormula):
     """FOR NOW THIS DOES NOT WORK WELL"""
 
-    source ='Sinmyo'
+    source = 'Sinmyo'
     solute = 'NaCl'
 
     temperature_unit = 'K'

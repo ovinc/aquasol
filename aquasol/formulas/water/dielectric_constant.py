@@ -89,7 +89,7 @@ def e(epsilon):
 
 class DielectricConstant_Archer(WaterFormula):
 
-    source ='IAPWS'
+    source = 'IAPWS'
     temperature_unit = 'K'
     # Validity for Archer is muchwider, but the final result is limited by
     # the density formula used (here IAPWS)

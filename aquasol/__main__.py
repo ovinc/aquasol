@@ -24,8 +24,8 @@ from .solutions import convert
 
 npts = 200
 
-temperature_unit = 'C'
-concentration_unit = 'm'
+TEMPERATURE_UNIT = 'C'
+CONCENTRATION_UNIT = 'w'
 
 LINESTYLES = [
     '-',
@@ -76,14 +76,14 @@ def plot_all_sources(ppty, ax, norm=1):
         unit = formula.temperature_unit
 
         tt_raw = np.linspace(tmin, tmax, npts)
-        tt = format_temperature(tt_raw, unit, temperature_unit)
+        tt = format_temperature(tt_raw, unit, TEMPERATURE_UNIT)
 
-        data = ppty(T=tt, unit=temperature_unit, source=source)
+        data = ppty(T=tt, unit=TEMPERATURE_UNIT, source=source)
         ax.plot(tt, data * norm, ls=linestyle, label=source)
 
     ax.legend()
     ax.grid()
-    ax.set_xlabel(f'T ({temperature_unit})')
+    ax.set_xlabel(f'T ({TEMPERATURE_UNIT})')
     ax.set_ylabel(f'{ppty.quantity.capitalize()} {ppty.unit}')
 
 
@@ -197,7 +197,7 @@ def plot_all_sources_conc(
 
     ax.legend()
     ax.grid()
-    ax.set_xlabel(f'concentration ({concentration_unit})')
+    ax.set_xlabel(f'concentration ({ctype})')
     ax.set_ylabel(f'{ppty.quantity.capitalize()} {ppty.unit}')
 
 
@@ -205,7 +205,7 @@ for ppty in solution_properties:
     fig, ax = plt.subplots()
     fig.suptitle('Solutions')
     for solute in ppty.solutes:
-        kwargs = {'ctype': 'w', 'ax': ax, 'norm': 1}
+        kwargs = {'ctype': CONCENTRATION_UNIT, 'ax': ax, 'norm': 1}
         plot_all_sources_conc(ppty, solute, **kwargs)
         if ppty.quantity == 'electrical conductivity':
             plot_all_sources_conc(ppty, solute, T=0, linestyle=':', **kwargs)

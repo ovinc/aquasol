@@ -413,7 +413,7 @@ Sorted by alphabetical order. When available, the sources are written in parenth
 | MgCl2    |      (3,14)       |       (6)       |             |                |           |
 | Na2SO4   |    (10,14,15)     |       (6)       |     (21)    |                |           |
 | NaCl     | (3,4,5,11,14,15)  |      (6,11)     |    (7,21)   |                |   (24)    |
-| Glycerol |       (23)        |                 |             |                |           |
+| Glycerol |       (23)        |                 |             |                |   (25)    |
 
 (*) Solutes with no density data cannot use conversion to/from molarity ('c') but all other conversions work. They are noted with - instead of X.
 
@@ -468,6 +468,8 @@ International Journal of Thermal Sciences 43, 367–382 (2004).
 (23) Volk, A. & Kähler, C. J., *Density model for aqueous glycerol solutions*. Exp Fluids 59, 75 (2018).
 
 (24) Mao, S. & Duan, Z. *The Viscosity of Aqueous Alkali-Chloride Solutions up to 623 K, 1,000 bar, and High Ionic Strength*. Int J Thermophys 30, 1510–1523 (2009).
+
+(25) Takamura, K., Fischer, H. & Morrow, N. R. *Physical properties of aqueous glycerol solutions*. Journal of Petroleum Science and Engineering 98–99, 50–60 (2012).
 
 
 

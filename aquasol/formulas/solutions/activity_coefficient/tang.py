@@ -36,7 +36,7 @@ def ln_gamma_extended_debye_huckel(m, T, solute, coeffs):
 
 class ActivityCoefficient_Tang_Base(SolutionFormula):
 
-    source ='Tang'
+    source = 'Tang'
 
     temperature_unit = 'C'
     temperature_range = (25, 25)

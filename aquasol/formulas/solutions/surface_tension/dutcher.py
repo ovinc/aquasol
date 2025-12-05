@@ -152,7 +152,7 @@ def coeffs_NaCl():
 
 class SurfaceTension_Dutcher_Base(SolutionFormula):
 
-    source ='Dutcher'
+    source = 'Dutcher'
 
     temperature_unit = 'K'
     concentration_unit = 'x'

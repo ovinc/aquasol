@@ -50,7 +50,7 @@ class ActivityCoefficient_Steiger_Base(SolutionFormula):
 
 
 class ActivityCoefficient_Steiger2005_Base(ActivityCoefficient_Steiger_Base):
-    source ='Steiger 2005'
+    source = 'Steiger 2005'
     temperature_range = (298.15, 298.15)
 
 
@@ -68,7 +68,7 @@ class ActivityCoefficient_Na2SO4_Steiger2005_Base(ActivityCoefficient_Steiger200
 
 
 class ActivityCoefficient_Steiger2008_Base(ActivityCoefficient_Steiger_Base):
-    source ='Steiger 2008'
+    source = 'Steiger 2008'
     temperature_range = (273.15, 323.15)
 
 

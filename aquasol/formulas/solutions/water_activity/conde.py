@@ -52,7 +52,7 @@ def aw_conde(w, T, coeffs):
 
 class WaterActivity_Conde_Base(SolutionFormula):
 
-    source ='Conde'
+    source = 'Conde'
     solute = 'CaCl2'
 
     temperature_unit = 'C'

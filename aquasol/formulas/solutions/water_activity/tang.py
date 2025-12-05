@@ -40,7 +40,7 @@ def aw_extended_debye_huckel(m, solute, coeffs):
 
 class WaterActivity_Tang_Base(SolutionFormula):
 
-    source ='Tang'
+    source = 'Tang'
 
     temperature_unit = 'C'
     temperature_range = (25, 25)

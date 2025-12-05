@@ -15,7 +15,7 @@ from ..general import WaterFormula
 
 class ViscosityAtm_IAPWS(WaterFormula):
 
-    source ='IAPWS'
+    source = 'IAPWS'
     temperature_unit = 'K'
     temperature_range = (253.15, 383.15)
     default = True
