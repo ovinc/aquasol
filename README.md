@@ -386,22 +386,34 @@ drop_conc_from_pore_aw(0.8, drop_volume=1, pore_volume=0.2, out='m')
 pore_aw_from_drop_conc(m=0.944, drop_volume=1, pore_volume=0.2)
 ```
 
-Available Solutes
------------------
+## Available Solutes and Formulas
 
-Sorted by alphabetical order. When available, the sources are written in parentheses. For convert, an X means available.
+Sorted by alphabetical order. When available, the sources are written in parentheses.
 
-|  Solute  | Water Activity | Activity Coeff. |      Density      | Surface Tension | Refr. Index | Elec. Conduct. | Solubility | Convert (*) |
-|:--------:|:--------------:|:---------------:|:-----------------:|:---------------:|:-----------:|:--------------:|:----------:|:-----------:|
-| CaCl2    |      (1)       |                 |     (1,3,14)      |      (1,6)      |     (7)     |                |            |      X      |
-| KCl      |     (8,13)     |     (8,13)      |     (3,14,21)     |       (6)       |    (7,21)   |       (9)      |    (13)    |      X      |
-| KI       |                |                 |      (3,14)       |                 |             |                |            |      X      |
-| LiBr     |    (19,20)     |      (20)       |                   |                 |             |                |    (18)    |      -      |
-| LiCl     |   (1,19,20)    |      (20)       |      (1,14)       |       (1)       |             |                |    (17)    |      X      |
-| MgCl2    |                |                 |      (3,14)       |       (6)       |             |                |            |      X      |
-| Na2SO4   |   (2,12,13)    |    (12,13)      |    (10,14,15)     |       (6)       |     (21)    |                |    (13)    |      X      |
-| NaCl     | (2,8,12,13,20) |  (8,12,13,20)   | (3,4,5,11,14,15)  |      (6,11)     |    (7,21)   |                | (13,16,17) |      X      |
-| Glycerol |       (22)     |                 |       (23)        |                 |             |                |            |      X      |
+|  Solute  | Water Activity | Activity Coeff. | Solubility |
+|:--------:|:--------------:|:---------------:|:----------:|
+| CaCl2    |      (1)       |                 |            |
+| KCl      |     (8,13)     |     (8,13)      |    (13)    |
+| KI       |                |                 |            |
+| LiBr     |    (19,20)     |      (20)       |    (18)    |
+| LiCl     |   (1,19,20)    |      (20)       |    (17)    |
+| MgCl2    |                |                 |            |
+| Na2SO4   |   (2,12,13)    |    (12,13)      |    (13)    |
+| NaCl     | (2,8,12,13,20) |  (8,12,13,20)   | (13,16,17) |
+| Glycerol |       (22)     |                 |            |
+
+
+|  Solute  |      Density      | Surface Tension | Refr. Index | Elec. Conduct. | Viscosity |
+|:--------:|:-----------------:|:---------------:|:-----------:|:--------------:|:----------|
+| CaCl2    |     (1,3,14)      |      (1,6)      |     (7)     |                |           |
+| KCl      |     (3,14,21)     |       (6)       |    (7,21)   |       (9)      |   (24)    |
+| KI       |      (3,14)       |                 |             |                |           |
+| LiBr     |                   |                 |             |                |           |
+| LiCl     |      (1,14)       |       (1)       |             |                |   (24)    |
+| MgCl2    |      (3,14)       |       (6)       |             |                |           |
+| Na2SO4   |    (10,14,15)     |       (6)       |     (21)    |                |           |
+| NaCl     | (3,4,5,11,14,15)  |      (6,11)     |    (7,21)   |                |   (24)    |
+| Glycerol |       (23)        |                 |             |                |           |
 
 (*) Solutes with no density data cannot use conversion to/from molarity ('c') but all other conversions work. They are noted with - instead of X.
 
@@ -454,6 +466,9 @@ International Journal of Thermal Sciences 43, 367–382 (2004).
 (22) Zhang, L., Grace, P. M. & Sun, D.-W., *An accurate water activity model for glycerol solutions and its implementation on moisture sorption isotherm determination*. Drying Technology 40, 2404–2413 (2022).
 
 (23) Volk, A. & Kähler, C. J., *Density model for aqueous glycerol solutions*. Exp Fluids 59, 75 (2018).
+
+(24) Mao, S. & Duan, Z. *The Viscosity of Aqueous Alkali-Chloride Solutions up to 623 K, 1,000 bar, and High Ionic Strength*. Int J Thermophys 30, 1510–1523 (2009).
+
 
 
 Constants
@@ -525,7 +540,7 @@ Contributors
 - Marine Poizat (2019)
 - Léo Martin (2020)
 - Hugo Bellezza (2023)
-- Julien Besombes (2025): glycerol formulas
+- Julien Besombes (2025)
 
 
 License
