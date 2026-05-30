@@ -22,6 +22,7 @@ class DensityAtm(WaterProperty):
     >>> rho([0, 10, 20, 30])     # rho at various temperatures in Celsius
     >>> rho(300, 'K')            # rho at 300K
     """
+    __name__ = 'density_atm'
     quantity = 'density (sat.)'
     unit = '[kg/m^3]'
     Formulas = DensityAtmFormulas
@@ -38,6 +39,7 @@ class DensitySat(WaterProperty):
     >>> rho([0, 10, 20, 30])     # rho at various temperatures in Celsius
     >>> rho(300, 'K')            # rho at 300K
     """
+    __name__ = 'density_sat'
     quantity = 'density (sat.)'
     unit = '[kg/m^3]'
     Formulas = DensitySatFormulas
@@ -54,6 +56,7 @@ class DielectricConstant(WaterProperty):
     >>> epsilon([0, 10, 20, 30])     # at various temperatures in Celsius
     >>> epsilon(300, 'K')            # at 300K
     """
+    __name__ = 'dielectric_constant'
     quantity = 'dielectric constant'
     unit = '[-]'
     Formulas = DielectricConstantFormulas
@@ -70,6 +73,7 @@ class DiffusivityInAir(WaterProperty):
     >>> d([0, 10, 20, 30])     # at various temperatures in Celsius
     >>> d(300, 'K')            # at 300K
     """
+    __name__ = 'diffusivity_in_air'
     quantity = 'vapor diffusivity in air'
     unit = '[m^2/s]'
     Formulas = DiffusivityInAirFormulas
@@ -86,6 +90,7 @@ class SurfaceTension(WaterProperty):
     >>> sigma([0, 10, 20, 30])     # sigma at various temperatures in Celsius
     >>> sigma(300, 'K')            # sigma at 300K
     """
+    __name__ = 'surface_tension'
     quantity = 'surface tension'
     unit = '[N/m]'
     Formulas = SurfaceTensionFormulas
@@ -103,6 +108,7 @@ class VaporPressure(WaterProperty):
     >>> psat(300, 'K')             # at 300K
     >>> psat(15, source='Wexler')  # at 15°C using Wexler equation
     """
+    __name__ = 'vapor_pressure'
     quantity = 'saturated vapor pressure'
     unit = '[Pa]'
     Formulas = VaporPressureFormulas
@@ -119,6 +125,7 @@ class ViscosityAtm(WaterProperty):
     >>> mu([0, 10, 20, 30])     # at various temperatures in Celsius
     >>> mu(300, 'K')            # at 300K
     """
+    __name__ = 'viscosity'
     quantity = 'viscosity'
     unit = '[Pa.s]'
     Formulas = ViscosityAtmFormulas

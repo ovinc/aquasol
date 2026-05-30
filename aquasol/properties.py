@@ -11,6 +11,7 @@ class Property:
     """Base class for properties of water or solutions (e.g. density)"""
 
     # Below, to define in subclasses
+    __name__ = None  # in order to reproduce the __name__ attribute of functions
     Formulas = ()  # iterable of formulae available to calculate the property
     quantity = None
     unit = None

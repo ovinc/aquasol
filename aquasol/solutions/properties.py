@@ -39,6 +39,7 @@ class ActivityCoefficient(SolutionProperty_Full):
     - activity_coefficient(solute='KCl', T=50, m=[2, 4, 6])  # concentration as iterable
     """
     Formulas = ActivityCoefficientFormulas
+    __name__ = 'activity_coefficient'
     quantity = 'activity coefficient'
     unit = '[-]'
 
@@ -58,6 +59,7 @@ class WaterActivity(SolutionProperty_Full):
     - water_activity(solute='CaCl2', T=50, m=[2, 4, 6])  # concentration as iterable
     """
     Formulas = WaterActivityFormulas
+    __name__ = 'water_activity'
     quantity = 'water activity'
     unit = '[-]'
 
@@ -77,6 +79,7 @@ class Density(SolutionProperty_Full):
     a concentration of 5 mol/L.
     """
     Formulas = DensityFormulas
+    __name__ = 'density'
     quantity = 'density'
     unit = '[kg/m^3]'
 
@@ -97,6 +100,7 @@ class SurfaceTension(SolutionProperty_Full):
     - surface_tension(x=[0.02, 0.04, 0.08])  # iterable concentration is ok
     """
     Formulas = SurfaceTensionFormulas
+    __name__ = 'surface_tension'
     quantity = 'surface tension'
     unit = '[N/m]'
 
@@ -113,6 +117,7 @@ class ElectricalConductivity(SolutionProperty_Full):
     (Note: arrays are accepted for concentration and temperature)
     """
     Formulas = ElectricalConductivityFormulas
+    __name__ = 'electrical_conductivity'
     quantity = 'electrical conductivity'
     unit = '[S/m]'
 
@@ -131,6 +136,7 @@ class RefractiveIndex(SolutionProperty_Full):
     - refractive_index('KCl', 293, 'K', m=3): same for KCl at 293K.
     """
     Formulas = RefractiveIndexFormulas
+    __name__ = 'refractive_index'
     quantity = 'refractive index'
     unit = '[-]'
 
@@ -149,6 +155,7 @@ class Viscosity(SolutionProperty_Full):
     - viscosity('KCl', 293, 'K', m=3): same for KCl at 293K.
     """
     Formulas = ViscosityFormulas
+    __name__ = 'viscosity'
     quantity = 'viscosity'
     unit = '[Pa.s]'
 
@@ -170,6 +177,7 @@ class Solubility(SolutionSolubilityProperty):
     - solubility('Na2SO4')           # solubility of Na2SO4 at 25°C
     """
     Formulas = SolubilityFormulas
+    __name__ = 'solubility'
     quantity = 'solubility'
     converter = staticmethod(convert)
 
