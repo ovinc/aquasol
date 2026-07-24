@@ -11,21 +11,28 @@ from ..humidity import format_humidity
 
 
 def dewpoint(unit='C', T=None, source=None, **humidity):
-    """Inverts vapor_pressure() to calculate dew point at a given humidity.
+    """Invert vapor_pressure() to calculate dew point at a given humidity.
 
-    Inputs
-    ------
-    - unit: temperature unit of dewpoint, can be 'C' or 'K' (default 'C')
-    - T: system temperature, required only if rh or aw are used as humidity
-    input value, but optional if p is used. Default None, i.e 25°C.
-    - source: literature source for the calculation of vapor pressure
-              (default: None, i.e. Auto); see water.vapor_pressure
-    - humidity kwargs: can be 'rh=' (relative humidity in %), 'aw=' (vapor
-    activity = rh / 100), 'p=' (partial water vapor pressure).
+    Parameters
+    ----------
+    unit : str, optional
+        Temperature unit of dewpoint ('C' or 'K'). Default is 'C'.
+    T : float, optional
+        System temperature, required only if `rh` or `aw` are used as humidity
+        input value, but optional if `p` is used. Default is None (i.e., 25°C).
+    source : str, optional
+        Literature source for the calculation of vapor pressure.
+        Default is None (i.e., Auto). See `water.vapor_pressure`.
+    **humidity : kwargs
+        Humidity input as one of the following:
+        - `rh`: relative humidity in %.
+        - `aw`: vapor activity (rh / 100).
+        - `p`: partial water vapor pressure.
 
-    Output
-    ------
-    Dewpoint Temperature
+    Returns
+    -------
+    float or array-like
+        Dewpoint temperature in the specified unit.
 
     Examples
     --------

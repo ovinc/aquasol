@@ -41,14 +41,14 @@ class Density_Basic(SolutionProperty):
 
     Is used to prevent circular import problems
     (because SolutionProperty is also used to define the density function used
-    in convert())
+    in convert()).
     """
-    # See SolutionProperty for explantion of staticmethod()
+
+    # See SolutionProperty for explanation of staticmethod()
     converter = staticmethod(basic_convert)
     Formulas = DensityFormulas
     quantity = 'density'
     unit = ['kg/m^3']
-
 
 density_basic = Density_Basic()
 
@@ -57,16 +57,56 @@ density_basic = Density_Basic()
 
 
 def w_to_molarity(w, solute, T=25, unit='C', density_source=None):
-    """Calculate molarity of solute from weight fraction at temperature T in °C"""
+    """Calculate molarity of solute from weight fraction at temperature T in °C.
+
+    Parameters
+    ----------
+    w : float
+        Weight fraction of the solute.
+    solute : str
+        Name of the solute.
+    T : float, optional
+        Temperature in °C. Default is 25.
+    unit : str, optional
+        Temperature unit ('C' or 'K'). Default is 'C'.
+    density_source : str, optional
+        Source for density calculation.
+
+    Returns
+    -------
+    float
+        Molarity of the solute in mol/m^3.
+    """
     M = molar_mass(solute)
     rho = density_basic(solute=solute, T=T, unit=unit, source=density_source, w=w)
     return rho * w / M
 
 
 def _get_max_w(solute, T=25, unit='C', density_source=None, wmin=0, wmax=0.999):
-    """Detect if density has a maximum, in which case the inversion fails."""
+    """Detect if density has a maximum, in which case the inversion fails.
+
+    Parameters
+    ----------
+    solute : str
+        Name of the solute.
+    T : float, optional
+        Temperature in °C. Default is 25.
+    unit : str, optional
+        Temperature unit ('C' or 'K'). Default is 'C'.
+    density_source : str, optional
+        Source for density calculation.
+    wmin : float, optional
+        Minimum weight fraction. Default is 0.
+    wmax : float, optional
+        Maximum weight fraction. Default is 0.999.
+
+    Returns
+    -------
+    float
+        Weight fraction at which density is maximum.
+    """
     ww = np.linspace(wmin, wmax, num=200)
-    with warnings.catch_warnings():      # this is to avoid always warnings
+    with warnings.catch_warnings():  # this is to avoid always warnings
         warnings.simplefilter('ignore')  # which pop up due to wmax being high
         rho = density_basic(solute=solute, T=T, unit=unit, source=density_source, w=ww)
     imax = np.argmax(rho)
@@ -77,9 +117,36 @@ def molarity_to_w(c, solute, T=25, unit='C', density_source=None, wmin=0, wmax=0
     """Calculate weight fraction of solute from molarity at temperature T in °C.
 
     Note: can be slow because of inverting the function each time.
+
+    Parameters
+    ----------
+    c : float
+        Molarity of the solute in mol/m^3.
+    solute : str
+        Name of the solute.
+    T : float, optional
+        Temperature in °C. Default is 25.
+    unit : str, optional
+        Temperature unit ('C' or 'K'). Default is 'C'.
+    density_source : str, optional
+        Source for density calculation.
+    wmin : float, optional
+        Minimum weight fraction. Default is 0.
+    wmax : float, optional
+        Maximum weight fraction. Default is 0.999.
+
+    Returns
+    -------
+    float
+        Weight fraction of the solute.
+
+    Raises
+    ------
+    ValueError
+        If the requested molarity exceeds the maximum available with the density formula.
     """
     def molarity(w):
-        with warnings.catch_warnings():      # this is to avoid always warnings
+        with warnings.catch_warnings():  # this is to avoid always warnings
             warnings.simplefilter('ignore')  # which pop up due to wmax being high
             return w_to_molarity(
                 w=w,
@@ -157,32 +224,40 @@ def convert(
 
     Parameters
     ----------
-    - value (float): value to convert
-    - unit1 (str): its unit.
-    - unit2 (str): unit to convert to.
-    - solute (str): name of solute (default 'NaCl').
-    - T: temperature
-    - unit: unit of temperature (should be 'C' or 'K'), only used for molarity
+    value : float or array-like
+        Value to convert.
+    unit1 : str
+        Unit of the input value.
+    unit2 : str
+        Unit to convert to.
+    solute : str, optional
+        Name of solute. Default is 'NaCl'.
+    T : float, optional
+        Temperature. Default is 25.
+    unit : str, optional
+        Temperature unit ('C' or 'K'). Default is 'C'.
+    density_source : str, optional
+        Source for density in case `unit1` or `unit2` is molarity ('c').
+    density_wmin : float, optional
+        Minimum mass fraction to consider when inverting molarity(w)
+        for iterative search (only when converting FROM molarity). Default is 0.
+    density_wmax : float, optional
+        Maximum mass fraction to consider when inverting molarity(w)
+        for iterative search (only when converting FROM molarity). Default is 0.999.
 
-    Additional parameters are available when converting to/from molarity,
-    because knowledge of solution density is required:
-    - density_source: which formula to use to calculate density when converting
-                      to/from molarity (None = default).
-    - density_wmin: min mass fraction to consider when inverting molarity(w)
-                    for iterative search (only when converting FROM molarity)
-    - density_wmin: max mass fraction to consider when inverting molarity(w)
-                    for iterative search (only when converting FROM molarity)
+    Returns
+    -------
+    float or array-like
+        Converted value (dimensionless or SI units).
 
-    solute has to be in the solute list in the constants module and in the
-    solutes with density data if unit1 or unit2 is molarity ('c').
+    Notes
+    -----
+    `solute` has to be in the solute list in the constants module and in the
+    solutes with density data if `unit1` or `unit2` is molarity ('c').
 
-    unit1 and unit2 have to be in the allowed units list :
+    `unit1` and `unit2` have to be in the allowed units list:
     'x' (mole fraction), 'w' (weight fraction), 'm' (molality), 'r'
-    (ratio of mass of solute to mass of solvent), 'c' (molarity in mol/m^3)
-
-    Output
-    ------
-    Converted value (dimensionless or SI units)
+    (ratio of mass of solute to mass of solvent), 'c' (molarity in mol/m^3).
 
     Examples
     --------
@@ -190,7 +265,7 @@ def convert(
     - convert(10, 'm', 'w'): molality of 10 mol/kg into mass fraction for NaCl
     - convert(10, 'm', 'w', 'LiCl'): same but for LiCl.
     - convert(5000, 'c', 'x'): molarity of 5 mol/m^3 to mole fraction for NaCl
-    (assuming a temperature of T=25°C)
+      (assuming a temperature of T=25°C)
     - convert(5000, 'c', 'x', T=30): same but at 30°C.
     - convert(5000, 'c', 'x', T=293, unit='K'): same but at 293K
     - convert(5000, 'c', 'x', solute='LiCl'): for LiCl at 25°C
@@ -229,7 +304,7 @@ def convert(
         value_in = value
         unit_in = unit1
 
-    if unit2 in basic_units:   # If unit2 is basic, the job is now easy
+    if unit2 in basic_units:  # If unit2 is basic, the job is now easy
         return basic_convert(
             value=value_in,
             unit1=unit_in,
@@ -238,17 +313,16 @@ def convert(
         )
 
     else:  # If not, first convert to w, then again to the asked unit
-
         w = basic_convert(value_in, unit_in, 'w', solute)
         if unit2 == 'c':
             return w_to_molarity(
                 w=w,
                 solute=solute,
-                T=T, unit=unit,
+                T=T,
+                unit=unit,
                 density_source=density_source,
             )
-
         else:
             # This case should in principle never happen, except if bug in
             # logics of code above
-            raise ValueError('Unknown error --  please check code of convert() function.')
+            raise ValueError('Unknown error -- please check code of convert() function.')

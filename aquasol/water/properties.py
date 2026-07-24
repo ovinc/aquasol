@@ -46,7 +46,7 @@ class DensitySat(WaterProperty):
 
 
 class DielectricConstant(WaterProperty):
-    """Dielectric constant of water at ambient pressure as a function of T
+    """Dielectric constant of water at ambient pressure as a function of temperature.
 
     Examples
     --------
@@ -80,7 +80,7 @@ class DiffusivityInAir(WaterProperty):
 
 
 class SurfaceTension(WaterProperty):
-    """Surface tension of pure water as a function of temperature [N/m]
+    """Surface tension of pure water as a function of temperature [N/m].
 
     Examples
     --------
@@ -97,7 +97,7 @@ class SurfaceTension(WaterProperty):
 
 
 class VaporPressure(WaterProperty):
-    """Saturation vapor pressure of water as a function of temperature [Pa]
+    """Saturation vapor pressure of water as a function of temperature [Pa].
 
     Examples
     --------
@@ -115,7 +115,7 @@ class VaporPressure(WaterProperty):
 
 
 class ViscosityAtm(WaterProperty):
-    """Viscosity of water at ambient pressure as a function of temperature [Pa.s]
+    """Viscosity of water at ambient pressure as a function of temperature [Pa.s].
 
     Examples
     --------

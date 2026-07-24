@@ -24,14 +24,15 @@ class SolutionProperty_Full(SolutionProperty):
 
     Is used to prevent circular import problems
     (because SolutionProperty is also used to define the density function used
-    in convert())
+    in convert()).
     """
+
     # See SolutionProperty for explanation of necessity of staticmethod()
     converter = staticmethod(convert)
 
 
 class ActivityCoefficient(SolutionProperty_Full):
-    """Molal activity coefficient (Ɣ) of solute in a solution (a_s = Ɣ * m / mref)
+    """Molal activity coefficient (Ɣ) of solute in a solution (a_s = Ɣ * m / mref).
 
     Examples
     --------
@@ -45,7 +46,7 @@ class ActivityCoefficient(SolutionProperty_Full):
 
 
 class WaterActivity(SolutionProperty_Full):
-    """Water activity of a solution(aq) at given concentration and temperature
+    """Water activity of a solution(aq) at given concentration and temperature.
 
     Examples
     --------
@@ -65,18 +66,18 @@ class WaterActivity(SolutionProperty_Full):
 
 
 class Density(SolutionProperty_Full):
-    """Density of a solution(aq) at a given concentration and temperature
+    """Density of a solution(aq) at a given concentration and temperature.
 
     Examples
     --------
     - density(w=0.1) returns the density of a NaCl solution, calculated with
-    Simion equation for a mass fraction of 0.1 at a temperature of 25°C.
+      Simion equation for a mass fraction of 0.1 at a temperature of 25°C.
     - density('LiCl', 300, 'K', m=6) density of a LiCl solution at 300K
-    for a molality of 6 mol/kg.
+      for a molality of 6 mol/kg.
     - density(source='Tang', x=0.1), density of NaCl solution at a mole
-    fraction of 0.1, calculated with the equation from Tang.
+      fraction of 0.1, calculated with the equation from Tang.
     - density(c=5000, relative=True), relative density of NaCl solution at
-    a concentration of 5 mol/L.
+      a concentration of 5 mol/L.
     """
     Formulas = DensityFormulas
     __name__ = 'density'
@@ -85,18 +86,18 @@ class Density(SolutionProperty_Full):
 
 
 class SurfaceTension(SolutionProperty_Full):
-    """Surface tension of a solution(aq) at a given concentration and temperature
+    """Surface tension of a solution(aq) at a given concentration and temperature.
 
     Examples
     --------
     - surface_tension(x=0.05) returns surface tension of an aqueous NaCl
-    solution at 25°C and a mole fraction of 5%
+      solution at 25°C and a mole fraction of 5%
     - surface_tension('LiCl', w=0.1) returns the surface tension of a LiCl
-    solution at 25°C and weight fraction of 10%
+      solution at 25°C and weight fraction of 10%
     - surface_tension('CaCl2', 20, m=6) returns the surface tension of
-    a CaCl2 solution at 20°C and molality 6 mol/kg
+      a CaCl2 solution at 20°C and molality 6 mol/kg
     - surface_tension('CaCl2', 300, 'K', c=5e3) returns the surface tension of
-    a CaCl2 solution at 300K and molarity of 5 mol/L
+      a CaCl2 solution at 300K and molarity of 5 mol/L
     - surface_tension(x=[0.02, 0.04, 0.08])  # iterable concentration is ok
     """
     Formulas = SurfaceTensionFormulas
@@ -112,7 +113,7 @@ class ElectricalConductivity(SolutionProperty_Full):
     --------
     - electrical_conductivity(c=1000)  # 1 molar NaCl conductivity
     - electrical_conductivity(solute='KCl', m=0.1)
-    - electrical_conductivity(solute='KCl, m=2.2, T=50)  # at 50°C
+    - electrical_conductivity(solute='KCl', m=2.2, T=50)  # at 50°C
 
     (Note: arrays are accepted for concentration and temperature)
     """
@@ -123,7 +124,7 @@ class ElectricalConductivity(SolutionProperty_Full):
 
 
 class RefractiveIndex(SolutionProperty_Full):
-    """Refractive index of a solution as a function of concentration and temperature
+    """Refractive index of a solution as a function of concentration and temperature.
 
     Examples
     --------
@@ -142,7 +143,7 @@ class RefractiveIndex(SolutionProperty_Full):
 
 
 class Viscosity(SolutionProperty_Full):
-    """Viscosity of a solution as a function of concentration and temperature
+    """Viscosity of a solution as a function of concentration and temperature.
 
     Examples
     --------

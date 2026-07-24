@@ -202,13 +202,13 @@ The following functions, which are based on some of the ones above, are also def
 
 The structure of the call for any property (replace *property* below by one of the function names above) is
 ```python
-data = property(solute='NaCl', T=25, unit='C', source=None, **concentration)
+data = property(solute='NaCl', T=25, unit='C', source=None, density_source=None, **concentration)
 ```
 with an additional parameter `relative=False` where applicable.
 
 Note that the solubility has a slightly different call:
 ```python
-data = solubility(solute='NaCl', T=25, unit='C', source=None, out='m')
+data = solubility(solute='NaCl', T=25, unit='C', source=None, density_source=None, out='m')
 ```
 
 *Inputs*
@@ -332,7 +332,7 @@ Inverse property functions
 
 The `aw_to_conc` calculates what concentration of solute is necessary to reach a specific water activity:
 ```python
-aw_to_conc(a, out='w', solute='NaCl', T=25, unit='C', source=None):
+aw_to_conc(a, out='w', solute='NaCl', T=25, unit='C', source=None, density_source=None):
 ```
 For example:
 ```python

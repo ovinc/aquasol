@@ -17,37 +17,38 @@ from .properties import water_activity, solubility
 def osmotic_pressure(solute='NaCl', T=25, unit='C', source=None, density_source=None, **concentration):
     """Return osmotic pressure of an aqueous solution at a given concentration.
 
-    Basically the same as water_activity, but expressed as -RT/vm * log(a_w)
+    Basically the same as water_activity, but expressed as -RT/vm * log(a_w).
 
     Parameters
     ----------
-    - solute (str): solute name, default 'NaCl'
-    - T (float): temperature (default 25)
-    - unit (str, default 'C'): 'C' for Celsius, 'K' for Kelvin
+    solute : str, optional
+        Solute name. Default is 'NaCl'.
+    T : float, optional
+        Temperature. Default is 25.
+    unit : str, optional
+        Temperature unit ('C' or 'K'). Default is 'C'.
+    source : str, optional
+        Source for the used equation. If None, the default source for the
+        particular solute is used. See summary of available sources below.
+    density_source : str, optional
+        Source for density in case the concentration involves molarities ('c').
+    **concentration : kwargs
+        Concentration in any unit allowed by `convert()`, e.g.:
+        - `m`: molality (mol/kg)
+        - `w`: mass fraction
+        - `x`: mole fraction
+        - `c`: molarity (mol/m^3)
+        - `r`: mass ratio (unitless)
 
-    - source (str, default None) : Source for the used equation, if None then
-    gets the default source for the particular solute (defined in submodules).
-    See summary of available sources below.
-
-    - density_source (str, default None)
-                    source for density in case out the concentration involves
-                    molarities ('c')
-
-    - **concentration: kwargs with any unit that is allowed by convert(), e.g.
-        - m= : molality (mol/kg)
-        - w= : mass fraction
-        - x= : mole fraction
-        - c= : molarity (mol/m^3)
-        - r= : mass ratio (unitless)
-
-    Output
-    ------
-    - Osmotic pressure (Π) in Pa
+    Returns
+    -------
+    float or array-like
+        Osmotic pressure (Π) in Pa.
 
     Solutes and Sources
     -------------------
-    See water_activity.solutes, water_activity.sources and
-    water_activity.default_sources and README.md
+    See `water_activity.solutes`, `water_activity.sources`,
+    `water_activity.default_sources`, and README.md.
 
     Examples
     --------
@@ -76,37 +77,38 @@ def osmotic_pressure(solute='NaCl', T=25, unit='C', source=None, density_source=
 def osmotic_coefficient(solute='NaCl', T=25, unit='C', source=None, density_source=None, **concentration):
     """Return osmotic coefficient (Φ) of an aqueous solution at a given concentration.
 
-    Basically the same as water_activity, but expressed as Φ
+    Basically the same as water_activity, but expressed as Φ.
 
     Parameters
     ----------
-    - solute (str): solute name, default 'NaCl'
-    - T (float): temperature (default 25)
-    - unit (str, default 'C'): 'C' for Celsius, 'K' for Kelvin
+    solute : str, optional
+        Solute name. Default is 'NaCl'.
+    T : float, optional
+        Temperature. Default is 25.
+    unit : str, optional
+        Temperature unit ('C' or 'K'). Default is 'C'.
+    source : str, optional
+        Source for the used equation. If None, the default source for the
+        particular solute is used. See summary of available sources below.
+    density_source : str, optional
+        Source for density in case the concentration involves molarities ('c').
+    **concentration : kwargs
+        Concentration in any unit allowed by `convert()`, e.g.:
+        - `m`: molality (mol/kg)
+        - `w`: mass fraction
+        - `x`: mole fraction
+        - `c`: molarity (mol/m^3)
+        - `r`: mass ratio (unitless)
 
-    - source (str, default None) : Source for the used equation, if None then
-    gets the default source for the particular solute (defined in submodules).
-    See summary of available sources below.
-
-    - density_source (str, default None)
-                    source for density in case out the concentration involves
-                    molarities ('c')
-
-    - **concentration: kwargs with any unit that is allowed by convert(), e.g.
-        - m= : molality (mol/kg)
-        - w= : mass fraction
-        - x= : mole fraction
-        - c= : molarity (mol/m^3)
-        - r= : mass ratio (unitless)
-
-    Output
-    ------
-    - Osmotic coefficient (Φ), dimensionless
+    Returns
+    -------
+    float or array-like
+        Osmotic coefficient (Φ), dimensionless.
 
     Solutes and Sources
     -------------------
-    See water_activity.solutes, water_activity.sources and
-    water_activity.default_sources and README.md
+    See `water_activity.solutes`, `water_activity.sources`,
+    `water_activity.default_sources`, and README.md.
 
     Examples
     --------
@@ -147,28 +149,32 @@ def aw_saturated(
     activity_source=None,
     solubility_source=None,
 ):
-    """Water activity of the saturated solution.
+    """Return water activity of the saturated solution.
 
-    Basically the same as solubility, but expressed as a_w
+    Basically the same as solubility, but expressed as a_w.
 
     Parameters
     ----------
-    - crystal (str): crystal name, default 'NaCl'
-    - T (float): temperature (default 25)
-    - unit (str, default 'C'): 'C' for Celsius, 'K' for Kelvin
+    crystal : str, optional
+        Crystal name. Default is 'NaCl'.
+    T : float, optional
+        Temperature. Default is 25.
+    unit : str, optional
+        Temperature unit ('C' or 'K'). Default is 'C'.
+    activity_source : str, optional
+        Source for the water activity equation. If None, the default source is used.
+    solubility_source : str, optional
+        Source for the solubility equation. If None, the default source is used.
 
-    - source (str, default None) : Source for the used equation, if None then
-    gets the default source for the particular solute (defined in submodules).
-    See summary of available sources below.
-
-    Output
-    ------
-    - Water activity, dimensionless
+    Returns
+    -------
+    float
+        Water activity, dimensionless.
 
     Solutes and Sources
     -------------------
-    See solubility.solutes, solubility.sources and
-    solubility.default_sources and README.md
+    See `solubility.solutes`, `solubility.sources`,
+    `solubility.default_sources`, and README.md.
 
     Examples
     --------
@@ -202,39 +208,41 @@ def debye_length(solute='NaCl', T=25, unit='C', density_source=None, **concentra
     """Return Debye length of an aqueous solution at a given concentration.
 
     NOTE: the dependence of water dielectric constant (epsilon) as a function
-    of temperature is taken into account, but not as a function of concentration
-    --> TODO?
+    of temperature is taken into account, but not as a function of concentration.
+    TODO: Add concentration dependence.
 
     Parameters
     ----------
-    - solute (str): solute name, default 'NaCl'
-    - T (float): temperature (default 25)
-    - unit (str, default 'C'): 'C' for Celsius, 'K' for Kelvin
+    solute : str, optional
+        Solute name. Default is 'NaCl'.
+    T : float, optional
+        Temperature. Default is 25.
+    unit : str, optional
+        Temperature unit ('C' or 'K'). Default is 'C'.
+    density_source : str, optional
+        Source for density in case the concentration involves molarities ('c').
+    **concentration : kwargs
+        Concentration in any unit allowed by `convert()`, e.g.:
+        - `m`: molality (mol/kg)
+        - `w`: mass fraction
+        - `x`: mole fraction
+        - `c`: molarity (mol/m^3)
+        - `r`: mass ratio (unitless)
 
-    - density_source (str, default None)
-                    source for density in case out the concentration involves
-                    molarities ('c')
-
-    - **concentration: kwargs with any unit that is allowed by convert(), e.g.
-        - m= : molality (mol/kg)
-        - w= : mass fraction
-        - x= : mole fraction
-        - c= : molarity (mol/m^3)
-        - r= : mass ratio (unitless)
-
-    Output
-    ------
-    - Debye length [m]
+    Returns
+    -------
+    float or array-like
+        Debye length in meters.
 
     Solutes and Sources
     -------------------
-    See water_activity.solutes, water_activity.sources and
-    water_activity.default_sources and README.md
+    See `water_activity.solutes`, `water_activity.sources`,
+    `water_activity.default_sources`, and README.md.
 
     Examples
     --------
     - debye_length(w=0.26)        # Debye length in saturated NaCl
-    - debye_length(c=2.5, T=20)   # Debye length at 2.5mM, 20°C
+    - debye_length(c=2.5, T=20)   # Debye length at 2.5 mM, 20°C
     """
     c = format_concentration(
         concentration=concentration,

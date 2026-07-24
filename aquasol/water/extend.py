@@ -1,8 +1,8 @@
-"""Extension of the properties module for useful shortcut functions
+"""Extension of the properties module for useful shortcut functions.
 
 e.g.:
 - Kelvin pressure instead of vapor pressure
-- molar volume instead of density
+- Molar volume instead of density
 etc.
 """
 
@@ -31,52 +31,63 @@ density = {
 
 
 def molar_volume(T=25, unit='C', source=None, condition='sat'):
-    """Molar volume of water [m^3 / mol].
+    """Calculate molar volume of water [m^3 / mol].
 
     Parameters
     ----------
-    - T (int, float, array, list, tuple): temperature
-    - unit (str, default 'C'): 'C' for Celsius, 'K' for Kelvin
-    - source (str, default None) : Source for the used equation, if None then
-    the default source for the particular property is used.
-    - condition: 'sat' (default): sat. pressure, 'atm': at atm. pressure
+    T : int, float, array, list, or tuple
+        Temperature.
+    unit : str, optional
+        Temperature unit ('C' or 'K'). Default is 'C'.
+    source : str, optional
+        Source for the used equation. If None, the default source for the
+        particular property is used.
+    condition : str, optional
+        Condition for density calculation ('sat' for saturated pressure,
+        'atm' for atmospheric pressure). Default is 'sat'.
 
-    Output
-    ------
-    Molar volume in m^3 / mol
+    Returns
+    -------
+    float or array-like
+        Molar volume in m^3/mol.
 
     Sources
     -------
-    see density_atm() and density_sat()
+    See `density_atm()` and `density_sat()`.
     """
     return Mw / density[condition](T=T, unit=unit, source=source)
 
-
-# ============== Humidity to kelvin radius and inverse function ==============
-
+# ============== Humidity to Kelvin radius and inverse function ==============
 
 def kelvin_pressure(T=25, unit='C', **humidity):
     """Calculate Kelvin (liquid) pressure at a given humidity.
 
     Parameters
     ----------
-    - T: temperature (default 25)
-    - unit: temperature unit ('C' or 'K', default 'C')
-    - humidity: kwargs p=, rh= or aw=
+    T : float, optional
+        Temperature. Default is 25.
+    unit : str, optional
+        Temperature unit ('C' or 'K'). Default is 'C'.
+    **humidity : kwargs
+        Humidity input as one of the following:
+        - `p`: partial water vapor pressure.
+        - `rh`: relative humidity in %.
+        - `aw`: water activity.
 
-    Output
-    ------
-    Kelvin pressure in Pa.
+    Returns
+    -------
+    float or array-like
+        Kelvin pressure in Pa.
 
     Examples
     --------
     >>> kelvin_pressure(aw=0.8)  # Kelvin pressure at 80%RH and T=25°C
     -30613102.83763792
-    >>> kelvin_pressure(rh=80)           # same
+    >>> kelvin_pressure(rh=80)  # same
     -30613102.83763792
-    >>> kelvin_pressure(p=1000, T=20)    # at 1000Pa, 20°C
+    >>> kelvin_pressure(p=1000, T=20)  # at 1000Pa, 20°C
     -114763155.07026532
-    >>> kelvin_pressure(p=1000, T=293.15, unit='K')    # same
+    >>> kelvin_pressure(p=1000, T=293.15, unit='K')  # same
     -114763155.07026532
     >>> kelvin_pressure(aw=[0.5, 0.7, 0.9])  # possible to use iterables
     array([-95092982.94809894, -48932297.94944938, -14454427.57302842])
@@ -93,26 +104,34 @@ def kelvin_radius(T=25, unit='C', ncurv=2, **humidity):
 
     Parameters
     ----------
-    - T: temperature (default 25)
-    - unit: temperature unit ('C' or 'K', default 'C')
-    - ncurv: curvature number: 1 cylindrical interface, 2 spherical (default)
-    - humidity: kwargs p=, rh= or aw=
+    T : float, optional
+        Temperature. Default is 25.
+    unit : str, optional
+        Temperature unit ('C' or 'K'). Default is 'C'.
+    ncurv : int, optional
+        Curvature number: 1 for cylindrical interface, 2 for spherical. Default is 2.
+    **humidity : kwargs
+        Humidity input as one of the following:
+        - `p`: partial water vapor pressure.
+        - `rh`: relative humidity in %.
+        - `aw`: water activity.
 
-    Output
-    ------
-    Kelvin radius in meters.
+    Returns
+    -------
+    float or array-like
+        Kelvin radius in meters.
 
     Examples
     --------
     >>> kelvin_radius(aw=0.8)  # Kelvin radius at 80%RH and T=25°C
     4.702052295185309e-09
-    >>> kelvin_radius(rh=80)           # same
+    >>> kelvin_radius(rh=80)  # same
     4.702052295185309e-09
     >>> kelvin_radius(rh=80, ncurv=1)  # assume cylindrical meniscus instead of spherical
     2.3510261475926545e-09
-    >>> kelvin_radius(p=1000, T=20)    # at 1000Pa, 20°C
+    >>> kelvin_radius(p=1000, T=20)  # at 1000Pa, 20°C
     1.2675869773199224e-09
-    >>> kelvin_radius(p=1000, T=293.15, unit='K')    # same
+    >>> kelvin_radius(p=1000, T=293.15, unit='K')  # same
     1.2675869773199224e-09
     >>> kelvin_radius(aw=[0.5, 0.7, 0.9])  # possible to use iterables
     array([1.51372274e-09, 2.94170551e-09, 9.95849955e-09])
@@ -128,16 +147,24 @@ def kelvin_humidity(T=25, unit='C', ncurv=2, out='aw', **r_or_p):
 
     Parameters
     ----------
-    - r: Kelvin radius in meters
-    - T: temperature (default 25)
-    - unit: temperature unit ('C' or 'K', default 'C')
-    - ncurv: curvature number: 1 cylindrical interface, 2 spherical (default)
-    - out: type of output ('p', 'rh', or 'aw')
-    - input: kwargs (r= for radius, or p= for liquid pressure)
+    T : float, optional
+        Temperature. Default is 25.
+    unit : str, optional
+        Temperature unit ('C' or 'K'). Default is 'C'.
+    ncurv : int, optional
+        Curvature number: 1 for cylindrical interface, 2 for spherical. Default is 2.
+    out : str, optional
+        Type of output ('p' for pressure, 'rh' for relative humidity, or 'aw' for water activity).
+        Default is 'aw'.
+    **r_or_p : kwargs
+        Input as one of the following:
+        - `r`: Kelvin radius in meters.
+        - `P`: Liquid pressure in Pa.
 
-    Output
-    ------
-    Kelvin radius in meters.
+    Returns
+    -------
+    float or array-like
+        Humidity in the specified output format.
 
     Examples
     --------
@@ -166,7 +193,7 @@ def kelvin_humidity(T=25, unit='C', ncurv=2, out='aw', **r_or_p):
     array([0.8035832 , 0.69457329])
     """
     try:
-        rpin, = r_or_p.keys()    # radius or pressure keyword
+        rpin, = r_or_p.keys()  # radius or pressure keyword
         val, = r_or_p.values()  # check there is only one input humidity arg.
     except ValueError:
         raise KeyError(msg_rp_error)
