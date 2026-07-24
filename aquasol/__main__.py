@@ -175,6 +175,7 @@ def plot_all_sources_conc(
             unit_out=ctype,
             solute=solute,
             converter=convert,
+            density_source=None,
         )
 
         kwargs = {

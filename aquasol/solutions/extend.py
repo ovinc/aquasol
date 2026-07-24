@@ -14,7 +14,7 @@ from .convert import convert
 from .properties import water_activity, solubility
 
 
-def osmotic_pressure(solute='NaCl', T=25, unit='C', source=None, **concentration):
+def osmotic_pressure(solute='NaCl', T=25, unit='C', source=None, density_source=None, **concentration):
     """Return osmotic pressure of an aqueous solution at a given concentration.
 
     Basically the same as water_activity, but expressed as -RT/vm * log(a_w)
@@ -28,6 +28,10 @@ def osmotic_pressure(solute='NaCl', T=25, unit='C', source=None, **concentration
     - source (str, default None) : Source for the used equation, if None then
     gets the default source for the particular solute (defined in submodules).
     See summary of available sources below.
+
+    - density_source (str, default None)
+                    source for density in case out the concentration involves
+                    molarities ('c')
 
     - **concentration: kwargs with any unit that is allowed by convert(), e.g.
         - m= : molality (mol/kg)
@@ -61,6 +65,7 @@ def osmotic_pressure(solute='NaCl', T=25, unit='C', source=None, **concentration
         T=T,
         unit=unit,
         source=source,
+        density_source=density_source,
         **concentration,
     )
     T_kelvin = format_temperature(T=T, unit_in=unit, unit_out='K')
@@ -68,7 +73,7 @@ def osmotic_pressure(solute='NaCl', T=25, unit='C', source=None, **concentration
     return format_output_type(pi)
 
 
-def osmotic_coefficient(solute='NaCl', T=25, unit='C', source=None, **concentration):
+def osmotic_coefficient(solute='NaCl', T=25, unit='C', source=None, density_source=None, **concentration):
     """Return osmotic coefficient (Φ) of an aqueous solution at a given concentration.
 
     Basically the same as water_activity, but expressed as Φ
@@ -82,6 +87,10 @@ def osmotic_coefficient(solute='NaCl', T=25, unit='C', source=None, **concentrat
     - source (str, default None) : Source for the used equation, if None then
     gets the default source for the particular solute (defined in submodules).
     See summary of available sources below.
+
+    - density_source (str, default None)
+                    source for density in case out the concentration involves
+                    molarities ('c')
 
     - **concentration: kwargs with any unit that is allowed by convert(), e.g.
         - m= : molality (mol/kg)
@@ -115,6 +124,7 @@ def osmotic_coefficient(solute='NaCl', T=25, unit='C', source=None, **concentrat
         T=T,
         unit=unit,
         source=source,
+        density_source=density_source,
         **concentration,
     )
     m = format_concentration(
@@ -122,6 +132,7 @@ def osmotic_coefficient(solute='NaCl', T=25, unit='C', source=None, **concentrat
         unit_out='m',
         solute=solute,
         converter=convert,
+        density_source=density_source,
     )
     salt = get_solute(formula=solute)
     nu_mx = sum(salt.stoichiometry)
@@ -177,7 +188,7 @@ def aw_saturated(
         source=solubility_source,
     )
 
-    a_w = water_activity(
+    a_w = water_activity(  # no need for density_source because m is used
         solute=formula.solute,
         T=T,
         unit=unit,
@@ -187,7 +198,7 @@ def aw_saturated(
     return a_w
 
 
-def debye_length(solute='NaCl', T=25, unit='C', **concentration):
+def debye_length(solute='NaCl', T=25, unit='C', density_source=None, **concentration):
     """Return Debye length of an aqueous solution at a given concentration.
 
     NOTE: the dependence of water dielectric constant (epsilon) as a function
@@ -199,6 +210,10 @@ def debye_length(solute='NaCl', T=25, unit='C', **concentration):
     - solute (str): solute name, default 'NaCl'
     - T (float): temperature (default 25)
     - unit (str, default 'C'): 'C' for Celsius, 'K' for Kelvin
+
+    - density_source (str, default None)
+                    source for density in case out the concentration involves
+                    molarities ('c')
 
     - **concentration: kwargs with any unit that is allowed by convert(), e.g.
         - m= : molality (mol/kg)
@@ -226,6 +241,7 @@ def debye_length(solute='NaCl', T=25, unit='C', **concentration):
         unit_out='c',
         solute=solute,
         converter=convert,
+        density_source=density_source,
     )
     Ic = ionic_strength(solute=solute, c=c)
     epsilon = epsilon0 * dielectric_constant(T=T, unit=unit)

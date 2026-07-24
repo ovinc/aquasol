@@ -70,6 +70,7 @@ def aw_to_conc(
             T=T,
             unit=unit,
             source=source,
+            density_source=density_source,
             **{cunit: conc},
         )
 

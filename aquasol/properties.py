@@ -170,6 +170,7 @@ class SolutionProperty(SolutionProperty_Base):
         unit='C',
         relative=False,
         source=None,
+        density_source=None,
         **concentration,
     ):
         """Calculate solution property as a function of temperature and composition
@@ -185,6 +186,10 @@ class SolutionProperty(SolutionProperty_Base):
         - source (str, default None) : Source for the used equation, if None then
         gets the default source for the particular solute (defined in submodules).
         See self.sources and self.default_sources for more info
+
+        - density_source (str, default None)
+                source for density in case out the concentration involves
+                molarities ('c')
 
         - **concentration: kwargs with any unit that is allowed by convert(), e.g.
             - m= : molality (mol/kg)
@@ -224,6 +229,7 @@ class SolutionProperty(SolutionProperty_Base):
             unit_out=formula.concentration_unit,
             solute=solute,
             converter=self.converter,
+            density_source=density_source,
         )
 
         formula.check_validity_range('concentration', value=c)
@@ -278,6 +284,7 @@ class SolutionSolubilityProperty(SolutionProperty_Base):
         T=25,
         unit='C',
         source=None,
+        density_source=None,
         out='m',
     ):
         """Calculate solution property as a function of temperature and composition
@@ -297,6 +304,10 @@ class SolutionSolubilityProperty(SolutionProperty_Base):
             - x= : mole fraction
             - c= : molarity (mol/m^3)
             - r= : mass ratio (unitless)
+
+        - density_source (str, default None)
+                        source for density in case out the concentration involves
+                        molarities ('c')
 
         Output
         ------
@@ -329,6 +340,7 @@ class SolutionSolubilityProperty(SolutionProperty_Base):
             unit_out=out,
             solute=formula.solute,
             converter=self.converter,
+            density_source=density_source,
         )
 
         return format_output_type(c)

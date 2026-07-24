@@ -9,6 +9,7 @@ def pore_aw_from_drop_conc(
     pore_volume: float,
     solute: str = 'NaCl',
     T: float = 25.0,
+    density_source: str = None,
     **concentration,
 ) -> float:
     """Calculate water activity in pores from a given drop volume and concentration
@@ -24,6 +25,10 @@ def pore_aw_from_drop_conc(
 
     T : float
         temperature in °C
+
+    - density_source (str, default None)
+                    source for density in case out the concentration involves
+                    molarities ('c')
 
     concentration : kwargs
         concentration input as required by aquasol, e.g.
@@ -41,7 +46,7 @@ def pore_aw_from_drop_conc(
     c_value, = concentration.values()
     c_drop = convert(c_value, c_unit, 'c', T=T, solute=solute)
     c_pore = c_drop * drop_volume / pore_volume
-    return water_activity(solute=solute, T=T, c=c_pore)
+    return water_activity(solute=solute, T=T, c=c_pore, density_source=density_source)
 
 
 def drop_conc_from_pore_aw(
@@ -51,6 +56,7 @@ def drop_conc_from_pore_aw(
     out='m',
     solute: str = 'NaCl',
     T: float = 25.0,
+    density_source: str = None,
 ) -> float:
     """Calculate concentration in droplet to achieve desired pore water activity
 
@@ -74,6 +80,6 @@ def drop_conc_from_pore_aw(
     float
         solute concentration in droplet
     """
-    c_pore = aw_to_conc(a, solute=solute, T=T, out='c')
+    c_pore = aw_to_conc(a, solute=solute, T=T, out='c', density_source=density_source)
     c_drop = c_pore * pore_volume / drop_volume
-    return convert(c_drop, 'c', out, solute=solute, T=T)
+    return convert(c_drop, 'c', out, solute=solute, T=T, density_source=density_source)

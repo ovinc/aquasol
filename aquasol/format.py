@@ -63,7 +63,7 @@ def format_temperature(T, unit_in, unit_out):
         return T_kelvin
 
 
-def format_concentration(concentration, unit_out, solute, converter):
+def format_concentration(concentration, unit_out, solute, converter, density_source):
     """Check if concentration unit is ok and convert it to the unit_out unit.
 
     Parameters
@@ -72,6 +72,7 @@ def format_concentration(concentration, unit_out, solute, converter):
     unit_out: the unit to format the value into (e.g. 'w')
     solute: name of the solute (e.g. 'NaCl')
     converter: concentration conversion function (convert or basic_convert)
+    density_source: to pass to converter in case concentration or unit_out involve molarities
 
     Output
     ------
@@ -82,7 +83,6 @@ def format_concentration(concentration, unit_out, solute, converter):
     Checking if concentration is in the right unit etc. and transforming into
     array if input is tuple, list etc. is done by the converter
     """
-
     if len(concentration) > 1:
         raise ValueError('concentration must have a single keyword argument')
 
@@ -91,7 +91,13 @@ def format_concentration(concentration, unit_out, solute, converter):
 
     (unit_in, value), = concentration.items()
 
-    conc = converter(value=value, unit1=unit_in, unit2=unit_out, solute=solute)
+    kwargs = {'value': value, 'unit1': unit_in, 'unit2': unit_out, 'solute': solute}
+
+    try:
+        conc = converter(**kwargs, density_source=density_source)
+    except TypeError:  # if converter is basic_convert, does not accept density_source as argument
+        conc = converter(**kwargs)
+
     return conc
 
 

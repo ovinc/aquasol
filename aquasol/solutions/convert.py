@@ -56,24 +56,24 @@ density_basic = Density_Basic()
 # ============================= MOLARITY FUNCTIONS ===========================
 
 
-def w_to_molarity(w, solute, T=25, unit='C', source=None):
+def w_to_molarity(w, solute, T=25, unit='C', density_source=None):
     """Calculate molarity of solute from weight fraction at temperature T in °C"""
     M = molar_mass(solute)
-    rho = density_basic(solute=solute, T=T, unit=unit, source=source, w=w)
+    rho = density_basic(solute=solute, T=T, unit=unit, source=density_source, w=w)
     return rho * w / M
 
 
-def _get_max_w(solute, T=25, unit='C', source=None, wmin=0, wmax=0.999):
+def _get_max_w(solute, T=25, unit='C', density_source=None, wmin=0, wmax=0.999):
     """Detect if density has a maximum, in which case the inversion fails."""
     ww = np.linspace(wmin, wmax, num=200)
     with warnings.catch_warnings():      # this is to avoid always warnings
         warnings.simplefilter('ignore')  # which pop up due to wmax being high
-        rho = density_basic(solute=solute, T=T, unit=unit, source=source, w=ww)
+        rho = density_basic(solute=solute, T=T, unit=unit, source=density_source, w=ww)
     imax = np.argmax(rho)
     return ww[imax]  # will be equal to wmax if function only increases
 
 
-def molarity_to_w(c, solute, T=25, unit='C', source=None, wmin=0, wmax=0.999):
+def molarity_to_w(c, solute, T=25, unit='C', density_source=None, wmin=0, wmax=0.999):
     """Calculate weight fraction of solute from molarity at temperature T in °C.
 
     Note: can be slow because of inverting the function each time.
@@ -86,7 +86,7 @@ def molarity_to_w(c, solute, T=25, unit='C', source=None, wmin=0, wmax=0.999):
                 solute=solute,
                 T=T,
                 unit=unit,
-                source=source,
+                density_source=density_source,
             )
 
     # replace wmax if density goes through a maximum
@@ -95,7 +95,7 @@ def molarity_to_w(c, solute, T=25, unit='C', source=None, wmin=0, wmax=0.999):
         solute=solute,
         T=T,
         unit=unit,
-        source=source,
+        density_source=density_source,
         wmin=wmin,
         wmax=wmax,
     )
@@ -113,7 +113,7 @@ def molarity_to_w(c, solute, T=25, unit='C', source=None, wmin=0, wmax=0.999):
         cmax_exceeded = any(cc > cmax)
 
     if cmax_exceeded:
-        src = density_basic.get_source(solute=solute, source=source)
+        src = density_basic.get_source(solute=solute, source=density_source)
         msg = (
             f"Requested molality (c={c}) exceeds maximum available with "
             f"{src}'s density formula (cmax={round(cmax):_}), "
@@ -126,12 +126,13 @@ def molarity_to_w(c, solute, T=25, unit='C', source=None, wmin=0, wmax=0.999):
     w = weight_fraction(c)
 
     # This is to give a warning if some value(s) of w out of range when
-    formula = density_basic.get_formula(solute=solute, source=source)
+    formula = density_basic.get_formula(solute=solute, source=density_source)
     c = format_concentration(
             concentration={'w': w},
             unit_out=formula.concentration_unit,
             solute=solute,
             converter=density_basic.converter,
+            density_source=density_source,
         )
     formula.check_validity_range('concentration', value=c)
 
@@ -218,7 +219,7 @@ def convert(
             solute=solute,
             T=T,
             unit=unit,
-            source=density_source,
+            density_source=density_source,
             wmin=density_wmin,
             wmax=density_wmax,
         )
@@ -244,7 +245,7 @@ def convert(
                 w=w,
                 solute=solute,
                 T=T, unit=unit,
-                source=density_source,
+                density_source=density_source,
             )
 
         else:
